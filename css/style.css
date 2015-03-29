@@ -1,0 +1,259 @@
+body {
+    background: #036;
+    color: white;
+    font-size: 12px;
+    font-family: "Verdana", sans-serif;
+}
+#loadimage {
+    display: none;
+}
+.chang {
+    margin: 10px 0px;
+    height: 48px;
+}
+.chang .title {
+    font-size: 32px;
+    font-family: DFPLeiSho-SB, serif;
+    vertical-align: top;
+}
+.chang .pai {
+    max-height: 44px;
+}
+.shoupai {
+    width: 640px;
+    height: 80px;
+/*    border: solid 1px white;  */
+}
+.shoupai .pai {
+    max-height: 58px;
+}
+.shoupai .zimo {
+    padding-left: 4px;
+}
+.shoupai .shouli {
+    margin-top: 22px;
+    float: left;
+/*    border: solid 1px blue;   */
+}
+.shoupai .fulou {
+    margin-top: 22px;
+    float: right;
+/*    border: solid 1px green;  */
+}
+.shoupai .fulou .mianzi {
+    white-space: nowrap;
+    margin-left: 1px;
+}
+.shoupai .rotate {
+    display: inline-block;
+    width: 58px;
+    white-space: nowrap;
+    text-align: left;
+    transform-origin: 0% 0%;
+    transform: rotate(270deg) translate(-58px, 0px);
+    -webkit-transform-origin: 0% 0%;
+    -webkit-transform: rotate(270deg) translate(-58px, 0px);
+/*    border: solid 1px red;    */
+}
+.lizhi .choma {
+    display: none;
+}
+.he {
+    margin-top: 10px;
+    height: 48px;
+/*    border: solid 1px #99f;   */
+}
+.he .pai {
+    max-height: 48px;
+}
+.he .lizhi {
+    display: inline-block;
+    width:  48px;
+    text-align: center;
+    -webkit-transform-origin: 50% 50%;
+    -webkit-transform: rotate(90deg);
+}
+.he .break {
+    display: inline-block;
+    width: 2px;
+}
+.lunban {
+    color: #0ff;
+}
+
+.paili img {
+    max-height: 32px;
+    vertical-align: middle;
+}
+.UI span {
+    display: inline-block;
+    padding: 5px 20px;
+    font-size: 16px;
+    background: black;
+    border-radius: 5px;
+}
+
+
+/******************************************************************************/
+.rotate_view {
+    width: 800px;
+    height: 680px;
+    margin: 5px auto;
+/*    border: solid 1px blue;   */
+}
+.rotate_view > * {
+    position: absolute;
+    margin: 0px;
+	transform-origin: 0% 0%;
+	-webkit-transform-origin: 0% 0%;
+}
+.rotate_view .shoupai {
+/*  border: solid 1px white;    */
+}
+.rotate_view .shoupai.dong {
+    width: 680px;
+    height: 80px;
+    transform: translate(120px, 600px);
+    -webkit-transform: translate(120px, 600px);
+}
+.rotate_view .shoupai.nan {
+    width: 580px;
+    height: 70px;
+    transform: translate(730px, 580px) rotate(270deg);
+    -webkit-transform: translate(730px, 580px) rotate(270deg);
+}
+.rotate_view .shoupai.xi {
+    width: 640px;
+    height: 70px;
+    transform: translate(640px, 70px) rotate(180deg);
+    -webkit-transform: translate(640px, 70px) rotate(180deg);
+}
+.rotate_view .shoupai.bei {
+    width: 580px;
+    height: 70px;
+    transform: translate(70px, 100px) rotate(90deg);
+    -webkit-transform: translate(70px, 100px) rotate(90deg);
+}
+.rotate_view .shoupai.nan .pai,
+.rotate_view .shoupai.xi .pai,
+.rotate_view .shoupai.bei .pai,
+.rotate_view .fulou .pai {
+    max-height: 48px;
+}
+.rotate_view .shoupai.dong .fulou {
+    margin-top: 32px;
+}
+.rotate_view .shoupai .rotate {
+    width: 48px;
+    transform-origin: 0% 0%;
+    transform: rotate(270deg) translate(-48px, 0px);
+    -webkit-transform-origin: 0% 0%;
+    -webkit-transform: rotate(270deg) translate(-48px, 0px);
+}
+.rotate_view .lizhi.dong {
+    transform: translate(340px, 420px);
+    -webkit-transform: translate(340px, 420px);
+}
+.rotate_view .lizhi.nan {
+    transform: translate(540px, 400px) rotate(270deg);
+    -webkit-transform: translate(540px, 400px) rotate(270deg);
+}
+.rotate_view .lizhi.xi {
+    transform: translate(460px, 260px) rotate(180deg);
+    -webkit-transform: translate(460px, 260px) rotate(180deg);
+}
+.rotate_view .lizhi.bei {
+    transform: translate(260px, 280px) rotate(90deg);
+    -webkit-transform: translate(260px, 280px) rotate(90deg);
+}
+.rotate_view .he {
+    width: 320px;
+    height: 150px;
+    line-height: 0px;
+/*  border: solid 1px #66f; */
+}
+.rotate_view .he.dong {
+    transform: translate(300px, 440px);
+    -webkit-transform: translate(300px, 440px);
+}
+.rotate_view .he.nan {
+    transform: translate(560px, 440px) rotate(270deg);
+    -webkit-transform: translate(560px, 440px) rotate(270deg);
+}
+.rotate_view .he.xi {
+    transform: translate(500px, 240px) rotate(180deg);
+    -webkit-transform: translate(500px, 240px) rotate(180deg);
+}
+.rotate_view .he.bei {
+    transform: translate(240px, 240px) rotate(90deg);
+    -webkit-transform: translate(240px, 240px) rotate(90deg);
+}
+.rotate_view .he .break {
+    display: block;
+}
+
+.rotate_view .chang {
+    width: 280px;
+    height: 160px;
+    background: #111;
+    border-radius: 4px;
+    transform-origin: 0% 0%;
+    transform: translate(260px, 260px);
+    -webkit-transform-origin: 0% 0%;
+    -webkit-transform: translate(260px, 260px);
+    font-family: "Georgia", sans-serif;
+}
+.rotate_view .chang .xiaoxi {
+    width: 100px;
+    padding: 4px;
+    float: left;
+}
+.rotate_view .chang .choma {
+    width: 60px;
+    height: 8px;
+    padding-left: 8px;
+}
+.rotate_view .chang .shan {
+    width: 158px;
+    padding: 6px;
+    float: right;
+    text-align: right;
+}
+.rotate_view .chang .defen {
+    clear: both;
+    font-size: 16px;
+}
+.rotate_view .chang .defen span {
+    display: block;
+    width: 120px;
+    height: 24px;
+    position: absolute;
+    transform-origin: 0% 0%;
+    -webkit-transform-origin: 0% 0%;
+}
+.rotate_view .chang .defen .dong {
+    text-align: center;
+    transform: translate(80px, 48px);
+    -webkit-transform: translate(80px, 48px);
+}
+.rotate_view .chang .defen .nan {
+    text-align: right;
+    transform: translate(150px, 24px);
+    -webkit-transform: translate(150px, 24px);
+}
+.rotate_view .chang .defen .xi {
+    text-align: center;
+    transform: translate(80px, 0px);
+    -webkit-transform: translate(80px, 0px);
+}
+.rotate_view .chang .defen .bei {
+    text-align: left;
+    transform: translate(10px, 24px);
+    -webkit-transform: translate(10px, 24px);
+}
+.rotate_view .UI {
+    width: 580px;
+    text-align: right;
+    transform: translate(120px, 580px);
+    -webkit-transform: translate(120px, 580px);
+}
