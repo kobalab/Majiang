@@ -703,6 +703,40 @@ Majiang.Player.prototype.fulou = function(data, callback, timeout) {
 /*
  *  Majiang.UI
  */
+
+function get_chi_mianzi(shoupai, dapai) {
+    var s = dapai[0];
+    var n = dapai[1] - 1;
+    var pai = shoupai._shouli[s];
+    var chi_mianzi = [];
+    if (s == 'z') return chi_mianzi;
+    if (n > 1 && pai[n-2] > 0 && pai[n-1] > 0) {
+        chi_mianzi.push(s + (n-1) + n + (n+1) + '-');
+    }
+    if (n < 7 && pai[n+1] > 0 && pai[n+2] > 0) {
+        chi_mianzi.push(s + (n+1) + '-' + (n+2) + (n+3));
+    }
+    if (n > 0 && n < 8 && pai[n-1] > 0 && pai[n+1] > 0) {
+        chi_mianzi.push(s + n + (n+1) + '-' + (n+2));
+    }
+    return chi_mianzi;
+}
+function set_chi_event(chi_mianzi, id, callback) {
+    var pai = {};
+    for (var fulou of chi_mianzi) {
+        if (fulou == null) continue;
+        var s = fulou[0];
+        for (var n of fulou.match(/\d(?!\-)/g)) {
+            pai[s+n] = fulou;
+        }
+    }
+    $('.shoupai.dong .shouli .pai').each(function(){
+        $(this).bind('click', pai[$(this).data('pai')], function(event){
+            callback(id, 'fulou', event.data);
+        });
+    });
+}
+
 Majiang.UI = function(id) {
     this._id = id;
     $('.UI span').hide();
@@ -767,6 +801,7 @@ Majiang.UI.prototype.dapai = function(data, callback, timeout) {
         }).show();
         action = true;
     }
+    // 残牌数が0の場合、副露できない処理を追加要。
     // ポンできるかチェックする。後で共通化する。
     if (this._shoupai._shouli[data.dapai[0]][data.dapai[1]-1] >= 2) {
         var f = [null, '+', '=', '-']
@@ -785,7 +820,33 @@ Majiang.UI.prototype.dapai = function(data, callback, timeout) {
         action = true;
     }
     // チーできるかチェックする。後で共通化する。
-    /**** 未実装 ****/
+    if ((data.lunban + 1) % 4 == this._zifeng) {
+        var chi_mianzi = get_chi_mianzi(this._shoupai, data.dapai);
+        if (chi_mianzi.length == 1) {
+            $('.UI .chi').bind('click', function(){
+                $('.shoupai.dong .shouli .pai').unbind('click');
+                $('body').unbind('click');
+                $('.UI span').unbind('click');
+                $('.UI span').hide();
+                Majiang.Audio.play('chi');
+                callback(id, 'fulou', chi_mianzi[0]);
+                return false;
+            }).show();
+            action = true;
+        }
+        if (chi_mianzi.length > 1) {
+            $('.UI .chi').bind('click', function(){
+                $('.shoupai.dong .shouli .pai').unbind('click');
+                $('body').unbind('click');
+                $('.UI span').unbind('click');
+                $('.UI span').hide();
+                Majiang.Audio.play('chi');
+                set_chi_event(chi_mianzi, id, callback);
+                return false;
+            }).show();
+            action = true;
+        }
+    }
     if (action) {
         $('body').bind('click', function(){
             $('body').unbind('click');
