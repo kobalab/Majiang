@@ -70,6 +70,8 @@ body {
     display: inline-block;
     width:  48px;
     text-align: center;
+    transform-origin: 50% 50%;
+    transform: rotate(90deg);
     -webkit-transform-origin: 50% 50%;
     -webkit-transform: rotate(90deg);
 }
@@ -77,11 +79,15 @@ body {
     display: inline-block;
     width: 2px;
 }
+@keyframes blink {
+    100% { opacity: 0.7; }
+}
 @-webkit-keyframes blink {
     100% { opacity: 0.7; }
 }
 .he .dapai {
     display: inline-block;
+    animation: blink 0.5s infinite;
     -webkit-animation: blink 0.5s infinite;
 }
 
