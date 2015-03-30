@@ -440,6 +440,13 @@ Majiang.View.He.prototype.redraw = function() {
         }
     }
 }
+Majiang.View.He.prototype.dapai = function(p) {
+    var c = (p[2] == '*') ? 'dapai lizhi' : 'dapai';
+    this._node.append(
+        $('<span class="' + c + '">' + imgHtml(p.substr(0,2)) + '</span>')
+    );
+ 
+}
 
 /*
  *  Majiang.View.Chang
@@ -583,9 +590,10 @@ Majiang.Game.prototype.dapai = function(dapai) {
     Majiang.Audio.play('dapai');
 
     this._model.shoupai[this._lunban].dapai(dapai);
-    this._model.he[this._lunban].dapai(dapai);
     this._view.shoupai[this._lunban].redraw();
-    this._view.he[this._lunban].redraw();
+
+    this._model.he[this._lunban].dapai(dapai);
+    this._view.he[this._lunban].dapai(dapai);
  
     var self = this;
     this._reply = [];
@@ -625,6 +633,10 @@ Majiang.Game.prototype.fulou = function(data) {
     }
 }
 Majiang.Game.prototype.liuju = function() {
+    this._view.he[this._lunban].redraw();
+    this.hule();
+}
+Majiang.Game.prototype.hule = function() {
 
     this._chang.jushu++;
     if (this._chang.jushu == 4) {
@@ -635,9 +647,6 @@ Majiang.Game.prototype.liuju = function() {
 
     var self = this;
     setTimeout(function(){ self.kaiju() }, 5000);
-}
-Majiang.Game.prototype.hule = function() {
-    this.liuju();
 }
 Majiang.Game.prototype.reply_zimo = function(id, type, data) {
   console.log('[' + id +'] => (' + type + ', ' + data + ')');  // for DEBUG
@@ -665,6 +674,8 @@ Majiang.Game.prototype.reply_dapai = function(id, type, data) {
         this.liuju();
         return;
     }
+
+    this._view.he[this._lunban].redraw();
 
     this._lunban = (this._lunban + 1) % 4;
     this._view.chang.update(this._lunban);
