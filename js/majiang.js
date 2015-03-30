@@ -713,6 +713,7 @@ Majiang.UI.prototype.kaiju = function(data) {
 }
 Majiang.UI.prototype.zimo = function(data, callback, timeout) {
   console.log('[' + this._id +'] <= (zimo, ' + data.zimo + ')');  // for DEBUG
+    $('.UI.resize').width($('.shoupai.dong .shouli').width());
     var id = this._id;
     this._shoupai.zimo(data.zimo);
     if (this._shoupai._fulou.length == 0    // 暗カンを除く必要あり
@@ -743,6 +744,7 @@ Majiang.UI.prototype.zimo = function(data, callback, timeout) {
 }
 Majiang.UI.prototype.dapai = function(data, callback, timeout) {
   console.log('[' + this._id +'] <= (dapai, ' + data.dapai + ')');  // for DEBUG
+    $('.UI.resize').width($('.shoupai.dong .shouli').width());
     var id = this._id;
     if (data.lunban == this._zifeng) {
         setTimeout(function(){ callback(id, '') }, timeout);
@@ -797,6 +799,7 @@ Majiang.UI.prototype.dapai = function(data, callback, timeout) {
 }
 Majiang.UI.prototype.fulou = function(data, callback, timeout) {
   console.log('[' + this._id +'] <= (fulou, ' + data.dapai + ')');  // for DEBUG
+    $('.UI.resize').width($('.shoupai.dong .shouli').width());
     var id = this._id;
     if (data.lunban != this._zifeng) {
         setTimeout(function(){ callback(id, '') }, timeout);

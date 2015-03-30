@@ -91,6 +91,8 @@ body {
     font-size: 16px;
     background: black;
     border-radius: 5px;
+    white-space: nowrap;    
+    cursor: pointer;
 }
 
 
