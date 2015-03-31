@@ -733,19 +733,36 @@ function get_chi_mianzi(shoupai, dapai) {
     return chi_mianzi;
 }
 function set_chi_event(chi_mianzi, id, callback) {
+ 
+    function handler(event) {
+        var fulou = event.data;
+        var s = fulou[0];
+        var nn = fulou.match(/\d(?!\-)/g);
+        var node = $('.shoupai.dong .shouli');
+        var img;
+        if ($(this).data('pai') == s+nn[0])
+                img = node.find('.pai[data-pai="'+s+nn[1]+'"]').eq(0);
+        else    img = node.find('.pai[data-pai="'+s+nn[0]+'"]').eq(-1);
+        node.find('.pai').removeClass('selected').removeClass('dapai');
+        $(this).addClass('selected');
+        img.addClass('selected');
+    }
+ 
     var pai = {};
     for (var fulou of chi_mianzi) {
-        if (fulou == null) continue;
         var s = fulou[0];
         for (var n of fulou.match(/\d(?!\-)/g)) {
             pai[s+n] = fulou;
         }
     }
-    $('.shoupai.dong .shouli .pai').each(function(){
-        $(this).bind('click', pai[$(this).data('pai')], function(event){
-            callback(id, 'fulou', event.data);
-        });
-    });
+    for (var p in pai) {
+        $('.shoupai.dong .shouli .pai[data-pai="'+p+'"]')
+            .addClass('dapai')
+            .bind('mouseover', pai[p], handler)
+            .bind('click', pai[p], function(event){
+                callback(id, 'fulou', event.data);
+            });
+    }
 }
 
 Majiang.UI = function(id) {

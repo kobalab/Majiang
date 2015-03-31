@@ -1,3 +1,9 @@
+@keyframes blink {
+    100% { opacity: 0.7; }
+}
+@-webkit-keyframes blink {
+    100% { opacity: 0.7; }
+}
 body {
     background: #036;
     color: white;
@@ -55,6 +61,17 @@ body {
     -webkit-transform: rotate(270deg) translate(-58px, 0px);
 /*    border: solid 1px red;    */
 }
+.shoupai .selected {
+	transform-origin: 0% 0%;
+	transform: translate(0px, -10px);
+	-webkit-transform-origin: 0% 0%;
+	-webkit-transform: translate(0px, -10px);
+}
+.shoupai .dapai {
+    animation: blink 0.5s infinite;
+    -webkit-animation: blink 0.5s infinite;
+}
+
 .lizhi .choma {
     display: none;
 }
@@ -78,12 +95,6 @@ body {
 .he .break {
     display: inline-block;
     width: 2px;
-}
-@keyframes blink {
-    100% { opacity: 0.7; }
-}
-@-webkit-keyframes blink {
-    100% { opacity: 0.7; }
 }
 .he .dapai {
     display: inline-block;
