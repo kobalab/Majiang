@@ -173,7 +173,7 @@ Majiang.Shan.prototype.fubaopai = function() {
     return baopai;
 }
 Majiang.Shan.prototype.gangzimo = function() {
-    if (this._baopai.length < 5 && ! this._weikaigang) {
+    if (this.paishu() > 0 && this._baopai.length < 5 && ! this._weikaigang) {
         this._weikaigang = true;
         return this._pai.shift();
     }
