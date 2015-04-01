@@ -251,11 +251,11 @@ Majiang.Shoupai.prototype.fulou = function(p) {
     if (! this._zimo) {
         var s  = p[0];
         var nn = p.match(/\d(?![\-\+\=])/g);
-        this._zimo = p;
         this._fulou.push(p);
         for (var n of nn) {
             this._shouli[s][n-1]--;
         }
+        if (! p.match(/(\d)\1\1\1/)) this._zimo = p;
     }
 }
 Majiang.Shoupai.prototype.gang = function(p) {
@@ -513,7 +513,7 @@ Majiang.Game.prototype.player = function(lunban) {
     return (this._chang.qijia + this._chang.jushu + lunban) % 4;
 }
 Majiang.Game.prototype.kaiju = function() {
-console.log('*** 開局 ***');  // for DEBUG
+  console.log('*** 開局 ***');  // for DEBUG
 
     this._model = {
         shan:    new Majiang.Shan(),
@@ -624,13 +624,58 @@ Majiang.Game.prototype.fulou = function(data) {
 
     var self = this;
     this._reply = [];
+    if (data.match(/^[mpsz](\d)\1\1\1[\-\+\=]$/)) {
+        for (var i = 0; i < 4; i++) {
+            this._player[i].gang(
+                { lunban: self._lunban, gang: data },
+                function(id, type, data){self.reply_gang(id, type, data)},
+                1000
+            );
+        }
+    }
+    else {
+        for (var i = 0; i < 4; i++) {
+            this._player[i].fulou(
+                { lunban: self._lunban, fulou: data },
+                function(id, type, data){self.reply_fulou(id, type, data)},
+                1000
+            );
+        }
+    }
+}
+Majiang.Game.prototype.gang = function(data) {
+
+    this._model.shoupai[this._lunban].gang(data);
+    this._view.shoupai[this._lunban].redraw();
+
+    var self = this;
+    this._reply = [];
     for (var i = 0; i < 4; i++) {
-        this._player[i].fulou(
-            { lunban: self._lunban, fulou: data },
-            function(id, type, data){self.reply_fulou(id, type, data)},
+        this._player[i].gang(
+            { lunban: self._lunban, gang: data },
+            function(id, type, data){self.reply_gang(id, type, data)},
             1000
         );
     }
+}
+Majiang.Game.prototype.gangzimo = function() {
+ 
+    var zimo = this._model.shan.gangzimo();
+    this._model.shoupai[this._lunban].zimo(zimo);
+
+    this._model.shan.kaigang(); // 明カンの場合はここで開カンしてはいけない。
+
+    this._view.chang.update(this._lunban);
+    this._view.shan.redraw();
+    this._view.shoupai[this._lunban].redraw();
+
+    var self = this;
+    this._reply = [];
+    this._player[this.player(this._lunban)].zimo(
+        { lunban: self._lunban, zimo: zimo },
+        function(id, type, data){self.reply_zimo(id, type, data)},
+        1000
+    );
 }
 Majiang.Game.prototype.liuju = function() {
     this._view.he[this._lunban].redraw();
@@ -651,6 +696,7 @@ Majiang.Game.prototype.hule = function() {
 Majiang.Game.prototype.reply_zimo = function(id, type, data) {
   console.log('[' + id +'] => (' + type + ', ' + data + ')');  // for DEBUG
     if      (type == 'dapai')   this.dapai(data)
+    else if (type == 'gang')    this.gang(data)
     else if (type == 'hule')    this.hule()
 }
 Majiang.Game.prototype.reply_dapai = function(id, type, data) {
@@ -684,7 +730,12 @@ Majiang.Game.prototype.reply_dapai = function(id, type, data) {
 }
 Majiang.Game.prototype.reply_fulou = function(id, type, data) {
   console.log('[' + id +'] => (' + type + ', ' + data + ')');  // for DEBUG
-    if      (type == 'dapai')   this.dapai(data)
+    if (type == 'dapai') this.dapai(data);
+}
+Majiang.Game.prototype.reply_gang = function(id, type, data) {
+  console.log('[' + id +'] => (' + type + ', ' + data + ')');  // for DEBUG
+    if (type == 'hule') this.hule();
+    if (id == this.player(this._lunban)) this.gangzimo();
 }
 
 /*
@@ -706,7 +757,12 @@ Majiang.Player.prototype.dapai = function(data, callback, timeout) {
     setTimeout(function(){ callback(id, '') }, timeout);
 }
 Majiang.Player.prototype.fulou = function(data, callback, timeout) {
-  console.log('[' + this._id +'] <= (fulou, ' + data.dapai + ')');  // for DEBUG
+  console.log('[' + this._id +'] <= (fulou, ' + data.fulou + ')');  // for DEBUG
+    var id = this._id;
+    setTimeout(function(){ callback(id, '') }, timeout);
+}
+Majiang.Player.prototype.gang = function(data, callback, timeout) {
+  console.log('[' + this._id +'] <= (gang, ' + data.gang + ')');  // for DEBUG
     var id = this._id;
     setTimeout(function(){ callback(id, '') }, timeout);
 }
@@ -792,6 +848,24 @@ Majiang.UI.prototype.zimo = function(data, callback, timeout) {
             return false;
         }).show();
     }
+    // 暗カンもしくは加カンできるかチェックする。後で共通化する。
+    // すでに手牌にある牌でカンする処理も必要。共通化時に追加要。
+    var s = data.zimo[0];
+    var n = data.zimo[1];
+    var regexp = new RegExp('^' + s + n + '{3}');
+    var mianzi = this._shoupai._fulou.find(function(n){return n.match(regexp)});
+    if (! mianzi && this._shoupai._shouli[s][n-1] == 4) mianzi = s+n+n+n;
+    if (mianzi) {
+        mianzi += n;
+        $('.UI .gang').bind('click', mianzi, function(event){
+            $('.UI span').hide();
+            $('.shoupai.dong .shouli .pai').unbind('click');
+            Majiang.Audio.play('gang');
+            callback(id, 'gang', event.data)
+            return false;
+        }).show();
+    }
+
     var self = this;
     $('.shoupai.dong .shouli .pai').each(function(){
         var dapai = $(this).data('pai');
@@ -830,6 +904,23 @@ Majiang.UI.prototype.dapai = function(data, callback, timeout) {
         action = true;
     }
     // 残牌数が0の場合、副露できない処理を追加要。
+    // 大明カンできるかチェックする。後で共通化する。
+    if (this._shoupai._shouli[data.dapai[0]][data.dapai[1]-1] == 3) {
+        var f = [null, '+', '=', '-']
+        var mianzi
+            = data.dapai[0] + data.dapai[1] + data.dapai[1] + data.dapai[1]
+            + data.dapai[1]+ f[(4 + data.lunban - this._zifeng) % 4];
+        $('.UI .gang').bind('click', mianzi, function(event){
+            $('.shoupai.dong .shouli .pai').unbind('click');
+            $('body').unbind('click');
+            $('.UI span').unbind('click');
+            $('.UI span').hide();
+            Majiang.Audio.play('gang');
+            callback(id, 'fulou', event.data);
+            return false;
+        }).show();
+        action = true;
+    }
     // ポンできるかチェックする。後で共通化する。
     if (this._shoupai._shouli[data.dapai[0]][data.dapai[1]-1] >= 2) {
         var f = [null, '+', '=', '-']
@@ -887,7 +978,7 @@ Majiang.UI.prototype.dapai = function(data, callback, timeout) {
     else setTimeout(function(){ callback(id, '') }, timeout);
 }
 Majiang.UI.prototype.fulou = function(data, callback, timeout) {
-  console.log('[' + this._id +'] <= (fulou, ' + data.dapai + ')');  // for DEBUG
+  console.log('[' + this._id +'] <= (fulou, ' + data.fulou + ')');  // for DEBUG
     $('.UI.resize').width($('.shoupai.dong .shouli').width());
     var id = this._id;
     if (data.lunban != this._zifeng) {
@@ -906,6 +997,45 @@ Majiang.UI.prototype.fulou = function(data, callback, timeout) {
             return false;
         });
     });
+}
+Majiang.UI.prototype.gang = function(data, callback, timeout) {
+  console.log('[' + this._id +'] <= (gang, ' + data.gang + ')');  // for DEBUG
+    $('.UI.resize').width($('.shoupai.dong .shouli').width());
+    var id = this._id;
+    if (data.lunban == this._zifeng) {
+        if (this._shoupai._zimo) this._shoupai.gang(data.gang);
+        else                     this._shoupai.fulou(data.gang);
+        setTimeout(function(){ callback(id, '') }, timeout);
+        return;
+    }
+    // 槍槓できるかチェックする。
+    var action = false;
+    var self = this;
+    this._shoupai._shouli[data.gang[0]][data.gang[1]-1]++;
+    var xiangting = Majiang.Util.xiangting(this._shoupai);
+    this._shoupai._shouli[data.gang[0]][data.gang[1]-1]--;
+    if (xiangting == -1) {
+        $('.UI .rong').bind('click', function(){
+            $('.shoupai.dong .shouli .pai').unbind('click');
+            $('body').unbind('click');
+            $('.UI span').unbind('click');
+            $('.UI span').hide();
+            Majiang.Audio.play('rong');
+            callback(id, 'hule');
+            return false;
+        }).show();
+        action = true;
+    }
+    if (action) {
+        $('body').bind('click', function(){
+            $('body').unbind('click');
+            $('.UI span').unbind('click');
+            $('.UI span').hide();
+            callback(id, '');
+            return false;
+        });
+    }
+    else setTimeout(function(){ callback(id, '') }, timeout);
 }
 
 })();
