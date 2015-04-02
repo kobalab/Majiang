@@ -919,7 +919,6 @@ Majiang.UI.prototype.zimo = function(data, callback, timeout) {
             $(this).bind('click', dapai, function(event){
                 $('.UI span').hide();
                 $('.shoupai.dong .shouli .pai').unbind('click');
-                self._shoupai.dapai(dapai);
                 callback(id, 'dapai', event.data);
                 return false;
             });
@@ -931,6 +930,7 @@ Majiang.UI.prototype.dapai = function(data, callback, timeout) {
     $('.UI.resize').width($('.shoupai.dong .shouli').width());
     var id = this._id;
     if (data.lunban == this._zifeng) {
+        this._shoupai.dapai(data.dapai);
         setTimeout(function(){ callback(id, '') }, timeout);
         return;
     }
