@@ -277,8 +277,12 @@ Majiang.Shoupai.prototype.gang = function(p) {
 }
 Majiang.Shoupai.prototype.dapai = function(p) {
     if (this._zimo) {
+        if (this._lizhi && p != this._zimo) return;
         this._zimo = null;
         this._shouli[p[0]][p[1] - 1]--;
+        if (p[2] == '*') {
+            this._lizhi = true;
+        }
     }
 }
 
@@ -416,16 +420,21 @@ Majiang.View.Shan.prototype.redraw = function() {
 /*
  *  Majiang.View.He
  */
-Majiang.View.He = function(node, he) {
-    this._node = node;
-    this._he   = he;
+Majiang.View.He = function(node, lizhi, he) {
+    this._node  = node;
+    this._lizhi = lizhi;
+    this._he    = he;
+    this._lizhi.find('.choma').hide();
 }
 Majiang.View.He.prototype.redraw = function() {
     this._node.empty();
     var lizhi = false;
     var i = 0;
     for (var pai of this._he._pai) {
-        if (pai[2] == '*') lizhi = true;
+        if (pai[2] == '*') {
+            lizhi = true;
+            this._lizhi.find('.choma').show();
+        }
         if (pai.match(/[\-\+\=]$/)) continue;
         if (lizhi) {
             this._node.append(
@@ -551,7 +560,8 @@ Majiang.Game.prototype.kaiju = function() {
         this._view.shoupai[i]
             = new Majiang.View.Shoupai(
                     $('.shoupai.'+f), this._model.shoupai[i], f == 'dong');
-        this._view.he[i] = new Majiang.View.He($('.he.'+f), this._model.he[i]);
+        this._view.he[i] = new Majiang.View.He(
+                    $('.he.'+f), $('.lizhi.'+f), this._model.he[i]);
 
         this._view.shoupai[i].redraw();
         this._view.he[i].redraw();
@@ -834,10 +844,31 @@ Majiang.UI.prototype.zimo = function(data, callback, timeout) {
     $('.UI.resize').width($('.shoupai.dong .shouli').width());
     var id = this._id;
     this._shoupai.zimo(data.zimo);
-    if (this._shoupai._fulou.length == 0    // 暗カンを除く必要あり
+ 
+    var action = false;
+    if (! this._shoupai._lizhi
+        && this._shoupai._fulou.length == 0    // 暗カンを除く必要あり
         && Majiang.Util.xiangting(this._shoupai) <= 0)
     {
-        $('.UI .lizhi').show();
+        var self = this;
+        $('.UI .lizhi').bind('click', function(){
+            $('.UI span').hide();
+            $('.shoupai.dong .shouli .pai').unbind('click');
+            Majiang.Audio.play('lizhi');
+
+            $('.shoupai.dong .shouli .pai').each(function(){
+                var dapai = $(this).data('pai')+'*';
+                $(this).bind('click', dapai, function(event){
+                    $('.UI span').hide();
+                    $('.shoupai.dong .shouli .pai').unbind('click');
+                    self._shoupai.dapai(dapai);
+                    callback(id, 'dapai', event.data);
+                    return false;
+                });
+            });
+            return false;
+        }).show();
+        action = true;
     }
     if (Majiang.Util.xiangting(this._shoupai) == -1) {
         $('.UI .zimo').bind('click', function(){
@@ -847,9 +878,11 @@ Majiang.UI.prototype.zimo = function(data, callback, timeout) {
             callback(id, 'hule')
             return false;
         }).show();
+        action = true;
     }
     // 暗カンもしくは加カンできるかチェックする。後で共通化する。
     // すでに手牌にある牌でカンする処理も必要。共通化時に追加要。
+    // リーチ後にカンできるようにする。
     var s = data.zimo[0];
     var n = data.zimo[1];
     var regexp = new RegExp('^' + s + n + '{3}');
@@ -864,19 +897,34 @@ Majiang.UI.prototype.zimo = function(data, callback, timeout) {
             callback(id, 'gang', event.data)
             return false;
         }).show();
+        action = true;
     }
 
     var self = this;
-    $('.shoupai.dong .shouli .pai').each(function(){
-        var dapai = $(this).data('pai');
-        $(this).bind('click', dapai, function(event){
-            $('.UI span').hide();
-            $('.shoupai.dong .shouli .pai').unbind('click');
-            self._shoupai.dapai(dapai);
-            callback(id, 'dapai', event.data);
-            return false;
+    if (this._shoupai._lizhi) {
+        if (action) {
+            $('body').bind('click', function(){
+                $('body').unbind('click');
+                $('.UI span').unbind('click');
+                $('.UI span').hide();
+                callback(id, 'dapai', data.zimo);
+                return false;
+            });
+        }
+        else setTimeout(function(){ callback(id, 'dapai',  data.zimo) }, timeout);
+    }
+    else {
+        $('.shoupai.dong .shouli .pai').each(function(){
+            var dapai = $(this).data('pai');
+            $(this).bind('click', dapai, function(event){
+                $('.UI span').hide();
+                $('.shoupai.dong .shouli .pai').unbind('click');
+                self._shoupai.dapai(dapai);
+                callback(id, 'dapai', event.data);
+                return false;
+            });
         });
-    });
+    }
 }
 Majiang.UI.prototype.dapai = function(data, callback, timeout) {
   console.log('[' + this._id +'] <= (dapai, ' + data.dapai + ')');  // for DEBUG
@@ -905,7 +953,9 @@ Majiang.UI.prototype.dapai = function(data, callback, timeout) {
     }
     // 残牌数が0の場合、副露できない処理を追加要。
     // 大明カンできるかチェックする。後で共通化する。
-    if (this._shoupai._shouli[data.dapai[0]][data.dapai[1]-1] == 3) {
+    if (! this._shoupai._lizhi
+        && this._shoupai._shouli[data.dapai[0]][data.dapai[1]-1] == 3)
+    {
         var f = [null, '+', '=', '-']
         var mianzi
             = data.dapai[0] + data.dapai[1] + data.dapai[1] + data.dapai[1]
@@ -922,7 +972,9 @@ Majiang.UI.prototype.dapai = function(data, callback, timeout) {
         action = true;
     }
     // ポンできるかチェックする。後で共通化する。
-    if (this._shoupai._shouli[data.dapai[0]][data.dapai[1]-1] >= 2) {
+    if (! this._shoupai._lizhi
+        && this._shoupai._shouli[data.dapai[0]][data.dapai[1]-1] >= 2)
+    {
         var f = [null, '+', '=', '-']
         var mianzi
             = data.dapai[0] + data.dapai[1] + data.dapai[1] + data.dapai[1]
@@ -939,7 +991,9 @@ Majiang.UI.prototype.dapai = function(data, callback, timeout) {
         action = true;
     }
     // チーできるかチェックする。後で共通化する。
-    if ((data.lunban + 1) % 4 == this._zifeng) {
+    if (! this._shoupai._lizhi
+        && (data.lunban + 1) % 4 == this._zifeng)
+    {
         var chi_mianzi = get_chi_mianzi(this._shoupai, data.dapai);
         if (chi_mianzi.length == 1) {
             $('.UI .chi').bind('click', function(){
