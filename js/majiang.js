@@ -844,10 +844,11 @@ Majiang.UI.prototype.zimo = function(data, callback, timeout) {
     $('.UI.resize').width($('.shoupai.dong .shouli').width());
     var id = this._id;
     this._shoupai.zimo(data.zimo);
+  console.log('    '+this._shoupai.toString());  // for DEBUG
  
     var action = false;
     if (! this._shoupai._lizhi
-        && this._shoupai._fulou.length == 0    // 暗カンを除く必要あり
+        && ! this._shoupai._fulou.find(function(m){return m.match(/[\-\+\=]/)})
         && Majiang.Util.xiangting(this._shoupai) <= 0)
     {
         var self = this;
