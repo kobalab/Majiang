@@ -84,7 +84,40 @@ function mianzi_all(shoupai) {
 
 Majiang.Util = {
 
-    xiangting: function(shoupai) {
+    xiangting_guoshi: function(shoupai) {
+        var n_yaojiu  = 0;
+        var you_duizi = false;
+        for (var s of ['m','p','s']) {
+            var pai = shoupai._shouli[s];
+            for (var i of [0, 8]) {
+                if (pai[i] > 0) n_yaojiu++;
+                if (pai[i] > 1) you_duizi = true;
+            }
+        }
+        var pai = shoupai._shouli.z;
+        for (var i = 0; i < pai.length; i++) {
+            if (pai[i] > 0) n_yaojiu++;
+            if (pai[i] > 1) you_duizi = true;
+        }
+        return you_duizi ? 12 - n_yaojiu : 13 - n_yaojiu;
+    },
+
+    xiangting_qiduizi: function(shoupai) {
+        var n_duizi = 0;
+        var n_danqi = 0;
+        for (var s in shoupai._shouli) {
+            var pai = shoupai._shouli[s];
+            for (var i = 0; i < pai.length - 1; i++) {
+                if      (pai[i] >= 2) n_duizi++;
+                else if (pai[i] == 1) n_danqi++;
+            }
+        }
+        if (n_duizi + n_danqi < 7)
+                return 6 - n_duizi + (7 - n_duizi - n_danqi);
+        else    return 6 - n_duizi;
+    },
+ 
+    xiangting_yiban: function(shoupai) {
 
         var min_xiangting = mianzi_all(shoupai);
     
@@ -101,6 +134,19 @@ Majiang.Util = {
     
         return min_xiangting;
     },
+ 
+    xiangting: function(shoupai) {
+ 
+        var min_xiangting = Majiang.Util.xiangting_guoshi(shoupai);
+ 
+        var xiangting = Majiang.Util.xiangting_qiduizi(shoupai);
+        if (xiangting < min_xiangting) min_xiangting = xiangting;
+ 
+        var xiangting = Majiang.Util.xiangting_yiban(shoupai);
+        if (xiangting < min_xiangting) min_xiangting = xiangting;
+ 
+        return min_xiangting;
+    }
  
 };
 
