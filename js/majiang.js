@@ -251,39 +251,64 @@ Majiang.Shoupai = function(haipai) {
     }
 }
 Majiang.Shoupai.fromString = function(paistr) {
-    var haipai = [];
-    var shouli = paistr.match(/^[^,]*/)[0];
-    for (var substr of shouli.match(/\d+[mpsz]/g)) {
-        var s = substr[substr.length - 1];
-        for (var n of substr.match(/\d/g)) {
-            haipai.push(s+n);
+
+	function sort(a, b) {
+		return a[0] == b[0] ?  0
+			 : a[0] >  b[0] ?  1
+			 :                -1;
+	}
+
+    var peipai = [];
+	var fulou  = paistr.match(/[^,]+/g);
+	var shouli = fulou.shift();
+    for (var sub of shouli.match(/\d+[mpsz]/g)) {
+        var s = sub.substr(-1);
+        for (var n of sub.match(/\d/g)) {
+            peipai.push(s+n);
         }
     }
-    var zimo;
-    while (haipai.length > 13) zimo = haipai.pop();
-    var shoupai = new Majiang.Shoupai(haipai);
+    while (peipai.length > 14 - fulou.length * 3) peipai.pop();
+    var zimo = (peipai.length - 2) % 3 == 0 && peipai.pop();
+    var shoupai = new Majiang.Shoupai(peipai);
     if (zimo) shoupai.zimo(zimo);
+	for (var mianzi of fulou) {
+		mianzi = mianzi.match(/./g).reverse().join('');
+		mianzi = mianzi[0]
+               + mianzi.match(/\d[\-\+\=]?/g).sort(sort).join('');
+		shoupai._fulou.push(mianzi);
+	}
     return shoupai;
 }
 Majiang.Shoupai.prototype.toString = function() {
+
+    function reverse(a, b) {
+        return a[0] == b[0] ?  0
+                     : a[0] <  b[0] ?  1
+                     :                -1;
+    }
+
     var paistr = '';
     for (var s of ['m','p','s','z']) {
-        var substr = '';
-        for (var n = 0; n < this._shouli[s].length; n++) {
-            var num = this._shouli[s][n];
-            if (this._zimo && s + (n+1) == this._zimo) num--;
+        var sub = '';
+        var pai = this._shouli[s];
+        for (var n = 1; n <= pai.length; n++) {
+            var num = pai[n-1];
+            if (this._zimo && s+n == this._zimo) num--;
             for (var i = 0; i < num; i++) {
-                substr += (n+1);
+                sub += n;
             }
         }
-        if (substr.length > 0) substr += s;
-        paistr += substr;
+        if (sub.length > 0) sub += s;
+        paistr += sub;
     }
     if (this._zimo && this._zimo.length == 2) {
         paistr += this._zimo[1] + this._zimo[0];
     }
-    for (var fulou of this._fulou) {
-        paistr += ',' + fulou.substring(1) + fulou[0];
+    for (var mianzi of this._fulou) {
+		mianzi = mianzi[0]
+               + mianzi.match(/\d[\-\+\=]?/g).sort(reverse).join('');
+		mianzi = mianzi.match(/./g).reverse().join('');
+        paistr += ',' + mianzi;
     }
     return paistr;
 }
