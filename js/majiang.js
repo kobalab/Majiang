@@ -914,6 +914,38 @@ function set_chi_event(chi_mianzi, id, callback) {
             });
     }
 }
+function get_gang_mianzi(shoupai) {
+    var gang_mianzi = [];
+    for (var s in shoupai._shouli) {
+        var pai = shoupai._shouli[s];
+        for (var n = 1; n <= pai.length; n++) {
+            if (pai[n-1] == 0) continue;
+            if (pai[n-1] == 4) {
+                gang_mianzi.push(s+n+n+n+n);
+            }
+            else {
+                var regexp = new RegExp('^' + s + n + '{3}');
+                for (var mianzi of shoupai._fulou) {
+                    if (mianzi.match(regexp)) gang_mianzi.push(mianzi+n);
+                }
+            }
+        }
+    }
+    return gang_mianzi;
+}
+function set_gang_event(gang_mianzi, id, callback) {
+    var pai = {};
+    for (var fulou of gang_mianzi) {
+        pai[fulou.substr(0,2)] = fulou;
+    }
+    for (var p in pai) {
+        $('.shoupai.dong .shouli .pai[data-pai="'+p+'"]')
+            .addClass('dapai')
+            .bind('click', pai[p], function(event){
+                callback(id, 'gang', event.data);
+            });
+    }
+}
 
 Majiang.UI = function(id) {
     this._id = id;
@@ -971,20 +1003,27 @@ Majiang.UI.prototype.zimo = function(data, callback, timeout) {
         action = true;
     }
     // 暗カンもしくは加カンできるかチェックする。後で共通化する。
-    // すでに手牌にある牌でカンする処理も必要。共通化時に追加要。
-    // リーチ後にカンできるようにする。
-    var s = data.zimo[0];
-    var n = data.zimo[1];
-    var regexp = new RegExp('^' + s + n + '{3}');
-    var mianzi = this._shoupai._fulou.find(function(n){return n.match(regexp)});
-    if (! mianzi && this._shoupai._shouli[s][n-1] == 4) mianzi = s+n+n+n;
-    if (mianzi) {
-        mianzi += n;
-        $('.UI .gang').bind('click', mianzi, function(event){
+    var gang_mianzi = get_gang_mianzi(this._shoupai);
+    if (gang_mianzi.length == 1) {
+        $('.UI .gang').bind('click', function(){
+            $('body').unbind('click');
+            $('.UI span').unbind('click');
             $('.UI span').hide();
             $('.shoupai.dong .shouli .pai').unbind('click');
             Majiang.Audio.play('gang');
-            callback(id, 'gang', event.data)
+            callback(id, 'gang', gang_mianzi[0])
+            return false;
+        }).show();
+        action = true;
+    }
+    if (gang_mianzi.length > 1) {
+        $('.UI .gang').bind('click', function(){
+            $('body').unbind('click');
+            $('.UI span').unbind('click');
+            $('.UI span').hide();
+            $('.shoupai.dong .shouli .pai').unbind('click');
+            Majiang.Audio.play('gang');
+            set_gang_event(gang_mianzi, id, callback);
             return false;
         }).show();
         action = true;
@@ -1041,7 +1080,6 @@ Majiang.UI.prototype.dapai = function(data, callback, timeout) {
         }).show();
         action = true;
     }
-    // 残牌数が0の場合、副露できない処理を追加要。
     // 大明カンできるかチェックする。後で共通化する。
     if (! this._shoupai._lizhi
         && this._shoupai._shouli[data.dapai[0]][data.dapai[1]-1] == 3
