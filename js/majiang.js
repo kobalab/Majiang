@@ -626,7 +626,8 @@ Majiang.Game.prototype.kaiju = function() {
 }
 Majiang.Game.prototype.zimo = function() {
 
-    var zimo = this._model.shan.zimo();
+    var zimo   = this._model.shan.zimo();
+    var paishu = this._model.shan.paishu();
     this._model.shoupai[this._lunban].zimo(zimo);
 
     this._view.chang.update(this._lunban);
@@ -635,11 +636,14 @@ Majiang.Game.prototype.zimo = function() {
 
     var self = this;
     this._reply = [];
-    this._player[this.player(this._lunban)].zimo(
-        { lunban: self._lunban, zimo: zimo },
-        function(id, type, data){self.reply_zimo(id, type, data)},
-        1000
-    );
+    for (var i = 0; i < 4; i++) {
+        var p = (i == this.player(this._lunban)) ? zimo : null;
+        this._player[i].zimo(
+            { lunban: self._lunban, zimo: p, paishu: paishu },
+            function(id, type, data){self.reply_zimo(id, type, data)},
+            1000
+        );
+    }
 }
 Majiang.Game.prototype.dapai = function(dapai) {
 
@@ -801,15 +805,24 @@ Majiang.Player = function(id) {
     this._id = id;
 }
 Majiang.Player.prototype.kaiju = function(data) {
+  console.log('[' + this._id +'] <= (kaiju, ' + data.zifeng + ')');  // for DEBUG
+    this._zifeng = data.zifeng;
+    this._shoupai = new Majiang.Shoupai(data.haipai);
 }
 Majiang.Player.prototype.zimo = function(data, callback, timeout) {
   console.log('[' + this._id +'] <= (zimo, ' + data.zimo + ')');  // for DEBUG
     var id = this._id;
+    this._paishu = data.paishu;
+    if (data.lunban != this._zifeng) return;
+    this._shoupai.zimo(data.zimo);
     setTimeout(function(){ callback(id, 'dapai', data.zimo) }, timeout);
 }
 Majiang.Player.prototype.dapai = function(data, callback, timeout) {
   console.log('[' + this._id +'] <= (dapai, ' + data.dapai + ')');  // for DEBUG
     var id = this._id;
+    if (data.lunban == this._zifeng) {
+        this._shoupai.dapai(data.dapai);
+    }
     setTimeout(function(){ callback(id, '') }, timeout);
 }
 Majiang.Player.prototype.fulou = function(data, callback, timeout) {
@@ -882,6 +895,7 @@ Majiang.UI = function(id) {
     $('.UI span').hide();
 }
 Majiang.UI.prototype.kaiju = function(data) {
+  console.log('[' + this._id +'] <= (kaiju, ' + data.zifeng + ')');  // for DEBUG
     this._zifeng = data.zifeng;
     this._shoupai = new Majiang.Shoupai(data.haipai);
 }
@@ -889,13 +903,17 @@ Majiang.UI.prototype.zimo = function(data, callback, timeout) {
   console.log('[' + this._id +'] <= (zimo, ' + data.zimo + ')');  // for DEBUG
     $('.UI.resize').width($('.shoupai.dong .shouli').width());
     var id = this._id;
+    this._paishu = data.paishu;
+    if (data.lunban != this._zifeng) return;
+ 
     this._shoupai.zimo(data.zimo);
   console.log('    '+this._shoupai.toString());  // for DEBUG
  
     var action = false;
     if (! this._shoupai._lizhi
         && ! this._shoupai._fulou.find(function(m){return m.match(/[\-\+\=]/)})
-        && Majiang.Util.xiangting(this._shoupai) <= 0)
+        && Majiang.Util.xiangting(this._shoupai) <= 0
+        && this._paishu >= 4)
     {
         var self = this;
         $('.UI .lizhi').bind('click', function(){
@@ -1001,7 +1019,8 @@ Majiang.UI.prototype.dapai = function(data, callback, timeout) {
     // 残牌数が0の場合、副露できない処理を追加要。
     // 大明カンできるかチェックする。後で共通化する。
     if (! this._shoupai._lizhi
-        && this._shoupai._shouli[data.dapai[0]][data.dapai[1]-1] == 3)
+        && this._shoupai._shouli[data.dapai[0]][data.dapai[1]-1] == 3
+        && this._paishu > 0)
     {
         var f = [null, '+', '=', '-']
         var mianzi
@@ -1020,7 +1039,8 @@ Majiang.UI.prototype.dapai = function(data, callback, timeout) {
     }
     // ポンできるかチェックする。後で共通化する。
     if (! this._shoupai._lizhi
-        && this._shoupai._shouli[data.dapai[0]][data.dapai[1]-1] >= 2)
+        && this._shoupai._shouli[data.dapai[0]][data.dapai[1]-1] >= 2
+        && this._paishu > 0)
     {
         var f = [null, '+', '=', '-']
         var mianzi
@@ -1039,7 +1059,8 @@ Majiang.UI.prototype.dapai = function(data, callback, timeout) {
     }
     // チーできるかチェックする。後で共通化する。
     if (! this._shoupai._lizhi
-        && (data.lunban + 1) % 4 == this._zifeng)
+        && (data.lunban + 1) % 4 == this._zifeng
+        && this._paishu > 0)
     {
         var chi_mianzi = get_chi_mianzi(this._shoupai, data.dapai);
         if (chi_mianzi.length == 1) {
