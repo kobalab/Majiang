@@ -2,33 +2,6 @@ function imgHtml(pai) {
     return '<img class="pai" src="img/' + pai + '.gif" />'
 }
 
-function shoupai(str) {
-    
-    var haipai = [];
-    
-    for (var substr of str.match(/\d+[mpsz]/g)) {
-        var sort = substr[substr.length - 1];
-        for (var n of substr.match(/\d/g)) {
-            haipai.push(sort + n);
-        }
-    }
-    
-    return new Majiang.Shoupai(haipai);
-}
-function asTenhouStr(shoupai) {
-    var str = '';
-    for (var s of ['m', 'p', 's', 'z']) {
-        var sub = '';
-        for (var n = 0; n < shoupai._shouli[s].length; n++) {
-            for (var i = 0; i < shoupai._shouli[s][n]; i++) {
-                sub += (n+1);
-            }
-        }
-        if (sub.length > 0) str += sub + s;
-    }
-    return str;
-}
-
 function canpaibiao(shoupai, he) {
     var biao = {
         m: [4,4,4,4,4,4,4,4,4],
@@ -96,40 +69,27 @@ $(function(){
         xipai($('input[type=text]').val());
     });
   
-    function showShan(shan) {
-        var node = $('.shan');
-        node.text('残り牌数＝' + shan.paishu());
-    }
-
     function showShoupai(node, shoupai) {
+        var view = new Majiang.View.Shoupai(node, shoupai, true);
+        view.redraw();
+  
         var shouli = shoupai._shouli;
-        node.empty();
         var str ='';
         var sort = ['m', 'p', 's', 'z'];
         for (var s = 0; s < sort.length; s++) {
             for (var n = 0; n < shouli[sort[s]].length; n++) {
                 var p = sort[s] + (n+1);
-                for (var m = 0; m < shouli[sort[s]][n]; m++) {
-                    var img = $(imgHtml(p));
-                    img.bind('click', p, function(event){
+                node.find('.shouli .pai[data-pai="'+p+'"]')
+                    .bind('click', p, function(event){
                         dapai(event.data);
                     });
-                    node.append(img);
-                    str += (n+1);
-                }
             }
-            if (str.match(/\d$/)) str += sort[s];
         }
     }
   
     function showHe(node, he) {
-        var pai = he._pai;
-        node.empty();
-        for (var i = 0; i < pai.length; i++) {
-            var img = $(imgHtml(pai[i]));
-            if (i % 6 == 5) img.css('padding-right', '2px');
-            node.append(img);
-        }
+        var view = new Majiang.View.He(node, $('.lizhi'), he);
+        view.redraw();
     }
   
     function showPaili(paili) {
@@ -161,7 +121,7 @@ $(function(){
         shoupai.dapai(p);
         he.dapai(p);
   
-        showShoupai($('.shouli'), shoupai);
+        showShoupai($('.shoupai'), shoupai);
         showHe($('.he'), he);
 
         p = shan.zimo();
@@ -172,7 +132,6 @@ $(function(){
             Majiang.Audio.play('beep');
             return;
         }
-        showShan(shan);
 
         shoupai.zimo(p);
         var img = $('<span class="zimo">' + imgHtml(p) + '</span>');
@@ -213,26 +172,26 @@ $(function(){
                     if (shan._pai[i] == pai) shan._pai.splice(i, 1);
                 }
             }
+            shoupai = Majiang.Shoupai.fromString(paistr);
         }
         else {
             for (var i = 0; i < 13; i++) {
                 var p = shan.zimo();
                 haipai.push(p);
             }
+            shoupai = new Majiang.Shoupai(haipai);
         }
   
         while (shan.paishu() > 18) {
             shan.zimo();
         }
   
-        shoupai = new Majiang.Shoupai(haipai);
-        $('input[type=text]').val(asTenhouStr(shoupai));
+        $('input[type=text]').val(shoupai.toString());
 
-        shoupai.zimo(shan.zimo());
+        if (! shoupai._zimo) shoupai.zimo(shan.zimo());
 
-        showShan(shan);
         showHe($('.he'), he);
-        showShoupai($('.shouli'), shoupai);
+        showShoupai($('.shoupai'), shoupai);
         showPaili(paili(shoupai, he));
   
         n_xiangting = Majiang.Util.xiangting(shoupai);
