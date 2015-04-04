@@ -69,7 +69,8 @@ $(function(){
         xipai($('input[type=text]').val());
     });
   
-    function showShoupai(node, shoupai) {
+    function showShoupai() {
+        var node = $('.shoupai');
         var view = new Majiang.View.Shoupai(node, shoupai, true);
         view.redraw();
   
@@ -87,8 +88,8 @@ $(function(){
         }
     }
   
-    function showHe(node, he) {
-        var view = new Majiang.View.He(node, $('.lizhi'), he);
+    function showHe() {
+        var view = new Majiang.View.He($('.he'), $('.lizhi'), he);
         view.redraw();
     }
   
@@ -121,8 +122,8 @@ $(function(){
         shoupai.dapai(p);
         he.dapai(p);
   
-        showShoupai($('.shoupai'), shoupai);
-        showHe($('.he'), he);
+        showShoupai();
+        showHe();
 
         p = shan.zimo();
         if (! p) {
@@ -134,12 +135,7 @@ $(function(){
         }
 
         shoupai.zimo(p);
-        var img = $('<span class="zimo">' + imgHtml(p) + '</span>');
-        $('.shouli').append(img);
-
-        img.bind('click', p, function(event){
-            dapai(event.data);
-        });
+        showShoupai();
  
         showPaili(paili(shoupai, he));
 
@@ -190,8 +186,8 @@ $(function(){
 
         if (! shoupai._zimo) shoupai.zimo(shan.zimo());
 
-        showHe($('.he'), he);
-        showShoupai($('.shoupai'), shoupai);
+        showHe();
+        showShoupai();
         showPaili(paili(shoupai, he));
   
         n_xiangting = Majiang.Util.xiangting(shoupai);
