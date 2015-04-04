@@ -968,7 +968,8 @@ Majiang.UI.prototype.zimo = function(data, callback, timeout) {
  
     var action = false;
     if (! this._shoupai._lizhi
-        && ! this._shoupai._fulou.find(function(m){return m.match(/[\-\+\=]/)})
+        && this._shoupai._fulou.filter(
+            function(m){return m.match(/[\-\+\=]/)}).length == 0
         && Majiang.Util.xiangting(this._shoupai) <= 0
         && this._paishu >= 4)
     {
