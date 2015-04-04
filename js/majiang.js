@@ -146,6 +146,23 @@ Majiang.Util = {
         if (xiangting < min_xiangting) min_xiangting = xiangting;
  
         return min_xiangting;
+    },
+ 
+    tingpai: function(shoupai) {
+        var pai = [];
+        if (shoupai._zimo) return pai;
+        var n_xiangting = Majiang.Util.xiangting(shoupai);
+        for (var s in shoupai._shouli) {
+            var paishu = shoupai._shouli[s];
+            for (var n = 1; n <= paishu.length; n++) {
+                paishu[n-1]++;
+                if (Majiang.Util.xiangting(shoupai) < n_xiangting) {
+                    pai.push(s+n);
+                }
+                paishu[n-1]--;
+            }
+        }
+        return pai;
     }
  
 };
@@ -984,6 +1001,8 @@ Majiang.UI.prototype.kaiju = function(data) {
   console.log('=> [' + this._id +'] (kaiju, ' + data.zifeng + ')');  // for DEBUG
     this._zifeng = data.zifeng;
     this._shoupai = new Majiang.Shoupai(data.haipai);
+    this._dapai = {};
+    this._neng_rong = true;
 }
 Majiang.UI.prototype.zimo = function(data, callback, timeout) {
   console.log('=> [' + this._id +'] (zimo, ' + data.zimo + ')');  // for DEBUG
@@ -1079,15 +1098,26 @@ Majiang.UI.prototype.dapai = function(data, callback, timeout) {
     var id = this._id;
     if (data.lunban == this._zifeng) {
         this._shoupai.dapai(data.dapai);
+        this._dapai[data.dapai] = true;
+        if (! this._shoupai._lizhi) {
+            this._neng_rong = true;
+            if (Majiang.Util.xiangting(this._shoupai) == 0) {
+                for (var p of Majiang.Util.tingpai(this._shoupai)) {
+                    if (this._dapai[p]) this._neng_rong = false;
+                }
+            }
+        }
+  console.log('    neng_rong: '+this._neng_rong);  // for DEBUG
         setTimeout(function(){ callback(id, '') }, timeout);
         return;
     }
     var action = false;
-    // ロンできるかチェックする。修正要(役あり、フリテンなし)
+    var self = this;
+    // ロンできるかチェックする。修正要(役あり)
     this._shoupai._shouli[data.dapai[0]][data.dapai[1]-1]++;
     var xiangting = Majiang.Util.xiangting(this._shoupai);
     this._shoupai._shouli[data.dapai[0]][data.dapai[1]-1]--;
-    if (xiangting == -1) {
+    if (xiangting == -1 && this._neng_rong) {
         $('.UI .rong').bind('click', function(){
             $('.shoupai.dong .shouli .pai').unbind('click');
             $('body').unbind('click');
@@ -1175,6 +1205,7 @@ Majiang.UI.prototype.dapai = function(data, callback, timeout) {
             $('body').unbind('click');
             $('.UI span').unbind('click');
             $('.UI span').hide();
+            if (xiangting == -1) self._neng_rong = false;
             callback(id, '');
             return false;
         });
@@ -1235,6 +1266,7 @@ Majiang.UI.prototype.gang = function(data, callback, timeout) {
             $('body').unbind('click');
             $('.UI span').unbind('click');
             $('.UI span').hide();
+            if (xiangting == -1) self._neng_rong = false;
             callback(id, '');
             return false;
         });
