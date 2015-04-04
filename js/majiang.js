@@ -946,6 +946,35 @@ function set_gang_event(gang_mianzi, id, callback) {
             });
     }
 }
+function get_dapai_of_lizhi(shoupai) {
+    var dapai = [];
+    if (shoupai._lizhi) return dapai;
+    if (shoupai._fulou.filter(
+            function(mianzi){return mianzi.match(/[\-\+\=]/)}).length > 0)
+        return dapai;
+    if (Majiang.Util.xiangting(shoupai) > 0) return dapai;
+    for (var s in shoupai._shouli) {
+        var paishu = shoupai._shouli[s];
+        for (var n = 1; n <= paishu.length; n++) {
+            if (paishu[n-1] ==0) continue;
+            paishu[n-1]--;
+            if (Majiang.Util.xiangting(shoupai) == 0) {
+                dapai.push(s+n);
+            }
+            paishu[n-1]++;
+        }
+    }
+    return dapai;
+}
+function set_lizhi_event(dapai, id, callback) {
+    for (var p of dapai) {
+        $('.shoupai.dong .shouli .pai[data-pai="'+p+'"]')
+            .addClass('dapai')
+            .bind('click', p+'*', function(event){
+                callback(id, 'dapai', event.data);
+            });
+    }
+}
 
 Majiang.UI = function(id) {
     this._id = id;
@@ -967,28 +996,17 @@ Majiang.UI.prototype.zimo = function(data, callback, timeout) {
   console.log('    '+this._shoupai.toString());  // for DEBUG
  
     var action = false;
-    if (! this._shoupai._lizhi
-        && this._shoupai._fulou.filter(
-            function(m){return m.match(/[\-\+\=]/)}).length == 0
-        && Majiang.Util.xiangting(this._shoupai) <= 0
-        && this._paishu >= 4)
-    {
+    // リーチできるかチェックする。
+    var dapai = get_dapai_of_lizhi(this._shoupai);
+    if (dapai.length > 0 && this._paishu >= 4) {
         var self = this;
         $('.UI .lizhi').bind('click', function(){
+            $('body').unbind('click');
+            $('.UI span').unbind('click');
             $('.UI span').hide();
             $('.shoupai.dong .shouli .pai').unbind('click');
             Majiang.Audio.play('lizhi');
-
-            $('.shoupai.dong .shouli .pai').each(function(){
-                var dapai = $(this).data('pai')+'*';
-                $(this).bind('click', dapai, function(event){
-                    $('.UI span').hide();
-                    $('.shoupai.dong .shouli .pai').unbind('click');
-                    self._shoupai.dapai(dapai);
-                    callback(id, 'dapai', event.data);
-                    return false;
-                });
-            });
+            set_lizhi_event(dapai, id, callback);
             return false;
         }).show();
         action = true;
