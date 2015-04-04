@@ -1186,16 +1186,3 @@ Majiang.UI.prototype.gang = function(data, callback, timeout) {
 }
 
 })();
-
-/******************************************************************************
-
-    Test Code
-
-******************************************************************************/
-
-var game;
-
-$(function(){
-    game = new Majiang.Game();
-    game.kaiju();
-});
