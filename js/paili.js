@@ -23,32 +23,26 @@ function paili(shoupai, he) {
     var n_xiangting = Majiang.Util.xiangting(shoupai);
     var canpai = canpaibiao(shoupai, he);
     var dapai = [];
+    var zimo = shoupai._zimo;
+    shoupai._zimo = null;
     for (var sort in shoupai._shouli) {
         for (var i = 0; i < shoupai._shouli[sort].length; i++) {
             if (shoupai._shouli[sort][i] == 0) continue;
             shoupai._shouli[sort][i]--;
             if (Majiang.Util.xiangting(shoupai) == n_xiangting) {
-                var _dapai = {
-                    da:   sort + (i+1),
-                    shu:  0,
-                    ting: []
+                var ting = [];
+                var shu = 0;
+                for (var p of Majiang.Util.tingpai(shoupai)) {
+                    if (canpai[p[0]][p[1]-1] == 0) continue;
+                    ting.push(p);
+                    shu += canpai[p[0]][p[1]-1];
                 }
-                for (var s in canpai) {
-                    for (var j = 0; j < canpai[s].length; j++) {
-                        if (canpai[s][j] == 0) continue;
-                        shoupai._shouli[s][j]++;
-                        if (Majiang.Util.xiangting(shoupai) < n_xiangting) {
-                            _dapai.shu += canpai[s][j];
-                            _dapai.ting.push(s+(j+1));
-                        }
-                        shoupai._shouli[s][j]--;
-                    }
-                }
-                if (_dapai.shu > 0) dapai.push(_dapai);
+                dapai.push({ da: sort+(i+1), shu: shu , ting: ting });
             }
             shoupai._shouli[sort][i]++;
         }
     }
+    shoupai._zimo = zimo;
     return dapai;
 }
 
