@@ -1099,12 +1099,10 @@ Majiang.UI.prototype.dapai = function(data, callback, timeout) {
     if (data.lunban == this._zifeng) {
         this._shoupai.dapai(data.dapai);
         this._dapai[data.dapai] = true;
-        if (! this._shoupai._lizhi) {
-            this._neng_rong = true;
-            if (Majiang.Util.xiangting(this._shoupai) == 0) {
-                for (var p of Majiang.Util.tingpai(this._shoupai)) {
-                    if (this._dapai[p]) this._neng_rong = false;
-                }
+        if (! this._shoupai._lizhi) this._neng_rong = true;
+        if (Majiang.Util.xiangting(this._shoupai) == 0) {
+            for (var p of Majiang.Util.tingpai(this._shoupai)) {
+                if (this._dapai[p]) this._neng_rong = false;
             }
         }
   console.log('    neng_rong: '+this._neng_rong);  // for DEBUG
