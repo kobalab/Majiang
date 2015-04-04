@@ -779,13 +779,13 @@ Majiang.Game.prototype.hule = function() {
     setTimeout(function(){ self.kaiju() }, 5000);
 }
 Majiang.Game.prototype.reply_zimo = function(id, type, data) {
-  console.log('[' + id +'] => (' + type + ', ' + data + ')');  // for DEBUG
+  console.log('[' + id +'] (' + type + ', ' + data + ')');  // for DEBUG
     if      (type == 'dapai')   this.dapai(data)
     else if (type == 'gang')    this.gang(data)
     else if (type == 'hule')    this.hule()
 }
 Majiang.Game.prototype.reply_dapai = function(id, type, data) {
-  console.log('[' + id +'] => (' + type + ', ' + data + ')');  // for DEBUG
+  console.log('[' + id +'] (' + type + ', ' + data + ')');  // for DEBUG
  
     this._reply.push( { id: id, type: type, data: data } );
     if (this._reply.length < 4) return;
@@ -814,11 +814,11 @@ Majiang.Game.prototype.reply_dapai = function(id, type, data) {
     this.zimo();
 }
 Majiang.Game.prototype.reply_fulou = function(id, type, data) {
-  console.log('[' + id +'] => (' + type + ', ' + data + ')');  // for DEBUG
+  console.log('[' + id +'] (' + type + ', ' + data + ')');  // for DEBUG
     if (type == 'dapai') this.dapai(data);
 }
 Majiang.Game.prototype.reply_gang = function(id, type, data) {
-  console.log('[' + id +'] => (' + type + ', ' + data + ')');  // for DEBUG
+  console.log('[' + id +'] (' + type + ', ' + data + ')');  // for DEBUG
     if (type == 'hule') this.hule();
     if (id == this.player(this._lunban)) this.gangzimo();
 }
@@ -830,12 +830,12 @@ Majiang.Player = function(id) {
     this._id = id;
 }
 Majiang.Player.prototype.kaiju = function(data) {
-  console.log('[' + this._id +'] <= (kaiju, ' + data.zifeng + ')');  // for DEBUG
+  console.log('=> [' + this._id +'] (kaiju, ' + data.zifeng + ')');  // for DEBUG
     this._zifeng = data.zifeng;
     this._shoupai = new Majiang.Shoupai(data.haipai);
 }
 Majiang.Player.prototype.zimo = function(data, callback, timeout) {
-  console.log('[' + this._id +'] <= (zimo, ' + data.zimo + ')');  // for DEBUG
+  console.log('=> [' + this._id +'] (zimo, ' + data.zimo + ')');  // for DEBUG
     var id = this._id;
     this._paishu = data.paishu;
     if (data.lunban != this._zifeng) return;
@@ -843,7 +843,7 @@ Majiang.Player.prototype.zimo = function(data, callback, timeout) {
     setTimeout(function(){ callback(id, 'dapai', data.zimo) }, timeout);
 }
 Majiang.Player.prototype.dapai = function(data, callback, timeout) {
-  console.log('[' + this._id +'] <= (dapai, ' + data.dapai + ')');  // for DEBUG
+  console.log('=> [' + this._id +'] (dapai, ' + data.dapai + ')');  // for DEBUG
     var id = this._id;
     if (data.lunban == this._zifeng) {
         this._shoupai.dapai(data.dapai);
@@ -851,12 +851,12 @@ Majiang.Player.prototype.dapai = function(data, callback, timeout) {
     setTimeout(function(){ callback(id, '') }, timeout);
 }
 Majiang.Player.prototype.fulou = function(data, callback, timeout) {
-  console.log('[' + this._id +'] <= (fulou, ' + data.fulou + ')');  // for DEBUG
+  console.log('=> [' + this._id +'] (fulou, ' + data.fulou + ')');  // for DEBUG
     var id = this._id;
     setTimeout(function(){ callback(id, '') }, timeout);
 }
 Majiang.Player.prototype.gang = function(data, callback, timeout) {
-  console.log('[' + this._id +'] <= (gang, ' + data.gang + ')');  // for DEBUG
+  console.log('=> [' + this._id +'] (gang, ' + data.gang + ')');  // for DEBUG
     var id = this._id;
     setTimeout(function(){ callback(id, '') }, timeout);
 }
@@ -952,12 +952,12 @@ Majiang.UI = function(id) {
     $('.UI span').hide();
 }
 Majiang.UI.prototype.kaiju = function(data) {
-  console.log('[' + this._id +'] <= (kaiju, ' + data.zifeng + ')');  // for DEBUG
+  console.log('=> [' + this._id +'] (kaiju, ' + data.zifeng + ')');  // for DEBUG
     this._zifeng = data.zifeng;
     this._shoupai = new Majiang.Shoupai(data.haipai);
 }
 Majiang.UI.prototype.zimo = function(data, callback, timeout) {
-  console.log('[' + this._id +'] <= (zimo, ' + data.zimo + ')');  // for DEBUG
+  console.log('=> [' + this._id +'] (zimo, ' + data.zimo + ')');  // for DEBUG
     $('.UI.resize').width($('.shoupai.dong .shouli').width());
     var id = this._id;
     this._paishu = data.paishu;
@@ -1055,7 +1055,7 @@ Majiang.UI.prototype.zimo = function(data, callback, timeout) {
     }
 }
 Majiang.UI.prototype.dapai = function(data, callback, timeout) {
-  console.log('[' + this._id +'] <= (dapai, ' + data.dapai + ')');  // for DEBUG
+  console.log('=> [' + this._id +'] (dapai, ' + data.dapai + ')');  // for DEBUG
     $('.UI.resize').width($('.shoupai.dong .shouli').width());
     var id = this._id;
     if (data.lunban == this._zifeng) {
@@ -1163,7 +1163,7 @@ Majiang.UI.prototype.dapai = function(data, callback, timeout) {
     else setTimeout(function(){ callback(id, '') }, timeout);
 }
 Majiang.UI.prototype.fulou = function(data, callback, timeout) {
-  console.log('[' + this._id +'] <= (fulou, ' + data.fulou + ')');  // for DEBUG
+  console.log('=> [' + this._id +'] (fulou, ' + data.fulou + ')');  // for DEBUG
     $('.UI.resize').width($('.shoupai.dong .shouli').width());
     var id = this._id;
     if (data.lunban != this._zifeng) {
@@ -1184,7 +1184,7 @@ Majiang.UI.prototype.fulou = function(data, callback, timeout) {
     });
 }
 Majiang.UI.prototype.gang = function(data, callback, timeout) {
-  console.log('[' + this._id +'] <= (gang, ' + data.gang + ')');  // for DEBUG
+  console.log('=> [' + this._id +'] (gang, ' + data.gang + ')');  // for DEBUG
     $('.UI.resize').width($('.shoupai.dong .shouli').width());
     var id = this._id;
     if (data.lunban == this._zifeng) {
