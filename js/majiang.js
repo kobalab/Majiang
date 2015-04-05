@@ -1012,9 +1012,9 @@ Majiang.Player.prototype.gang = function(data, callback, timeout) {
         return;
     }
 
-    this._shoupai._shouli[data.dapai[0]][data.dapai[1]-1]++;
+    this._shoupai._shouli[data.gang[0]][data.gang[1]-1]++;
     var xiangting = Majiang.Util.xiangting(this._shoupai);
-    this._shoupai._shouli[data.dapai[0]][data.dapai[1]-1]--;
+    this._shoupai._shouli[data.gang[0]][data.gang[1]-1]--;
     if (xiangting == -1 && this._neng_rong) {
         if (this._shoupai._lizhi) {
             setTimeout(function(){ callback(id, 'hule') }, timeout);
