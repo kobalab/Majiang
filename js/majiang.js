@@ -107,7 +107,7 @@ Majiang.Util = {
         var n_danqi = 0;
         for (var s in shoupai._shouli) {
             var pai = shoupai._shouli[s];
-            for (var i = 0; i < pai.length - 1; i++) {
+            for (var i = 0; i < pai.length; i++) {
                 if      (pai[i] >= 2) n_duizi++;
                 else if (pai[i] == 1) n_danqi++;
             }
