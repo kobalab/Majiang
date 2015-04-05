@@ -689,6 +689,9 @@ Majiang.Game.prototype.zimo = function() {
 }
 Majiang.Game.prototype.dapai = function(dapai) {
 
+    if (dapai[2] == '*'
+     && this.player(this._lunban) != 0) Majiang.Audio.play('lizhi');
+
     Majiang.Audio.play('dapai');
 
     this._model.shoupai[this._lunban].dapai(dapai);
@@ -789,9 +792,9 @@ Majiang.Game.prototype.liuju = function() {
 }
 Majiang.Game.prototype.hule = function(id) {
 
-    if (id != null && id != 0) {
-        Majiang.Audio.play('zimo');
-    }
+    if (id == this.player(this._lunban)) Majiang.Audio.play('zimo');
+    else                                 Majiang.Audio.play('rong');
+ 
     for (var i = 0; i < 4; i++) {
         if (this.player(i) == id) {
             this._view.shoupai[i]._open = true;
@@ -930,6 +933,8 @@ Majiang.Player.prototype.kaiju = function(data) {
   console.log('=> [' + this._id +'] (kaiju, ' + data.zifeng + ')');  // for DEBUG
     this._zifeng = data.zifeng;
     this._shoupai = new Majiang.Shoupai(data.haipai);
+    this._dapai = {};
+    this._neng_rong = true;
 }
 Majiang.Player.prototype.zimo = function(data, callback, timeout) {
   console.log('=> [' + this._id +'] (zimo, ' + data.zimo + ')');  // for DEBUG
@@ -944,7 +949,15 @@ Majiang.Player.prototype.zimo = function(data, callback, timeout) {
         setTimeout(function(){ callback(id, 'hule') }, timeout);
         return;
     }
+    if (this._shoupai._lizhi) {
+        setTimeout(function(){ callback(id, 'dapai', data.zimo) }, timeout);
+        return;
+    }
     var dapai = this._select_dapai();
+    this._shoupai._shouli[dapai[0]][dapai[1]-1]--;
+    var xiangting = Majiang.Util.xiangting(this._shoupai);
+    this._shoupai._shouli[dapai[0]][dapai[1]-1]++;
+    if (xiangting == 0 && this._paishu >= 4) dapai += '*';
     setTimeout(function(){ callback(id, 'dapai', dapai) }, timeout);
 }
 Majiang.Player.prototype.dapai = function(data, callback, timeout) {
@@ -952,17 +965,65 @@ Majiang.Player.prototype.dapai = function(data, callback, timeout) {
     var id = this._id;
     if (data.lunban == this._zifeng) {
         this._shoupai.dapai(data.dapai);
+        this._dapai[data.dapai] = true;
+        if (! this._shoupai._lizhi) this._neng_rong = true;
+        if (Majiang.Util.xiangting(this._shoupai) == 0) {
+            for (var p of Majiang.Util.tingpai(this._shoupai)) {
+                if (this._dapai[p]) this._neng_rong = false;
+            }
+        }
+        setTimeout(function(){ callback(id, '') }, timeout);
+        return;
+    }
+
+    this._shoupai._shouli[data.dapai[0]][data.dapai[1]-1]++;
+    var xiangting = Majiang.Util.xiangting(this._shoupai);
+    this._shoupai._shouli[data.dapai[0]][data.dapai[1]-1]--;
+    if (xiangting == -1 && this._neng_rong) {
+        if (this._shoupai._lizhi) {
+            setTimeout(function(){ callback(id, 'hule') }, timeout);
+            return;
+        }
+        else {
+            this._neng_rong = false;
+        }
     }
     setTimeout(function(){ callback(id, '') }, timeout);
 }
 Majiang.Player.prototype.fulou = function(data, callback, timeout) {
   console.log('=> [' + this._id +'] (fulou, ' + data.fulou + ')');  // for DEBUG
     var id = this._id;
-    setTimeout(function(){ callback(id, '') }, timeout);
+    if (data.lunban != this._zifeng) {
+        setTimeout(function(){ callback(id, '') }, timeout);
+        return;
+    }
+    this._shoupai.fulou(data.fulou);
+ 
+    var dapai = this._select_dapai();
+    setTimeout(function(){ callback(id, 'dapai', dapai) }, timeout);
 }
 Majiang.Player.prototype.gang = function(data, callback, timeout) {
   console.log('=> [' + this._id +'] (gang, ' + data.gang + ')');  // for DEBUG
     var id = this._id;
+    if (data.lunban == this._zifeng) {
+        if (this._shoupai._zimo) this._shoupai.gang(data.gang);
+        else                     this._shoupai.fulou(data.gang);
+        setTimeout(function(){ callback(id, '') }, timeout);
+        return;
+    }
+
+    this._shoupai._shouli[data.dapai[0]][data.dapai[1]-1]++;
+    var xiangting = Majiang.Util.xiangting(this._shoupai);
+    this._shoupai._shouli[data.dapai[0]][data.dapai[1]-1]--;
+    if (xiangting == -1 && this._neng_rong) {
+        if (this._shoupai._lizhi) {
+            setTimeout(function(){ callback(id, 'hule') }, timeout);
+            return;
+        }
+        else {
+            this._neng_rong = false;
+        }
+    }
     setTimeout(function(){ callback(id, '') }, timeout);
 }
 Majiang.Player.prototype._select_dapai = function() {
