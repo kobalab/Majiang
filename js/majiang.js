@@ -763,6 +763,7 @@ Majiang.Game.prototype.gang = function(data) {
 Majiang.Game.prototype.gangzimo = function() {
  
     var zimo = this._model.shan.gangzimo();
+    var paishu = this._model.shan.paishu();
     this._model.shoupai[this._lunban].zimo(zimo);
 
     this._model.shan.kaigang(); // 明カンの場合はここで開カンしてはいけない。
@@ -773,11 +774,14 @@ Majiang.Game.prototype.gangzimo = function() {
 
     var self = this;
     this._reply = [];
-    this._player[this.player(this._lunban)].zimo(
-        { lunban: self._lunban, zimo: zimo },
-        function(id, type, data){self.reply_zimo(id, type, data)},
-        1000
-    );
+    for (var i = 0; i < 4; i++) {
+        var p = (i == this.player(this._lunban)) ? zimo : null;
+        this._player[i].zimo(
+            { lunban: self._lunban, zimo: p, paishu: paishu },
+            function(id, type, data){self.reply_zimo(id, type, data)},
+            1000
+        );
+    }
 }
 Majiang.Game.prototype.liuju = function() {
     this._view.he[this._lunban].redraw();
@@ -813,21 +817,38 @@ Majiang.Game.prototype.jiesuan = function() {
 }
 Majiang.Game.prototype.reply_zimo = function(id, type, data) {
   console.log('[' + id +'] (' + type + ', ' + data + ')');  // for DEBUG
-    if      (type == 'dapai')   this.dapai(data)
-    else if (type == 'gang')    this.gang(data)
-    else if (type == 'hule')    this.hule(id)
+
+    this._reply.push( { id: id, type: type, data: data } );
+    if (this._reply.length < 4) return;
+
+    for (var reply of this._reply) {
+        if (reply.id != this.player(this._lunban)) continue;
+        if      (reply.type == 'dapai') this.dapai(reply.data);
+        else if (reply.type == 'gang')  this.gang(reply.data);
+        else if (reply.type == 'hule')  this.hule(reply.id);
+    }
 }
 Majiang.Game.prototype.reply_dapai = function(id, type, data) {
   console.log('[' + id +'] (' + type + ', ' + data + ')');  // for DEBUG
  
     this._reply.push( { id: id, type: type, data: data } );
     if (this._reply.length < 4) return;
- 
-    for (var reply of this._reply) {    // 修正要(チョンボ、ダブロンの考慮なし)
-        if (reply.type == 'hule') {
-            this.hule(reply.id);
+
+    var hule = [];
+    for (var reply of this._reply) {
+        if (reply.type == 'hule') hule.push(reply.id);
+    }
+    if (hule.length > 0) {
+        this.hule(hule[0]);         // 要修正。ダブロン、三家和の考慮なし。
+        return;
+    }
+    for (var reply of this._reply) {
+        if (reply.type == 'fulou' && reply.data.match(/^[mpsz](\d)\1\1/)) {
+            this.fulou(data);
             return;
         }
+    }
+    for (var reply of this._reply) {
         if (reply.type == 'fulou') {
             this.fulou(data);
             return;
@@ -848,12 +869,33 @@ Majiang.Game.prototype.reply_dapai = function(id, type, data) {
 }
 Majiang.Game.prototype.reply_fulou = function(id, type, data) {
   console.log('[' + id +'] (' + type + ', ' + data + ')');  // for DEBUG
-    if (type == 'dapai') this.dapai(data);
+
+    this._reply.push( { id: id, type: type, data: data } );
+    if (this._reply.length < 4) return;
+
+    for (var reply of this._reply) {
+        if (reply.id != this.player(this._lunban)) continue;
+        if (reply.type == 'dapai') this.dapai(reply.data);
+    }
 }
 Majiang.Game.prototype.reply_gang = function(id, type, data) {
   console.log('[' + id +'] (' + type + ', ' + data + ')');  // for DEBUG
-    if (type == 'hule') this.hule(id);
-    if (id == this.player(this._lunban)) this.gangzimo();
+
+    this._reply.push( { id: id, type: type, data: data } );
+    if (this._reply.length < 4) return;
+
+    var hule = [];
+    for (var reply of this._reply) {
+        if (reply.type == 'hule') hule.push(reply.id);
+    }
+    if (hule.length > 0) {
+        this.hule(hule[0]);         // 要修正。ダブロン、三家和の考慮なし。
+        return;
+    }
+
+    for (var reply of this._reply) {
+        if (reply.id == this.player(this._lunban)) this.gangzimo();
+    }
 }
 
 /*
@@ -893,7 +935,10 @@ Majiang.Player.prototype.zimo = function(data, callback, timeout) {
   console.log('=> [' + this._id +'] (zimo, ' + data.zimo + ')');  // for DEBUG
     var id = this._id;
     this._paishu = data.paishu;
-    if (data.lunban != this._zifeng) return;
+    if (data.lunban != this._zifeng) {
+        setTimeout(function(){ callback(id, '') }, timeout);
+        return;
+    }
     this._shoupai.zimo(data.zimo);
     if (Majiang.Util.xiangting(this._shoupai) == -1) {
         setTimeout(function(){ callback(id, 'hule') }, timeout);
@@ -1064,7 +1109,10 @@ Majiang.UI.prototype.zimo = function(data, callback, timeout) {
     $('.UI.resize').width($('.shoupai.dong .shouli').width());
     var id = this._id;
     this._paishu = data.paishu;
-    if (data.lunban != this._zifeng) return;
+    if (data.lunban != this._zifeng) {
+        setTimeout(function(){ callback(id, '') }, timeout);
+        return;
+    }
  
     this._shoupai.zimo(data.zimo);
   console.log('    '+this._shoupai.toString());  // for DEBUG
