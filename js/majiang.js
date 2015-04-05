@@ -1087,6 +1087,8 @@ Majiang.UI.prototype.zimo = function(data, callback, timeout) {
     }
     if (Majiang.Util.xiangting(this._shoupai) == -1) {
         $('.UI .zimo').bind('click', function(){
+            $('body').unbind('click');
+            $('.UI span').unbind('click');
             $('.UI span').hide();
             $('.shoupai.dong .shouli .pai').unbind('click');
             Majiang.Audio.play('zimo');
