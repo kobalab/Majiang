@@ -781,7 +781,7 @@ Majiang.Game.prototype.gangzimo = function() {
 }
 Majiang.Game.prototype.liuju = function() {
     this._view.he[this._lunban].redraw();
-    this.hule();
+    this.jiesuan();
 }
 Majiang.Game.prototype.hule = function(id) {
 
@@ -794,6 +794,9 @@ Majiang.Game.prototype.hule = function(id) {
             this._view.shoupai[i].redraw();
         }
     }
+    this.jiesuan();
+}
+Majiang.Game.prototype.jiesuan = function() {
 
     this._chang.jushu++;
     if (this._chang.jushu == 4) {
@@ -803,7 +806,10 @@ Majiang.Game.prototype.hule = function(id) {
     if (this._chang.menfeng == 2) return;
 
     var self = this;
-    setTimeout(function(){ self.kaiju() }, 5000);
+    $('body').bind('click', function(){
+        $('body').unbind('click');
+        self.kaiju();
+    });
 }
 Majiang.Game.prototype.reply_zimo = function(id, type, data) {
   console.log('[' + id +'] (' + type + ', ' + data + ')');  // for DEBUG
