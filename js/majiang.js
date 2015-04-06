@@ -785,6 +785,18 @@ Majiang.Game.prototype.gangzimo = function() {
 }
 Majiang.Game.prototype.liuju = function() {
     this._view.he[this._lunban].redraw();
+ 
+    var self = this;
+    for (var i  = 0; i < 4; i++) {
+        if (Majiang.Util.xiangting(this._model.shoupai[i]) == 0) {
+            this._view.shoupai[i]._open = true;
+            (function(){
+                var j = i;
+                setTimeout(function(){ self._view.shoupai[j].redraw() }, 1000);
+            })();
+        }
+    }
+ 
     this.jiesuan();
 }
 Majiang.Game.prototype.hule = function(id) {
