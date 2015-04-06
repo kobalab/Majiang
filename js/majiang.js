@@ -927,6 +927,7 @@ Majiang.Game.prototype.reply_gang = function(id, type, data) {
     this._reply.push( { id: id, type: type, data: data } );
     if (this._reply.length < 4) return;
 
+    var self = this;
     var hule = [];
     for (var reply of this._reply) {
         if (reply.type == 'hule') hule.push(reply.id);
