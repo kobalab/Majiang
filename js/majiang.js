@@ -689,9 +689,6 @@ Majiang.Game.prototype.zimo = function() {
 }
 Majiang.Game.prototype.dapai = function(dapai) {
 
-    if (dapai[2] == '*'
-     && this.player(this._lunban) != 0) Majiang.Audio.play('lizhi');
-
     Majiang.Audio.play('dapai');
 
     this._model.shoupai[this._lunban].dapai(dapai);
@@ -706,7 +703,7 @@ Majiang.Game.prototype.dapai = function(dapai) {
         this._player[i].dapai(
             { lunban: self._lunban, dapai: dapai },
             function(id, type, data){self.reply_dapai(id, type, data)},
-            0
+            50
         );
     }
 }
@@ -792,9 +789,6 @@ Majiang.Game.prototype.liuju = function() {
 }
 Majiang.Game.prototype.hule = function(id) {
 
-    if (id == this.player(this._lunban)) Majiang.Audio.play('zimo');
-    else                                 Majiang.Audio.play('rong');
- 
     for (var i = 0; i < 4; i++) {
         if (this.player(i) == id) {
             this._view.shoupai[i]._open = true;
@@ -824,11 +818,35 @@ Majiang.Game.prototype.reply_zimo = function(id, type, data) {
     this._reply.push( { id: id, type: type, data: data } );
     if (this._reply.length < 4) return;
 
+    var self = this;
     for (var reply of this._reply) {
+ 
         if (reply.id != this.player(this._lunban)) continue;
-        if      (reply.type == 'dapai') this.dapai(reply.data);
-        else if (reply.type == 'gang')  this.gang(reply.data);
-        else if (reply.type == 'hule')  this.hule(reply.id);
+ 
+        if (reply.type == 'dapai') {
+            if (reply.data[2] == '*' && this.player(this._lunban) != 0) {
+                Majiang.Audio.play('lizhi');
+                var dapai = reply.data;
+                setTimeout(function(){ self.dapai(dapai) }, 1000);
+            }
+            else this.dapai(reply.data);
+        }
+        else if (reply.type == 'gang') {
+            if (this.player(this._lunban) != 0) {
+                Majiang.Audio.play('gang');
+                var gang = reply.data;
+                setTimeout(function(){ self.gang(gang) }, 1000);
+            }
+            else this.gang(reply.data);
+        }
+        else if (reply.type == 'hule') {
+            if (this.player(this._lunban) != 0) {
+                Majiang.Audio.play('zimo');
+                var id = reply.id;
+                setTimeout(function(){ self.hule(id) }, 1000);
+            }
+            else this.hule(reply.id);
+        }
     }
 }
 Majiang.Game.prototype.reply_dapai = function(id, type, data) {
@@ -837,23 +855,45 @@ Majiang.Game.prototype.reply_dapai = function(id, type, data) {
     this._reply.push( { id: id, type: type, data: data } );
     if (this._reply.length < 4) return;
 
+    var self = this;
     var hule = [];
     for (var reply of this._reply) {
         if (reply.type == 'hule') hule.push(reply.id);
     }
     if (hule.length > 0) {
-        this.hule(hule[0]);         // 要修正。ダブロン、三家和の考慮なし。
+        Majiang.Audio.play('rong');
+        var id = hule[0];       // 要修正。ダブロン、三家和の考慮なし。
+        setTimeout(function(){ self.hule(id) }, 1000);
         return;
     }
     for (var reply of this._reply) {
+        if (reply.type == 'fulou' && reply.data.match(/^[mpsz](\d)\1\1\1/)) {
+            if (reply.id != 0) {
+                Majiang.Audio.play('gang');
+                var gang = reply.data;
+                setTimeout(function(){ self.fulou(gang) }, 1000);
+            }
+            else this.fulou(reply.data);
+            return;
+        }
         if (reply.type == 'fulou' && reply.data.match(/^[mpsz](\d)\1\1/)) {
-            this.fulou(data);
+            if (reply.id != 0) {
+                Majiang.Audio.play('peng');
+                var peng = reply.data;
+                setTimeout(function(){ self.fulou(peng) }, 1000);
+            }
+            else this.fulou(reply.data);
             return;
         }
     }
     for (var reply of this._reply) {
         if (reply.type == 'fulou') {
-            this.fulou(data);
+            if (reply.id != 0) {
+                Majiang.Audio.play('chi');
+                var chi = reply.data;
+                setTimeout(function(){ self.fulou(chi) }, 1000);
+            }
+            else this.fulou(reply.data);
             return;
         }
     }
@@ -892,7 +932,9 @@ Majiang.Game.prototype.reply_gang = function(id, type, data) {
         if (reply.type == 'hule') hule.push(reply.id);
     }
     if (hule.length > 0) {
-        this.hule(hule[0]);         // 要修正。ダブロン、三家和の考慮なし。
+        Majiang.Audio.play('rong');
+        var id = hule[0];       // 要修正。ダブロン、三家和の考慮なし。
+        setTimeout(function(){ self.hule(id) }, 1000);
         return;
     }
 
@@ -931,6 +973,7 @@ Majiang.Player = function(id) {
 }
 Majiang.Player.prototype.kaiju = function(data) {
   console.log('=> [' + this._id +'] (kaiju, ' + data.zifeng + ')');  // for DEBUG
+
     this._zifeng = data.zifeng;
     this._shoupai = new Majiang.Shoupai(data.haipai);
     this._dapai = {};
@@ -938,31 +981,45 @@ Majiang.Player.prototype.kaiju = function(data) {
 }
 Majiang.Player.prototype.zimo = function(data, callback, timeout) {
   console.log('=> [' + this._id +'] (zimo, ' + data.zimo + ')');  // for DEBUG
+ 
     var id = this._id;
     this._paishu = data.paishu;
+ 
     if (data.lunban != this._zifeng) {
         setTimeout(function(){ callback(id, '') }, timeout);
         return;
     }
+ 
     this._shoupai.zimo(data.zimo);
+
     if (Majiang.Util.xiangting(this._shoupai) == -1) {
         setTimeout(function(){ callback(id, 'hule') }, timeout);
+        return;
+    }
+    var gang = this._select_gang();
+    if (gang) {
+        setTimeout(function(){ callback(id, 'gang', gang) }, timeout);
         return;
     }
     if (this._shoupai._lizhi) {
         setTimeout(function(){ callback(id, 'dapai', data.zimo) }, timeout);
         return;
     }
+
     var dapai = this._select_dapai();
-    this._shoupai._shouli[dapai[0]][dapai[1]-1]--;
+    var mianqing
+        = (this._shoupai._fulou.filter(
+                    function(mianzi){return mianzi.match(/[\-\+\=]/)}
+                ).length == 0);
     var xiangting = Majiang.Util.xiangting(this._shoupai);
-    this._shoupai._shouli[dapai[0]][dapai[1]-1]++;
-    if (xiangting == 0 && this._paishu >= 4) dapai += '*';
+    if (mianqing && xiangting == 0 && this._paishu >= 4) dapai += '*';
     setTimeout(function(){ callback(id, 'dapai', dapai) }, timeout);
 }
 Majiang.Player.prototype.dapai = function(data, callback, timeout) {
   console.log('=> [' + this._id +'] (dapai, ' + data.dapai + ')');  // for DEBUG
+
     var id = this._id;
+
     if (data.lunban == this._zifeng) {
         this._shoupai.dapai(data.dapai);
         this._dapai[data.dapai] = true;
@@ -988,15 +1045,21 @@ Majiang.Player.prototype.dapai = function(data, callback, timeout) {
             this._neng_rong = false;
         }
     }
-    setTimeout(function(){ callback(id, '') }, timeout);
+
+    var fulou = this._select_fulou(data);
+    if (fulou) setTimeout(function(){ callback(id, 'fulou', fulou) }, timeout);
+    else       setTimeout(function(){ callback(id, '') }, timeout);
 }
 Majiang.Player.prototype.fulou = function(data, callback, timeout) {
   console.log('=> [' + this._id +'] (fulou, ' + data.fulou + ')');  // for DEBUG
+
     var id = this._id;
+
     if (data.lunban != this._zifeng) {
         setTimeout(function(){ callback(id, '') }, timeout);
         return;
     }
+
     this._shoupai.fulou(data.fulou);
  
     var dapai = this._select_dapai();
@@ -1004,7 +1067,9 @@ Majiang.Player.prototype.fulou = function(data, callback, timeout) {
 }
 Majiang.Player.prototype.gang = function(data, callback, timeout) {
   console.log('=> [' + this._id +'] (gang, ' + data.gang + ')');  // for DEBUG
+
     var id = this._id;
+
     if (data.lunban == this._zifeng) {
         if (this._shoupai._zimo) this._shoupai.gang(data.gang);
         else                     this._shoupai.fulou(data.gang);
@@ -1027,9 +1092,10 @@ Majiang.Player.prototype.gang = function(data, callback, timeout) {
     setTimeout(function(){ callback(id, '') }, timeout);
 }
 Majiang.Player.prototype._select_dapai = function() {
+
     var dapai = paili(this._shoupai, Majiang.Util.xiangting);
-    var selected;
-    var max = 0;
+
+    var selected, max = 0;
     for (var p in dapai) {
         if (dapai[p].length >= max) {
             max = dapai[p].length;
@@ -1037,6 +1103,87 @@ Majiang.Player.prototype._select_dapai = function() {
         }
     }
     return selected;
+}
+Majiang.Player.prototype._select_fulou = function(data) {
+
+    function check_xiangting(shoupai, mianzi) {
+        var tmp_shoupai = Majiang.Shoupai.fromString(shoupai.toString());
+        tmp_shoupai.fulou(mianzi);
+        if (mianzi.match(/(\d)\1\1\1/)) {
+            if (Majiang.Util.xiangting(tmp_shoupai) <= xiangting) return mianzi;
+        }
+        else if (Majiang.Util.xiangting(tmp_shoupai) < xiangting) return mianzi;
+    }
+ 
+    return;             // とりあえず今は鳴かない
+
+    if (this._shoupai._lizhi) return;
+    if (this._paishu == 0) return;
+
+    var xiangting = Majiang.Util.xiangting(this._shoupai);
+    if (xiangting == 0) return;
+ 
+    var s = data.dapai[0], n = data.dapai[1] - 0;
+    var f = [null, '+', '=', '-'][(4 + data.lunban - this._zifeng) % 4];
+
+    var pai = this._shoupai._shouli[s];
+
+    if (pai[n-1] == 3) {
+        var mianzi = s+n+n+n+n+f;
+        return check_xiangting(this._shoupai, mianzi);
+    }
+    if (pai[n-1] >= 2) {
+        var mianzi = s+n+n+n+f;
+        return check_xiangting(this._shoupai, mianzi);
+    }
+    if (s != 'z' && f == '-') {
+        if (2 <= n && n <= 8 && pai[n-2] > 0 && pai[n] > 0) {
+            var mianzi = s+(n-1)+(n+f)+(n+1);
+            return check_xiangting(this._shoupai, mianzi);
+        }
+        if (3 <= n && pai[n-3] > 0 && pai[n-2] > 0) {
+            var mianzi = s+(n-2)+(n-1)+(n+f);
+            return check_xiangting(this._shoupai, mianzi);
+        }
+        if (n <= 7 && pai[n] > 0 && pai[n+1] > 0) {
+            var mianzi = s+(n+f)+(n+1)+(n+2);
+            return check_xiangting(this._shoupai, mianzi);
+        }
+    }
+    return;
+}
+Majiang.Player.prototype._select_gang = function() {
+
+    function check_xiangting(shoupai, mianzi) {
+        var tmp_shoupai = Majiang.Shoupai.fromString(shoupai.toString());
+        tmp_shoupai.gang(mianzi);
+        if (Majiang.Util.xiangting(tmp_shoupai) <= xiangting) return mianzi;
+    }
+
+    if (this._paishu == 0) return;
+
+    var xiangting = Majiang.Util.xiangting(this._shoupai);
+ 
+    for (var s in this._shoupai._shouli) {
+        var pai = this._shoupai._shouli[s];
+        for (var n = 1; n <= pai.length; n++) {
+            if (pai[n-1] == 0) continue;
+            if (pai[n-1] == 4) {
+                var mianzi = s+n+n+n+n;
+                return check_xiangting(this._shoupai, mianzi);
+            }
+            else {
+                var regexp = new RegExp('^' + s + n + '{3}');
+                for (var mianzi of this._shoupai._fulou) {
+                    if (mianzi.match(regexp)) {
+                        var mianzi = mianzi+n;
+                        return check_xiangting(this._shoupai, mianzi);
+                    }
+                }
+            }
+        }
+    }
+    return;
 }
 
 /*
