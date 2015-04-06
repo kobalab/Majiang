@@ -296,6 +296,22 @@ Majiang.Shoupai.fromString = function(paistr) {
 	}
     return shoupai;
 }
+Majiang.Shoupai.prototype.clone = function() {
+
+    var shoupai = new Majiang.Shoupai([]);
+ 
+    shoupai._shouli = {
+        m: this._shouli.m.concat(),
+        p: this._shouli.p.concat(),
+        s: this._shouli.s.concat(),
+        z: this._shouli.z.concat()
+    }
+    shoupai._fulou = this._fulou.concat();
+    shoupai._zimo  = this._zimo;
+    shoupai._lizhi = this._lizhi;
+ 
+    return shoupai;
+}
 Majiang.Shoupai.prototype.toString = function() {
 
     function reverse(a, b) {
@@ -1120,7 +1136,7 @@ Majiang.Player.prototype._select_dapai = function() {
 Majiang.Player.prototype._select_fulou = function(data) {
 
     function check_xiangting(shoupai, mianzi) {
-        var tmp_shoupai = Majiang.Shoupai.fromString(shoupai.toString());
+        var tmp_shoupai = shoupai.clone();
         tmp_shoupai.fulou(mianzi);
         if (mianzi.match(/(\d)\1\1\1/)) {
             if (Majiang.Util.xiangting(tmp_shoupai) <= xiangting) return mianzi;
@@ -1168,7 +1184,7 @@ Majiang.Player.prototype._select_fulou = function(data) {
 Majiang.Player.prototype._select_gang = function() {
 
     function check_xiangting(shoupai, mianzi) {
-        var tmp_shoupai = Majiang.Shoupai.fromString(shoupai.toString());
+        var tmp_shoupai = shoupai.clone();
         tmp_shoupai.gang(mianzi);
         if (Majiang.Util.xiangting(tmp_shoupai) <= xiangting) return mianzi;
     }
