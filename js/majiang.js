@@ -211,7 +211,7 @@ Majiang.Shan = function(pai) {
     }
  
     this._baopai   = [this._pai[4]];
-    this._fubaopai = [this._pai[8]];
+    this._fubaopai = [this._pai[9]];
 
     this._weikaigang = false;
 }
@@ -244,7 +244,7 @@ Majiang.Shan.prototype.gangzimo = function() {
 Majiang.Shan.prototype.kaigang = function() {
     if (this._weikaigang) {
         this._baopai.push(this._pai[4]);
-        this._fubaopai.push(this._pai[8]);
+        this._fubaopai.push(this._pai[9]);
         this._weikaigang = false;
     }
 }
