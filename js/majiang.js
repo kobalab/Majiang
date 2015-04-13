@@ -511,10 +511,17 @@ Majiang.View.Shan = function(node, shan) {
 }
 Majiang.View.Shan.prototype.redraw = function() {
     var baopai = this._shan._baopai;
-    var x = this._node.find('.baopai .pai');
     this._node.find('.baopai .pai').each(function(i){
         $(this).after(
             i < baopai.length ? $(imgHtml(baopai[i])) : $(imgHtml())
+        );
+        $(this).remove();
+    });;
+    var fubaopai = this._shan._fubaopai;
+    var x = this._node.find('.fubaopai .pai');
+    this._node.find('.fubaopai .pai').each(function(i){
+        $(this).after(
+            i < fubaopai.length ? $(imgHtml(fubaopai[i])) : $(imgHtml())
         );
         $(this).remove();
     });;
