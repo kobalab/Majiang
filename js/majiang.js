@@ -602,6 +602,93 @@ Majiang.View.Chang.prototype.update = function(lunban) {
     this._node.find('.defen .' + f).addClass('lunban');
 }
 
+/*
+ *  Majiang.View.Jiesuan
+ */
+Majiang.View.Jiesuan = function(node, data) {
+
+    var feng_hanzi = ['東','南','西','北'];
+    var feng_class = ['dong','nan','xi','bei'];
+
+    this._node = node;
+    node.hide();
+ 
+    if (data.type == 'hule') {
+ 
+        node.find('.liuju').hide();
+ 
+        (new Majiang.View.Shan(node.find('.shan'), data.shan)).redraw();
+        if (data.shoupai._lizhi) node.find('.fubaopai').show();
+        else                     node.find('.fubaopai').hide();
+        node.find('.shan').show();
+ 
+        node.find('.hupai table').empty();
+        for (var hupai of data.hupai) {
+            var hupai_node = $('<tr><td class="name"></td>'
+                             + '<td class="fanshu"></td></tr>');
+            hupai_node.find('.name').text(hupai.name);
+            if (data.defen.dahupai)
+                    hupai_node.find('.fanshu').text(hupai.fanshu);
+            else    hupai_node.find('.fanshu').text(hupai.fanshu + '翻');
+            node.find('.hupai table').append(hupai_node);
+        }
+        var gongji_node = $('<tr><td colspan="2" class="gongji"></td></tr>');
+        var text = data.defen.fu + '符 ' + data.defen.fanshu + '翻 ';
+        if      (data.defen.manguan == 1)   text += '満貫 ';
+        else if (data.defen.manguan == 1.5) text += '跳満 ';
+        else if (data.defen.manguan == 2)   text += '倍満 ';
+        else if (data.defen.manguan == 3)   text += '三倍満 ';
+        else if (data.defen.manguan == 4)   text += '数え役満 ';
+        if      (data.defen.dahupai == 1)   text  = '役満 ';
+        else if (data.defen.dahupai == 2)   text  = 'ダブル役満 ';
+        else if (data.defen.dahupai == 3)   text  = 'トリプル役満 ';
+        else if (data.defen.dahupai == 4)   text  = '四倍役満 ';
+        else if (data.defen.dahupai == 5)   text  = '五倍役満 ';
+        else if (data.defen.dahupai == 6)   text  = '六倍役満 ';
+        text += data.defen.fen + '点';
+        gongji_node.find('.gongji').text(text);
+        node.find('.hupai table').append(gongji_node);
+        node.find('.hupai').show();
+ 
+        node.find('.jicun .changbang').text(data.chang.jicun.changbang);
+        node.find('.jicun .lizhibang').text(data.chang.jicun.lizhibang);
+        node.find('.jicun').show();
+    }
+    else {
+        node.find('.liuju').text(data.liuju).show();
+        node.find('.shan').hide();
+        node.find('.hupai').hide();
+        node.find('.jicun').hide();
+    }
+ 
+    var zhuangjia = (data.chang.qijia + data.chang.jushu) % 4;
+ 
+    for (var i = 0; i < 4; i++) {
+        var id = (zhuangjia + i) % 4;
+        var jia = node.find('.fenpei .' + feng_class[id]);
+
+        jia.find('.name').text(feng_hanzi[i] +':');
+ 
+        var defen = '' + data.chang.defen[id];
+        defen = defen.replace(/(\d{3})$/, ',$1');
+        jia.find('.defen').text(defen);
+ 
+        jia.find('.diff').removeClass('plus');
+        jia.find('.diff').removeClass('minus');
+        var diff = data.diff[i];
+        if      (diff > 0) jia.find('.diff').addClass('plus');
+        else if (diff < 0) jia.find('.diff').addClass('minus');
+        diff = (diff > 0) ? '+' + diff
+             : (diff < 0) ? ''  + diff
+             : '';
+        diff = diff.replace(/(\d{3})$/, ',$1');
+        jia.find('.diff').text(diff);
+    }
+}
+Majiang.View.Jiesuan.prototype.show = function() {
+    this._node.fadeIn();
+}
+
 /******************************************************************************
 
     Controller

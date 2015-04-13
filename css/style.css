@@ -19,7 +19,7 @@ body {
 }
 .chang .title {
     font-size: 32px;
-    font-family: DFPLeiSho-SB, serif;
+    font-family: "DFPLeiSho-SB", "HGP行書体", serif;
     vertical-align: top;
 }
 .chang .pai {
@@ -120,6 +120,91 @@ body {
     cursor: pointer;
 }
 
+.jiesuan {
+    display: none;
+    width:      460px;
+    padding:    20px;
+    background: rgba(0,0,0,0.8);
+    margin: 100px auto;
+    font-size: 24px;
+    font-family: "DFPLeiSho-SB", "HGP行書体", serif;
+}
+.jiesuan .liuju {
+    margin-top:     50px;
+    margin-bottom: 100px;
+    text-align: center;
+    font-size: 48px;
+}
+.jiesuan .shan {
+    width: 420px;
+    margin: 0px auto;
+}
+.jiesuan .baopai {
+    float:   left;
+}
+.jiesuan .fubaopai {
+    float:   right;
+}
+.jiesuan .pai {
+    max-height: 36px;
+    vertical-align: bottom;
+}
+.jiesuan .hupai {
+    clear: both;
+    min-height: 160px;
+    padding-top: 20px;
+}
+.jiesuan .hupai table {
+    margin: auto;
+    width:  300px;
+    font-size: 24px;
+    font-family: "DFPLeiSho-SB", "HGP行書体", serif;
+}
+.jiesuan .hupai table .fanshu {
+    text-align: right;
+}
+.jiesuan .hupai table .gongji {
+    text-align: right;
+}
+.jiesuan .jicun {
+    font-size: 16px;
+    font-family: "Georgia", serif;
+    text-align: center;
+}
+.jiesuan .choma {
+    width: 60px;
+    height: 8px;
+    padding-left: 8px;
+}
+.jiesuan .fenpei {
+    margin: 15px auto;
+    width: 240px;
+    font-size: 16px;
+    font-family: "Georgia", serif;
+}
+.jiesuan .fenpei > * {
+}
+.jiesuan .fenpei .name {
+    display: inline-block;
+    text-align: left;
+    width: 24px;
+}
+.jiesuan .fenpei .defen {
+    display: inline-block;
+    text-align: right;
+    width: 64px;
+}
+.jiesuan .fenpei .diff {
+    display: inline-block;
+    text-align: right;
+    width: 80px;
+}
+.jiesuan .fenpei .plus {
+    color: #0ff;
+}
+.jiesuan .fenpei .minus {
+    color: red;
+}
 
 /******************************************************************************/
 .rotate_view {
@@ -228,7 +313,7 @@ body {
     transform: translate(260px, 260px);
     -webkit-transform-origin: 0% 0%;
     -webkit-transform: translate(260px, 260px);
-    font-family: "Georgia", sans-serif;
+    font-family: "Georgia", serif;
 }
 .rotate_view .chang .xiaoxi {
     width: 100px;
@@ -283,4 +368,53 @@ body {
     text-align: right;
     transform: translate(120px, 580px);
     -webkit-transform: translate(120px, 580px);
+}
+.rotate_view .jiesuan {
+    position: relative;
+    margin: auto;
+    min-height: 300px;
+    transform: translate(0px, 100px);
+    -webkit-transform: translate(0px, 100px);
+}
+.rotate_view .jiesuan .fenpei {
+    width: 380px;
+    height: 80px;
+    line-height: 16px;
+}
+.rotate_view .jiesuan .name {
+    clear: both;
+    display: block;
+    float: left;
+}
+.rotate_view .jiesuan .defen {
+    display: block;
+    float: right;
+}
+.rotate_view .jiesuan .diff {
+    display: block;
+    float: right;
+}
+.rotate_view .jiesuan .dong {
+    position: absolute;
+    width: 88px;
+    transform: translate(146px, 60px);
+    -webkit-transform: translate(146px, 60px);
+}
+.rotate_view .jiesuan .nan {
+    position: absolute;
+    width: 88px;
+    transform: translate(292px, 30px);
+    -webkit-transform: translate(292px, 30px);
+}
+.rotate_view .jiesuan .xi {
+    position: absolute;
+    width: 88px;
+    transform: translate(146px, 0px);
+    -webkit-transform: translate(146px, 0px);
+}
+.rotate_view .jiesuan .bei {
+    position: absolute;
+    width: 88px;
+    transform: translate(0px, 30px);
+    -webkit-transform: translate(0px, 30px);
 }
