@@ -622,6 +622,9 @@ Majiang.View.Jiesuan = function(node, data) {
         else                     node.find('.fubaopai').hide();
         node.find('.shan').show();
  
+        (new Majiang.View.Shoupai(node.find('.shoupai'), data.shoupai, open)).redraw();
+        node.find('.shoupai').show();
+ 
         node.find('.hupai table').empty();
         for (var hupai of data.hupai) {
             var hupai_node = $('<tr><td class="name"></td>'
@@ -657,6 +660,7 @@ Majiang.View.Jiesuan = function(node, data) {
     else {
         node.find('.liuju').text(data.liuju).show();
         node.find('.shan').hide();
+        node.find('.shoupai').hide();
         node.find('.hupai').hide();
         node.find('.jicun').hide();
     }
@@ -715,6 +719,8 @@ Majiang.Game = function() {
     this._reply = [];
  
     Majiang.Audio.volume(2);
+ 
+    $('.jiesuan').hide();
 }
 Majiang.Game.prototype.player = function(lunban) {
     return (this._chang.qijia + this._chang.jushu + lunban) % 4;

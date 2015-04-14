@@ -27,7 +27,7 @@ body {
 }
 .shoupai {
     width: 640px;
-    height: 80px;
+/*    height: 80px; */
 /*    border: solid 1px white;  */
 }
 .shoupai .pai {
@@ -106,6 +106,9 @@ body {
     color: #0ff;
 }
 
+.paili {
+    clear: both;
+}
 .paili img {
     max-height: 32px;
     vertical-align: middle;
@@ -121,8 +124,8 @@ body {
 }
 
 .jiesuan {
-    display: none;
-    width:      460px;
+    display: table;
+    min-width:      460px;
     padding:    20px;
     background: rgba(0,0,0,0.8);
     margin: 100px auto;
@@ -145,17 +148,37 @@ body {
 .jiesuan .fubaopai {
     float:   right;
 }
-.jiesuan .pai {
+.jiesuan .shan .pai {
     max-height: 36px;
     vertical-align: bottom;
 }
-.jiesuan .hupai {
+.jiesuan .shan:after {
+    display: block;
+    content: '';
     clear: both;
-    min-height: 160px;
-    padding-top: 20px;
+}
+.jiesuan .shoupai {
+    margin-top: 20px;
+    clear: both;
+    width: auto;
+    text-align: center;
+    white-space: pre
+}
+.jiesuan .shoupai .pai {
+    max-height: 48px;
+}
+.jiesuan .shoupai .shouli {
+    float: none;
+}
+.jiesuan .shoupai .fulou {
+    margin-left: 4px;
+    float: none;
+}
+.jiesuan .hupai {
+/*    min-height: 100px;    */
 }
 .jiesuan .hupai table {
-    margin: auto;
+    margin: 10px auto;
     width:  300px;
     font-size: 24px;
     font-family: "DFPLeiSho-SB", "HGP行書体", serif;
