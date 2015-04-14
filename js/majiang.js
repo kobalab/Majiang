@@ -913,17 +913,55 @@ Majiang.Game.prototype.liuju = function() {
         }
     }
  
-    this.jiesuan();
+    var self = this;
+    var data = {
+        type:    'liuju',
+        liuju:   '荒牌平局',
+        chang:   this._chang,
+        shan:    this._model.shan,
+        diff:    [ 0, 0, 0, 0 ],
+    };
+    (new Majiang.View.Jiesuan($('.jiesuan'), data)).show();
+    $('body').click(function(){
+        $('body').unbind('click');
+        $('.jiesuan').hide();
+        self.jiesuan();
+    });
 }
 Majiang.Game.prototype.hule = function(id) {
 
     for (var i = 0; i < 4; i++) {
         if (this.player(i) == id) {
+
             this._view.shoupai[i]._open = true;
             this._view.shoupai[i].redraw();
+ 
+            var he = this._model.he[this._lunban];
+            var rongpai = he._pai[he._pai.length - 1];
+ 
+            var shoupai = this._model.shoupai[i].clone();
+            shoupai.zimo(rongpai)
+
+            var self = this;
+            var data = {
+                type:    'hule',
+                chang:   this._chang,
+                shan:    this._model.shan,
+                shoupai: shoupai,
+                hupai:   [  { name: '平和',       fanshu: 1 } ],
+                defen:   {  fu:     20,
+                            fanshu: 1,
+                            fen:    1000    },
+                diff:    [ 0, 0, 0, 0 ],
+            };
+            (new Majiang.View.Jiesuan($('.jiesuan'), data)).show();
+            $('body').click(function(){
+                $('body').unbind('click');
+                $('.jiesuan').hide();
+                self.jiesuan();
+            });
         }
     }
-    this.jiesuan();
 }
 Majiang.Game.prototype.jiesuan = function() {
 
@@ -935,10 +973,7 @@ Majiang.Game.prototype.jiesuan = function() {
     if (this._chang.menfeng == 2) return;
 
     var self = this;
-    $('body').bind('click', function(){
-        $('body').unbind('click');
-        self.kaiju();
-    });
+    setTimeout(function(){ self.kaiju() }, 1000);
 }
 Majiang.Game.prototype.reply_zimo = function(id, type, data) {
   console.log('[' + id +'] (' + type + ', ' + data + ')');  // for DEBUG
