@@ -82,6 +82,554 @@ function mianzi_all(shoupai) {
     return min_xiangting;
 }
 
+function get_mianzi(s, pai, i) {
+
+    if (i == 9) return [[]];
+	
+    if (pai[i] == 0) return get_mianzi(s, pai, i+1);
+
+    var shunzi = [];
+    if (i < 7 && pai[i] > 0 && pai[i+1] > 0 && pai[i+2] > 0) {
+        pai[i]--; pai[i+1]--; pai[i+2]--;
+        shunzi = get_mianzi(s, pai, i);
+        pai[i]++; pai[i+1]++; pai[i+2]++;
+        for (var mianzi of shunzi) {
+            mianzi.unshift(s+(i+1)+(i+2)+(i+3));
+        }
+    }
+	
+    var kezi = [];
+    if (pai[i] >= 3) {
+        pai[i] -= 3;
+        kezi = get_mianzi(s, pai, i);
+        pai[i] += 3;
+        for (var mianzi of kezi) {
+            mianzi.unshift(s+(i+1)+(i+1)+(i+1));
+        }
+    }
+
+    return shunzi.concat(kezi);
+}
+function get_mianzi_all(shoupai) {
+
+    var mianzi = [[]];
+
+    for (var s of ['m','p','s']) {
+        var new_mianzi = [];
+        var sub_mianzi = get_mianzi(s, shoupai._shouli[s], 0);
+        for (var m of mianzi) {
+            for (var n of sub_mianzi) {
+                new_mianzi.push(m.concat(n));
+            }
+        }
+        mianzi = new_mianzi;
+    }
+
+    var sub_mianzi_z = [];
+    for (var n = 1; n <= 7; n++) {
+        if (shoupai._shouli.z[n-1] == 0) continue;
+        if (shoupai._shouli.z[n-1] != 3) return [];
+        sub_mianzi_z.push('z'+n+n+n);
+    }
+
+    for (var i = 0; i < mianzi.length; i++) {
+        mianzi[i] = mianzi[i].concat(sub_mianzi_z)
+                             .concat(shoupai._fulou);
+    }
+
+    return mianzi;
+}
+function add_hulepai(mianzi, hulepai) {
+
+    var regexp   = new RegExp('^(' + hulepai[0] + '.*' + hulepai[1] +')');
+    var replacer = '$1' + hulepai.substr(2) + '_';
+
+    var add_mianzi = [];
+    for (var i = 0; i < mianzi.length; i++) {
+        if (mianzi[i].match(/[\-\+\=]/)) continue;
+        if (i > 0 && mianzi[i] == mianzi[i-1]) continue;
+        var rep = mianzi[i].replace(regexp, replacer);
+        if (rep == mianzi[i]) continue;
+        var new_mianzi = mianzi.concat();
+        new_mianzi[i] = rep;
+        add_mianzi.push(new_mianzi);
+    }
+
+    return add_mianzi;
+}
+function hule_mianzi_yiban(shoupai, rongpai) {
+
+    var hulepai = rongpai || shoupai._zimo;
+
+    var hule_mianzi = [];
+    for (var s in shoupai._shouli) {
+        var pai = shoupai._shouli[s];
+        for (var n = 1; n <= pai.length; n++) {
+            if (pai[n-1] < 2) continue;
+            var jiangpai = s+n+n;
+            pai[n-1] -= 2;
+            for (var mianzi of get_mianzi_all(shoupai)) {
+                mianzi.unshift(jiangpai);
+                for (var add_mianzi of add_hulepai(mianzi, hulepai)) {
+                    hule_mianzi.push(add_mianzi);
+                }
+            }
+            pai[n-1] += 2;
+        }
+    }
+
+    return hule_mianzi;
+}
+function hule_mianzi_qiduizi(shoupai, rongpai) {
+
+    if (shoupai._fulou.length > 0) return [];
+
+    var hulepai = rongpai || shoupai._zimo;
+
+    var hule_mianzi = [];
+    for (var s in shoupai._shouli) {
+        var pai = shoupai._shouli[s];
+        for (var n = 1; n <= pai.length; n++) {
+            if (pai[n-1] == 0) continue;
+            if (pai[n-1] == 2) {
+                var p = (s+n == hulepai.substr(0,2))
+                            ? s+n+n + hulepai.substr(2) + '_'
+                            : s+n+n;
+                hule_mianzi.push(p);
+            }
+            else return [];
+        }
+    }
+
+    return [hule_mianzi];
+}
+function hule_mianzi_guoshi(shoupai, rongpai) {
+
+    var hulepai = rongpai || shoupai._zimo;
+
+    var hule_mianzi = [];
+    for (var s in shoupai._shouli) {
+        var pai = shoupai._shouli[s];
+        var nn = s == 'z' ? [1,2,3,4,5,6,7] : [1,9];
+        for (var n of nn) {
+            if (pai[n-1] == 2) {
+                var p = (s+n == hulepai.substr(0,2))
+                            ? s+n+n + hulepai.substr(2) + '_'
+                            : s+n+n;
+                hule_mianzi.unshift(p);
+            }
+            else if (pai[n-1] == 1) {
+                var p = (s+n == hulepai.substr(0,2))
+                            ? s+n + hulepai.substr(2) + '_'
+                            : s+n;
+                hule_mianzi.push(p);
+            }
+            else return [];
+        }
+    }
+
+    return [hule_mianzi];
+}
+function hule_mianzi_jiulian(shoupai, rongpai) {
+
+    var hulepai = rongpai || shoupai._zimo;
+
+    var s = hulepai[0];
+    if (s == 'z') return [];
+
+    var hule_mianzi = s;
+    var pai = shoupai._shouli[s];
+    for (var n = 1; n <= 9; n++) {
+        if ((n == 1 || n == 9) && pai[n-1] < 3) return [];
+        if (pai[n-1] == 0) return [];
+        var nn = (n == hulepai[1]) ? pai[n-1] -1 : pai[n-1];
+        for (var i = 0; i < nn; i++) {
+            hule_mianzi += n;
+        }
+    }
+    hule_mianzi += hulepai.substr(1) + '_';
+
+    return [[hule_mianzi]];
+}
+function hule_mianzi(shoupai, rongpai) {
+
+    var new_shoupai = shoupai.clone();
+    if (rongpai) new_shoupai.zimo(rongpai);
+    
+    return [].concat(hule_mianzi_yiban(new_shoupai, rongpai))
+             .concat(hule_mianzi_qiduizi(new_shoupai, rongpai))
+             .concat(hule_mianzi_guoshi(new_shoupai, rongpai))
+             .concat(hule_mianzi_jiulian(new_shoupai, rongpai));
+}
+
+function check_mianzi(mianzi, zhuangfeng, menfeng) {
+
+    var zhuangfengpai = new RegExp('^z' + (zhuangfeng + 1) + '.*$');
+    var menfengpai    = new RegExp('^z' + (menfeng + 1) + '.*$');
+    var fengpai       = /^z[1234].*$/;
+    var sanyuanpai    = /^z[567].*$/;
+    
+    var yaojiu        = /^.*[z19].*$/;
+    var zipai         = /^z.*$/;
+    
+	var jiangpai      = /^[mpsz](\d)\1([\-\+\=]?_)?$/;
+    var kezi          = /^[mpsz](\d)\1\1.*$/;
+    var ankezi        = /^[mpsz](\d)\1\1(?:\1|_)?$/;
+    var gangzi        = /^[mpsz](\d)\1\1.*\1.*$/;
+    
+    var danqi         = /^[mpsz](\d)\1[\-\+\=]?_$/;
+    var kanzhang      = /^[mps]\d\d[\-\+\=]?_\d$/;
+    var bianzhang     = /^[mps](123[\-\+\=]?_|7[\-\+\=]?_89)$/;
+
+    var rv = {
+        fu:         20,
+        menqian:    true,
+        zimo:       true,
+        jiangpai:   null,
+        shunzi:     { m: {}, p: {}, s: {} },
+        kezi:       { m: {}, p: {}, s: {}, z: {} },
+        n_shunzi:   0,
+        n_kezi:     0,
+        n_ankezi:   0,
+        n_gangzi:   0,
+        n_zipai:    0,
+        n_yaojiu:   0,
+        danqi:      false,
+        pinghu:     false,
+        zhuangfeng: zhuangfeng,
+        menfeng:    menfeng
+    };
+
+    for (var m of mianzi) {
+    
+        if (m.match(/[\-\+\=]_/))       rv.zimo    = false;
+        if (m.match(/[\-\+\=](?!_)/))   rv.menqian = false;
+ 
+        if (m.match(yaojiu))            rv.n_yaojiu++;
+        if (m.match(zipai))             rv.n_zipai++;
+ 
+        if (mianzi.length != 5) continue;
+
+        if (m.match(jiangpai)) {
+            var fen = 0;
+            if (m.match(zhuangfengpai)) fen += 2;
+            if (m.match(menfengpai))    fen += 2;
+            if (m.match(sanyuanpai))    fen += 2;
+            rv.fu += fen;
+            if (m.match(danqi))  { rv.danqi = true; rv.fu += 2; }
+            rv.jiangpai = m;
+        }
+        else if (m.match(kezi)) {
+            rv.n_kezi++;
+            var fen = 2;
+            if (m.match(yaojiu)) { fen *= 2;                }
+            if (m.match(ankezi)) { fen *= 2; rv.n_ankezi++; }
+            if (m.match(gangzi)) { fen *= 4; rv.n_gangzi++; }
+            rv.fu += fen;
+            rv.kezi[m[0]][m[1]] = 1;
+        }
+        else {
+            rv.n_shunzi++;
+            if (m.match(kanzhang))  rv.fu += 2;
+            if (m.match(bianzhang)) rv.fu += 2;
+            var nnn = m.replace(/[^\d]/g, '');
+            if (! rv.shunzi[m[0]][nnn]) rv.shunzi[m[0]][nnn] = 1;
+            else                        rv.shunzi[m[0]][nnn]++;
+        }
+    }
+
+    if (mianzi.length == 7) {
+        rv.fu  = 25;
+    }
+    else {
+        rv.pinghu = (rv.menqian && rv.fu == 20);
+        if (rv.zimo) {
+            if (! rv.pinghu)        rv.fu +=  2;
+        }
+        else {
+            if (rv.menqian)         rv.fu += 10;
+            else if (rv.fu == 20)   rv.fu =  30;
+        }
+        rv.fu = Math.ceil(rv.fu / 10) * 10;
+    }
+    
+    return rv;
+}
+function get_pre_hupai(hupai) {
+
+    var pre_hupai = [];
+ 
+    if (hupai.lizhi == 1) pre_hupai.push({ name: '立直', fanshu: 1 });
+    if (hupai.lizhi == 2) pre_hupai.push({ name: 'ダブル立直', fanshu: 2 });
+    if (hupai.haidi == 1) pre_hupai.push({ name: '海底摸月', fanshu: 1 });
+    if (hupai.haidi == 2) pre_hupai.push({ name: '河底撈魚', fanshu: 1 });
+    if (hupai.lingshang)  pre_hupai.push({ name: '嶺上開花', fanshu: 1 });
+    if (hupai.qianggang)  pre_hupai.push({ name: '槍槓', fanshu: 1 });
+
+    if (hupai.tianhu)     pre_hupai = [{ name: '天和', fanshu: '*' }];
+    if (hupai.dihu)       pre_hupai = [{ name: '地和', fanshu: '*' }];
+ 
+    return pre_hupai;
+}
+function get_hupai(mianzi, check, pre_hupai) {
+
+    function menqianqing() {
+        if (check.menqian && check.zimo)
+                return [{ name: '門前清自摸和', fanshu: 1 }];
+        return [];
+    }
+    function fanpai() {
+        var feng_hanzi = ['東','南','西','北'];
+        var fanpai_all =[];
+        if (check.kezi.z[check.zhuangfeng + 1])
+                fanpai_all.push({ name: '翻牌 ' + feng_hanzi[check.zhuangfeng],
+                                  fanshu: 1 });
+        if (check.kezi.z[check.menfeng + 1])
+                fanpai_all.push({ name: '翻牌 ' + feng_hanzi[check.menfeng],
+                                  fanshu: 1 });
+        if (check.kezi.z[5]) fanpai_all.push({ name: '翻牌 白', fanshu: 1 });
+        if (check.kezi.z[6]) fanpai_all.push({ name: '翻牌 發', fanshu: 1 });
+        if (check.kezi.z[7]) fanpai_all.push({ name: '翻牌 中', fanshu: 1 });
+        return fanpai_all;
+    }
+    function pinghu() {
+        if (check.pinghu)       return [{ name: '平和', fanshu: 1 }];
+        return [];
+    }
+    function duanyaojiu() {
+        if (! check.n_yaojiu)   return [{ name: '断幺九', fanshu: 1 }];
+        return [];
+    }
+    function yibeikou() {
+        if (! check.menqian)    return [];
+        var beikou = 0;
+        for (var s in check.shunzi) {
+            for (var m in check.shunzi[s]) {
+                if (check.shunzi[s][m] > 3) beikou++;
+                if (check.shunzi[s][m] > 1) beikou++;
+            }
+        }
+        if (beikou == 1)        return [{ name: '一盃口', fanshu: 1 }];
+        return [];
+    }
+    function sansetongshun() {
+        var shunzi = check.shunzi;
+        for (var m in shunzi.m) {
+            if (shunzi.p[m] && shunzi.s[m])
+                return [{ name: '三色同順', fanshu: (check.menqian ? 2 : 1) }];
+        }
+        return [];
+    }
+    function yiqitongguan() {
+        var shunzi = check.shunzi;
+        for (var s in shunzi) {
+            if (shunzi[s][123] && shunzi[s][456] && shunzi[s][789])
+                return [{ name: '一気通貫', fanshu: (check.menqian ? 2 : 1) }];
+        }
+        return [];
+    }
+    function hunquandaiyaojiu() {
+        if (check.n_yaojiu == 5 && check.n_shunzi > 0 && check.n_zipai > 0)
+                return [{ name: '混全帯幺九', fanshu: (check.menqian ? 2 : 1) }];
+        return [];
+    }
+    function qiduizi() {
+        if (mianzi.length == 7)     return [{ name: '七対子', fanshu: 2 }];
+        return [];
+    }
+    function duiduihu() {
+        if (check.n_kezi == 4)      return [{ name: '対々和', fanshu: 2 }];
+        return [];
+    }
+    function sananke() {
+        if (check.n_ankezi == 3)    return [{ name: '三暗刻', fanshu: 2 }];
+        return [];
+    }
+    function sangangzi() {
+        if (check.n_gangzi == 3)    return [{ name: '三槓子', fanshu: 2 }];
+        return [];
+    }
+    function sansetongke() {
+        var kezi = check.kezi;
+        for (var m in kezi.m) {
+            if (kezi.p[m] && kezi.s[m])
+                                    return [{ name: '三色同刻', fanshu: 2 }];
+        }
+        return [];
+    }
+    function hunlaotou() {
+        if (check.n_yaojiu == mianzi.length
+            && check.n_shunzi == 0 && check.n_zipai > 0)
+                                    return [{ name: '混老頭', fanshu: 2 }];
+        return [];
+    }
+    function xiaosanyuan() {
+        if (check.kezi.z[5] + check.kezi.z[6] + check.kezi.z[7] == 2
+            && check.jiangpai.match(/^s[567]/))
+                                    return [{ name: '小三元', fanshu: 2 }];
+        return [];
+    }
+    function hunyise() {
+        for (var s of ['m','p','s']) {
+            var yise = new RegExp('^[z' + s + '].*$');
+            if (mianzi.filter(function(m){return m.match(yise)}).length
+                        == mianzi.length
+                &&  check.n_zipai > 0)
+                    return [{ name: '混一色', fanshu: (check.menqian ? 3 : 2) }];
+        }
+        return [];
+    }
+    function chunquandaiyaojiu() {
+        if (check.n_yaojiu == 5 && check.n_shunzi > 0 && check.n_zipai == 0)
+                return [{ name: '純全帯幺九', fanshu: (check.menqian ? 3 : 2) }];
+        return [];
+    }
+    function erbeikou() {
+        if (! check.menqian)    return [];
+        var beikou = 0;
+        for (var s in check.shunzi) {
+            for (var m in check.shunzi[s]) {
+                if (check.shunzi[s][m] > 3) beikou++;
+                if (check.shunzi[s][m] > 1) beikou++;
+            }
+        }
+        if (beikou == 2)        return [{ name: '二盃口', fanshu: 3 }];
+        return [];
+    }
+    function qingyise() {
+        for (var s of ['m','p','s']) {
+            var yise = new RegExp('^[z' + s + '].*$');
+            if (mianzi.filter(function(m){return m.match(yise)}).length
+                        == mianzi.length
+                &&  check.n_zipai == 0)
+                    return [{ name: '清一色', fanshu: (check.menqian ? 6 : 5) }];
+        }
+        return [];
+    }
+
+    function guoshiwushuang() {
+        if (mianzi.length != 13)    return [];
+        if (check.danqi)    return [{ name: '国士無双十三面', fanshu: '**' }];
+        else                return [{ name: '国士無双', fanshu: '*' }];
+    }
+    function sianke() {
+        if (check.n_ankezi != 4)    return [];
+        if (check.danqi)    return [{ name: '四暗刻単騎', fanshu: '**' }];
+        else                return [{ name: '四暗刻', fanshu: '*' }];
+    }
+    function dasanyuan() {
+        if (check.kezi.z[5] + check.kezi.z[6] + check.kezi.z[7] == 3)
+                            return [{ name: '大三元', fanshu: '*' }];
+        return [];
+    }
+    function sixihu() {
+        var kezi = check.kezi;
+        if (kezi.z[1] + kezi.z[2] + kezi.z[3] + kezi.z[4] == 4)
+                            return [{ name: '大四喜', fanshu: '**' }];
+        if (kezi.z[1] + kezi.z[2] + kezi.z[3] + kezi.z[4] == 3
+            && check.jiangpai.match(/^s[1234]/))
+                            return [{ name: '小四喜', fanshu: '*' }];
+        return [];
+    }
+    function ziyise() {
+        if (check.n_zipai == mianzi.length)
+                            return [{ name: '字一色', fanshu: '*' }];
+        return [];
+    }
+    function lvyise() {
+        if (mianzi.filter(function(m){return m.match(/^[mp]/)}).length > 0)
+                                            return [];
+        if (mianzi.filter(function(m){return m.match(/^z[^6]/)}).length > 0)
+                                            return [];
+        if (mianzi.filter(function(m){return m.match(/^s.*[1579]/)}).length > 0)
+                                            return [];
+        return [{ name: '緑一色', fanshu: '*' }];
+    }
+    function qinglaotou() {
+        if (check.n_kezi == 4 && check.n_yaojiu == 5 && check.n_zipai == 0)
+                            return [{ name: '清老頭', fanshu: '*' }];
+        return [];
+    }
+    function sigangzi() {
+        if (check.n_gangzi == 4)
+                            return [{ name: '四槓子', fanshu: '*' }];
+        return [];
+    }
+    function jiulianbaodeng() {
+        if (mianzi.length != 1)             return [];
+        if (mianzi[0].match(/^[mps]1112345678999/))
+                            return [{ name: '純正九蓮宝燈', fanshu: '**' }];
+        else                return [{ name: '九蓮宝燈', fanshu: '*' }];
+    }
+
+    var damanguan = (pre_hupai.length && pre_hupai[0].fanshu[0] == '*')
+                        ? pre_hupai : [];
+    damanguan = damanguan
+                .concat(guoshiwushuang())
+                .concat(sianke())
+                .concat(dasanyuan())
+                .concat(sixihu())
+                .concat(ziyise())
+                .concat(lvyise())
+                .concat(qinglaotou())
+                .concat(sigangzi())
+                .concat(jiulianbaodeng());
+
+    if (damanguan.length > 0) return damanguan;
+    else return pre_hupai
+                .concat(menqianqing())
+                .concat(fanpai())
+                .concat(pinghu())
+                .concat(duanyaojiu())
+                .concat(yibeikou())
+                .concat(sansetongshun())
+                .concat(yiqitongguan())
+                .concat(hunquandaiyaojiu())
+                .concat(qiduizi())
+                .concat(duiduihu())
+                .concat(sananke())
+                .concat(sangangzi())
+                .concat(sansetongke())
+                .concat(hunlaotou())
+                .concat(xiaosanyuan())
+                .concat(hunyise())
+                .concat(chunquandaiyaojiu())
+                .concat(erbeikou())
+                .concat(qingyise());
+}
+function get_post_hupai(mianzi, baopai, fubaopai) {
+
+    var post_hupai = [];
+ 
+    var n_baopai = 0;
+    for (var p of baopai) {
+        var s = new RegExp('^' + p[0]);
+        var n = new RegExp(p[1], 'g');
+        for (var m of mianzi) {
+            if (m.match(s)) {
+                var nn = m.match(n);
+                if (nn) n_baopai += nn.length;
+            }
+        }
+    }
+    if (n_baopai) post_hupai.push({ name: 'ドラ', fanshu: n_baopai });
+
+    var n_fubaopai = 0;
+    for (var p of fubaopai) {
+        var s = new RegExp('^' + p[0]);
+        var n = new RegExp(p[1], 'g');
+        for (var m of mianzi) {
+            if (m.match(s)) {
+                var nn = m.match(n);
+                if (nn) n_fubaopai += nn.length;
+            }
+        }
+    }
+    if (n_fubaopai) post_hupai.push({ name: '裏ドラ', fanshu: n_fubaopai });
+
+    return post_hupai;
+}
+
 Majiang.Util = {
 
     xiangting_guoshi: function(shoupai) {
@@ -163,8 +711,99 @@ Majiang.Util = {
             }
         }
         return pai;
-    }
+    },
  
+    hule: function(shoupai, rongpai, param) {
+ 
+        var max = {
+            hupai:   null,
+            fu:      0,
+            fanshu:  0,
+            defen:   0,
+            fenpei:  [ 0, 0, 0, 0 ],
+            manguan: 0,
+            dahupai: 0,
+            mianzi:  []     // for DEBUG
+        };
+ 
+        for (var mianzi of hule_mianzi(shoupai, rongpai)) {
+ 
+            var check = check_mianzi(mianzi, param.zhuangfeng, param.menfeng);
+  console.log('check: ', check);
+            var hupai = get_hupai(mianzi, check, get_pre_hupai(param.hupai));
+            if (hupai.length == 0) continue;
+ 
+            var defen = 0, fanshu = 0, dahupai = 0, manguan = 0;
+            var fu = check.fu;
+ 
+            if (hupai[0].fanshu[0] == '*') {
+                for (var h of hupai) { dahupai += h.fanshu.match(/\*/g).length }
+                defen = 8000 * dahupai;
+            }
+            else {
+                hupai = hupai.concat(
+                            get_post_hupai(mianzi, param.baopai, param.fubaopai));
+                fanshu = 0;
+                for (var h of hupai) { fanshu += h.fanshu }
+                if      (fanshu >= 13) { defen = 8000; manguan = 4   }
+                else if (fanshu >= 11) { defen = 6000; manguan = 3   }
+                else if (fanshu >=  8) { defen = 4000; manguan = 2   }
+                else if (fanshu >=  6) { defen = 3000; manguan = 1.5 }
+                else {
+                    defen = fu * 4;
+                    for (var i = 0; i < fanshu; i++) { defen *= 2 }
+                    if (defen >= 2000) { defen = 2000; manguan = 1   }
+                }
+            }
+            // 役満の包が未実装
+            var fenpei = [ 0, 0, 0, 0]
+            if (rongpai) {
+                var baojia = rongpai[2] == '+' ? (param.menfeng + 1) % 4
+                           : rongpai[2] == '=' ? (param.menfeng + 2) % 4
+                           : rongpai[2] == '-' ? (param.menfeng + 3) % 4
+                           : -1;
+                defen = Math.ceil(
+                            defen * (param.menfeng == 0 ? 6 : 4) / 100
+                        ) * 100;
+                fenpei[param.menfeng] = +defen;
+                fenpei[baojia]        = -defen;
+            }
+            else {
+                var zhuangjia = Math.ceil(defen * 2 / 100) * 100;
+                var xianjia   = Math.ceil(defen     / 100) * 100;
+                if (param.menfeng == 0) {
+                    defen = zhuangjia * 3;
+                    for (var i = 0; i < 4; i++) {
+                        if (i == param.menfeng) fenpei[i] = +defen;
+                        else                    fenpei[i] = -zhuangjia;
+                    }
+                }
+                else {
+                    defen = zhuangjia + xianjia * 2;
+                    for (var i = 0; i < 4; i++) {
+                        if (i == param.menfeng) fenpei[i] = +defen;
+                        else if (i == 0)        fenpei[i] = -zhuangjia;
+                        else                    fenpei[i] = -xianjia;
+                    }
+                }
+            }
+ 
+            if (defen + fanshu > max.defen + max.fanshu) {
+                max = {
+                    hupai:   hupai,
+                    fu:      fu,
+                    fanshu:  fanshu,
+                    defen:   defen,
+                    fenpei:  fenpei,
+                    manguan: manguan,
+                    dahupai: dahupai,
+                    mianzi:  mianzi     // for DEBUG
+                };
+            }
+        }
+ 
+        return max;
+    }
 };
 
 /******************************************************************************
@@ -936,11 +1575,34 @@ Majiang.Game.prototype.hule = function(id) {
             this._view.shoupai[i]._open = true;
             this._view.shoupai[i].redraw();
  
-            var he = this._model.he[this._lunban];
-            var rongpai = he._pai[he._pai.length - 1];
+            var rongpai;
+            if (! this._model.shoupai[i]._zimo) {
+                var he = this._model.he[this._lunban];
+                rongpai = he._pai[he._pai.length - 1].substr(0,2);
+                rongpai += ['','+','=','-'][(4 + this._lunban - i) % 4];
+            }
  
+            var param = {
+                zhuangfeng: this._chang.menfeng,    // 用語不統一
+                menfeng:    i,                      // 用語不統一
+                hupai: {
+                    lizhi: (this._model.shoupai[i]._lizhi) ? 1 : 0,
+                    haidi: (this._model.shan.paishu() > 0) ? 0
+                            : ! rongpai                    ? 1
+                            :                                2,
+                },
+                baopai:     this._model.shan.baopai(),
+                fubaopai:   (this._model.shoupai[i]._lizhi)
+                                ? this._model.shan.fubaopai() : [],
+            };
+  console.log('param: ', param);
+
+            var hule = Majiang.Util.hule(
+                                this._model.shoupai[i], rongpai, param);
+  console.log('hule: ', hule);
+
             var shoupai = this._model.shoupai[i].clone();
-            shoupai.zimo(rongpai)
+            if (rongpai) shoupai.zimo(rongpai.substr(0,2));
 
             var self = this;
             var data = {
@@ -948,11 +1610,13 @@ Majiang.Game.prototype.hule = function(id) {
                 chang:   this._chang,
                 shan:    this._model.shan,
                 shoupai: shoupai,
-                hupai:   [  { name: '平和',       fanshu: 1 } ],
-                defen:   {  fu:     20,
-                            fanshu: 1,
-                            fen:    1000    },
-                diff:    [ 0, 0, 0, 0 ],
+                hupai:   hule.hupai,
+                defen:   {  fu:      hule.fu,
+                            fanshu:  hule.fanshu,
+                            fen:     hule.defen,    // 用語不統一
+                            manguan: hule.manguan,
+                            dahupai: hule.dahupai   },
+                diff:    hule.fenpei,               // 用語不統一
             };
             (new Majiang.View.Jiesuan($('.jiesuan'), data)).show();
             $('body').click(function(){
