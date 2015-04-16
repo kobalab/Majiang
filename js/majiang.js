@@ -1621,12 +1621,18 @@ Majiang.Game.prototype.hule = function(id) {
             $('body').click(function(){
                 $('body').unbind('click');
                 $('.jiesuan').hide();
-                self.jiesuan();
+                self.jiesuan(hule.fenpei);
             });
         }
     }
 }
-Majiang.Game.prototype.jiesuan = function() {
+Majiang.Game.prototype.jiesuan = function(fenpei) {
+
+    for (var i = 0; i < 4; i++) {
+        this._chang.defen[this.player(i)] += fenpei[i];
+    }
+
+    this._view.chang.redraw();
 
     this._chang.jushu++;
     if (this._chang.jushu == 4) {
