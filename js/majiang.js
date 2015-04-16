@@ -1541,13 +1541,24 @@ Majiang.Game.prototype.liuju = function() {
     this._view.he[this._lunban].redraw();
  
     var self = this;
+    var tingpai = [];
+    var n_tingpai = 0;
     for (var i  = 0; i < 4; i++) {
         if (Majiang.Util.xiangting(this._model.shoupai[i]) == 0) {
+            tingpai[i] = true;
+            n_tingpai++;
             this._view.shoupai[i]._open = true;
             (function(){
                 var j = i;
                 setTimeout(function(){ self._view.shoupai[j].redraw() }, 1000);
             })();
+        }
+    }
+ 
+    var fenpei = [0,0,0,0];
+    if (n_tingpai > 0) {
+        for (var i = 0; i < 4; i++) {
+            fenpei[i] = tingpai[i] ?  3000 / n_tingpai : -3000 / (4 - n_tingpai);
         }
     }
  
@@ -1557,13 +1568,13 @@ Majiang.Game.prototype.liuju = function() {
         liuju:   '荒牌平局',
         chang:   this._chang,
         shan:    this._model.shan,
-        diff:    [ 0, 0, 0, 0 ],
+        diff:    fenpei,
     };
     (new Majiang.View.Jiesuan($('.jiesuan'), data)).show();
     $('body').click(function(){
         $('body').unbind('click');
         $('.jiesuan').hide();
-        self.jiesuan();
+        self.jiesuan(data.diff);
     });
 }
 Majiang.Game.prototype.hule = function(id) {
