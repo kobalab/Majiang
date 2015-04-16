@@ -1227,12 +1227,11 @@ Majiang.View.Chang.prototype.redraw = function() {
     this._node.find('.defen .lunban').removeClass('lunban');
  
     for (var i = 0; i < 4; i++) {
-        var f = feng[(this._chang.qijia + this._chang.jushu + i) % 4];
+        var f = (this._chang.qijia + this._chang.jushu + i) % 4;
         var defen = '' + this._chang.defen[i];
         defen = defen.replace(/(\d{3})$/, ',$1');
-        this._node.find('.defen .' + f).text(menfeng[i] + ': ' + defen);
+        this._node.find('.defen .' + feng[i]).text(menfeng[f] + ': ' + defen);
     }
-    this._node.find('.defen .lunban').removeClass('lunban');
 }
 Majiang.View.Chang.prototype.update = function(lunban) {
     var feng = ['dong','nan','xi','bei'];
