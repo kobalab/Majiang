@@ -1582,7 +1582,7 @@ Majiang.Game.prototype.liuju = function() {
     };
     (new Majiang.View.Jiesuan($('.jiesuan'), data)).show();
  
-    var lianzguang = tingpai[0];
+    var lianzhuang = tingpai[0];
     this._chang.jicun.changbang++;
 
     $('body').click(function(){
