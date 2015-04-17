@@ -1613,6 +1613,8 @@ Majiang.Game.prototype.hule = function(id) {
 
             var shoupai = this._model.shoupai[i].clone();
             if (rongpai) shoupai.zimo(rongpai.substr(0,2));
+ 
+            hule.fenpei[i] += this._chang.jicun.lizhibang * 1000;
 
             var self = this;
             var data = {
@@ -1634,6 +1636,8 @@ Majiang.Game.prototype.hule = function(id) {
                 $('.jiesuan').hide();
                 self.jiesuan(hule.fenpei);
             });
+
+            this._chang.jicun.lizhibang = 0;
         }
     }
 }
@@ -1709,6 +1713,14 @@ Majiang.Game.prototype.reply_dapai = function(id, type, data) {
         setTimeout(function(){ self.hule(id) }, 1000);
         return;
     }
+ 
+    var he = this._model.he[this._lunban];
+    if (he._pai[he._pai.length-1][2] == '*') {
+        this._chang.defen[this.player(this._lunban)] -= 1000;
+        this._chang.jicun.lizhibang++;
+        this._view.chang.redraw();
+    }
+ 
     for (var reply of this._reply) {
         if (reply.type == 'fulou' && reply.data.match(/^[mpsz](\d)\1\1\1/)) {
             if (reply.id != 0) {
