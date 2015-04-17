@@ -1239,7 +1239,7 @@ Majiang.View.Chang.prototype.redraw = function() {
     for (var i = 0; i < 4; i++) {
         var id = (this._chang.qijia + this._chang.jushu + i) % 4;
         var defen = '' + this._chang.defen[id];
-        defen = defen.replace(/(\d{3})$/, ',$1');
+        defen = defen.replace(/(\d)(\d{3})$/, '$1,$2');
         this._node.find('.defen .' + feng[id]).text(menfeng[i] + ': ' + defen);
     }
 }
@@ -1322,7 +1322,7 @@ Majiang.View.Jiesuan = function(node, data) {
         jia.find('.name').text(feng_hanzi[i] +':');
  
         var defen = '' + data.chang.defen[id];
-        defen = defen.replace(/(\d{3})$/, ',$1');
+        defen = defen.replace(/(\d)(\d{3})$/, '$1,$2');
         jia.find('.defen').text(defen);
  
         jia.find('.diff').removeClass('plus');
@@ -1333,7 +1333,7 @@ Majiang.View.Jiesuan = function(node, data) {
         diff = (diff > 0) ? '+' + diff
              : (diff < 0) ? ''  + diff
              : '';
-        diff = diff.replace(/(\d{3})$/, ',$1');
+        diff = diff.replace(/(\d)(\d{3})$/, '$1,$2');
         jia.find('.diff').text(diff);
     }
 }
