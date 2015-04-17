@@ -1,16 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
+    <meta charset="utf-8">
     <title>麻将</title>
     <link rel="stylesheet" type="text/css" href="css/style.css" />
 <!--    <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>  -->
     <script src="js/jquery-2.1.3.min.js"></script>
     <script src="js/majiang.js"></script>
     <script>
-        $(function(){
-            var game = new Majiang.Game();
-            game.kaiju();
-        });
+        (function(){
+            var game;
+            $(function(){
+                game = new Majiang.Game();
+            });
+            $(window).load(function(){
+                setTimeout(function(){
+                    $('#logo').hide();
+                    game.kaiju();
+                }, 2000);
+            });
+        })();
     </script>
 </head>
 <body class="rotate_view">
@@ -143,5 +152,6 @@
     </div>
 </div>
 </div>
+<img id="logo" src="img/logo.png" />
 </body>
 </html>
