@@ -465,7 +465,7 @@ function get_hupai(mianzi, check, pre_hupai) {
     }
     function xiaosanyuan() {
         if (check.kezi.z[5] + check.kezi.z[6] + check.kezi.z[7] == 2
-            && check.jiangpai.match(/^s[567]/))
+            && check.jiangpai.match(/^z[567]/))
                                     return [{ name: '小三元', fanshu: 2 }];
         return [];
     }
