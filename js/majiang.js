@@ -757,6 +757,8 @@ Majiang.Util = {
             }
             // 役満の包が未実装
             var fenpei = [ 0, 0, 0, 0]
+            var changbang = param.jicun.changbang;
+            var lizhibang = param.jicun.lizhibang
             if (rongpai) {
                 var baojia = rongpai[2] == '+' ? (param.menfeng + 1) % 4
                            : rongpai[2] == '=' ? (param.menfeng + 2) % 4
@@ -765,8 +767,9 @@ Majiang.Util = {
                 defen = Math.ceil(
                             defen * (param.menfeng == 0 ? 6 : 4) / 100
                         ) * 100;
-                fenpei[param.menfeng] = +defen;
-                fenpei[baojia]        = -defen;
+                fenpei[param.menfeng] = + defen + changbang * 300
+                                                + lizhibang * 1000;
+                fenpei[baojia]        = - defen - changbang * 300;
             }
             else {
                 var zhuangjia = Math.ceil(defen * 2 / 100) * 100;
@@ -774,16 +777,23 @@ Majiang.Util = {
                 if (param.menfeng == 0) {
                     defen = zhuangjia * 3;
                     for (var i = 0; i < 4; i++) {
-                        if (i == param.menfeng) fenpei[i] = +defen;
-                        else                    fenpei[i] = -zhuangjia;
+                        if (i == param.menfeng)
+                            fenpei[i] = + defen     + changbang * 300
+                                                    + lizhibang * 1000;
+                        else
+                            fenpei[i] = - zhuangjia - changbang * 100;
                     }
                 }
                 else {
                     defen = zhuangjia + xianjia * 2;
                     for (var i = 0; i < 4; i++) {
-                        if (i == param.menfeng) fenpei[i] = +defen;
-                        else if (i == 0)        fenpei[i] = -zhuangjia;
-                        else                    fenpei[i] = -xianjia;
+                        if (i == param.menfeng)
+                            fenpei[i] = + defen     + changbang * 300
+                                                    + lizhibang * 1000;
+                        else if (i == 0)
+                            fenpei[i] = - zhuangjia - changbang * 100;
+                        else
+                            fenpei[i] = - xianjia   - changbang * 100;
                     }
                 }
             }
@@ -1571,10 +1581,14 @@ Majiang.Game.prototype.liuju = function() {
         diff:    fenpei,
     };
     (new Majiang.View.Jiesuan($('.jiesuan'), data)).show();
+ 
+    var lianzguang = tingpai[0];
+    this._chang.jicun.changbang++;
+
     $('body').click(function(){
         $('body').unbind('click');
         $('.jiesuan').hide();
-        self.jiesuan(data.diff);
+        self.jiesuan(data.diff, lianzhuang);
     });
 }
 Majiang.Game.prototype.hule = function(id) {
@@ -1604,6 +1618,7 @@ Majiang.Game.prototype.hule = function(id) {
                 baopai:     this._model.shan.baopai(),
                 fubaopai:   (this._model.shoupai[i]._lizhi)
                                 ? this._model.shan.fubaopai() : [],
+                jicun:      this._chang.jicun
             };
   console.log('param: ', param);
 
@@ -1614,8 +1629,6 @@ Majiang.Game.prototype.hule = function(id) {
             var shoupai = this._model.shoupai[i].clone();
             if (rongpai) shoupai.zimo(rongpai.substr(0,2));
  
-            hule.fenpei[i] += this._chang.jicun.lizhibang * 1000;
-
             var self = this;
             var data = {
                 type:    'hule',
@@ -1631,17 +1644,23 @@ Majiang.Game.prototype.hule = function(id) {
                 diff:    hule.fenpei,               // 用語不統一
             };
             (new Majiang.View.Jiesuan($('.jiesuan'), data)).show();
+
+            this._chang.jicun.lizhibang = 0;
+
+            var lianzhuang = i == 0;
+            if (lianzhuang) this._chang.jicun.changbang++;
+            else            this._chang.jicun.changbang = 0;
+
             $('body').click(function(){
                 $('body').unbind('click');
                 $('.jiesuan').hide();
-                self.jiesuan(hule.fenpei);
+                self.jiesuan(hule.fenpei, lianzhuang);
             });
 
-            this._chang.jicun.lizhibang = 0;
         }
     }
 }
-Majiang.Game.prototype.jiesuan = function(fenpei) {
+Majiang.Game.prototype.jiesuan = function(fenpei, lianzhuang) {
 
     for (var i = 0; i < 4; i++) {
         this._chang.defen[this.player(i)] += fenpei[i];
@@ -1649,18 +1668,20 @@ Majiang.Game.prototype.jiesuan = function(fenpei) {
 
     this._view.chang.redraw();
 
-    this._chang.jushu++;
-    if (this._chang.jushu == 4) {
-        this._chang.menfeng++;
-        this._chang.jushu = 0;
+    if (! lianzhuang) {
+        this._chang.jushu++;
+        if (this._chang.jushu == 4) {
+            this._chang.menfeng++;
+            this._chang.jushu = 0;
+        }
+        if (this._chang.menfeng == 2) return;
     }
-    if (this._chang.menfeng == 2) return;
-
+ 
     var self = this;
     setTimeout(function(){ self.kaiju() }, 1000);
 }
 Majiang.Game.prototype.reply_zimo = function(id, type, data) {
-  console.log('[' + id +'] (' + type + ', ' + data + ')');  // for DEBUG
+//  console.log('[' + id +'] (' + type + ', ' + data + ')');  // for DEBUG
 
     this._reply.push( { id: id, type: type, data: data } );
     if (this._reply.length < 4) return;
