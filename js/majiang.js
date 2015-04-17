@@ -1566,7 +1566,7 @@ Majiang.Game.prototype.liuju = function() {
     }
  
     var fenpei = [0,0,0,0];
-    if (n_tingpai > 0) {
+    if (0 < n_tingpai && n_tingpai < 4) {
         for (var i = 0; i < 4; i++) {
             fenpei[i] = tingpai[i] ?  3000 / n_tingpai : -3000 / (4 - n_tingpai);
         }
