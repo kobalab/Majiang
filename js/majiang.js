@@ -1987,12 +1987,26 @@ Majiang.Game.prototype.jiesuan = function(fenpei, lianzhuang) {
         }
     }
  
-    if (this._chang.zhuangfeng == 2) {
-        setTimeout(this._callback, this._timeout);
+    var zongjiesuan = false;
+    var guanjun = -1;
+    var defen = this._chang.defen;
+    for (var i = 0; i < 4; i++) {
+        var id = (this._chang.qijia + i) % 4;
+        if (defen[id] < 0) zongjiesuan = true;
+        if (defen[id] >= 30000
+            && (guanjun == -1 || defen[id] > defen[guanjun])) guanjun = id;
     }
-    else {
-        setTimeout(function(){ self.kaiju() }, this._timeout);
+    
+    if      (this._chang.zhuangfeng == 3) zongjiesuan = true;
+    else if (this._chang.zhuangfeng == 2) {
+        if (guanjun != -1) zongjiesuan = true;
     }
+    else if (this._chang.zhuangfeng == 1 && this._chang.jushu == 3) {
+        if (guanjun == this.player_id(0) && lianzhuang) zongjiesuan = true;
+    }
+
+    if (zongjiesuan) setTimeout(this._callback, this._timeout);
+    else             setTimeout(function(){ self.kaiju() }, this._timeout);
 }
 
 /*
