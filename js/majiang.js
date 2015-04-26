@@ -2185,6 +2185,13 @@ Majiang.Player.prototype.jiuzhongyaojiu = function() {
     return (n_yaojiu >= 9);
 }
 
+Majiang.Player.prototype.allow_lizhi = function() {
+
+    return (! this._shoupai._lizhi && this._menqian
+            && Majiang.Util.xiangting(this._shoupai) == 0
+            && this._paishu >= 4 && this._chang.defen[this._id] >= 1000)
+}
+
 Majiang.Player.prototype.allow_hule = function(data, option) {
 
     var rongpai = data && (data.dapai ? data.dapai.substr(0,2)
@@ -2330,7 +2337,7 @@ Majiang.Player.prototype.select_dapai = function() {
             dapai = p;
         }
     }
-    if (this._menqian && xiangting == 0 && this._paishu >= 4) dapai += '*';
+    if (this.allow_lizhi()) dapai += '*';
     return dapai;
 }
 
@@ -2721,9 +2728,7 @@ Majiang.UI.prototype.get_dapai_of_lizhi = function() {
 
     var dapai = [];
  
-    if (this._shoupai._lizhi) return dapai;
-    if (! this._menqian) return dapai;
-    if (Majiang.Util.xiangting(this._shoupai) > 0) return dapai;
+    if (! this.allow_lizhi()) return dapai;
  
     for (var s in this._shoupai._shouli) {
         var pai = this._shoupai._shouli[s];
