@@ -1816,7 +1816,7 @@ Majiang.Game.prototype.gangzimo = function(gang) {
         var lb = this._lunban;
         msg[l] = { lunban: lb, zimo: (l == lb ? zimo : ''), paishu: paishu };
     }
-    setTimeout(function(){ self.call_players('zimo', msg) }, this._timeout);
+    setTimeout(function(){ self.call_players('gangzimo', msg) }, this._timeout);
 }
 
 Majiang.Game.prototype.kaigang = function() {
