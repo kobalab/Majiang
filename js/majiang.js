@@ -2446,8 +2446,6 @@ Majiang.UI.prototype.zimo = function(data, callback, option) {
  
     this._shoupai.zimo(data.zimo);
  
-    this._diyizimo = false;
- 
     var set_handler;
  
     if (this.jiuzhongyaojiu()) {
@@ -2518,6 +2516,8 @@ Majiang.UI.prototype.zimo = function(data, callback, option) {
     }
  
     $('.UI.resize').width($('.shoupai.dong .shouli').width()).show();
+ 
+    this._diyizimo = false;
  
     if (this._shoupai._lizhi && ! set_handler) {
         callback('dapai', data.zimo);
