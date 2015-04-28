@@ -1430,8 +1430,9 @@ Majiang.Game.prototype.reply_zimo = function() {
         setTimeout(function(){ self.liuju('九種九牌') }, this._timeout);
     }
     else if (reply.type == 'hule') {
-        this.audio_play('zimo', this._lunban);
-        setTimeout(function(){ self.hule() }, this._timeout);
+        this.audio_play('zimo', this._lunban, function(){
+            self.hule()
+        });
     }
     else if (reply.type == 'gang') {
         this.audio_play('gang', this._lunban, function(){
@@ -1464,7 +1465,7 @@ Majiang.Game.prototype.reply_dapai = function() {
         return;
     }
     if (hule.length  > 0) {
-        this.audio_play('rong', hule[0]);
+        this.audio_play('rong');
         setTimeout(function(){ self.hule(hule[0]) }, this._timeout);
         return;
     }
@@ -1538,7 +1539,7 @@ Majiang.Game.prototype.reply_gang = function() {
         return;
     }
     if (hule.length  > 0) {
-        this.audio_play('rong', hule[0]);
+        this.audio_play('rong');
         setTimeout(function(){ self.hule(hule[0]) }, this._timeout);
         return;
     }
@@ -1897,6 +1898,12 @@ Majiang.Game.prototype.hule = function(lunban) {
         diff:    hule.fenpei,               // 用語不統一
     };
     (new Majiang.View.Jiesuan($('.jiesuan'), data)).show();
+ 
+    var msg = [];
+    for (var l = 0; l < 4; l++) {
+        msg[l] = JSON.parse(JSON.stringify(hule));
+    }
+    this.notify_players('hule', msg);
 
     this._chang.jicun.lizhibang = 0;
 
@@ -1959,6 +1966,12 @@ Majiang.Game.prototype.liuju = function(name) {
         diff:    fenpei,
     };
     (new Majiang.View.Jiesuan($('.jiesuan'), data)).show();
+
+    var msg = [];
+    for (var l = 0; l < 4; l++) {
+        msg[l] = { liuju: name, fenpei: fenpei };
+    }
+    this.notify_players('liuju', msg);
 
     var lianzhuang;
     if (this._model.shan.paishu() == 0) {
@@ -2057,6 +2070,8 @@ Majiang.Player.prototype.action = function(type, data, callback) {
     else if (type == 'gang')     this.gang(data, callback);
     else if (type == 'kaigang')  this.kaigang(data);
     else if (type == 'gangzimo') this.zimo(data, callback, 'lingshang');
+    else if (type == 'hule')     this.hule(data);
+    else if (type == 'liuju')    this.liuju(data);
     else                         throw '*** 未実装 ***';
 }
 
@@ -2174,6 +2189,12 @@ Majiang.Player.prototype.gang = function(data, callback) {
 Majiang.Player.prototype.kaigang = function(data) {
 
     this._baopai.push(data.baopai);
+}
+
+Majiang.Player.prototype.hule = function(data) {
+}
+
+Majiang.Player.prototype.liuju = function(data) {
 }
 
 Majiang.Player.prototype.jiuzhongyaojiu = function() {
