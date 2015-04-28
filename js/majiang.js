@@ -1627,10 +1627,19 @@ Majiang.Game.prototype.kaiju = function() {
     }
  
     var msg = [];
-    var chang  = JSON.parse(JSON.stringify(this._chang));
-    var baopai = this._model.shan.baopai()[0];
+    var chang = {
+        zhuangfeng: this._chang.zhuangfeng,
+        jushu:      this._chang.jushu,
+        changbang:  this._chang.jicun.changbang,
+        lizhibang:  this._chang.jicun.lizhibang,
+        baopai:     this._model.shan.baopai()[0],
+        defen:      []
+    };
     for (var l = 0; l < 4; l++) {
-        msg[l] = { chang: chang, menfeng: l, qipai: qipai[l], baopai: baopai }
+        chang.defen[l] = this._chang.defen[this.player_id(l)];
+    }
+    for (var l = 0; l < 4; l++) {
+        msg[l] = { chang: chang, menfeng: l, qipai: qipai[l] }
     }
     this.notify_players('kaiju', msg);
  
@@ -2060,7 +2069,7 @@ Majiang.Player.prototype.kaiju = function(data) {
     this._dapai     = {};
     this._neng_rong = true;
  
-    this._baopai    = [ data.baopai ];
+    this._baopai    = [ data.chang.baopai ];
     this._diyizimo  = true;
     this._lizhi     = [];
     this._kaigang   = [];
@@ -2223,7 +2232,8 @@ Majiang.Player.prototype.allow_hule = function(data, option) {
         },
         baopai:     this._baopai,
         fubaopai:   [],
-        jicun:      this._chang.jicun
+        jicun:      { changbang: this._chang.changbang,
+                      lizhibang: this._chang.lizhibang  }
     };
     var hule = Majiang.Util.hule(this._shoupai, rongpai, param);
 
