@@ -1848,39 +1848,39 @@ Majiang.Game.prototype.hule = function(lunban) {
 
     if (this._kaigang) this.kaigang();
 
-    var l = lunban != null ? lunban : this._lunban;
     var rongpai;
     if (lunban != null) {
         rongpai = (this._status == 'gang') ? this._gangpai : this._dapai;
         rongpai = rongpai.substr(0,2)
                 + ['','+','=','-'][(4 + this._lunban - lunban) % 4];
     }
+    var lunban = lunban != null ? lunban : this._lunban;
  
-    this._view.shoupai[l]._open = true;
-    this._view.shoupai[l].redraw();
+    this._view.shoupai[lunban]._open = true;
+    this._view.shoupai[lunban].redraw();
 
     var param = {
         zhuangfeng: this._chang.zhuangfeng,
-        menfeng:    l,
+        menfeng:    lunban,
         hupai: {
-            lizhi:      this._lizhi[l],
-            yifa:       this._yifa[l],
+            lizhi:      this._lizhi[lunban],
+            yifa:       this._yifa[lunban],
             qianggang:  this._status == 'gang',
             lingshang:  this._status == 'gangzimo',
-            tianhu:     this._diyizimo && ! rongpai && l == 0,
-            dihu:       this._diyizimo && ! rongpai && l != 0,
+            tianhu:     this._diyizimo && ! rongpai && lunban == 0,
+            dihu:       this._diyizimo && ! rongpai && lunban != 0,
             haidi:      (this._model.shan.paishu() > 0) ? 0
                          : ! rongpai                    ? 1
                          :                                2,
         },
         baopai:     this._model.shan.baopai(),
-        fubaopai:   this._lizhi[l] ? this._model.shan.fubaopai() : [],
+        fubaopai:   this._lizhi[lunban] ? this._model.shan.fubaopai() : [],
         jicun:      this._chang.jicun
     };
 
-    var hule = Majiang.Util.hule(this._model.shoupai[l], rongpai, param);
+    var hule = Majiang.Util.hule(this._model.shoupai[lunban], rongpai, param);
 
-    var shoupai = this._model.shoupai[l].clone();
+    var shoupai = this._model.shoupai[lunban].clone();
     if (rongpai) shoupai.zimo(rongpai.substr(0,2));
  
     var self = this;
@@ -1907,7 +1907,7 @@ Majiang.Game.prototype.hule = function(lunban) {
 
     this._chang.jicun.lizhibang = 0;
 
-    var lianzhuang = l == 0;
+    var lianzhuang = lunban == 0;
     if (lianzhuang) this._chang.jicun.changbang++;
     else            this._chang.jicun.changbang = 0;
 
