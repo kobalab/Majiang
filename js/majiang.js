@@ -1939,7 +1939,29 @@ Majiang.Game.prototype.liuju = function(name) {
             }
         }
  
-        if (0 < n_tingpai && n_tingpai < 4) {
+        var liuju_manguan = false;
+        for (var l = 0; l < 4; l++) {
+            var all_yaojiu = true;
+            for (var p of this._model.he[l]._pai) {
+                if (p.match(/[\-\+\=]$/)) { all_yaojiu = false; break }
+                if (p.match(/^z/))          continue;
+                if (p.match(/^[mps][19]/))  continue;
+                all_yaojiu = false; break;
+            }
+            if (all_yaojiu) {
+                name = '流し満貫';
+                liuju_manguan = true;
+                for (var ll = 0; ll < 4; ll++) {
+                    fenpei[ll] = l == 0 && ll == l ? 12000
+                               : l == 0            ? -4000
+                               : l != 0 && ll == l ?  8000
+                               : l != 0 && ll == 0 ? -4000
+                               :                     -2000;
+                }
+            }
+        }
+ 
+        if (! liuju_manguan && 0 < n_tingpai && n_tingpai < 4) {
             for (var l = 0; l < 4; l++) {
                 fenpei[l] = tingpai[l] ?  3000 / n_tingpai
                                        : -3000 / (4 - n_tingpai);
