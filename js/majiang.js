@@ -2219,7 +2219,7 @@ Majiang.Player.prototype.allow_lizhi = function() {
 
     return (! this._shoupai._lizhi && this._menqian
             && Majiang.Util.xiangting(this._shoupai) == 0
-            && this._paishu >= 4 && this._chang.defen[this._id] >= 1000)
+            && this._paishu >= 4 && this._chang.defen[this._menfeng] >= 1000)
 }
 
 Majiang.Player.prototype.allow_hule = function(data, option) {
