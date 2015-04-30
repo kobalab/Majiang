@@ -1870,8 +1870,9 @@ Majiang.Game.prototype.hule = function(lunban) {
             tianhu:     this._diyizimo && ! rongpai && lunban == 0,
             dihu:       this._diyizimo && ! rongpai && lunban != 0,
             haidi:      (this._model.shan.paishu() > 0) ? 0
-                         : ! rongpai                    ? 1
-                         :                                2,
+                         : this._status == 'zimo'       ? 1
+                         : this._status == 'dapai'      ? 2
+                         :                                0,
         },
         baopai:     this._model.shan.baopai(),
         fubaopai:   this._lizhi[lunban] ? this._model.shan.fubaopai() : [],
