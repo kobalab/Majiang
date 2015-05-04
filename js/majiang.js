@@ -1341,6 +1341,98 @@ Majiang.View.Jiesuan.prototype.show = function() {
     this._node.fadeIn();
 }
 
+/*
+ *  Majiang.View.Zongjiesuan
+ */
+Majiang.View.Zongjiesuan = function(node, data) {
+
+    var feng_hanzi  = ['東','南','西','北'];
+    var feng_class  = ['dong','nan','xi','bei'];
+    var jushu_hanzi = ['一','二','三','四'];
+
+    this._node = node;
+    node.hide();
+ 
+    for (var l = 0; l < 4; l++) {
+        var feng = feng_class[l];
+        node.find('thead .'+ feng).text(data.name[l]);
+    }
+ 
+    node.find('tbody').empty();
+    for (var jiesuan of data.jiesuan) {
+ 
+        var jiesuan_node
+            = $('<tr>'
+                + '<td class="jushu"></td>'
+                + '<td class="changbang"></td>'
+                + '<td class="jieguo"></td>'
+                + '<td class="dong"></td>'
+                + '<td class="nan"></td>'
+                + '<td class="xi"></td>'
+                + '<td class="bei"></td>'
+                + '</tr>'
+            );
+
+        var jushu = feng_hanzi[jiesuan.zhuangfeng]
+                  + jushu_hanzi[jiesuan.jushu]
+                  + '局';
+        jiesuan_node.find('.jushu').text(jushu);
+ 
+        var changbang = jiesuan.changbang + '本場';
+        jiesuan_node.find('.changbang').text(changbang);
+ 
+        var jieguo = jiesuan.type == 'liuju' ? '流局'
+                   : jiesuan.data.rongpai    ? 'ロン'
+                   :                           'ツモ';
+        jiesuan_node.find('.jieguo').text(jieguo);
+ 
+        for (var l = 0; l < 4; l++) {
+            var id = (data.qijia + jiesuan.jushu + l) % 4;
+            var feng = feng_class[id];
+            if (l == 0) jiesuan_node.find('.'+ feng).addClass('zhuangjia');
+            var defen = jiesuan.data.fenpei[l];
+            if (jiesuan.type == 'hule') {
+                if (jiesuan.data.lunban == l)
+                    jiesuan_node.find('.'+ feng).addClass('hule');
+                if (jiesuan.data.rongpai && defen < 0)
+                    jiesuan_node.find('.'+ feng).addClass('beirong');
+            }
+            defen = defen > 0 ? '+' + defen
+                  : defen < 0 ? ''  + defen
+                  :             '';
+            defen = defen.replace(/(\d)(\d{3})$/, '$1,$2');
+            jiesuan_node.find('.'+ feng).text(defen);
+        }
+
+        node.find('tbody').append(jiesuan_node);
+    }
+ 
+    for (var l = 0; l < 4; l++) {
+        var feng = feng_class[l];
+
+        var weici  = '';
+        if (data.weici[l] == 1)
+            node.find('tfoot .defen .' + feng).addClass('guanjun');
+        if (data.defen[l] < 0)
+            node.find('tfoot .defen .' + feng).addClass('pochan');
+
+        var defen = '' + data.defen[l];
+        defen = defen.replace(/(\d)(\d{3})$/, '$1,$2');
+        node.find('tfoot .defen .' + feng).text(defen);
+
+        if (data.jiezhang[l] > 0)
+            node.find('tfoot .jiezhang .' + feng).addClass('plus');
+        if (data.jiezhang[l] < 0)
+            node.find('tfoot .jiezhang .' + feng).addClass('minus');
+        var jiezhang
+            = data.jiezhang[l] > 0 ? '+' + data.jiezhang[l] : data.jiezhang[l];
+        node.find('tfoot .jiezhang .'+ feng).text(jiezhang);
+    }
+}
+Majiang.View.Zongjiesuan.prototype.show = function() {
+    this._node.fadeIn();
+}
+
 /******************************************************************************
 
     Controller
@@ -1361,7 +1453,9 @@ Majiang.Game = function() {
         jushu:      0,
         qijia:      Math.floor(Math.random() * 4),
         jicun:      { changbang: 0, lizhibang: 0 },
-        defen:      [ 25000, 25000, 25000, 25000 ]  // 仮親からの順
+        name:       ['あなた','下家','対面','上家'],
+        defen:      [ 25000, 25000, 25000, 25000 ], // 仮親からの順
+        jiesuan:    []
     };
  
     this._player = [ new Majiang.UI(0) ];           // 仮親は常にUI
@@ -1900,9 +1994,29 @@ Majiang.Game.prototype.hule = function(lunban) {
     };
     (new Majiang.View.Jiesuan($('.jiesuan'), data)).show();
  
+    data = {
+        lunban:     lunban,
+        rongpai:    rongpai,
+        shoupai:    shoupai,
+        hupai:      hule.hupai,
+        defen:      {   fu:      hule.fu,
+                        fanshu:  hule.fanshu,
+                        fen:     hule.defen,    // 用語不統一
+                        manguan: hule.manguan,
+                        dahupai: hule.dahupai   },
+        fenpei:     hule.fenpei,
+    };
+    this._chang.jiesuan.push({
+        zhuangfeng: this._chang.zhuangfeng,
+        jushu:      this._chang.jushu,
+        changbang:  this._chang.jicun.changbang,
+        type:       'hule',
+        data:       data
+    });
+ 
     var msg = [];
     for (var l = 0; l < 4; l++) {
-        msg[l] = JSON.parse(JSON.stringify(hule));
+        msg[l] = JSON.parse(JSON.stringify(data));
     }
     this.notify_players('hule', msg);
 
@@ -1990,9 +2104,21 @@ Majiang.Game.prototype.liuju = function(name) {
     };
     (new Majiang.View.Jiesuan($('.jiesuan'), data)).show();
 
+    data = {
+        liuju:      name,
+        fenpei:     fenpei,
+    }
+    this._chang.jiesuan.push({
+        zhuangfeng: this._chang.zhuangfeng,
+        jushu:      this._chang.jushu,
+        changbang:  this._chang.jicun.changbang,
+        type:       'liuju',
+        data:       data
+    });
+
     var msg = [];
     for (var l = 0; l < 4; l++) {
-        msg[l] = { liuju: name, fenpei: fenpei };
+        msg[l] = JSON.parse(JSON.stringify(data));
     }
     this.notify_players('liuju', msg);
 
@@ -2010,7 +2136,7 @@ Majiang.Game.prototype.liuju = function(name) {
         clearTimeout(timeout_id);
         $('body').unbind('click');
         $('.jiesuan').hide();
-        self.jiesuan(data.diff, lianzhuang);
+        self.jiesuan(fenpei, lianzhuang);
     });
 }
 
@@ -2050,8 +2176,56 @@ Majiang.Game.prototype.jiesuan = function(fenpei, lianzhuang) {
         if (guanjun == this.player_id(0) && lianzhuang) zongjiesuan = true;
     }
 
-    if (zongjiesuan) setTimeout(this._callback, this._timeout);
-    else             setTimeout(function(){ self.kaiju() }, this._timeout);
+    if (zongjiesuan)
+        setTimeout(function(){ self.zongjiesuan() }, this._timeout);
+    else
+        setTimeout(function(){ self.kaiju() }, this._timeout);
+}
+
+Majiang.Game.prototype.zongjiesuan = function() {
+
+    var paiming = [];
+    for (var i = 0; i < 4; i++) {
+        var id = (this._chang.qijia + i) % 4;
+        for (var j = 0; j <= paiming.length; j++) {
+            if (j == paiming.length
+                || this._chang.defen[id] > this._chang.defen[paiming[j]])
+            {
+                paiming.splice(j, 0, id);
+                break;
+            }
+        }
+    }
+    var weici = [];
+    for (var i = 0; i < 4; i++) {
+        weici[paiming[i]] = i + 1;
+    }
+ 
+    var jiezhang = [];
+    var sum = 0;
+    for (var pm = 1; pm < 4; pm++) {
+        var id = paiming[pm];
+        jiezhang[id]
+            = Math.floor((this._chang.defen[id]
+                + (   pm == 1 ?  10000
+                    : pm == 2 ? -10000
+                    : pm == 3 ? -20000
+                    :                0  )
+                - 30000) / 1000);
+        sum += jiezhang[id];
+    }
+    jiezhang[paiming[0]] = 0 - sum;
+ 
+    var data = {
+        name:       this._chang.name,
+        qijia:      this._chang.qijia,
+        jiesuan:    this._chang.jiesuan,
+        defen:      this._chang.defen,
+        weici:      weici,
+        jiezhang:   jiezhang
+    };
+ 
+    new Majiang.View.Zongjiesuan($('.zongjiesuan'), data).show();
 }
 
 /*

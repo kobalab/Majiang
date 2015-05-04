@@ -231,6 +231,75 @@ body {
     color: red;
 }
 
+.zongjiesuan {
+    width: 680px;
+    background: rgba(0,0,0,0.9);
+}
+.zongjiesuan table {
+    width: 640px;
+    margin: 18px auto;
+    font-size: 18px;
+    font-family: "Georgia", serif;
+    border-collapse: collapse;
+}
+.zongjiesuan table thead {
+    border-bottom: solid 2px white;
+}
+.zongjiesuan table .jushu {
+    padding-left: 1em;
+}
+.zongjiesuan table .dong,
+.zongjiesuan table .nan,
+.zongjiesuan table .xi,
+.zongjiesuan table .bei {
+    width: 18%;
+    padding: 0px 1.2em;
+}
+.zongjiesuan table thead .dong,
+.zongjiesuan table thead .nan,
+.zongjiesuan table thead .xi,
+.zongjiesuan table thead .bei {
+    text-align: center;
+}
+.zongjiesuan table tbody .dong,
+.zongjiesuan table tbody .nan,
+.zongjiesuan table tbody .xi,
+.zongjiesuan table tbody .bei {
+    text-align: right;
+}
+.zongjiesuan table tbody .zhuangjia {
+    background: #333;
+}
+.zongjiesuan table tbody .hule {
+    color: #0ff;
+}
+.zongjiesuan table tbody .beirong {
+    color: red;
+}
+.zongjiesuan table tfoot {
+    border-top: solid 1px white;
+}
+.zongjiesuan table .defen {
+    text-align: right;
+}
+.zongjiesuan table .defen .guanjun {
+    color: #0ff;
+}
+.zongjiesuan table .defen .pochan {
+    color: red;
+}
+.zongjiesuan table .jiezhang {
+    border-top: solid 1px white;
+    font-size: 24px;
+    text-align: center;
+}
+.zongjiesuan table .jiezhang .plus {
+    color: #0ff;
+}
+.zongjiesuan table .jiezhang .minus {
+    color: red;
+}
+
 /******************************************************************************/
 .rotate_view {
     width: 800px;
@@ -447,4 +516,12 @@ body {
     width: 88px;
     transform: translate(0px, 30px);
     -webkit-transform: translate(0px, 30px);
+}
+.rotate_view .zongjiesuan {
+    position: relative;
+    margin: auto;
+    padding: 5px 0px;
+    min-height: 300px;
+    transform: translate(0px, 60px);
+    -webkit-transform: translate(0px, 60px);
 }
