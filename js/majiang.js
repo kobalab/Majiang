@@ -1953,11 +1953,11 @@ Majiang.Game.prototype.liuju = function(name) {
                 name = '流し満貫';
                 liuju_manguan = true;
                 for (var ll = 0; ll < 4; ll++) {
-                    fenpei[ll] = l == 0 && ll == l ? 12000
-                               : l == 0            ? -4000
-                               : l != 0 && ll == l ?  8000
-                               : l != 0 && ll == 0 ? -4000
-                               :                     -2000;
+                    fenpei[ll] += l == 0 && ll == l ? 12000
+                                : l == 0            ? -4000
+                                : l != 0 && ll == l ?  8000
+                                : l != 0 && ll == 0 ? -4000
+                                :                     -2000;
                 }
             }
         }
