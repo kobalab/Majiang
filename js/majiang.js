@@ -1446,7 +1446,7 @@ Majiang.View.Zongjiesuan.prototype.show = function() {
 Majiang.Game = function() {
 
     this._timeout = 1000;
-    this._callback = function(){};
+    this._callback = function(){ new Majiang.Game().kaiju() };
  
     this._chang = {
         zhuangfeng: 0,
@@ -1513,7 +1513,8 @@ Majiang.Game.prototype.next = function(id, type, data) {
     else if (this._status == 'gang')     this.reply_gang()
     else if (this._status == 'hule')     this.reply_hule()
     else if (this._status == 'liuju')    this.reply_liuju()
-    else                                 new Error('*** 不正応答 ***');
+    else if (this._status == 'finish')   this.reply_finish()
+    else throw new Error('**** 状態不正 ****', this._status);
 }
 
 Majiang.Game.prototype.reply_zimo = function() {
@@ -1652,6 +1653,11 @@ Majiang.Game.prototype.reply_hule = function() {
 Majiang.Game.prototype.reply_liuju = function() {
     $('.jiesuan').hide();
     this.jiesuan();
+}
+
+Majiang.Game.prototype.reply_finish = function() {
+    $('.zongjiesuan').hide();
+    this._callback();
 }
 
 Majiang.Game.prototype.audio_play = function(name, lunban, callback) {
@@ -2154,32 +2160,31 @@ Majiang.Game.prototype.jiesuan = function() {
         }
     }
  
-    var zongjiesuan = false;
+    var finish = false;
     var guanjun = -1;
     var defen = this._chang.defen;
     for (var i = 0; i < 4; i++) {
         var id = (this._chang.qijia + i) % 4;
-        if (defen[id] < 0) zongjiesuan = true;
+        if (defen[id] < 0) finish = true;
         if (defen[id] >= 30000
             && (guanjun == -1 || defen[id] > defen[guanjun])) guanjun = id;
     }
     
-    if      (this._chang.zhuangfeng == 3) zongjiesuan = true;
+    if      (this._chang.zhuangfeng == 3) finish = true;
     else if (this._chang.zhuangfeng == 2) {
-        if (guanjun != -1) zongjiesuan = true;
+        if (guanjun != -1) finish = true;
     }
     else if (this._chang.zhuangfeng == 1 && this._chang.jushu == 3) {
-        if (guanjun == this.player_id(0) && this._lianzhuang)
-            zongjiesuan = true;
+        if (guanjun == this.player_id(0) && this._lianzhuang) finish = true;
     }
 
-    if (zongjiesuan)
-        setTimeout(function(){ self.zongjiesuan() }, this._timeout);
+    if (finish)
+        setTimeout(function(){ self.finish() }, this._timeout);
     else
         setTimeout(function(){ self.kaiju() }, this._timeout);
 }
 
-Majiang.Game.prototype.zongjiesuan = function() {
+Majiang.Game.prototype.finish = function() {
 
     var paiming = [];
     for (var i = 0; i < 4; i++) {
@@ -2223,6 +2228,13 @@ Majiang.Game.prototype.zongjiesuan = function() {
     };
  
     new Majiang.View.Zongjiesuan($('.zongjiesuan'), data).show();
+ 
+    data = { weici: weici, jiezhang: jiezhang };
+    var msg = [];
+    for (var l = 0; l < 4; l++) {
+        msg[l] = JSON.parse(JSON.stringify(data));
+    }
+    this.call_players('finish', msg, this._timeout * 5);
 }
 
 /*
@@ -2266,6 +2278,7 @@ Majiang.Player.prototype.action = function(type, data, callback) {
     else if (type == 'gangzimo') this.zimo(data, callback, 'lingshang');
     else if (type == 'hule')     this.hule(data, callback);
     else if (type == 'liuju')    this.liuju(data, callback);
+    else if (type == 'finish')   this.finish(data, callback);
     else                         throw '*** 未実装 ***';
 }
 
@@ -2390,6 +2403,10 @@ Majiang.Player.prototype.hule = function(data, callback) {
 }
 
 Majiang.Player.prototype.liuju = function(data, callback) {
+    callback();
+}
+
+Majiang.Player.prototype.finish = function(data, callback) {
     callback();
 }
 
@@ -2961,6 +2978,15 @@ Majiang.UI.prototype.hule = function(data, callback) {
 }
 
 Majiang.UI.prototype.liuju = function(data, callback) {
+    var self = this;
+    $('body').bind('click', function(){
+        self.clear_handler();
+        callback();
+        return false;
+    });
+}
+
+Majiang.UI.prototype.finish = function(data, callback) {
     var self = this;
     $('body').bind('click', function(){
         self.clear_handler();
