@@ -1567,7 +1567,8 @@ Majiang.Game.prototype.reply_dapai = function() {
     }
     if (hule.length  > 0) {
         this.audio_play('rong');
-        setTimeout(function(){ self.hule(hule[0]) }, this._timeout);
+        this._hule = hule;
+        setTimeout(function(){ self.hule() }, this._timeout);
         return;
     }
  
@@ -1641,7 +1642,8 @@ Majiang.Game.prototype.reply_gang = function() {
     }
     if (hule.length  > 0) {
         this.audio_play('rong');
-        setTimeout(function(){ self.hule(hule[0]) }, this._timeout);
+        this._hule = hule;
+        setTimeout(function(){ self.hule() }, this._timeout);
         return;
     }
  
@@ -1651,7 +1653,11 @@ Majiang.Game.prototype.reply_gang = function() {
 
 Majiang.Game.prototype.reply_hule = function() {
     $('.jiesuan').hide();
-    this.jiesuan();
+    if (this._hule.length > 0) {
+        this.audio_play('rong');
+        this.hule();
+    }
+    else this.jiesuan();
 }
 
 Majiang.Game.prototype.reply_liuju = function() {
@@ -1709,14 +1715,16 @@ Majiang.Game.prototype.kaiju = function() {
 
     this._lunban    = -1;
 
-    this._diyizimo  = true;
-    this._lizhi     = [0,0,0,0];
-    this._yifa      = [0,0,0,0];
-    this._gang      = [0,0,0,0];
-    this._dafengpai = true;
-    this._dapai     = null;
-    this._gangpai   = null;
-    this._kaigang   = false;
+    this._diyizimo   = true;
+    this._lizhi      = [0,0,0,0];
+    this._yifa       = [0,0,0,0];
+    this._gang       = [0,0,0,0];
+    this._dafengpai  = true;
+    this._dapai      = null;
+    this._gangpai    = null;
+    this._kaigang    = false;
+    this._hule       = [];
+    this._lianzhuang = false;
  
     var qipai = [ [], [], [], [] ];
     for (var n = 0; n < 3; n++) {
@@ -1960,17 +1968,18 @@ Majiang.Game.prototype.kaigang = function() {
     this.notify_players('kaigang', msg);
 }
 
-Majiang.Game.prototype.hule = function(lunban) {
+Majiang.Game.prototype.hule = function() {
 
     if (this._kaigang) this.kaigang();
 
+    var lunban = (this._hule.length > 0) ? this._hule.shift() : null;
     var rongpai;
     if (lunban != null) {
         rongpai = (this._status == 'gang') ? this._gangpai : this._dapai;
         rongpai = rongpai.substr(0,2)
                 + ['','+','=','-'][(4 + this._lunban - lunban) % 4];
     }
-    var lunban = lunban != null ? lunban : this._lunban;
+    lunban = lunban != null ? lunban : this._lunban;
  
     this._view.shoupai[lunban]._open = true;
     this._view.shoupai[lunban].redraw();
@@ -2038,10 +2047,12 @@ Majiang.Game.prototype.hule = function(lunban) {
 
     this._chang.jicun.lizhibang = 0;
 
-    this._lianzhuang = lunban == 0;
-    if (this._lianzhuang) this._chang.jicun.changbang++;
-    else                  this._chang.jicun.changbang = 0;
-
+    if (lunban == 0) this._lianzhuang = true;
+    if (this._hule.length == 0) {
+        if (this._lianzhuang) this._chang.jicun.changbang++;
+        else                  this._chang.jicun.changbang = 0;
+    }
+ 
     for (var l = 0; l < 4; l++) {
         this._chang.defen[this.player_id(l)] += data.fenpei[l];
     }
