@@ -1411,6 +1411,8 @@ Majiang.View.Zongjiesuan = function(node, data) {
         var feng = feng_class[l];
 
         var weici  = '';
+        node.find('tfoot .defen .' + feng).removeClass('guanjun');
+        node.find('tfoot .defen .' + feng).removeClass('pochan');
         if (data.weici[l] == 1)
             node.find('tfoot .defen .' + feng).addClass('guanjun');
         if (data.defen[l] < 0)
@@ -1420,6 +1422,8 @@ Majiang.View.Zongjiesuan = function(node, data) {
         defen = defen.replace(/(\d)(\d{3})$/, '$1,$2');
         node.find('tfoot .defen .' + feng).text(defen);
 
+        node.find('tfoot .jiezhang .' + feng).removeClass('plus');
+        node.find('tfoot .jiezhang .' + feng).removeClass('minus');
         if (data.jiezhang[l] > 0)
             node.find('tfoot .jiezhang .' + feng).addClass('plus');
         if (data.jiezhang[l] < 0)
