@@ -1,0 +1,309 @@
+@charset "UTF-8";
+
+@import url(style.css);
+
+body {
+    background: black;
+}
+
+#title {
+    background: white;
+    color: black;
+    width: 640px;
+    margin: 200px auto;
+    padding: 15px;
+    text-align: center;
+}
+#title img {
+    width: 600px;
+}
+#title .version {
+    font-family: Times, serif;
+    font-size: 16px;
+    text-align: right;
+}
+
+#game {
+    display: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    width: 800px;
+    height: 680px;
+    margin: 0px auto;
+    background: #036;
+}
+#game > * {
+    position: absolute;
+    transform-origin: 0% 0%;
+    cursor: default;
+}
+
+.chang {
+    background: #111;
+    width: 280px;
+    height: 160px;
+    border-radius: 4px;
+    transform: translate(260px, 260px);
+}
+.chang .defen {
+    clear: both;
+    font-size: 16px;
+}
+.chang .defen span {
+    display: block;
+    width: 120px;
+    height: 24px;
+    position: absolute;
+    transform-origin: 0% 0%;
+}
+.chang .defen .main {
+    text-align: center;
+    transform: translate(80px, 48px);
+}
+.chang .defen .xiajia {
+    text-align: right;
+    transform: translate(150px, 24px);
+}
+.chang .defen .duimian {
+    text-align: center;
+    transform: translate(80px, 0px);
+}
+.chang .defen .shangjia {
+    text-align: left;
+    transform: translate(10px, 24px);
+}
+
+.shoupai.main {
+    width: 680px;
+    height: 80px;
+    transform: translate(120px, 600px);
+}
+.shoupai.xiajia {
+    width: 580px;
+    height: 70px;
+    transform: translate(730px, 580px) rotate(270deg);
+}
+.shoupai.duimian {
+    width: 640px;
+    height: 70px;
+    transform: translate(640px, 70px) rotate(180deg);
+}
+.shoupai.shangjia {
+    width: 580px;
+    height: 70px;
+    transform: translate(70px, 100px) rotate(90deg);
+}
+.shoupai.xiajia .pai,
+.shoupai.duimian .pai,
+.shoupai.shangjia .pai,
+.fulou .pai {
+    max-height: 48px;
+}
+.shoupai.xiajia .fulou,
+.shoupai.duimian .fulou,
+.shoupai.shangjia .fulou {
+    margin-top: 22px;
+}
+
+.he {
+    width: 320px;
+    height: 160px;
+}
+.he.main {
+    transform: translate(300px, 420px);
+}
+.he.xiajia {
+    transform: translate(540px, 440px) rotate(270deg);
+}
+.he.duimian {
+    transform: translate(500px, 260px) rotate(180deg);
+}
+.he.shangjia {
+    transform: translate(260px, 240px) rotate(90deg);
+}
+.he div.lizhi {
+    width: 200px;
+    text-align: center;
+}
+
+.UI {
+    width: 580px;
+    text-align: right;
+    transform: translate(120px, 580px);
+}
+.UI span {
+    display: inline-block;
+    padding: 5px 20px;
+    font-size: 16px;
+    background: black;
+    border-radius: 5px;
+    white-space: nowrap;    
+    cursor: pointer;
+}
+
+#game > .jiesuan {
+    position: relative;
+    transform: translate(0px, 100px);
+}
+.jiesuan {
+    display: table;
+    min-width: 460px;
+    padding: 20px;
+    background: rgba(0,0,0,0.8);
+    margin: auto;
+}
+.jiesuan .shan {
+    width: 420px;
+    margin: 0px auto;
+}
+.jiesuan .baopai {
+    float:   left;
+}
+.jiesuan .fubaopai {
+    float:   right;
+}
+.jiesuan .shan .pai {
+    max-height: 36px;
+    vertical-align: bottom;
+}
+.jiesuan .shan:after {
+    display: block;
+    content: '';
+    clear: both;
+}
+.jiesuan .shoupai {
+    clear: both;
+    width: auto;
+    text-align: center;
+    white-space: pre;
+}
+.jiesuan .shoupai .pai {
+    max-height: 48px;
+}
+.jiesuan .shoupai .fulou {
+    margin-top: 22px;
+    margin-left: 4px;
+}
+.jiesuan .hupai table {
+    margin: 10px auto;
+    min-width:  280px;
+}
+.jiesuan .hupai table .fanshu {
+    text-align: right;
+}
+.jiesuan .hupai table .defen {
+    text-align: right;
+}
+.jiesuan .jicun {
+    font-size: 16px;
+    font-family: "Georgia", serif;
+    text-align: center;
+}
+.jiesuan .choma {
+    width: 60px;
+    height: 8px;
+    padding-left: 8px;
+}
+.jiesuan .pingju {
+    margin-top:     50px;
+    margin-bottom: 100px;
+    text-align: center;
+}
+.jiesuan .fenpei {
+    width: 380px;
+    height: 80px;
+    margin: 15px auto;
+    line-height: 16px;
+}
+.jiesuan .fenpei .name {
+    clear: both;
+    display: block;
+    float: left;
+}
+.jiesuan .fenpei .defen {
+    display: block;
+    float: left;
+}
+.jiesuan .fenpei .diff {
+    display: block;
+    float: right;
+}
+.jiesuan .fenpei .main,
+.jiesuan .fenpei .xiajia,
+.jiesuan .fenpei .duimian,
+.jiesuan .fenpei .shangjia {
+    position: absolute;
+    width: 88px;
+}
+.jiesuan .fenpei .main {
+    transform: translate(146px, 60px);
+}
+.jiesuan .fenpei .xiajia {
+    transform: translate(292px, 30px);
+}
+.jiesuan .fenpei .duimian {
+    transform: translate(146px, 0px);
+}
+.jiesuan .fenpei .shangjia {
+    transform: translate(146px, 60px);
+    transform: translate(0px, 30px);
+}
+
+#game > .jiezhang {
+    position: relative;
+    transform: translate(0px, 60px);
+}
+.jiezhang {
+    display: none;
+    width: 680px;
+    margin: auto;
+    border: solid 1px black;
+    background: rgba(0,0,0,0.9);
+}
+.jiezhang table {
+    width: 640px;
+    margin: 18px auto;
+    font-size: 18px;
+    font-family: "Georgia", serif;
+    border-collapse: collapse;
+}
+.jiezhang table thead {
+    border-bottom: solid 2px white;
+}
+.jiezhang table tfoot {
+    border-top: solid 2px white;
+}
+.jiezhang table .name {
+    width: 18%;
+    text-align: center;
+}
+.jiezhang table .jushu {
+    padding-left: 1em;
+}
+.jiezhang table .jieguo {
+    text-align: center;
+}
+.jiezhang table .diff,
+.jiezhang table .defen {
+    width: 18%;
+    padding: 0px 1.2em;
+    text-align: right;
+}
+.jiezhang table .zhuangjia {
+    background: #333;
+}
+.jiezhang table .baojia,
+.jiezhang table .pochan,
+.jiezhang table .minus {
+    color: red;
+}
+.jiezhang table .hule,
+.jiezhang table .guanjun,
+.jiezhang table .plus {
+    color: #0ff;
+}
+.jiezhang table .point {
+    border-top: solid 1px white;
+    text-align: center;
+    font-size:  24px;
+}

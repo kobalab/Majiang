@@ -1,191 +1,186 @@
-function imgHtml(pai) {
-    return '<img class="pai" src="img/' + pai + '.gif" />'
-}
-
-function canpaibiao(shoupai, he) {
-    var biao = {
-        m: [4,4,4,4,4,4,4,4,4],
-        p: [4,4,4,4,4,4,4,4,4],
-        s: [4,4,4,4,4,4,4,4,4],
-        z: [4,4,4,4,4,4,4]
-    }
-    for (var sort in shoupai._shouli) {
-        for (var i = 0; i < shoupai._shouli[sort].length; i++) {
-            biao[sort][i] -= shoupai._shouli[sort][i];
-        }
-    }
-    for (var p of he._pai) {
-        biao[p[0]][p[1]-1] --;
-    }
-    return biao;
-}
-function paili(shoupai, he) {
-    var n_xiangting = Majiang.Util.xiangting(shoupai);
-    var canpai = canpaibiao(shoupai, he);
-    var dapai = [];
-    var zimo = shoupai._zimo;
-    shoupai._zimo = null;
-    for (var sort in shoupai._shouli) {
-        for (var i = 0; i < shoupai._shouli[sort].length; i++) {
-            if (shoupai._shouli[sort][i] == 0) continue;
-            shoupai._shouli[sort][i]--;
-            if (Majiang.Util.xiangting(shoupai) == n_xiangting) {
-                var ting = [];
-                var shu = 0;
-                for (var p of Majiang.Util.tingpai(shoupai)) {
-                    if (canpai[p[0]][p[1]-1] == 0) continue;
-                    ting.push(p);
-                    shu += canpai[p[0]][p[1]-1];
-                }
-                dapai.push({ da: sort+(i+1), shu: shu , ting: ting });
-            }
-            shoupai._shouli[sort][i]++;
-        }
-    }
-    shoupai._zimo = zimo;
-    return dapai;
-}
-
 $(function(){
 
-    Majiang.Audio.volume(2);
-  
     var shan;
     var shoupai;
     var he;
-  
+    var view = {};
     var n_xiangting;
   
-    $('input[value="新規"]').click(function(){
-        xipai();
+    var imgHtml = Majiang.View.imgHtml;
+
+    $('input[type=button]').bind('click', function(){
+        qipai();
     });
-    $('input[value="選択"]').click(function(){
-        xipai($('input[type=text]').val());
+    $('form').bind('submit', function(){
+        qipai($(this).find('input[type=text]').val());
+        return false;
     });
   
-    function showShoupai() {
-        var node = $('.shoupai');
-        var view = new Majiang.View.Shoupai(node, shoupai, true);
-        view.redraw();
-  
-        var shouli = shoupai._shouli;
-        var str ='';
-        var sort = ['m', 'p', 's', 'z'];
-        for (var s = 0; s < sort.length; s++) {
-            for (var n = 0; n < shouli[sort[s]].length; n++) {
-                var p = sort[s] + (n+1);
-                node.find('.shouli .pai[data-pai="'+p+'"]')
-                    .bind('click', p, function(event){
-                        dapai(event.data);
-                    });
+    Majiang.Audio.volume(2);
+
+    qipai();
+
+    function get_dapai() {
+        var pai = [];
+        if (! shoupai._zimo) return pai;
+        for (var s of ['m','p','s','z']) {
+            var bingpai = shoupai._bingpai[s];
+            for (var n = 1; n < bingpai.length; n++) {
+                if (bingpai[n] == 0) continue;
+                if (n != 5)                         pai.push(s+n);
+                else {
+                    if (bingpai[0] > 0)             pai.push(s+'0');
+                    if (bingpai[0] < bingpai[5])    pai.push(s+'5');
+                }
             }
         }
+        return pai;
     }
   
-    function showHe() {
-        var view = new Majiang.View.He($('.he'), $('.lizhi'), he);
-        view.redraw();
-    }
-  
-    function showPaili(paili) {
-        var node = $('.paili');
-        node.empty();
-
-        var n_xiangting = Majiang.Util.xiangting(shoupai);
-        var html = '<p>';
-        if      (n_xiangting == -1) html += '和了！！';
-        else if (n_xiangting ==  0) html += '聴牌！';
-        else                        html += n_xiangting + '向聴';
-        html += '</p>';
-  
-        paili.sort(function(a,b){ return b.shu - a.shu; });
-        for (var dapai of paili) {
-            var mo = '';
-            for (var pai of dapai.ting) { mo += imgHtml(pai) }
-            html += '打: ' + imgHtml(dapai.da)
-                  + ' 摸: ' + mo + ' (' + dapai.shu + '枚)<br>';
+    function set_handler() {
+        for (var p of get_dapai()) {
+            view.shoupai._node.find('.bingpai .pai[data-pai="'+p+'"]')
+                .bind('click', p, function(event){
+                    view.shoupai._node.find('.pai').unbind('click');
+                    $(this).addClass('dapai');
+                    dapai(event.data);
+                    return false;
+                });
         }
-  
-        node.html(html);
+        var p = shoupai._zimo;
+        view.shoupai._node.find('.zimo .pai[data-pai="'+p+'"]')
+            .unbind('click')
+            .bind('click', p, function(event){
+                view.shoupai._node.find('.pai').unbind('click');
+                $(this).fadeOut(100, function(){
+                    dapai(event.data + '_');
+                });
+                return false;
+            });
     }
 
-    function dapai(p) {
+    function qipai(paistr) {
 
-        Majiang.Audio.play('dapai');
-
-        shoupai.dapai(p);
-        he.dapai(p);
-  
-        showShoupai();
-        showHe();
-
-        p = shan.zimo();
-        if (! p) {
-            $('.shoupai img').off('click');
-            $('.paili').empty();
-            $('.paili').html('<p>流局...</p>');
-            Majiang.Audio.play('beep');
-            return;
-        }
-
-        shoupai.zimo(p);
-        showShoupai();
- 
-        showPaili(paili(shoupai, he));
-
-        var x = Majiang.Util.xiangting(shoupai);
-        if (x < n_xiangting && x == 0) Majiang.Audio.play('lizhi');
-        n_xiangting = x;
-
-        if (n_xiangting == -1) {
-            Majiang.Audio.play('zimo');
-            $('.shouli img').off('click');
-        }
-  
-    }
-  
-    function xipai(paistr) {
-        shan = new Majiang.Shan();
+        shan = new Majiang.Shan({m:1,p:1,s:1});
         he   = new Majiang.He();
-
-        var haipai = [];
     
         if (paistr) {
-            for (var substr of paistr.match(/\d+[mpsz]/g)) {
-                var sort = substr[substr.length - 1];
-                for (var n of substr.match(/\d/g)) {
-                    haipai.push(sort + n);
+
+            shoupai = Majiang.Shoupai.fromTenhouString(paistr);
+
+            for (var s in shoupai._bingpai) {
+                var bingpai = shoupai._bingpai[s];
+                for (var n = 1; n < bingpai.length; n++) {
+                    for (var i = 0; i < bingpai[n]; i++) {
+                        var p = s + (n == 5 && i < bingpai[0] ? 0 : n);
+                        for (var j = shan._pai.length - 1; j >=0; j--) {
+                            if (shan._pai[j] == p) {
+                                shan._pai.splice(j, 1);
+                                break;
+                            }
+                        }
+                    }
                 }
             }
-            for (var pai of haipai) {
-                for (var i = shan._pai.length - 1; i >= 0; i--) {
-                    if (shan._pai[i] == pai) shan._pai.splice(i, 1);
-                }
-            }
-            shoupai = Majiang.Shoupai.fromString(paistr);
         }
         else {
-            for (var i = 0; i < 13; i++) {
-                var p = shan.zimo();
-                haipai.push(p);
-            }
-            shoupai = new Majiang.Shoupai(haipai);
+            var qipai = [];
+            for (var i = 0; i < 13; i++) { qipai.push(shan.zimo()) }
+            shoupai = new Majiang.Shoupai(qipai);
         }
-  
-        while (shan.paishu() > 18) {
-            shan.zimo();
-        }
-  
-        $('input[type=text]').val(shoupai.toString());
-
+        
+        while (shan.paishu() > 18) { shan.zimo() }
+        
         if (! shoupai._zimo) shoupai.zimo(shan.zimo());
+    
+        $('input[type=text]').val(shoupai.toTenhouString());
+        
+        view.shoupai = new Majiang.View.Shoupai($('.shoupai'), shoupai, true);
+        view.shoupai.redraw();
+        
+        view.he = new Majiang.View.He($('.he'), he, true);
+        view.he.redraw();
+  
+        paili();
 
-        showHe();
-        showShoupai();
-        showPaili(paili(shoupai, he));
+        set_handler();
+    }
+  
+    function dapai(p) {
+  
+        Majiang.Audio.play('dapai');
+  
+        shoupai.dapai(p);
+        view.shoupai.dapai(p);
+  
+        he.dapai(p);
+        view.he.redraw();
+
+        setTimeout(zimo, 100);
+    }
+  
+    function zimo() {
+  
+        if (shan.paishu() == 0) {
+            $('.status').text('流局...');
+            $('.paili').empty();
+            view.shoupai.redraw()
+            return;
+        }
+  
+        shoupai.zimo(shan.zimo());
+        view.shoupai.redraw();
+  
+        var x = Majiang.Util.xiangting(shoupai);
+        if (x < n_xiangting && x == 0)  Majiang.Audio.play('lizhi');
+  
+        paili();
+  
+        if (n_xiangting == -1) {
+            Majiang.Audio.play('zimo');
+            return;
+        }
+  
+        set_handler();
+    }
+  
+    function paili() {
+  
+        $('.paili').empty();
   
         n_xiangting = Majiang.Util.xiangting(shoupai);
+        if (n_xiangting == -1)      $('.status').text('和了！！');
+        else if (n_xiangting == 0)  $('.status').text('聴牌！');
+        else                        $('.status').text(n_xiangting + '向聴');
+  
+        var dapai = [];
+        for (var p of get_dapai()) {
+  
+            p = p.replace(/0/, '5');
+            if (dapai.length > 0 && p == dapai[dapai.length - 1].da) continue;
+
+            var new_shoupai = shoupai.clone();
+            new_shoupai.dapai(p);
+  
+            if (Majiang.Util.xiangting(new_shoupai) > n_xiangting) continue;
+
+            var paishu = 0;
+            var tingpai = [];
+            for (var tp of Majiang.Util.tingpai(new_shoupai)) {
+                paishu += 4 - shoupai._bingpai[tp[0]][tp[1]];
+                tingpai.push(tp);
+            }
+  
+            dapai.push({ da: p, mo: tingpai, shu: paishu });
+        }
+  
+        for (var dp of dapai.sort(function(a,b){return b.shu - a.shu})) {
+            var html = '<div>打: ' + imgHtml(dp.da) + ' 摸: '
+                     + dp.mo.map(imgHtml).join('')
+                     + ' (' + dp.shu + '枚)</div>';
+            $('.paili').append($(html));
+        }
     }
 
-    xipai();
 });
+
