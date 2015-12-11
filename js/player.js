@@ -199,10 +199,22 @@ Majiang.Player.prototype.get_dapai = function() {
  
     if (this._lizhi[this._menfeng]) return [ this._shoupai._zimo ];
  
+    var fulou = this._shoupai._zimo.replace(/0/,'5');
+    var deny = {};
+    var chipai = fulou.match(/\d(?=[\-\+\=])/);
+    if (chipai) {
+        var s = fulou[0];
+        var n = chipai[0] -0;
+        deny[s+n] = true;
+        if (n < 7 && fulou.match(/^[mps]\d\-\d\d$/)) deny[s+(n+3)] = true;
+        if (3 < n && fulou.match(/^[mps]\d\d\d\-$/)) deny[s+(n-3)] = true;
+    }
+ 
     for (var s in this._shoupai._bingpai) {
         var bingpai = this._shoupai._bingpai[s];
         for (var n = 1; n < bingpai.length; n++) {
             if (bingpai[n] == 0) continue;
+            if (deny[s+n]) continue;
             if (n != 5)                         pai.push(s+n);
             else {
                 if (bingpai[0] > 0)             pai.push(s+'0');
