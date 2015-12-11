@@ -317,11 +317,21 @@ Majiang.Player.prototype.get_gang_mianzi = function(data) {
     return mianzi;
 }
 
-Majiang.Player.prototype.allow_lizhi = function() {
+Majiang.Player.prototype.allow_lizhi = function(p) {
 
-    return (! this._lizhi[this._menfeng] && this._menqian
-            && Majiang.Util.xiangting(this._shoupai) == 0
-            && this._paishu >= 4 && this._defen[this._menfeng] >= 1000);
+    if (! this._lizhi[this._menfeng] && this._menqian
+        && Majiang.Util.xiangting(this._shoupai) == 0
+        && this._paishu >= 4 && this._defen[this._menfeng] >= 1000)
+    {
+        if (p == null) return true;
+        else {
+            var new_shoupai = this._shoupai.clone();
+            new_shoupai.dapai(p);
+            return Majiang.Util.xiangting(new_shoupai) == 0
+                    && Majiang.Util.tingpai(new_shoupai).length > 0;
+        }
+    }
+    return false;
 }
 
 Majiang.Player.prototype.allow_hule = function(data, option) {
@@ -420,8 +430,8 @@ Majiang.Player.prototype.select_gang = function() {
     }
 }
 
-Majiang.Player.prototype.select_lizhi = function() {
-    return this.allow_lizhi();
+Majiang.Player.prototype.select_lizhi = function(p) {
+    return this.allow_lizhi(p);
 }
 
 Majiang.Player.prototype.select_hule = function(data, option) {
@@ -458,7 +468,7 @@ Majiang.Player.prototype.select_dapai = function() {
     
     if (dapai == this._shoupai._zimo) dapai += '_';
  
-    if (this.select_lizhi()) dapai += '*';
+    if (this.select_lizhi(dapai)) dapai += '*';
  
     return dapai;
 }
