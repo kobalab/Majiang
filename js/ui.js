@@ -39,7 +39,8 @@ Majiang.UI.prototype.get_dapai_of_lizhi = function() {
     for (var p of this.get_dapai()) {
         var new_shoupai = this._shoupai.clone();
         new_shoupai.dapai(p);
-        if (Majiang.Util.xiangting(new_shoupai) == 0) dapai.push(p);
+        if (Majiang.Util.xiangting(new_shoupai) == 0
+            && Majiang.Util.tingpai(new_shoupai).length > 0) dapai.push(p);
     }
  
     return dapai;
