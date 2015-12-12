@@ -165,6 +165,7 @@ Majiang.Shoupai.prototype.fulou = function(m) {
 
 Majiang.Shoupai.prototype.gang = function(p) {
     if (this._zimo && this._zimo.length == 2) {
+        p = p.replace(/0/g,'5');
         if (this._bingpai[p[0]][p[1]] > 3) {
             var m = p[0]+p[1]+p[1]+p[1]+p[1];
             if (p[1] == '5') {
