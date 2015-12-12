@@ -324,6 +324,24 @@ Majiang.Player.prototype.get_gang_mianzi = function(data) {
                 }
             }
         }
+        if (this._lizhi[this._menfeng] && mianzi.length > 0) {
+
+            var new_shoupai = this._shoupai.clone();
+            new_shoupai.dapai(this._shoupai._zimo);
+            var tingpai = Majiang.Util.tingpai(new_shoupai).join(',');
+ 
+            for (var m of mianzi) {
+                if (this._shoupai._zimo.replace(/0/,'5')
+                                != m.replace(/0/,'5').substr(0,2)) continue;
+                new_shoupai = this._shoupai.clone();
+                new_shoupai.gang(m);
+                if (Majiang.Util.xiangting(new_shoupai) == 0
+                    && Majiang.Util.tingpai(new_shoupai).join(',') == tingpai) {
+                    return [ m ];
+                }
+            }
+            return [];
+        }
     }
  
     return mianzi;
