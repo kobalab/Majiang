@@ -242,12 +242,18 @@ Majiang.Player.prototype.get_chi_mianzi = function(data) {
         if (3 <= n && bingpai[n-2] > 0 && bingpai[n-1] > 0) {
             p1 = (n-2 == 5 && bingpai[0] > 0) ? 0 : n-2;
             p2 = (n-1 == 5 && bingpai[0] > 0) ? 0 : n-1;
-            mianzi.push(s + p1 + p2 + (p0+d));
+            if (this._shoupai._fulou.length == 3
+                && bingpai[n] == 1 && 3 < n && bingpai[n-3] == 1)
+                ;
+            else mianzi.push(s + p1 + p2 + (p0+d));
         }
         if (n <= 7 && bingpai[n+1] > 0 && bingpai[n+2] > 0) {
             p1 = (n+1 == 5 && bingpai[0] > 0) ? 0 : n+1;
             p2 = (n+2 == 5 && bingpai[0] > 0) ? 0 : n+2;
-            mianzi.push(s + (p0+d) + p1 + p2);
+            if (this._shoupai._fulou.length == 3
+                && bingpai[n] == 1 && n < 7 && bingpai[n+3] == 1)
+                ;
+            else mianzi.push(s + (p0+d) + p1 + p2);
         }
         if (2 <= n &&  n <= 8 && bingpai[n-1] > 0 && bingpai[n+1] > 0) {
             p1 = (n-1 == 5 && bingpai[0] > 0) ? 0 : n-1;
