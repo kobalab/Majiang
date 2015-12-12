@@ -598,9 +598,10 @@ Majiang.Game.prototype.hule = function() {
             yifa:       this._yifa[lunban],
             qianggang:  this._hule_option == 'qianggang',
             lingshang:  this._hule_option == 'lingshang',
-            haidi:      (this._model.shan.paishu() > 0) ? 0
-                            : ! rongpai                 ? 1
-                            :                             2,
+            haidi:      (this._model.shan.paishu() > 0
+                        || this._hule_option == 'lingshang') ? 0
+                            : ! rongpai                      ? 1
+                            :                                  2,
             tianhu:     (this._diyizimo && ! rongpai) ? (l == 0 ? 1 : 2) : 0,
         },
         baopai:         this._model.shan.baopai(),
