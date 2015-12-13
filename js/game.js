@@ -566,14 +566,14 @@ Majiang.Game.prototype.gangzimo = function() {
     this._view.shan.redraw();
     this._view.shoupai[this._lunban].redraw();
  
+    var paipu = { gangzimo: { l: this._lunban, p: zimo } };
+    this.add_paipu(paipu);
+
     if (this._gangpai && this._gangpai.match(/^[mpsz]\d{4}$/)) this.kaigang();
     else this._kaigang = true;
  
     this._gangpai = null;
  
-    var paipu = { gangzimo: { l: this._lunban, p: zimo } };
-    this.add_paipu(paipu);
-
     var data = [];
     for (var l = 0; l < 4; l++) {
         data[l] = JSON.parse(JSON.stringify(paipu.gangzimo));
