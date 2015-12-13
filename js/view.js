@@ -500,28 +500,49 @@ Majiang.View.Jiezhang = function(node, paipu) {
 
 (function(){
 
+var url = {
+    dapai: 'audio/dahai11.wav',
+    chi:   'audio/chii.wav',
+    peng:  'audio/pon.wav',
+    gang:  'audio/kan.wav',
+    lizhi: 'audio/richi.wav',
+    rong:  'audio/ron.wav',
+    zimo:  'audio/tsumo.wav',
+};
+
 Majiang.Audio = {
 
     _audio: {
-        dapai: new Audio('audio/dahai11.wav'),
-        chi:   new Audio('audio/chii.wav'),
-        peng:  new Audio('audio/pon.wav'),
-        gang:  new Audio('audio/kan.wav'),
-        lizhi: new Audio('audio/richi.wav'),
-        rong:  new Audio('audio/ron.wav'),
-        zimo:  new Audio('audio/tsumo.wav'),
+        dapai: [],
+        chi:   [],
+        peng:  [],
+        gang:  [],
+        lizhi: [],
+        rong:  [],
+        zimo:  [],
     },
     _volume: 5,
  
+    init: function() {
+        for (var name in this._audio) {
+            for (var i = 0; i < 4; i++) {
+                this._audio[name][i] = new Audio(url[name]);
+            }
+        }
+    },
     volume: function(level) {
         if (level == null) return this._volume;
         for (var name in this._audio)
-            this._audio[name].volume = level / 5;
+            for (var i = 0; i < this._audio[name].length; i++) {
+                this._audio[name][i].volume = level / 5;
+            }
         this._volume = level;
     },
-    play: function(name) {
-        this._audio[name].play();
+    play: function(name, i) {
+        this._audio[name][i].play();
     }
 };
+
+$(function(){ Majiang.Audio.init() });
 
 })();

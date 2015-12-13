@@ -273,9 +273,10 @@ Majiang.Game.prototype.reply_jieju = function() {
     if (this._callback) this._callback();
 }
 
-Majiang.Game.prototype.audio_play = function(name, lunban, callback) {
-    if (this._timeout < 500) return;
-    Majiang.Audio.play(name);
+Majiang.Game.prototype.audio_play = function(name, lunban) {
+    if (this._timeout < 300) return;
+    Majiang.Audio.play(name,
+        this.player_id(lunban == null ? this._lunban : lunban));
 }
 
 Majiang.Game.prototype.create_view = function(viewpoint) {
