@@ -18,19 +18,16 @@
     <script>
         
         var game;
-        var default_timeout = 1000;
-        function STOP(){ game._stop = true; game._timeout = default_timeout }
         
         (function(){
 
-            game = { _timeout: default_timeout };
+            game = { _speed: 3 };
          
             function start() {
                 $('.jiezhang').hide();
-                var timeout = game._timeout;
+                var speed = game._speed;
                 game = new Majiang.Game();
-                game._timeout = timeout;
-                game._delay   = timeout * 5;
+                game._speed = speed;
                 game._callback = start;
                 game._player[0] = new Majiang.Player(0)
                 game.kaiju();
@@ -56,8 +53,7 @@
                     }
                 });
                 $('body').bind('dblclick', function(){
-                    game._timeout = (game._timeout > 0) ? 0 : default_timeout;
-                    game._delay = game._timeout * 5;
+                    game._speed = (game._speed == 0) ? 3 : 0;
                     game._stop = false;
                     game.next();
                     return false;
