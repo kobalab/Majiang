@@ -64,9 +64,16 @@ Majiang.Game.prototype.player_id = function(lunban) {
 
 Majiang.Game.prototype.notify_players = function(type, data) {
 
+    var self = this;
+ 
     for (var l = 0; l < 4; l++) {
-        var id = this.player_id(l);
-        this._player[id].action(type, data[l]);
+        (function(){
+            var id = self.player_id(l);
+            var lb = l;
+            setTimeout(function(){
+                self._player[id].action(type, data[lb]);
+            }, 0);
+        })();
     }
 }
 
