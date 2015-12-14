@@ -184,10 +184,12 @@ Majiang.Game.prototype.reply_dapai = function() {
     for (var i = 0; i < 4; i++) {
         var lunban = (this._lunban + i) % 4;
         var reply = this._reply[this.player_id(lunban)];
-        if (reply.type == 'hule') this._hule.push(lunban);
+        if (reply.type == 'hule') {
+            this.audio_play('rong', lunban);
+            this._hule.push(lunban);
+        }
     }
     if (this._hule.length > 0) {
-        this.audio_play('rong');
         if (this._hule.length == 3)
                 this.delay(function(){ self.pingju('三家和') }, 0)
         else    this.delay(function(){ self.hule() });
@@ -226,12 +228,12 @@ Majiang.Game.prototype.reply_dapai = function() {
         if (reply.type == 'fulou') {
             var m = reply.data.replace(/0/g,'5');
             if (m.match(/^[mpsz](\d)\1\1\1/)) {
-                this.audio_play('gang');
+                this.audio_play('gang', lunban);
                 this.delay(function(){ self.fulou(reply.data) });
                 return;
             }
             else if (m.match(/^[mpsz](\d)\1\1/)) {
-                this.audio_play('peng');
+                this.audio_play('peng', lunban);
                 this.delay(function(){ self.fulou(reply.data) });
                 return;
             }
@@ -241,7 +243,7 @@ Majiang.Game.prototype.reply_dapai = function() {
         var lunban = (this._lunban + i) % 4;
         var reply = this._reply[this.player_id(lunban)];
         if (reply.type == 'fulou') {
-            this.audio_play('chi');
+            this.audio_play('chi', lunban);
             this.delay(function(){ self.fulou(reply.data) });
             return;
         }
@@ -274,10 +276,12 @@ Majiang.Game.prototype.reply_gang = function() {
     for (var i = 0; i < 4; i++) {
         var lunban = (this._lunban + i) % 4;
         var reply = this._reply[this.player_id(lunban)];
-        if (reply.type == 'hule') this._hule.push(lunban);
+        if (reply.type == 'hule') {
+            this.audio_play('rong', lunban);
+            this._hule.push(lunban);
+        }
     }
     if (this._hule.length > 0) {
-        this.audio_play('rong');
         if (this._hule.length == 3)
                 this.delay(function(){ self.pingju('三家和') }, 0);
         else    this.delay(function(){ self.hule() });
@@ -294,7 +298,6 @@ Majiang.Game.prototype.reply_hule = function() {
     this._view.jiesuan.hide();
  
     if (this._hule.length > 0) {
-        this.audio_play('rong');
         this.delay(function(){ self.hule() });
     }
     else this.jiesuan();
