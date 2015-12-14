@@ -539,7 +539,7 @@ Majiang.Audio = {
         this._volume = level;
     },
     play: function(name, i) {
-        this._audio[name][i].play();
+        this._audio[name][i||0].play();
     }
 };
 
