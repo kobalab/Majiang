@@ -96,15 +96,7 @@ Majiang.Game.prototype.call_players = function(type, data, timeout) {
                     function(p){ return p instanceof Majiang.UI }).length)
             timeout = 0;
     }
-    else {
-        timeout = this._speed == 0 ?   0
-                : this._speed == 1 ? 100
-                : this._speed == 2 ? 300
-                : this._speed == 3 ? 500
-                : this._speed == 4 ? 700
-                : this._speed == 5 ? 900
-                :                      0;
-    }
+    else    timeout = this._speed * 200;
  
     this._reply = [];
     for (var l = 0; l < 4; l++) {
@@ -163,13 +155,7 @@ Majiang.Game.prototype.reply_zimo = function() {
         if (reply.data.match(/\*$/)) {
             this.audio_play('lizhi');
             this.delay(function(){ self.dapai(reply.data) },
-                  this._speed == 0 ?   0
-                : this._speed == 1 ? 500
-                : this._speed == 2 ? 500
-                : this._speed == 3 ? 500
-                : this._speed == 4 ? 700
-                : this._speed == 5 ? 900
-                :                      0
+                  (this._speed < 3) ? 500 : this._speed * 200
             );
         }
         else this.dapai(reply.data);
