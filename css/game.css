@@ -307,3 +307,21 @@ body {
     text-align: center;
     font-size:  24px;
 }
+.jiezhang .paipu {
+    width: 640px;
+    margin: 10px auto;
+}
+.jiezhang .paipu a {
+    display: inline-block;
+    padding: 2px 10px;
+    font-size: 14px;
+    background: #666;
+    border-radius: 5px;
+    white-space: nowrap;    
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+}
+.jiezhang .paipu .next {
+    float: right;
+}

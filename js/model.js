@@ -294,3 +294,47 @@ Majiang.He.prototype.fulou = function(d) {
 }
 
 })();
+
+
+/*
+ *  Majiang.Shan.Fake
+ */
+
+(function(){
+
+Majiang.Shan.Fake = function(baopai) {
+
+    this._paishu   = 136 - 13 * 4 - 14;
+    this._baopai   = [ baopai ];
+    this._fubaopai = [];
+}
+
+Majiang.Shan.Fake.prototype.paishu = function() {
+    return this._paishu;
+}
+
+Majiang.Shan.Fake.prototype.zimo = function(p) {
+    this._paishu--;
+    return p;
+}
+
+Majiang.Shan.Fake.prototype.baopai = function() {
+    return this._baopai.concat();
+}
+
+Majiang.Shan.Fake.prototype.fubaopai = function(pai) {
+    if (pai)    this._fubaopai = pai;
+    else return this._fubaopai.concat();
+}
+
+Majiang.Shan.Fake.prototype.gangzimo = function() {
+    this._paishu--;
+    return '';
+}
+
+Majiang.Shan.Fake.prototype.kaigang = function(p) {
+    this._baopai.push(p);
+    return p;
+}
+
+})();

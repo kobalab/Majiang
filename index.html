@@ -15,8 +15,10 @@
     <script src="js/player.js"></script>
     <script src="js/ui.js"></script>
     <script src="js/game.js"></script>
+    <script src="js/paipu.js"></script>
     <script>
-        var game;
+        var game, paipu;
+        
         $(function(){
 
             $('#title .version').text('ver. ' + Majiang.VERSION);
@@ -166,7 +168,11 @@
         <span class="defen"></span><span class="diff"></span></div></div>
 </div>
 
-<div class="jiezhang"><table></table></div>
+<div class="jiezhang"><table></table>
+    <div class="paipu">
+        <a class="next">次の半荘へ</a>
+        <a class="replay">牌譜再生</a></div>
+</div>
 
 </div>
 
