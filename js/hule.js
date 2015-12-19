@@ -588,8 +588,7 @@ Majiang.Util.hule = function(shoupai, rongpai, param) {
         fanshu:     0,
         damanguan:  0,
         defen:      0,
-        fenpei:     [ 0, 0, 0, 0 ],
-        mianzi:     []          // for DEBUG
+        fenpei:     [ 0, 0, 0, 0 ]
     };
     
     var pre_hupai  = get_pre_hupai(param.hupai);
@@ -691,8 +690,7 @@ Majiang.Util.hule = function(shoupai, rongpai, param) {
                 fanshu:     fanshu,
                 damanguan:  damanguan,
                 defen:      defen + defen2,
-                fenpei:     fenpei,
-                mianzi:     mianzi          // for DEBUG
+                fenpei:     fenpei
             };
         }
     }
