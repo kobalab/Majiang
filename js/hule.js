@@ -96,6 +96,7 @@ function hule_mianzi_yiban(shoupai, hulepai) {
             var jiangpai = s+n+n;
             for (var mm of mianzi_all(shoupai)) {
                 mm.unshift(jiangpai);
+                if (mm.length != 5) continue;
                 hule_mianzi = hule_mianzi.concat(add_hulepai(mm, hulepai));
             }
             bingpai[n] += 2;
