@@ -640,6 +640,7 @@ Majiang.Game.prototype.hule = function() {
     var hule = Majiang.Util.hule(new_shoupai, rongpai, param);
  
     var info = {
+        lunban:   lunban,
         shoupai:  new_shoupai,
         hule:     hule,
         fubaopai: fubaopai,

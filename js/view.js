@@ -336,17 +336,22 @@ Majiang.View.Jiesuan.prototype.hule = function(info) {
         }
         var node = $('<tr><td colspan="2" class="defen"></td></tr>');
         var text = info.hule.fu + '符 ' + info.hule.fanshu + '翻 ';
-        if      (info.hule.manguan == 1)    text += '満貫 ';
-        else if (info.hule.manguan == 1.5)  text += '跳満 ';
-        else if (info.hule.manguan == 2)    text += '倍満 ';
-        else if (info.hule.manguan == 3)    text += '三倍満 ';
-        else if (info.hule.manguan == 4)    text += '数え役満 ';
+
+        if      (info.hule.fanshu >= 13)    text += '数え役満 ';
+        else if (info.hule.fanshu >= 11)    text += '三倍満 ';
+        else if (info.hule.fanshu >=  8)    text += '倍満 ';
+        else if (info.hule.fanshu >=  6)    text += '跳満 ';
+        else if (info.lunban == 0 && info.hule.defen >= 12000
+              || info.lunban != 0 && info.hule.defen >=  8000)
+                                            text += '満貫 ';
+
         if      (info.hule.damanguan == 1)  text  = '役満 ';
         else if (info.hule.damanguan == 2)  text  = 'ダブル役満 ';
         else if (info.hule.damanguan == 3)  text  = 'トリプル役満 ';
         else if (info.hule.damanguan == 4)  text  = '四倍役満 ';
         else if (info.hule.damanguan == 5)  text  = '五倍役満 ';
         else if (info.hule.damanguan == 6)  text  = '六倍役満 ';
+
         text += info.hule.defen + '点';
         node.find('.defen').text(text);
         hupai.append(node);

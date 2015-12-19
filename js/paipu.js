@@ -266,23 +266,16 @@ Majiang.Game.Paipu.prototype.hule = function(data) {
     
     this._model.shan.fubaopai(data.fubaopai);
     
-    var manguan = data.fanshu >= 13                  ? 4
-                : data.fanshu >= 11                  ? 3
-                : data.fanshu >=  8                  ? 2
-                : data.fanshu >=  6                  ? 1.5
-                : data.l == 0 && data.defen >= 12000 ? 1
-                : data.l != 0 && data.defen >=  8000 ? 1
-                :                                      0;
     var hule = {
         hupai:      data.hupai,
         fu:         data.fu,
         fanshu:     data.fanshu,
-        manguan:    manguan,
         damanguan:  data.damanguan,
         defen:      data.defen,
         fubaopai:   data.fubaopai
     };
     var info = {
+        lunban:   data.l,
         shoupai:  Majiang.Shoupai.fromString(data.shoupai),
         hule:     hule,
         fubaopai: data.fubaopai,

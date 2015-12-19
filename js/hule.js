@@ -585,10 +585,9 @@ Majiang.Util.hule = function(shoupai, rongpai, param) {
         hupai:      null,
         fu:         0,
         fanshu:     0,
+        damanguan:  0,
         defen:      0,
         fenpei:     [ 0, 0, 0, 0 ],
-        manguan:    0,
-        damanguan:  0,
         mianzi:     []          // for DEBUG
     };
     
@@ -604,7 +603,7 @@ Majiang.Util.hule = function(shoupai, rongpai, param) {
         if (hupai.length == 0) continue;
         
         var fu = hudi.fu;
-        var fanshu = 0, defen = 0, manguan = 0, damanguan = 0;
+        var fanshu = 0, defen = 0, damanguan = 0;
  
         var baojia2, defen2 = 0;
 
@@ -624,14 +623,14 @@ Majiang.Util.hule = function(shoupai, rongpai, param) {
         else {
             hupai = hupai.concat(post_hupai);
             for (var h of hupai) { fanshu += h.fanshu }
-            if      (fanshu >= 13) { defen = 8000; manguan = 4   }
-            else if (fanshu >= 11) { defen = 6000; manguan = 3   }
-            else if (fanshu >=  8) { defen = 4000; manguan = 2   }
-            else if (fanshu >=  6) { defen = 3000; manguan = 1.5 }
+            if      (fanshu >= 13) defen = 8000;
+            else if (fanshu >= 11) defen = 6000;
+            else if (fanshu >=  8) defen = 4000;
+            else if (fanshu >=  6) defen = 3000;
             else {
                 defen = fu * 2 * 2;
                 for (var i = 0; i < fanshu; i++) { defen *= 2 }
-                if (defen >= 2000) { defen = 2000; manguan = 1 }
+                if (defen >= 2000) defen = 2000;
             }
         }
         
@@ -689,10 +688,9 @@ Majiang.Util.hule = function(shoupai, rongpai, param) {
                 hupai:      hupai,
                 fu:         fu,
                 fanshu:     fanshu,
+                damanguan:  damanguan,
                 defen:      defen + defen2,
                 fenpei:     fenpei,
-                manguan:    manguan,
-                damanguan:  damanguan,
                 mianzi:     mianzi          // for DEBUG
             };
         }
