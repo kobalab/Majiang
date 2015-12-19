@@ -43,7 +43,7 @@ Majiang.View.Shoupai.prototype.redraw = function() {
                 num--;
             }
             for (var i = 0; i < num; i++) {
-                var pai;
+                var p;
                 if (n == 5 && hongpai > 0) { p = s+'0'; hongpai-- }
                 else                         p = s+n;
                 bingpai.append(imgHtml(this._open ? p : null));
