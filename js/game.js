@@ -335,6 +335,8 @@ Majiang.Game.prototype.create_view = function(viewpoint) {
  
     this._view.jiesuan = new Majiang.View.Jiesuan($('.jiesuan'),
                                 this._model.shan, this._chang, viewpoint);
+ 
+    new Majiang.View.Controler($('.controler'), this);
 }
 
 Majiang.Game.prototype.qipai = function() {

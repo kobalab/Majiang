@@ -500,6 +500,60 @@ Majiang.View.Jiezhang = function(node, paipu) {
 
 
 /*
+ *  Majiang.View.Controler
+ */
+
+(function(){
+
+Majiang.View.Controler = function(node, game) {
+
+    this._node = node;
+    this._game = game;
+
+    var self = this;
+ 
+    this._node.find('.sound .label').unbind('click').bind('click', function(){
+        Majiang.Audio.volume(0);
+        self.update();
+        return false;
+    });
+    this._node.find('.sound .scale span').each(function(i){
+        $(this).unbind('click').bind('click', function(){
+            Majiang.Audio.volume(i+1);
+            self.update();
+            return false;
+        });
+    });
+ 
+    this._node.find('.speed .scale span').each(function(i){
+        $(this).unbind('click').bind('click', function(){
+            self._game._speed = i + 1;
+            self.update();
+            return false;
+        });
+    });
+
+    this.update();
+}
+
+Majiang.View.Controler.prototype.update = function() {
+
+    var self = this;
+
+    this._node.find('.sound .scale span').each(function(i){
+        if (i >= Majiang.Audio.volume()) $(this).addClass('off');
+        else                             $(this).removeClass('off');
+    });
+    this._node.find('.speed .scale span').each(function(i){
+        if (i >= self._game._speed) $(this).addClass('off');
+        else                        $(this).removeClass('off');
+    });
+}
+
+})();
+
+
+/*
  *  Majiang.Audio
  */
 

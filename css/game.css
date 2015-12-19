@@ -325,3 +325,17 @@ body {
 .jiezhang .paipu .next {
     float: right;
 }
+
+.controler {
+    transform: translate(160px, 180px);
+    font-family: Impact;
+    font-size: 16px;
+    color: white;
+    opacity: 0.3;
+}
+.controler:hover {
+    opacity: 1.0;
+}
+.controler .scale .off{
+    color: #666;
+}

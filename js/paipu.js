@@ -21,7 +21,7 @@ Majiang.Game.Paipu = function(paipu) {
     this._delay  = false;
     this._replay = false;
     
-    this._timeout = 600;
+    this._speed = 3;
     this._timeout_id;
 
     this._callback;
@@ -62,7 +62,8 @@ Majiang.Game.Paipu.prototype.next = function() {
     else throw ('*** 未実装: ' + JSON.stringify(data));
 
     if (this._mode.auto_play && ! this._delay) {
-        this._timeout_id = setTimeout(function(){ self.next() }, self._timeout);
+        this._timeout_id
+            = setTimeout(function(){ self.next() }, self._speed * 200);
     }
 }
 
@@ -105,10 +106,18 @@ Majiang.Game.Paipu.prototype.create_view = function() {
     
     var self = this;
 
+    if (! this._mode.auto_play) $('.controler .speed').hide();
+
     $('#game').unbind('click').bind('click', function(){
         self._mode.auto_play = ! self._mode.auto_play;
-        if (self._mode.auto_play) self.next();
-        else this._timeout_id = clearTimeout(self._timeout_id);
+        if (self._mode.auto_play) {
+            self.next();
+            $('.controler .speed').show();
+        }
+        else {
+            this._timeout_id = clearTimeout(self._timeout_id);
+            $('.controler .speed').hide();
+        }
         return false;
     });
     
@@ -199,7 +208,8 @@ Majiang.Game.Paipu.prototype.fulou = function(data) {
     this._lunban = data.l;
 
     if (this._mode.auto_play) {
-        this._timeout_id = setTimeout(function(){ self.next() }, self._timeout);
+        this._timeout_id
+            = setTimeout(function(){ self.next() }, self._speed * 200);
     }
 }
 
