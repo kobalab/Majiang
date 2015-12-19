@@ -160,7 +160,7 @@ function hule_mianzi_guoshi(shoupai, hulepai) {
 function hule_mianzi_jiulian(shoupai, hulepai) {
 
     var s = hulepai[0];
-    if (s == 'z') return [];
+    if (! s.match(/^[mps]$/)) return [];
     
     var mianzi = s;
     var bingpai = shoupai._bingpai[s];
@@ -543,7 +543,7 @@ function get_post_hupai(paistr, baopai, fubaopai) {
 
     var post_hupai = [];
     
-    var substr = paistr.match(/[mpsz][^mpsz,]*/g);
+    var substr = paistr.match(/[mpsz][^mpsz,]*/g) || [];
     
     var n_baopai = 0;
     for (var p of baopai) {
