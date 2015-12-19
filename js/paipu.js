@@ -344,6 +344,7 @@ Majiang.Game.Paipu.prototype.seek = function(log_idx, idx) {
 
     if (this._mode.auto_play) {
         this._timeout_id = clearTimeout(self._timeout_id);
+        this._mode.auto_play = false;
     }
 
     this._log_idx = log_idx;
@@ -387,8 +388,4 @@ Majiang.Game.Paipu.prototype.seek = function(log_idx, idx) {
     }
     
     this.create_view();
-
-    if (this._mode.auto_play) {
-        this._timeout_id = setTimeout(function(){ self.next() }, self._timeout);
-    }
 }
