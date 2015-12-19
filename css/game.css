@@ -325,6 +325,11 @@ body {
 .jiezhang .paipu .next {
     float: right;
 }
+.jiezhang .paipu:after {
+    display: block;
+    content: '';
+    clear: both;
+}
 
 .controler {
     transform: translate(160px, 180px);
