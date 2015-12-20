@@ -490,7 +490,7 @@ Majiang.Player.prototype.select_dapai = function() {
         return this._shoupai._zimo + '_';
     }
  
-    var p, max = 0;
+    var dapai, max = 0;
     for (var p of this.get_dapai()) {
         var new_shoupai = this._shoupai.clone();
         new_shoupai.dapai(p);
