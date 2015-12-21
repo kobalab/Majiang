@@ -206,8 +206,10 @@ Majiang.Player.prototype.get_dapai = function() {
         var s = fulou[0];
         var n = chipai[0] -0;
         deny[s+n] = true;
-        if (n < 7 && fulou.match(/^[mps]\d\-\d\d$/)) deny[s+(n+3)] = true;
-        if (3 < n && fulou.match(/^[mps]\d\d\d\-$/)) deny[s+(n-3)] = true;
+        if (! fulou.match(/^[mpsz](\d)\1\1.*$/)) {
+            if (n < 7 && fulou.match(/^[mps]\d\-\d\d$/)) deny[s+(n+3)] = true;
+            if (3 < n && fulou.match(/^[mps]\d\d\d\-$/)) deny[s+(n-3)] = true;
+        }
     }
  
     for (var s in this._shoupai._bingpai) {
