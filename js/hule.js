@@ -247,7 +247,7 @@ function get_hudi(mianzi, zhuangfeng, menfeng) {
             if (m.match(menfengpai))    fu += 2;
             if (m.match(sanyuanpai))    fu += 2;
             hudi.fu += fu;
-            if (hudi.danqi)             fu += 2;
+            if (hudi.danqi)             hudi.fu += 2;
             hudi.jiangpai = m;
         }
         else if (m.match(kezi)) {
