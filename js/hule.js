@@ -198,7 +198,6 @@ function get_hudi(mianzi, zhuangfeng, menfeng) {
     var yaojiu        = /^.*[z19].*$/;
     var zipai         = /^z.*$/;
     
-    var jiangpai      = /^[mpsz](\d)\1([\-\+\=\_]\!)?$/;
     var kezi          = /^[mpsz](\d)\1\1.*$/;
     var ankezi        = /^[mpsz](\d)\1\1(?:\1|_\!)?$/;
     var gangzi        = /^[mpsz](\d)\1\1.*\1.*$/;
@@ -211,7 +210,6 @@ function get_hudi(mianzi, zhuangfeng, menfeng) {
         fu:         20,
         menqian:    true,
         zimo:       true,
-        jiangpai:   null,
         shunzi:     { m: {}, p: {}, s: {} },
         kezi:       { m: [0,0,0,0,0,0,0,0,0,0],
                       p: [0,0,0,0,0,0,0,0,0,0],
@@ -241,14 +239,13 @@ function get_hudi(mianzi, zhuangfeng, menfeng) {
         
         if (mianzi.length != 5) continue;
         
-        if (m.match(jiangpai)) {
+        if (m == mianzi[0]) {
             var fu = 0;
             if (m.match(zhuangfengpai)) fu += 2;
             if (m.match(menfengpai))    fu += 2;
             if (m.match(sanyuanpai))    fu += 2;
             hudi.fu += fu;
             if (hudi.danqi)             hudi.fu += 2;
-            hudi.jiangpai = m;
         }
         else if (m.match(kezi)) {
             hudi.n_kezi++;
@@ -399,7 +396,7 @@ function get_hupai(mianzi, hudi, pre_hupai) {
     }
     function xiaosanyuan() {
         if (hudi.kezi.z[5] + hudi.kezi.z[6] + hudi.kezi.z[7] == 2
-            && hudi.jiangpai.match(/^z[567]/))
+            && mianzi[0].match(/^z[567]/))
                                     return [{ name: '小三元', fanshu: 2 }];
         return [];
     }
@@ -469,7 +466,7 @@ function get_hupai(mianzi, hudi, pre_hupai) {
             return [{ name: '大四喜', fanshu: '**', baojia: baojia && baojia[0] }];
         }
         if (kezi.z[1] + kezi.z[2] + kezi.z[3] + kezi.z[4] == 3
-            && hudi.jiangpai.match(/^z[1234]/))
+            && mianzi[0].match(/^z[1234]/))
                             return [{ name: '小四喜', fanshu: '*' }];
         return [];
     }
