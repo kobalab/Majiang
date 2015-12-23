@@ -295,7 +295,10 @@ Majiang.Game.Paipu.prototype.hule = function(data) {
 
     $('#game').unbind('click').bind('click', function(){
         self._view.jiesuan.hide();
-        self._log_idx++; self._idx = 0; self.next();
+        if (self._idx == self._paipu.log[self._log_idx].length) {
+            self._log_idx++; self._idx = 0; self.next();
+        }
+        else self.next();
         return false;
     });
 }
