@@ -53,9 +53,14 @@ Majiang.Player.prototype.qipai = function(data) {
     this._diyizimo   = true;
     this._lizhi      = [0, 0, 0, 0];
     this._yifa       = [false, false, false, false];
+
+    this._suanpai = new Majiang.SuanPai(data.hongpai)
+    this._suanpai.qipai(data, this._menfeng);
 }
 
 Majiang.Player.prototype.zimo = function(data, callback, option) {
+
+    this._suanpai.zimo(data);
 
     this._paishu--;
  
@@ -78,6 +83,8 @@ Majiang.Player.prototype.action_zimo = function(data, callback, option) {
 }
 
 Majiang.Player.prototype.dapai = function(data, callback) {
+
+    this._suanpai.dapai(data);
 
     this._yifa[data.l] == false;
 
@@ -122,6 +129,8 @@ Majiang.Player.prototype.action_dapai = function(data, callback) {
 
 Majiang.Player.prototype.fulou = function(data, callback) {
 
+    this._suanpai.fulou(data);
+
     this._diyizimo = false;
     this._yifa     = [false, false, false, false];
  
@@ -147,6 +156,8 @@ Majiang.Player.prototype.action_fulou = function(data, callback) {
 }
 
 Majiang.Player.prototype.gang = function(data, callback) {
+
+    this._suanpai.gang(data);
 
     this._diyizimo = false;
     this._yifa     = [false, false, false, false];
@@ -177,6 +188,8 @@ Majiang.Player.prototype.action_gang = function(data, callback) {
 }
 
 Majiang.Player.prototype.kaigang = function(data) {
+
+    this._suanpai.kaigang(data);
 
     this._baopai.push(data.baopai);
 }
@@ -499,7 +512,7 @@ Majiang.Player.prototype.select_dapai = function() {
         if (Majiang.Util.xiangting(new_shoupai) > n_xiangting) continue;
         var x = 0;
         for (var tp of Majiang.Util.tingpai(new_shoupai)) {
-            x += 4 - this._shoupai._bingpai[tp[0]][tp[1]];
+            x += this._suanpai.paishu(tp);
         }
         if (x >= max) {
             max = x;
