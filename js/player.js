@@ -497,9 +497,12 @@ Majiang.Player.prototype.select_dapai = function() {
         var new_shoupai = this._shoupai.clone();
         new_shoupai.dapai(p);
         if (Majiang.Util.xiangting(new_shoupai) > n_xiangting) continue;
-        var n_tingpai = Majiang.Util.tingpai(new_shoupai).length;
-        if (n_tingpai >= max) {
-            max = n_tingpai;
+        var x = 0;
+        for (var tp of Majiang.Util.tingpai(new_shoupai)) {
+            x += 4 - this._shoupai._bingpai[tp[0]][tp[1]];
+        }
+        if (x >= max) {
+            max = x;
             dapai = p;
         }
     }
