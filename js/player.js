@@ -510,7 +510,7 @@ Majiang.Player.prototype.select_dapai = function() {
         var new_shoupai = this._shoupai.clone();
         new_shoupai.dapai(p);
         if (Majiang.Util.xiangting(new_shoupai) > n_xiangting) continue;
-        var x = 0;
+        var x = 1 - this._suanpai.paijia(p)/100;
         for (var tp of Majiang.Util.tingpai(new_shoupai)) {
             x += this._suanpai.paishu(tp);
         }

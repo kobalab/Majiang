@@ -80,4 +80,59 @@ Majiang.SuanPai.prototype.kaigang = function(data) {
     this.diaopai(data.baopai);
 }
 
+Majiang.SuanPai.prototype.paijia = function(p) {
+
+    function weight(s, n) {
+        if (n < 1 || 9 < n) return 0;
+        var rv = 1;
+        for (var baopai of self._baopai) {
+            if (s+n == Majiang.Shan.zhenbaopai(baopai)) rv *= 2;
+        }
+        return rv;
+    }
+
+    var self = this;
+
+    var rv;
+    var s = p[0], n = p[1]-0||5;
+
+    if (s == 'z') {
+        rv = this.paishu(s+n) * weight(s+n);
+    }
+    else {
+        var left   = (1 <= n-2)
+                   ? Math.min(this.paishu(s+(n-2)), this.paishu(s+(n-1))) : 0;
+        var center = (1 <= n-1 && n+1 <= 9)
+                   ? Math.min(this.paishu(s+(n-1)), this.paishu(s+(n+1))) : 0;
+        var right  = (n+2 <= 9)
+                   ? Math.min(this.paishu(s+(n+1)), this.paishu(s+(n+2))) : 0;
+
+        rv = left                    * weight(s, n-2)
+           + Math.max(left, center)  * weight(s, n-1)
+           + this.paishu(s+n)        * weight(s, n)
+           + Math.max(center, right) * weight(s, n+1)
+           + right                   * weight(s, n+2);
+    }
+
+    if (p[1] == '0')                   rv *= 2;
+    if (p == 'z'+(this._zhuangfeng+1)) rv *= 2;
+    if (p == 'z'+(this._menfeng+1))    rv *= 2;
+    if (p.match(/^z[567]/))            rv *= 2;
+    rv *= weight(s, n);
+
+    return rv;
+}
+
+Majiang.SuanPai.prototype.paijia_all = function() {
+
+    var paijia = { m: [], p: [], s: [], z: [] };
+    for (var s of ['m','p','s','z']) {
+        var nn = (s == 'z') ? [1,2,3,4,5,6,7] : [0,1,2,3,4,5,6,7,8,9];
+        for (var n of nn) {
+            paijia[s][n] = this.paijia(s+n);
+        }
+    }
+    return paijia;
+}
+
 })();
