@@ -50,6 +50,12 @@ Majiang.Game.Paipu.prototype.next = function() {
     var data = this._paipu.log[this._log_idx][this._idx];
     this._idx++;
     
+    if (this._lizhi && ! data.hule) {
+        this._chang.defen[this.player_id(this._lunban)] -= 1000;
+        this._chang.lizhibang++;
+        this._lizhi = false;
+    }
+
     if      (data.qipai)    this.qipai(data.qipai);
     else if (data.zimo)     this.zimo(data.zimo);
     else if (data.dapai)    this.dapai(data.dapai);
@@ -85,6 +91,7 @@ Majiang.Game.Paipu.prototype._qipai = function(data) {
     };
     
     this._lunban = 0;
+    this._lizhi  = false;
     
     for (var l = 0; l < 4; l++) {
         this._model.shoupai[l] = Majiang.Shoupai.fromString(data.shoupai[l]);
@@ -164,8 +171,7 @@ Majiang.Game.Paipu.prototype.dapai = function(data) {
 
     this._model.shoupai[data.l].dapai(data.p);
     this._model.he[data.l].dapai(data.p);
-    if (data.p.substr(-1) == '*')
-            this._chang.defen[this.player_id(data.l)] -= 1000;
+    if (data.p.substr(-1) == '*') this._lizhi = true;
     
     this._view.shoupai[data.l].dapai(data.p);
     this.audio_play('dapai');
@@ -354,8 +360,15 @@ Majiang.Game.Paipu.prototype.seek = function(log_idx, idx) {
     this._idx = 0;
     
     while (this._idx <= idx) {
+
         var data = this._paipu.log[this._log_idx][this._idx];
         
+        if (this._lizhi && ! data.hule) {
+            this._chang.defen[this.player_id(this._lunban)] -= 1000;
+            this._chang.lizhibang++;
+            this._lizhi = false;
+        }
+
         if (data.qipai) {
             this._qipai(data.qipai);
         }
@@ -367,8 +380,7 @@ Majiang.Game.Paipu.prototype.seek = function(log_idx, idx) {
         else if (data.dapai) {
             this._model.shoupai[data.dapai.l].dapai(data.dapai.p);
             this._model.he[data.dapai.l].dapai(data.dapai.p);
-            if (data.dapai.p.substr(-1) == '*')
-                    this._chang.defen[this.player_id(data.dapai.l)] -= 1000;
+            if (data.dapai.p.substr(-1) == '*') this._lizhi = true;
         }
         else if (data.fulou) {
             var d = data.fulou.m.match(/[\-\+\=]/)[0];
