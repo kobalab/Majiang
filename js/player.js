@@ -21,7 +21,6 @@ Majiang.Player.prototype.action = function(type, data, callback) {
     else if (type == 'hule')     this.hule(data, callback);
     else if (type == 'pingju')   this.pingju(data, callback);
     else if (type == 'jieju')    this.jieju(data, callback);
-    else throw ('*** 未実装: ' + type);
 }
 
 Majiang.Player.prototype.wait = function(callback) { callback() }

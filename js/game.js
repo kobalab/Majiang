@@ -85,8 +85,6 @@ Majiang.Game.prototype.notify_players = function(type, data) {
 
 Majiang.Game.prototype.call_players = function(type, data, timeout) {
 
-    if (this._debug) console.log('*** '+type+': ', data);
-
     var self = this;
  
     this._status = type;
@@ -115,8 +113,6 @@ Majiang.Game.prototype.call_players = function(type, data, timeout) {
 
 Majiang.Game.prototype.next = function(id, type, data) {
 
-    if (this._debug) console.log('['+id+'] '+type+': ', data);
-
     var self = this;
  
     if (id != null) this._reply[id] = { type: type, data: data };
@@ -131,7 +127,6 @@ Majiang.Game.prototype.next = function(id, type, data) {
     else if (this._status == 'hule')     this.reply_hule();
     else if (this._status == 'pingju')   this.reply_pingju();
     else if (this._status == 'jieju')    this.reply_jieju();
-    else throw ('*** 未実装: ' + this._status);
 }
 
 Majiang.Game.prototype.reply_zimo = function() {
