@@ -129,8 +129,22 @@ Majiang.Game.Paipu.prototype.create_view = function() {
     });
     
     $(window).unbind('keydown').bind('keydown', function(event){
-        if (event.keyCode == 40) self.next();
-        if (event.keyCode == 38) self.seek(self._log_idx, self._idx - 2);
+        if (event.keyCode == 40) {
+            if (event.shiftKey) {
+                var log = self._paipu.log[self._log_idx];
+                for (var i = 0; i < log.length; i++) {
+                    if (log[i].hule || log[i].pingju) {
+                        self.seek(self._log_idx, i - 1);
+                        self.next();
+                    }
+                }
+            }
+            else self.next();
+        }
+        if (event.keyCode == 38) {
+            if (event.shiftKey) self.seek(self._log_idx, 0);
+            else                self.seek(self._log_idx, self._idx - 2);
+        }
         if (event.keyCode == 37) self.seek(self._log_idx - 1, 0);
         if (event.keyCode == 39) self.seek(self._log_idx + 1, 0);
     });
