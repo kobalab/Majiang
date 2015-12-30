@@ -165,7 +165,11 @@ Majiang.Game.prototype.reply_dapai = function() {
         var lunban = (this._lunban + i) % 4;
         var reply = this._reply[this.player_id(lunban)];
         if (reply.type == 'hule') {
-            this.audio_play('rong', lunban);
+            (function(){
+                var lb = lunban;
+                var delay = self._hule.length * 150;
+                setTimeout(function(){ self.audio_play('rong', lb) }, delay);
+            })();
             this._hule.push(lunban);
         }
     }
@@ -256,7 +260,11 @@ Majiang.Game.prototype.reply_gang = function() {
         var lunban = (this._lunban + i) % 4;
         var reply = this._reply[this.player_id(lunban)];
         if (reply.type == 'hule') {
-            this.audio_play('rong', lunban);
+            (function(){
+                var lb = lunban;
+                var delay = self._hule.length * 150;
+                setTimeout(function(){ self.audio_play('rong', lb) }, delay);
+            })();
             this._hule.push(lunban);
         }
     }
