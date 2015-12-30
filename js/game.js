@@ -22,7 +22,7 @@ Majiang.Game = function() {
         hongpai:     { m: 1, p: 1, s: 1 }
     };
  
-    this._player = [ new Majiang.UI(0) ];           // 仮親は常にUI
+    this._player = [ new Majiang.UI(0) ];
     for (var id = 1; id < 4; id++) {
         this._player[id] = new Majiang.Player(id);
     }
