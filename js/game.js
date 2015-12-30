@@ -161,7 +161,6 @@ Majiang.Game.prototype.reply_dapai = function() {
 
     var self = this;
  
-    var hule = [];
     for (var i = 0; i < 4; i++) {
         var lunban = (this._lunban + i) % 4;
         var reply = this._reply[this.player_id(lunban)];
@@ -253,7 +252,6 @@ Majiang.Game.prototype.reply_gang = function() {
 
     var self = this;
 
-    var hule = [];
     for (var i = 0; i < 4; i++) {
         var lunban = (this._lunban + i) % 4;
         var reply = this._reply[this.player_id(lunban)];
