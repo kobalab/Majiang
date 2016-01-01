@@ -1,7 +1,7 @@
 /*
  *  Majiang
  *
- *  Copyright(C) 2015 Satoshi Kobayashi, All rights reserved.
+ *  Copyright(C) 2015−2016 Satoshi Kobayashi, All rights reserved.
  */
 
-var Majiang = { VERSION: '0.3.2' };
+var Majiang = { VERSION: '0.4' };
