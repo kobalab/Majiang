@@ -192,9 +192,12 @@ Majiang.Game.prototype.reply_dapai = function() {
         }
     }
  
-    if (this._diyizimo && this._lunban == 3 && this._dafengpai) {
-        this.delay(function(){ self.pingju('四風連打') }, 0);
-        return;
+    if (this._diyizimo && this._lunban == 3) {
+        this._diyizimo = false;
+        if (this._dafengpai) {
+            this.delay(function(){ self.pingju('四風連打') }, 0);
+            return;
+        }
     }
 
     if (this._model.shan.baopai().length == 5) {
@@ -465,6 +468,7 @@ Majiang.Game.prototype.dapai = function(dapai) {
         if (this._lunban > 0 && dapai.substr(0,2) != this._dapai.substr(0,2))
                                         this._dafengpai = false;
     }
+    else this._dafengpai = false;
  
     if (dapai.match(/\*$/)) {
         this._lizhi[this._lunban] = this._diyizimo ? 2 : 1;
@@ -472,10 +476,6 @@ Majiang.Game.prototype.dapai = function(dapai) {
     }
  
     this._dapai = dapai;
- 
-    if (this._diyizimo && this._lunban == 3) {
-        this._diyizimo = false;
-    }
  
     var paipu = { dapai: { l: this._lunban, p: dapai } };
     this.add_paipu(paipu);
