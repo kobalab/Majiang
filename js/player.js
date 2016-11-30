@@ -53,7 +53,7 @@ Majiang.Player.prototype.qipai = function(data) {
     this._lizhi      = [0, 0, 0, 0];
     this._yifa       = [false, false, false, false];
 
-    this._suanpai = new Majiang.SuanPai(data.hongpai)
+    this._suanpai = new Majiang.SuanPai(this._chang.hongpai)
     this._suanpai.qipai(data, this._menfeng);
 }
 
