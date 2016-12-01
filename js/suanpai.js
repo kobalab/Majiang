@@ -10,13 +10,19 @@ Majiang.SuanPai = function(hongpai) {
         m: [0,4,4,4,4,4,4,4,4,4],
         p: [0,4,4,4,4,4,4,4,4,4],
         s: [0,4,4,4,4,4,4,4,4,4],
-        z: [0,4,4,4,4,4,4,4],
+        z: [0,4,4,4,4,4,4,4]
     }
     if (hongpai) {
         this._paishu.m[0] = hongpai.m;
         this._paishu.p[0] = hongpai.p;
         this._paishu.s[0] = hongpai.s;
     }
+ 
+    this._dapai = [];
+    for (var l = 0; l < 4; l++) {
+        this._dapai[l] = {};
+    }
+    this._lizhi = [false, false, false, false];
 }
 
 Majiang.SuanPai.prototype.paishu = function(p) {
@@ -49,6 +55,14 @@ Majiang.SuanPai.prototype.zimo = function(data) {
 
 Majiang.SuanPai.prototype.dapai = function(data) {
     if (data.l != this._menfeng) this.diaopai(data.p);
+ 
+    var p = data.p.substr(0,2).replace(/0/,'5');
+    this._dapai[data.l][p] = true;
+
+    if (data.p.match(/\*$/)) this._lizhi[data.l] = true;
+    for (var l = 0; l < 4; l++) {
+        if (this._lizhi[l]) this._dapai[l][p] = true;
+    }
 }
 
 Majiang.SuanPai.prototype.fulou = function(data) {
@@ -133,6 +147,38 @@ Majiang.SuanPai.prototype.paijia_all = function() {
         }
     }
     return paijia;
+}
+
+Majiang.SuanPai.prototype.suan_weixian = function(p, l) {
+
+    var rv = 12;
+    var s = p[0], n = p[1]-0||5;
+ 
+    if (this._dapai[l][s+n]) return 0;
+ 
+    if (s == 'z')   return Math.min(this.paishu(s+n), 3);
+    if (n == 1)     return this._dapai[l][s+(n+3)] ? 3 : 6;
+    if (n == 9)     return this._dapai[l][s+(n-3)] ? 3 : 6;
+    if (n == 2)     return this._dapai[l][s+(n+3)] ? 4 : 8;
+    if (n == 8)     return this._dapai[l][s+(n-3)] ? 4 : 8;
+    if (n == 3)     return this._dapai[l][s+(n+3)] ? 5 : 8;
+    if (n == 7)     return this._dapai[l][s+(n-3)] ? 5 : 8;
+
+    return    this._dapai[l][s+(n-3)] && this._dapai[l][s+(n+3)] ?  4
+            : this._dapai[l][s+(n-3)] || this._dapai[l][s+(n+3)] ?  8
+            :                                                      12;
+}
+
+Majiang.SuanPai.prototype.suan_weixian_all = function(l) {
+
+    var weixian = { m: [], p: [], s: [], z: [] };
+    for (var s of ['m','p','s','z']) {
+        var nn = (s == 'z') ? [1,2,3,4,5,6,7] : [0,1,2,3,4,5,6,7,8,9];
+        for (var n of nn) {
+            weixian[s][n] = this.suan_weixian(s+n, l);
+        }
+    }
+    return weixian;
 }
 
 })();
