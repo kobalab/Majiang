@@ -53,7 +53,7 @@ Majiang.Player.prototype.qipai = function(data) {
     this._lizhi      = [0, 0, 0, 0];
     this._yifa       = [false, false, false, false];
 
-    this._suanpai = new Majiang.SuanPai(data.hongpai)
+    this._suanpai = new Majiang.SuanPai(this._chang.hongpai)
     this._suanpai.qipai(data, this._menfeng);
 }
 
@@ -495,6 +495,18 @@ Majiang.Player.prototype.select_pingju = function() {
 
 Majiang.Player.prototype.select_dapai = function() {
 
+    function suan_weixian(p) {
+        var weixian = 0;
+        for (var l = 0; l < 4; l++) {
+            if (! self._lizhi[l]) continue;
+            var w = self._suanpai.suan_weixian(p, l);
+            if (w > weixian) weixian = w;
+        }
+        return weixian;
+    }
+    
+    var self = this;
+
     if (this._lizhi[this._menfeng]) {
         return this._shoupai._zimo + '_';
     }
@@ -504,6 +516,17 @@ Majiang.Player.prototype.select_dapai = function() {
         return this._shoupai._zimo + '_';
     }
  
+    var anquan, min = Infinity;
+    if (this._lizhi.filter(function(x){return x}).length > 0) {
+        for (var p of this.get_dapai()) {
+            var weixian = suan_weixian(p);
+            if (weixian < min) {
+                min = weixian;
+                anquan = p;
+            }
+        }
+    }
+
     var dapai, max = 0;
     for (var p of this.get_dapai()) {
         var new_shoupai = this._shoupai.clone();
@@ -519,6 +542,11 @@ Majiang.Player.prototype.select_dapai = function() {
         }
     }
     
+    if (anquan) {
+        if      (n_xiangting > 1)                             dapai = anquan;
+        else if (n_xiangting == 1 && suan_weixian(dapai) > 5) dapai = anquan;
+    }
+ 
     if (dapai == this._shoupai._zimo) dapai += '_';
  
     if (this.select_lizhi(dapai)) dapai += '*';
