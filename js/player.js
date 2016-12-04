@@ -561,10 +561,26 @@ Majiang.Player.prototype.xiangting = function(shoupai) {
                                                             return Infinity;
         return Majiang.Util.xiangting(shoupai);
     }
+ 
+    function xiangting_fanpai(shoupai) {
+        var n_fanpai = 0;
+        for (var n of [self._zhuangfeng+1, self._menfeng+1, 5, 6, 7]) {
+            if (shoupai._bingpai.z[n] >= 3) n_fanpai++;
+            for (var m of shoupai._fulou) {
+                if (m[0] == 'z' && m[1] == n) n_fanpai++;
+            }
+        }
+        if (! n_fanpai) return Infinity;
+        return Majiang.Util.xiangting(shoupai);
+    }
 
+    var self = this;
     var x, min = Infinity;
  
     x = xiangting_menqian(shoupai);
+    if (x < min) min = x;
+ 
+    x = xiangting_fanpai(shoupai);
     if (x < min) min = x;
  
     return min;
