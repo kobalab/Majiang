@@ -451,6 +451,8 @@ Majiang.Player.prototype.select_fulou = function(data) {
  
     var self = this;
 
+    if (this._lizhi.filter(function(x){return x}).length > 0) return;
+ 
     var n_xiangting = this.xiangting(this._shoupai);
     if (n_xiangting == 0) return;
  
