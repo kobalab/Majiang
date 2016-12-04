@@ -155,19 +155,21 @@ Majiang.Util.xiangting = function(shoupai) {
     return min_xiangting;
 }
 
-Majiang.Util.tingpai = function(shoupai) {
+Majiang.Util.tingpai = function(shoupai, xiangting) {
 
     var pai = [];
  
     if (shoupai._zimo) return pai;
  
-    var n_xiangting = Majiang.Util.xiangting(shoupai);
+    xiangting = xiangting || Majiang.Util.xiangting;
+ 
+    var n_xiangting = xiangting(shoupai);
     for (var s of ['m','p','s','z']) {
         var bingpai = shoupai._bingpai[s];
         for (var n = 1; n < bingpai.length; n++) {
             if (bingpai[n] >= 4) continue;
             bingpai[n]++;
-            if (Majiang.Util.xiangting(shoupai) < n_xiangting) pai.push(s+n);
+            if (xiangting(shoupai) < n_xiangting) pai.push(s+n);
             bingpai[n]--;
         }
     }
