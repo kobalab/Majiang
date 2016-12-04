@@ -478,6 +478,9 @@ Majiang.Player.prototype.select_gang = function() {
     var self = this;
 
     var n_xiangting = this.xiangting(this._shoupai);
+
+    if (this._lizhi.filter(function(x){return x}).length > 0
+        && n_xiangting > 0) return;
  
     for (var m of this.get_gang_mianzi()) {
         return check_xiangting(this._shoupai, m, n_xiangting);
