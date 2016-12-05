@@ -568,15 +568,22 @@ Majiang.Player.prototype.xiangting = function(shoupai) {
     }
  
     function xiangting_fanpai(shoupai) {
-        var n_fanpai = 0;
+        var n_fanpai = 0, back;
         for (var n of [self._zhuangfeng+1, self._menfeng+1, 5, 6, 7]) {
             if (shoupai._bingpai.z[n] >= 3) n_fanpai++;
+            else if (shoupai._bingpai.z[n] == 2
+                        && self._suanpai.paishu('z'+n) > 0) back = n;
             for (var m of shoupai._fulou) {
                 if (m[0] == 'z' && m[1] == n) n_fanpai++;
             }
         }
-        if (! n_fanpai) return Infinity;
-        return Majiang.Util.xiangting(shoupai);
+        if (n_fanpai) return Majiang.Util.xiangting(shoupai);
+        if (back) {
+            var new_shoupai = shoupai.clone();
+            new_shoupai._bingpai.z[back]++;
+            return Majiang.Util.xiangting(new_shoupai) + 1;
+        }
+        return Infinity;
     }
 
     var self = this;
