@@ -600,6 +600,27 @@ Majiang.Player.prototype.xiangting = function(shoupai) {
         return Majiang.Util.xiangting(new_shoupai);
     }
 
+    function xiangting_daiyao(shoupai) {
+        if (shoupai._fulou.filter(function(m){return m.match(/^z|[19]/)}).length
+                != shoupai._fulou.length) return Infinity;
+ 
+        var new_shoupai = shoupai.clone();
+        for (var s of ['m','p','s']) {
+            for (var n of [2,3]) {
+                if (new_shoupai._bingpai[s][n] > new_shoupai._bingpai[s][1] + 1)
+                    new_shoupai._bingpai[s][n] = new_shoupai._bingpai[s][1] + 1;
+            }
+            for (var n of [4,5,6]) {
+                new_shoupai._bingpai[s][n] = 0;
+            }
+            for (var n of [7,8]) {
+                if (new_shoupai._bingpai[s][n] > new_shoupai._bingpai[s][9] + 1)
+                    new_shoupai._bingpai[s][n] = new_shoupai._bingpai[s][9] + 1;
+            }
+        }
+        return Majiang.Util.xiangting(new_shoupai);
+    }
+
     var self = this;
     var x, min = Infinity;
  
@@ -610,6 +631,9 @@ Majiang.Player.prototype.xiangting = function(shoupai) {
     if (x < min) min = x;
  
     x = xiangting_duanyao(shoupai);
+    if (x < min) min = x;
+ 
+    x = xiangting_daiyao(shoupai);
     if (x < min) min = x;
  
     return min;
