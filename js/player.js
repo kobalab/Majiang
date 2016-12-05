@@ -568,22 +568,15 @@ Majiang.Player.prototype.xiangting = function(shoupai) {
     }
  
     function xiangting_fanpai(shoupai) {
-        var n_fanpai = 0, back;
+        var n_fanpai = 0;
         for (var n of [self._zhuangfeng+1, self._menfeng+1, 5, 6, 7]) {
             if (shoupai._bingpai.z[n] >= 3) n_fanpai++;
-            else if (shoupai._bingpai.z[n] == 2
-                        && self._suanpai.paishu('z'+n) > 0) back = n;
             for (var m of shoupai._fulou) {
                 if (m[0] == 'z' && m[1] == n) n_fanpai++;
             }
         }
-        if (n_fanpai) return Majiang.Util.xiangting(shoupai);
-        if (back) {
-            var new_shoupai = shoupai.clone();
-            new_shoupai._bingpai.z[back]++;
-            return Majiang.Util.xiangting(new_shoupai) + 1;
-        }
-        return Infinity;
+        if (! n_fanpai) return Infinity;
+        return Majiang.Util.xiangting(shoupai);
     }
  
     function xiangting_duanyao(shoupai) {
@@ -600,27 +593,6 @@ Majiang.Player.prototype.xiangting = function(shoupai) {
         return Majiang.Util.xiangting(new_shoupai);
     }
 
-    function xiangting_daiyao(shoupai) {
-        if (shoupai._fulou.filter(function(m){return m.match(/^z|[19]/)}).length
-                != shoupai._fulou.length) return Infinity;
- 
-        var new_shoupai = shoupai.clone();
-        for (var s of ['m','p','s']) {
-            for (var n of [2,3]) {
-                if (new_shoupai._bingpai[s][n] > new_shoupai._bingpai[s][1] + 1)
-                    new_shoupai._bingpai[s][n] = new_shoupai._bingpai[s][1] + 1;
-            }
-            for (var n of [4,5,6]) {
-                new_shoupai._bingpai[s][n] = 0;
-            }
-            for (var n of [7,8]) {
-                if (new_shoupai._bingpai[s][n] > new_shoupai._bingpai[s][9] + 1)
-                    new_shoupai._bingpai[s][n] = new_shoupai._bingpai[s][9] + 1;
-            }
-        }
-        return Majiang.Util.xiangting(new_shoupai);
-    }
-
     var self = this;
     var x, min = Infinity;
  
@@ -631,9 +603,6 @@ Majiang.Player.prototype.xiangting = function(shoupai) {
     if (x < min) min = x;
  
     x = xiangting_duanyao(shoupai);
-    if (x < min) min = x;
- 
-    x = xiangting_daiyao(shoupai);
     if (x < min) min = x;
  
     return min;
