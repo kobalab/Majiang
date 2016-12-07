@@ -76,6 +76,7 @@ function mianzi_all(shoupai) {
             for (var s of r.s) {
                 var n_mianzi = m[0] + p[0] + s[0] + z[0] + n_fulou;
                 var n_dazi   = m[1] + p[1] + s[1] + z[1];
+                if (n_mianzi > 4) n_mianzi = 4;
                 if (n_mianzi + n_dazi > 4) n_dazi = 4 - n_mianzi;
                 var xiangting = 8 - n_mianzi * 2 - n_dazi;
                 if (xiangting < min_xiangting) min_xiangting = xiangting;
