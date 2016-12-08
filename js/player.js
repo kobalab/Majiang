@@ -600,6 +600,22 @@ Majiang.Player.prototype.xiangting = function(shoupai) {
 
         return Majiang.Util.xiangting(new_shoupai);
     }
+ 
+    function xiangting_duidui(shoupai) {
+        if (shoupai._fulou.filter(
+                function(m){return ! m.match(/^[mpsz](\d)\1\1/)}).length)
+                                                            return Infinity;
+        var n_kezi = shoupai._fulou.length, n_duizi = 0;
+        for (var s in shoupai._bingpai) {
+            var bingpai = shoupai._bingpai[s];
+            for (var n = 1; n < bingpai.length; n++) {
+                if (bingpai[n] >= 3) n_kezi++;
+                if (bingpai[n] == 2) n_duizi++;
+            }
+        }
+        if (n_kezi + n_duizi > 5) n_duizi = 5 - n_kezi;
+        return 8 - n_kezi * 2 - n_duizi;
+    }
 
     var self = this;
     var x, min = Infinity;
@@ -611,6 +627,9 @@ Majiang.Player.prototype.xiangting = function(shoupai) {
     if (x < min) min = x;
  
     x = xiangting_duanyao(shoupai);
+    if (x < min) min = x;
+ 
+    x = xiangting_duidui(shoupai);
     if (x < min) min = x;
  
     return min;
