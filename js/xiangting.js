@@ -87,9 +87,21 @@ function mianzi_all(shoupai) {
     return min_xiangting;
 }
 
+function paishu(shoupai) {
+ 
+    var n_pai = shoupai._fulou.length * 3;
+    for (var s in shoupai._bingpai) {
+        var bingpai = shoupai._bingpai[s];
+        for (var n = 1; n < bingpai.length; n++) {
+            n_pai += bingpai[n];
+        }
+    }
+    return n_pai;
+}
+
 function xiangting_yiban(shoupai) {
     
-    var min_xiangting = mianzi_all(shoupai);
+    var min_xiangting = mianzi_all(shoupai) + (paishu(shoupai) < 13 ? 1 : 0);
     
     for (var s of ['m','p','s','z']) {
         for (var n = 1; n <= shoupai._bingpai[s].length; n++) {
