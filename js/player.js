@@ -442,7 +442,11 @@ Majiang.Player.prototype.select_fulou = function(data) {
         var new_shoupai = shoupai.clone();
         new_shoupai.fulou(m);
         if (m.match(/(\d)\1\1\1/)) {
-            if (self.xiangting(new_shoupai) <= n_xiangting) return m;
+            if (shoupai._fulou.filter(function(mm){
+                    return mm.match(/^[mpsz](\d)\1\1.*\1.*$/)}).length >= 2)
+            {
+                return m;
+            }
         }
         else {
             if (self.xiangting(new_shoupai) <  n_xiangting) return m;
