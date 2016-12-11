@@ -277,8 +277,8 @@ function get_chi_mianzi(shoupai, p) {
 
 Majiang.Player.prototype.get_chi_mianzi = function(data) {
 
-    if (this._paishu == 0) return mianzi;
-    if (this._lizhi[this._menfeng]) return mianzi;
+    if (this._paishu == 0) return [];
+    if (this._lizhi[this._menfeng]) return [];
  
     var d = ['','+','=','-'][(4 + data.l - this._menfeng) % 4];
 
@@ -304,8 +304,8 @@ function get_peng_mianzi(shoupai, p) {
 
 Majiang.Player.prototype.get_peng_mianzi = function(data) {
 
-    if (this._paishu == 0) return mianzi;
-    if (this._lizhi[this._menfeng]) return mianzi;
+    if (this._paishu == 0) return [];
+    if (this._lizhi[this._menfeng]) return [];
  
     var d = ['','+','=','-'][(4 + data.l - this._menfeng) % 4];
 
