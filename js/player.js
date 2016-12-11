@@ -633,30 +633,16 @@ Majiang.Player.prototype.xiangting = function(shoupai) {
     }
 
     var self = this;
-    var x, min = Infinity;
  
-    x = xiangting_menqian(shoupai);
-    if (x < min) min = x;
- 
-    x = xiangting_fanpai(shoupai);
-    if (x < min) min = x;
- 
-    x = xiangting_duanyao(shoupai);
-    if (x < min) min = x;
- 
-    x = xiangting_duidui(shoupai);
-    if (x < min) min = x;
- 
-    x = xiangting_yise(shoupai, 'm');
-    if (x < min) min = x;
- 
-    x = xiangting_yise(shoupai, 'p');
-    if (x < min) min = x;
- 
-    x = xiangting_yise(shoupai, 's');
-    if (x < min) min = x;
- 
-    return min;
+    return Math.min(
+                xiangting_menqian(shoupai),
+                xiangting_fanpai(shoupai),
+                xiangting_duanyao(shoupai),
+                xiangting_duidui(shoupai),
+                xiangting_yise(shoupai, 'm'),
+                xiangting_yise(shoupai, 'p'),
+                xiangting_yise(shoupai, 's')
+            );
 }
 
 Majiang.Player.prototype.tingpai = function(shoupai) {
