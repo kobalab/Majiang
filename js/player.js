@@ -277,41 +277,12 @@ function get_chi_mianzi(shoupai, p) {
 
 Majiang.Player.prototype.get_chi_mianzi = function(data) {
 
-    var mianzi = [];
- 
     if (this._paishu == 0) return mianzi;
     if (this._lizhi[this._menfeng]) return mianzi;
  
-    var s = data.p[0], n = data.p[1] -0 || 5;
     var d = ['','+','=','-'][(4 + data.l - this._menfeng) % 4];
-    var bingpai = this._shoupai._bingpai[s];
 
-    var p0 = data.p[1], p1, p2;
-    if (s != 'z' && d == '-') {
-        if (3 <= n && bingpai[n-2] > 0 && bingpai[n-1] > 0) {
-            p1 = (n-2 == 5 && bingpai[0] > 0) ? 0 : n-2;
-            p2 = (n-1 == 5 && bingpai[0] > 0) ? 0 : n-1;
-            if (this._shoupai._fulou.length == 3
-                && bingpai[n] == 1 && 3 < n && bingpai[n-3] == 1)
-                ;
-            else mianzi.push(s + p1 + p2 + (p0+d));
-        }
-        if (n <= 7 && bingpai[n+1] > 0 && bingpai[n+2] > 0) {
-            p1 = (n+1 == 5 && bingpai[0] > 0) ? 0 : n+1;
-            p2 = (n+2 == 5 && bingpai[0] > 0) ? 0 : n+2;
-            if (this._shoupai._fulou.length == 3
-                && bingpai[n] == 1 && n < 7 && bingpai[n+3] == 1)
-                ;
-            else mianzi.push(s + (p0+d) + p1 + p2);
-        }
-        if (2 <= n &&  n <= 8 && bingpai[n-1] > 0 && bingpai[n+1] > 0) {
-            p1 = (n-1 == 5 && bingpai[0] > 0) ? 0 : n-1;
-            p2 = (n+1 == 5 && bingpai[0] > 0) ? 0 : n+1;
-            mianzi.push(s + p1 + (p0+d) + p2);
-        }
-    }
-
-    return mianzi;
+    return get_chi_mianzi(this._shoupai, data.p.substr(0,2)+d);
 }
 
 function get_peng_mianzi(shoupai, p) {
@@ -333,23 +304,12 @@ function get_peng_mianzi(shoupai, p) {
 
 Majiang.Player.prototype.get_peng_mianzi = function(data) {
 
-    var mianzi = [];
- 
     if (this._paishu == 0) return mianzi;
     if (this._lizhi[this._menfeng]) return mianzi;
  
-    var s = data.p[0], n = data.p[1] -0 || '5';
     var d = ['','+','=','-'][(4 + data.l - this._menfeng) % 4];
-    var bingpai = this._shoupai._bingpai[s];
- 
-    if (bingpai[n] >= 2) {
-        var p0 = data.p[1];
-        var p1 = (n == 5 && bingpai[0] > 1) ? 0 : n;
-        var p2 = (n == 5 && bingpai[0] > 0) ? 0 : n;
-        mianzi = [ (s + p1 + p2 + (p0+d)) ];
-    }
- 
-    return mianzi;
+
+    return get_peng_mianzi(this._shoupai, data.p.substr(0,2)+d);
 }
 
 Majiang.Player.prototype.get_gang_mianzi = function(data) {
