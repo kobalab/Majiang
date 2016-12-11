@@ -151,7 +151,6 @@ Majiang.SuanPai.prototype.paijia_all = function() {
 
 Majiang.SuanPai.prototype.suan_weixian = function(p, l) {
 
-    var rv = 12;
     var s = p[0], n = p[1]-0||5;
  
     if (this._dapai[l][s+n]) return 0;

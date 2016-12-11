@@ -240,64 +240,76 @@ Majiang.Player.prototype.get_dapai = function() {
     return pai;
 }
 
-Majiang.Player.prototype.get_chi_mianzi = function(data) {
+function get_chi_mianzi(shoupai, p) {
 
     var mianzi = [];
- 
-    if (this._paishu == 0) return mianzi;
-    if (this._lizhi[this._menfeng]) return mianzi;
- 
-    var s = data.p[0], n = data.p[1] -0 || 5;
-    var d = ['','+','=','-'][(4 + data.l - this._menfeng) % 4];
-    var bingpai = this._shoupai._bingpai[s];
-
-    var p0 = data.p[1], p1, p2;
-    if (s != 'z' && d == '-') {
-        if (3 <= n && bingpai[n-2] > 0 && bingpai[n-1] > 0) {
-            p1 = (n-2 == 5 && bingpai[0] > 0) ? 0 : n-2;
-            p2 = (n-1 == 5 && bingpai[0] > 0) ? 0 : n-1;
-            if (this._shoupai._fulou.length == 3
-                && bingpai[n] == 1 && 3 < n && bingpai[n-3] == 1)
-                ;
-            else mianzi.push(s + p1 + p2 + (p0+d));
-        }
-        if (n <= 7 && bingpai[n+1] > 0 && bingpai[n+2] > 0) {
-            p1 = (n+1 == 5 && bingpai[0] > 0) ? 0 : n+1;
-            p2 = (n+2 == 5 && bingpai[0] > 0) ? 0 : n+2;
-            if (this._shoupai._fulou.length == 3
-                && bingpai[n] == 1 && n < 7 && bingpai[n+3] == 1)
-                ;
-            else mianzi.push(s + (p0+d) + p1 + p2);
-        }
-        if (2 <= n &&  n <= 8 && bingpai[n-1] > 0 && bingpai[n+1] > 0) {
-            p1 = (n-1 == 5 && bingpai[0] > 0) ? 0 : n-1;
-            p2 = (n+1 == 5 && bingpai[0] > 0) ? 0 : n+1;
-            mianzi.push(s + p1 + (p0+d) + p2);
-        }
+    
+    var s = p[0], n = p[1] -0 || 5, d = p[2];
+    if (s == 'z' || d != '-') return mianzi;
+    
+    var bingpai = shoupai._bingpai[s];
+    var p0 = p[1], p1, p2;
+    
+    if (3 <= n && bingpai[n-2] > 0 && bingpai[n-1] > 0) {
+        p1 = (n-2 == 5 && bingpai[0] > 0) ? 0 : n-2;
+        p2 = (n-1 == 5 && bingpai[0] > 0) ? 0 : n-1;
+        if (shoupai._fulou.length == 3
+            && bingpai[n] == 1 && 3 < n && bingpai[n-3] == 1)
+            ;
+        else mianzi.push(s + p1 + p2 + (p0+d));
     }
-
+    if (n <= 7 && bingpai[n+1] > 0 && bingpai[n+2] > 0) {
+        p1 = (n+1 == 5 && bingpai[0] > 0) ? 0 : n+1;
+        p2 = (n+2 == 5 && bingpai[0] > 0) ? 0 : n+2;
+        if (shoupai._fulou.length == 3
+            && bingpai[n] == 1 && n < 7 && bingpai[n+3] == 1)
+            ;
+        else mianzi.push(s + (p0+d) + p1 + p2);
+    }
+    if (2 <= n &&  n <= 8 && bingpai[n-1] > 0 && bingpai[n+1] > 0) {
+        p1 = (n-1 == 5 && bingpai[0] > 0) ? 0 : n-1;
+        p2 = (n+1 == 5 && bingpai[0] > 0) ? 0 : n+1;
+        mianzi.push(s + p1 + (p0+d) + p2);
+    }
+    
     return mianzi;
 }
 
-Majiang.Player.prototype.get_peng_mianzi = function(data) {
+Majiang.Player.prototype.get_chi_mianzi = function(data) {
 
-    var mianzi = [];
- 
     if (this._paishu == 0) return mianzi;
     if (this._lizhi[this._menfeng]) return mianzi;
  
-    var s = data.p[0], n = data.p[1] -0 || '5';
     var d = ['','+','=','-'][(4 + data.l - this._menfeng) % 4];
-    var bingpai = this._shoupai._bingpai[s];
+
+    return get_chi_mianzi(this._shoupai, data.p.substr(0,2)+d);
+}
+
+function get_peng_mianzi(shoupai, p) {
+
+    var mianzi = [];
+ 
+    var s = p[0], n = p[1] -0 || '5', d = p[2];
+    var bingpai = shoupai._bingpai[s];
  
     if (bingpai[n] >= 2) {
-        var p0 = data.p[1];
+        var p0 = p[1];
         var p1 = (n == 5 && bingpai[0] > 1) ? 0 : n;
         var p2 = (n == 5 && bingpai[0] > 0) ? 0 : n;
         mianzi = [ (s + p1 + p2 + (p0+d)) ];
     }
  
     return mianzi;
+}
+
+Majiang.Player.prototype.get_peng_mianzi = function(data) {
+
+    if (this._paishu == 0) return mianzi;
+    if (this._lizhi[this._menfeng]) return mianzi;
+ 
+    var d = ['','+','=','-'][(4 + data.l - this._menfeng) % 4];
+
+    return get_peng_mianzi(this._shoupai, data.p.substr(0,2)+d);
 }
 
 Majiang.Player.prototype.get_gang_mianzi = function(data) {
@@ -442,16 +454,22 @@ Majiang.Player.prototype.select_fulou = function(data) {
         var new_shoupai = shoupai.clone();
         new_shoupai.fulou(m);
         if (m.match(/(\d)\1\1\1/)) {
-            if (Majiang.Util.xiangting(new_shoupai) <= n_xiangting) return m;
+            if (shoupai._fulou.filter(function(mm){
+                    return mm.match(/^[mpsz](\d)\1\1.*\1.*$/)}).length >= 2)
+            {
+                return m;
+            }
         }
         else {
-            if (Majiang.Util.xiangting(new_shoupai) <  n_xiangting) return m;
+            if (self.xiangting(new_shoupai) <  n_xiangting) return m;
         }
     }
-
-    return;         // 今は鳴かない。
  
-    var n_xiangting = Majiang.Util.xiangting(this._shoupai);
+    var self = this;
+
+    if (this._lizhi.filter(function(x){return x}).length > 0) return;
+ 
+    var n_xiangting = this.xiangting(this._shoupai);
     if (n_xiangting == 0) return;
  
     for (var m of this.get_gang_mianzi(data)) {
@@ -470,10 +488,15 @@ Majiang.Player.prototype.select_gang = function() {
     function check_xiangting(shoupai, m, n_xiangting) {
         var new_shoupai = shoupai.clone();
         new_shoupai.gang(m);
-        if (Majiang.Util.xiangting(new_shoupai) <= n_xiangting) return m;
+        if (self.xiangting(new_shoupai) <= n_xiangting) return m;
     }
  
-    var n_xiangting = Majiang.Util.xiangting(this._shoupai);
+    var self = this;
+
+    var n_xiangting = this.xiangting(this._shoupai);
+
+    if (this._lizhi.filter(function(x){return x}).length > 0
+        && n_xiangting > 0) return;
  
     for (var m of this.get_gang_mianzi()) {
         return check_xiangting(this._shoupai, m, n_xiangting);
@@ -511,10 +534,8 @@ Majiang.Player.prototype.select_dapai = function() {
         return this._shoupai._zimo + '_';
     }
 
-    var n_xiangting = Majiang.Util.xiangting(this._shoupai);
-    if (n_xiangting == -1) {
-        return this._shoupai._zimo + '_';
-    }
+    var n_xiangting = this.xiangting(this._shoupai);
+    if (n_xiangting == -1) n_xiangting = 0;
  
     var anquan, min = Infinity;
     if (this._lizhi.filter(function(x){return x}).length > 0) {
@@ -531,10 +552,13 @@ Majiang.Player.prototype.select_dapai = function() {
     for (var p of this.get_dapai()) {
         var new_shoupai = this._shoupai.clone();
         new_shoupai.dapai(p);
-        if (Majiang.Util.xiangting(new_shoupai) > n_xiangting) continue;
+        if (this.xiangting(new_shoupai) > n_xiangting) continue;
         var x = 1 - this._suanpai.paijia(p)/100;
-        for (var tp of Majiang.Util.tingpai(new_shoupai)) {
-            x += this._suanpai.paishu(tp);
+        for (var tp of this.tingpai(new_shoupai)) {
+            x += this._suanpai.paishu(tp.substr(0,2))
+                    * (tp[2] == '+' ? 4 :
+                       tp[2] == '-' ? 2 :
+                                      1   );
         }
         if (x >= max) {
             max = x;
@@ -552,6 +576,125 @@ Majiang.Player.prototype.select_dapai = function() {
     if (this.select_lizhi(dapai)) dapai += '*';
  
     return dapai;
+}
+
+Majiang.Player.prototype.xiangting = function(shoupai) {
+
+    function xiangting_menqian(shoupai) {
+        if (shoupai._fulou.filter(function(m){return m.match(/[\-\+\=]/)}).length)
+                                                            return Infinity;
+        return Majiang.Util.xiangting(shoupai);
+    }
+ 
+    function xiangting_fanpai(shoupai) {
+        var n_fanpai = 0, back;
+        for (var n of [self._zhuangfeng+1, self._menfeng+1, 5, 6, 7]) {
+            if (shoupai._bingpai.z[n] >= 3) n_fanpai++;
+            else if (shoupai._bingpai.z[n] == 2
+                        && self._suanpai.paishu('z'+n) > 0) back = n;
+            for (var m of shoupai._fulou) {
+                if (m[0] == 'z' && m[1] == n) n_fanpai++;
+            }
+        }
+        if (n_fanpai) return Majiang.Util.xiangting(shoupai);
+        if (back) {
+            var new_shoupai = shoupai.clone();
+            new_shoupai._bingpai.z[back] = 0;
+            new_shoupai._fulou.push('z'+n+n+n+'=');
+            return Majiang.Util.xiangting(new_shoupai) + 1;
+        }
+        return Infinity;
+    }
+ 
+    function xiangting_duanyao(shoupai) {
+        if (shoupai._fulou.filter(function(m){return m.match(/^z|[19]/)}).length)
+                                                            return Infinity;
+        var new_shoupai = shoupai.clone();
+        for (var s of ['m','p','s']) {
+            for (var n of [1,9]) {
+                new_shoupai._bingpai[s][n] = 0;
+            }
+        }
+        new_shoupai._bingpai.z = [0,0,0,0,0,0,0,0];
+
+        return Majiang.Util.xiangting(new_shoupai);
+    }
+ 
+    function xiangting_duidui(shoupai) {
+        if (shoupai._fulou.filter(
+                function(m){return ! m.match(/^[mpsz](\d)\1\1/)}).length)
+                                                            return Infinity;
+        var n_kezi = shoupai._fulou.length, n_duizi = 0;
+        for (var s in shoupai._bingpai) {
+            var bingpai = shoupai._bingpai[s];
+            for (var n = 1; n < bingpai.length; n++) {
+                if (bingpai[n] >= 3) n_kezi++;
+                if (bingpai[n] == 2) n_duizi++;
+            }
+        }
+        if (n_kezi + n_duizi > 5) n_duizi = 5 - n_kezi;
+        return 8 - n_kezi * 2 - n_duizi;
+    }
+ 
+    function xiangting_yise(shoupai, sort) {
+        var regexp = new RegExp('^[^z'+sort+']');
+        if (shoupai._fulou.filter(function(m){return m.match(regexp)}).length)
+                                                            return Infinity;
+        var new_shoupai = shoupai.clone();
+        for (var s of ['m','p','s']) {
+            if (s != sort) new_shoupai._bingpai[s] = [0,0,0,0,0,0,0,0,0,0];
+        }
+        return Majiang.Util.xiangting(new_shoupai);
+    }
+
+    var self = this;
+ 
+    return Math.min(
+                xiangting_menqian(shoupai),
+                xiangting_fanpai(shoupai),
+                xiangting_duanyao(shoupai),
+                xiangting_duidui(shoupai),
+                xiangting_yise(shoupai, 'm'),
+                xiangting_yise(shoupai, 'p'),
+                xiangting_yise(shoupai, 's')
+            );
+}
+
+Majiang.Player.prototype.tingpai = function(shoupai) {
+
+    var self = this;
+    
+    var n_xiangting = this.xiangting(shoupai);
+    
+    var pai = [];
+    for (var p of Majiang.Util.tingpai(
+                        shoupai, function(s){return self.xiangting(s)}))
+    {
+        if (n_xiangting > 0) {
+
+            for (var m of get_peng_mianzi(shoupai, p+'+')) {
+                var new_shoupai = shoupai.clone();
+                new_shoupai.fulou(m);
+                if (this.xiangting(new_shoupai) < n_xiangting) {
+                    pai.push(p+'+');
+                    break;
+                }
+            }
+            if (pai[pai.length - 1] == p+'+') continue;
+
+            for (var m of get_chi_mianzi(shoupai, p+'-')) {
+                var new_shoupai = shoupai.clone();
+                new_shoupai.fulou(m);
+                if (this.xiangting(new_shoupai) < n_xiangting) {
+                    pai.push(p+'-');
+                    break;
+                }
+            }
+            if (pai[pai.length - 1] == p+'-') continue;
+        }
+        pai.push(p);
+    }
+    return pai;
 }
 
 })();
