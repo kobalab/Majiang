@@ -240,6 +240,41 @@ Majiang.Player.prototype.get_dapai = function() {
     return pai;
 }
 
+function get_chi_mianzi(shoupai, p) {
+
+    var mianzi = [];
+    
+    var s = p[0], n = p[1] -0 || 5, d = p[2];
+    if (s == 'z' || d != '-') return mianzi;
+    
+    var bingpai = shoupai._bingpai[s];
+    var p0 = p[1], p1, p2;
+    
+    if (3 <= n && bingpai[n-2] > 0 && bingpai[n-1] > 0) {
+        p1 = (n-2 == 5 && bingpai[0] > 0) ? 0 : n-2;
+        p2 = (n-1 == 5 && bingpai[0] > 0) ? 0 : n-1;
+        if (shoupai._fulou.length == 3
+            && bingpai[n] == 1 && 3 < n && bingpai[n-3] == 1)
+            ;
+        else mianzi.push(s + p1 + p2 + (p0+d));
+    }
+    if (n <= 7 && bingpai[n+1] > 0 && bingpai[n+2] > 0) {
+        p1 = (n+1 == 5 && bingpai[0] > 0) ? 0 : n+1;
+        p2 = (n+2 == 5 && bingpai[0] > 0) ? 0 : n+2;
+        if (shoupai._fulou.length == 3
+            && bingpai[n] == 1 && n < 7 && bingpai[n+3] == 1)
+            ;
+        else mianzi.push(s + (p0+d) + p1 + p2);
+    }
+    if (2 <= n &&  n <= 8 && bingpai[n-1] > 0 && bingpai[n+1] > 0) {
+        p1 = (n-1 == 5 && bingpai[0] > 0) ? 0 : n-1;
+        p2 = (n+1 == 5 && bingpai[0] > 0) ? 0 : n+1;
+        mianzi.push(s + p1 + (p0+d) + p2);
+    }
+    
+    return mianzi;
+}
+
 Majiang.Player.prototype.get_chi_mianzi = function(data) {
 
     var mianzi = [];
@@ -276,6 +311,23 @@ Majiang.Player.prototype.get_chi_mianzi = function(data) {
         }
     }
 
+    return mianzi;
+}
+
+function get_peng_mianzi(shoupai, p) {
+
+    var mianzi = [];
+ 
+    var s = p[0], n = p[1] -0 || '5', d = p[2];
+    var bingpai = shoupai._bingpai[s];
+ 
+    if (bingpai[n] >= 2) {
+        var p0 = p[1];
+        var p1 = (n == 5 && bingpai[0] > 1) ? 0 : n;
+        var p2 = (n == 5 && bingpai[0] > 0) ? 0 : n;
+        mianzi = [ (s + p1 + p2 + (p0+d)) ];
+    }
+ 
     return mianzi;
 }
 
@@ -543,7 +595,10 @@ Majiang.Player.prototype.select_dapai = function() {
         if (this.xiangting(new_shoupai) > n_xiangting) continue;
         var x = 1 - this._suanpai.paijia(p)/100;
         for (var tp of this.tingpai(new_shoupai)) {
-            x += this._suanpai.paishu(tp);
+            x += this._suanpai.paishu(tp.substr(0,2))
+                    * (tp[2] == '+' ? 4 :
+                       tp[2] == '-' ? 2 :
+                                      1   );
         }
         if (x >= max) {
             max = x;
@@ -646,9 +701,40 @@ Majiang.Player.prototype.xiangting = function(shoupai) {
 }
 
 Majiang.Player.prototype.tingpai = function(shoupai) {
+
     var self = this;
-    return Majiang.Util.tingpai(
-                shoupai, function(s){return self.xiangting(s)});
+    
+    var n_xiangting = this.xiangting(shoupai);
+    
+    var pai = [];
+    for (var p of Majiang.Util.tingpai(
+                        shoupai, function(s){return self.xiangting(s)}))
+    {
+        if (n_xiangting > 0) {
+
+            for (var m of get_peng_mianzi(shoupai, p+'+')) {
+                var new_shoupai = shoupai.clone();
+                new_shoupai.fulou(m);
+                if (this.xiangting(new_shoupai) < n_xiangting) {
+                    pai.push(p+'+');
+                    break;
+                }
+            }
+            if (pai[pai.length - 1] == p+'+') continue;
+
+            for (var m of get_chi_mianzi(shoupai, p+'-')) {
+                var new_shoupai = shoupai.clone();
+                new_shoupai.fulou(m);
+                if (this.xiangting(new_shoupai) < n_xiangting) {
+                    pai.push(p+'-');
+                    break;
+                }
+            }
+            if (pai[pai.length - 1] == p+'-') continue;
+        }
+        pai.push(p);
+    }
+    return pai;
 }
 
 })();
