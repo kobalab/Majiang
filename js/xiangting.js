@@ -76,6 +76,7 @@ function mianzi_all(shoupai) {
             for (var s of r.s) {
                 var n_mianzi = m[0] + p[0] + s[0] + z[0] + n_fulou;
                 var n_dazi   = m[1] + p[1] + s[1] + z[1];
+                if (n_mianzi > 4) n_mianzi = 4;
                 if (n_mianzi + n_dazi > 4) n_dazi = 4 - n_mianzi;
                 var xiangting = 8 - n_mianzi * 2 - n_dazi;
                 if (xiangting < min_xiangting) min_xiangting = xiangting;
@@ -86,9 +87,21 @@ function mianzi_all(shoupai) {
     return min_xiangting;
 }
 
+function paishu(shoupai) {
+ 
+    var n_pai = shoupai._fulou.length * 3;
+    for (var s in shoupai._bingpai) {
+        var bingpai = shoupai._bingpai[s];
+        for (var n = 1; n < bingpai.length; n++) {
+            n_pai += bingpai[n];
+        }
+    }
+    return n_pai;
+}
+
 function xiangting_yiban(shoupai) {
     
-    var min_xiangting = mianzi_all(shoupai);
+    var min_xiangting = mianzi_all(shoupai) + (paishu(shoupai) < 13 ? 1 : 0);
     
     for (var s of ['m','p','s','z']) {
         for (var n = 1; n <= shoupai._bingpai[s].length; n++) {
@@ -155,19 +168,21 @@ Majiang.Util.xiangting = function(shoupai) {
     return min_xiangting;
 }
 
-Majiang.Util.tingpai = function(shoupai) {
+Majiang.Util.tingpai = function(shoupai, xiangting) {
 
     var pai = [];
  
     if (shoupai._zimo) return pai;
  
-    var n_xiangting = Majiang.Util.xiangting(shoupai);
+    xiangting = xiangting || Majiang.Util.xiangting;
+ 
+    var n_xiangting = xiangting(shoupai);
     for (var s of ['m','p','s','z']) {
         var bingpai = shoupai._bingpai[s];
         for (var n = 1; n < bingpai.length; n++) {
             if (bingpai[n] >= 4) continue;
             bingpai[n]++;
-            if (Majiang.Util.xiangting(shoupai) < n_xiangting) pai.push(s+n);
+            if (xiangting(shoupai) < n_xiangting) pai.push(s+n);
             bingpai[n]--;
         }
     }
