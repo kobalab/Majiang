@@ -4,6 +4,12 @@
 
 body {
     background: black;
+    margin: 0;
+}
+
+#navi {
+    width: 800px;
+    margin: 0 auto;
 }
 
 #title {
