@@ -59,7 +59,7 @@ $(function(){
   
         if (! mark.length) return '';
 
-        var html = '<span style="white-space:pre-wrap;">', url, v = 0;
+        var html = '<span style="white-space:pre;">', url, v = 0;
 
         for (var pai of mark.match(/[mpsz](?:\d+[\-\=]?)+|[ _]|.+/g)) {
 
@@ -172,7 +172,7 @@ textarea {
 
 <form>
 <textarea rows="10">このような記述ができます。
-{s067z1 z1}(ツモ) { p2-13}{ z66=6-6}{ _z77_} {  }(ドラ){m1}
+{s067z1 z1}(ツモ) {p2-13} {z66=6-6} {_z77_} {  }(ドラ){m1}
 </textarea><br>
 <input type="submit" value="変換">
 <input type="reset" value="消去">
