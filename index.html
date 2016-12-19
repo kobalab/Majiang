@@ -27,6 +27,11 @@
         $(function(){
 
             $('#title .version').text('ver. ' + Majiang.VERSION);
+            $('#title .loading').text('Loading');
+          
+            var id = setInterval(function(){
+                $('#title .loading').text($('#title .loading').text()+'.');
+            }, 1000);
 
             function start() {
                 $('.jiezhang').hide();
@@ -36,12 +41,13 @@
             }
 
             $(window).load(function(){
-                Majiang.Audio.volume(2);
+                Majiang.Audio.volume(1);
+                clearInterval(id);
                 setTimeout(function(){
                     $('#title').hide();
                     $('#game').show();
                     start();
-                }, 3000);
+                }, 2000);
             });
         });
     </script>
@@ -59,7 +65,8 @@
 
 <div id="title">
     <h1><img src="img/logo.png" alt="電脳麻将"></h1>
-    <div class="version"></div>
+    <div class="version"><span class="error">Sorry, your system does not support JavaScript.</span></div>
+    <div class="loading"></div>
 </div>
 
 <div id="loadimage">

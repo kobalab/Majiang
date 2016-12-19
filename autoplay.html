@@ -24,8 +24,15 @@
     <script>
         
         var game, paipu;
-        
-        (function(){
+
+        $(function(){
+
+            $('#title .version').text('ver. ' + Majiang.VERSION);
+            $('#title .loading').text('Loading');
+          
+            var id = setInterval(function(){
+                $('#title .loading').text($('#title .loading').text()+'.');
+            }, 1000);
 
             game = { _speed: 3 };
          
@@ -35,37 +42,34 @@
                 game = new Majiang.Game();
                 game._speed = speed;
                 game._callback = start;
-                game._player[0] = new Majiang.Player(0)
+                game._player[0] = new Majiang.Player(0);
                 game.kaiju();
             }
          
             $(window).load(function(){
                 Majiang.Audio.volume(1);
+                clearInterval(id);
                 setTimeout(function(){
                     $('#title').hide();
                     start();
                     $('#game').show();
-                }, 3000);
+                }, 2000);
             });
          
-            $(function(){
-                $('#title .version').text('ver. ' + Majiang.VERSION);
-                
-                $(window).bind('keypress', function(event){
-                    if (event.keyCode == 32) {
-                        game._stop = ! game._stop;
-                        game.next();
-                        return false;
-                    }
-                });
-                $('body').bind('dblclick', function(){
-                    game._speed = (game._speed == 0) ? 3 : 0;
-                    game._stop = false;
+            $(window).bind('keypress', function(event){
+                if (event.keyCode == 32) {
+                    game._stop = ! game._stop;
                     game.next();
                     return false;
-                });
+                }
             });
-        })();
+            $('body').bind('dblclick', function(){
+                game._speed = (game._speed == 0) ? 3 : 0;
+                game._stop = false;
+                game.next();
+                return false;
+            });
+        });
     </script>
 </head>
 
@@ -80,8 +84,9 @@
 </div>
 
 <div id="title">
-    <img src="img/logo.png">
-    <div class="version"></div>
+    <h1><img src="img/logo.png" alt="電脳麻将"></h1>
+    <div class="version"><span class="error">Sorry, your system does not support JavaScript.</span></div>
+    <div class="loading"></div>
 </div>
 
 <div id="loadimage">

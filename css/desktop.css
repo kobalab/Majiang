@@ -19,14 +19,24 @@ body {
     margin: 200px auto;
     padding: 15px;
     text-align: center;
+    font-family: Verdana, sans-serif;
+    font-size: 24px;
+}
+#title h1 {
+    height: 150px;
+    margin: 0px;
 }
 #title img {
     width: 600px;
 }
-#title .version {
-    font-family: Times, serif;
-    font-size: 16px;
-    text-align: right;
+#title .loading {
+    text-align: left;
+    padding: 0px 80px;
+    font-family: "Arial Black", sans-serif;
+    color: #999;
+}
+#title .error {
+    color: red;
 }
 
 #game {
@@ -339,7 +349,7 @@ body {
 
 .controler {
     transform: translate(160px, 180px);
-    font-family: Impact;
+    font-family: Impact, "Arial Narrow", sans-serif;
     font-size: 16px;
     color: white;
     opacity: 0.3;
