@@ -554,6 +554,41 @@ Majiang.View.Controler.prototype.update = function() {
 
 
 /*
+ *  Majiang.View.Say
+ */
+
+(function(){
+
+var view_class = ['main','xiajia','duimian','shangjia'];
+
+Majiang.View.Say = {
+
+    _str: {
+        chi:    'チー',
+        peng:   'ポン',
+        gang:   'カン',
+        lizhi:  'リーチ',
+        rong:   'ロン',
+        zimo:   'ツモ',
+    },
+    _node: [],
+ 
+    init: function() {
+        for (var l = 0; l < 4; l++) {
+            this._node[l] = $('.say.' + view_class[l]);
+        }
+    },
+ 
+    play: function(name, l) {
+        this._node[l].text(this._str[name]).show().fadeOut(1000);
+    }
+}
+
+$(function(){ Majiang.View.Say.init() });
+
+})();
+
+/*
  *  Majiang.Audio
  */
 

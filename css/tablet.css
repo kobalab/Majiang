@@ -87,6 +87,23 @@ body  { margin: 0;      }
     max-width: 120px;
 }
 
+.say.main {
+    text-align: center;
+    transform: translate(300px, 420px);
+}
+.say.xiajia {
+    text-align: left;
+    transform: translate(600px, 230px);
+}
+.say.duimian {
+    text-align: center;
+    transform: translate(300px, 50px);
+}
+.say.shangjia {
+    text-align: right;
+    transform: translate(0px, 230px);
+}
+
 .UI {
     transform: translate(62px, 500px);
 }
