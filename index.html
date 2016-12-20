@@ -2,10 +2,15 @@
 <html lang="ja">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=800">
     <title>電脳麻将</title>
     <meta name="description" content="HTML5 + Javascriptで動作する麻雀アプリ">
     <link rel="icon" type="image/png" href="icon.png">
-    <link rel="stylesheet" type="text/css" href="css/game.css" />
+    <link rel="apple-touch-icon" type="image/png" href="icon.png">
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/desktop.css" />
+    <link rel="stylesheet" type="text/css" href="css/tablet.css" />
+    <link rel="stylesheet" type="text/css" href="css/smartphone.css" />
     <script src="js/jquery-2.1.4.min.js"></script>
     <script src="js/majiang.js"></script>
     <script src="js/model.js"></script>
@@ -23,6 +28,11 @@
         $(function(){
 
             $('#title .version').text('ver. ' + Majiang.VERSION);
+            $('#title .loading').text('Loading');
+          
+            var id = setInterval(function(){
+                $('#title .loading').text($('#title .loading').text()+'.');
+            }, 1000);
 
             function start() {
                 $('.jiezhang').hide();
@@ -32,12 +42,13 @@
             }
 
             $(window).load(function(){
-                Majiang.Audio.volume(2);
+                Majiang.Audio.volume(1);
+                clearInterval(id);
                 setTimeout(function(){
                     $('#title').hide();
                     $('#game').show();
                     start();
-                }, 3000);
+                }, 2000);
             });
         });
     </script>
@@ -45,9 +56,18 @@
 
 <body>
 
+<div id="navi">
+電脳麻将 |
+<a href="autoplay.html">自動対戦</a> |
+<a href="paili.html">牌理</a> |
+<a href="hule.html">和了点計算</a> |
+<a href="paiga.html">牌画入力</a>
+</div>
+
 <div id="title">
     <h1><img src="img/logo.png" alt="電脳麻将"></h1>
-    <div class="version"></div>
+    <div class="version"><span class="error">Sorry, your system does not support JavaScript.</span></div>
+    <div class="loading"></div>
 </div>
 
 <div id="loadimage">
@@ -119,24 +139,28 @@
     <div class="dapai"></div></div>
 <div class="shoupai xiajia">
     <div class="bingpai"></div><div class="fulou"></div></div>
+<div class="say xiajia"></div>
 
 <div class="he duimian">
     <div class="lizhi"><img src="img/1000.gif" class="choma"></div>
     <div class="dapai"></div></div>
 <div class="shoupai duimian">
     <div class="bingpai"></div><div class="fulou"></div></div>
+<div class="say duimian"></div>
 
 <div class="he shangjia">
     <div class="lizhi"><img src="img/1000.gif" class="choma"></div>
     <div class="dapai"></div></div>
 <div class="shoupai shangjia">
     <div class="bingpai"></div><div class="fulou"></div></div>
+<div class="say shangjia"></div>
 
 <div class="he main">
     <div class="lizhi"><img src="img/1000.gif" class="choma"></div>
     <div class="dapai"></div></div>
 <div class="shoupai main">
     <div class="bingpai"></div><div class="fulou"></div></div>
+<div class="say main"></div>
 
 <div class="UI resize">
     <span class="chi">チー</span>

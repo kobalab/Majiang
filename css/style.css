@@ -4,6 +4,14 @@
     100% { opacity: 0.7; }
 }
 
+#navi {
+    text-align: right;
+}
+#navi a {
+    color: white;
+    text-decoration: none;
+}
+
 body {
     color: white;
     font-size: 12px;

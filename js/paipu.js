@@ -31,6 +31,8 @@ Majiang.Game.Paipu.prototype.player_id = Majiang.Game.prototype.player_id;
 
 Majiang.Game.Paipu.prototype.audio_play = Majiang.Game.prototype.audio_play;
 
+Majiang.Game.Paipu.prototype.say = Majiang.Game.prototype.say;
+
 Majiang.Game.Paipu.prototype.next = function() {
 
     var self = this;
@@ -176,7 +178,7 @@ Majiang.Game.Paipu.prototype.zimo = function(data) {
 Majiang.Game.Paipu.prototype.dapai = function(data) {
 
     if (data.p.substr(-1) == '*' && ! this._replay) {
-        this.audio_play('lizhi');
+        this.say('lizhi', data.l);
         this._replay = true;
         this._idx--;
         return;
@@ -203,9 +205,9 @@ Majiang.Game.Paipu.prototype.fulou = function(data) {
     
     if (! this._delay) {
         var m = data.m.replace(/0/g,'5');
-        if      (m.match(/^[mpsz](\d)\1\1\1/)) this.audio_play('gang');
-        else if (m.match(/^[mpsz](\d)\1\1/))   this.audio_play('peng');
-        else                                   this.audio_play('chi');
+        if      (m.match(/^[mpsz](\d)\1\1\1/)) this.say('gang', data.l);
+        else if (m.match(/^[mpsz](\d)\1\1/))   this.say('peng', data.l);
+        else                                   this.say('chi',  data.l);
         this._delay = true;
         this._timeout_id = clearTimeout(this._timeout_id);
         setTimeout(function(){ self.fulou(data) }, 500);
@@ -238,7 +240,7 @@ Majiang.Game.Paipu.prototype.gang = function(data) {
     var self = this;
 
     if (! this._delay) {
-        this.audio_play('gang');
+        this.say('gang', data.l);
         this._delay = true;
         this._timeout_id = clearTimeout(this._timeout_id);
         setTimeout(function(){ self.gang(data) }, 500);
@@ -285,8 +287,8 @@ Majiang.Game.Paipu.prototype.hule = function(data) {
     var self = this;
     
     if (! this._delay) {
-        if (data.baojia == null) this.audio_play('zimo');
-        else                     this.audio_play('rong');
+        if (data.baojia == null) this.say('zimo', data.l);
+        else                     this.say('rong', data.l);
         this._delay = true;
         this._timeout_id = clearTimeout(this._timeout_id);
         setTimeout(function(){ self.hule(data) }, 500);
