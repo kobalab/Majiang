@@ -32,8 +32,7 @@ body {
 #title .loading {
     text-align: left;
     padding: 0px 80px;
-    font-family: "Arial Black", sans-serif;
-    color: #999;
+    color: #666;
 }
 #title .error {
     color: red;
