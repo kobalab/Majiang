@@ -4,6 +4,12 @@
 
 body {
     background: black;
+    margin: 0;
+}
+
+#navi {
+    width: 800px;
+    margin: 0 auto;
 }
 
 #title {
@@ -13,14 +19,23 @@ body {
     margin: 200px auto;
     padding: 15px;
     text-align: center;
+    font-family: Verdana, sans-serif;
+    font-size: 24px;
+}
+#title h1 {
+    height: 150px;
+    margin: 0px;
 }
 #title img {
     width: 600px;
 }
-#title .version {
-    font-family: Times, serif;
-    font-size: 16px;
-    text-align: right;
+#title .loading {
+    text-align: left;
+    padding: 0px 80px;
+    color: #666;
+}
+#title .error {
+    color: red;
 }
 
 #game {
@@ -124,6 +139,39 @@ body {
 .he div.lizhi {
     width: 200px;
     text-align: center;
+}
+
+.say {
+    display: none;
+    width:  200px;
+    height: 100px;
+    font-size: 64px;
+    font-family: serif;
+    color: white;
+    text-shadow:  0px -2px 4px #333,
+                  2px -2px 4px #333,
+                  2px  0px 4px #333,
+                  2px  2px 4px #333,
+                  0px  2px 4px #333,
+                 -2px  2px 4px #333,
+                 -2px  0px 4px #333,
+                 -2px -2px 4px #333;
+}
+.say.main {
+    text-align: center;
+    transform: translate(300px, 520px);
+}
+.say.xiajia {
+    text-align: left;
+    transform: translate(600px, 290px);
+}
+.say.duimian {
+    text-align: center;
+    transform: translate(300px, 50px);
+}
+.say.shangjia {
+    text-align: right;
+    transform: translate(0px, 290px);
 }
 
 .UI {
@@ -333,7 +381,7 @@ body {
 
 .controler {
     transform: translate(160px, 180px);
-    font-family: Impact;
+    font-family: Impact, "Arial Narrow", sans-serif;
     font-size: 16px;
     color: white;
     opacity: 0.3;
