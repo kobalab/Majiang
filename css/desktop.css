@@ -2,6 +2,15 @@
 
 @import url(style.css);
 
+@media print {
+    .jiesuan, .jiezhang {
+        border: solid 1px black;
+    }
+    .controler {
+        display: none;
+    }
+}
+
 body {
     background: black;
     margin: 0;
