@@ -19,6 +19,11 @@ body {
     background: #036;
 }
 
+@media print {
+    body  { color: black;  }
+    #navi { display: none; }
+}
+
 #loadimage {
     display: none;
 }
