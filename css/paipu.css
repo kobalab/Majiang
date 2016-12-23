@@ -1,0 +1,93 @@
+@charset "UTF-8";
+
+body {
+    color: black;
+    background: white;
+}
+
+h1 {
+    border-bottom: solid 2px black;
+    font-family: sans-serif;
+    font-size: 24px;
+}
+h1 img {
+    height: 36px;
+    vertical-align: bottom;
+}
+
+.paipu_file {
+    width: 780px;
+    margin: 10px auto;
+}
+.paipu_file .error {
+    display: none;
+    margin: 2px 0px;
+    border-radius: 5px;
+    border: solid 1px #f99;
+    color: red;
+    background: #fdd;
+    padding: 4px 1em;
+}
+.paipu_file .list > div {
+    border: solid 1px #ccc;
+    margin: 2px 0px;
+    min-height: 24px;
+    border-radius: 4px;
+    padding: 8px;
+}
+.paipu_file .list > div > div {
+    width: 480px;
+    float: left;
+}
+.paipu_file .list .title {
+    font-size: 16px;
+}
+.paipu_file .list .player {
+    font-size: 14px;
+}
+.paipu_file .list .button {
+    width: 240px;
+    float: right;
+    text-align: right;
+}
+.paipu_file .list .button > span {
+    display: inline-block;
+    margin: 2px;
+    padding: 2px 10px;
+    font-size: 14px;
+    background: #999;
+    border-radius: 5px;
+    white-space: nowrap;    
+    cursor: pointer;
+    color: white;
+}
+.paipu_file .list .button span:hover {
+    background: #ccc;
+}
+.paipu_file .list > div:after {
+    display: block;
+    content: '';
+    clear: both;
+}
+.paipu_file .upload,
+.paipu_file .download {
+    display: inline-block;
+    margin: 2px;
+    padding: 2px 10px;
+    font-size: 14px;
+    background: #999;
+    border-radius: 5px;
+    white-space: nowrap;    
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+}
+.paipu_file .upload:hover,
+.paipu_file .download:hover {
+    background: #ccc;
+}
+.paipu_file .upload input {
+    display: none;
+}
+.paipu_file .upload     { float: left;  }
+.paipu_file .download   { float: right; }

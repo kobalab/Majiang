@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=800">
+    <title>電脳麻将: 牌譜エディタ</title>
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="apple-touch-icon" type="image/png" href="icon.png">
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/paipu.css" />
+    <script src="js/jquery-2.1.4.min.js"></script>
+    <script src="js/majiang.js"></script>
+    <script src="js/model.js"></script>
+    <script src="js/xiangting.js"></script>
+    <script src="js/hule.js"></script>
+    <script src="js/view.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/paipu.js"></script>
+    <script src="js/editor.js"></script>
+    <script>
+        var editor;
+        $(function(){
+            editor = new Majiang.PaipuEditor();
+        });
+    </script>
+</head>
+
+<body>
+
+<div id="loadimage">
+    <img src="img/m1.gif">
+    <img src="img/m2.gif">
+    <img src="img/m3.gif">
+    <img src="img/m4.gif">
+    <img src="img/m5.gif">
+    <img src="img/m6.gif">
+    <img src="img/m7.gif">
+    <img src="img/m8.gif">
+    <img src="img/m9.gif">
+    <img src="img/m0.gif">
+    <br>
+    <img src="img/p1.gif">
+    <img src="img/p2.gif">
+    <img src="img/p3.gif">
+    <img src="img/p4.gif">
+    <img src="img/p5.gif">
+    <img src="img/p6.gif">
+    <img src="img/p7.gif">
+    <img src="img/p8.gif">
+    <img src="img/p9.gif">
+    <img src="img/p0.gif">
+    <br>
+    <img src="img/s1.gif">
+    <img src="img/s2.gif">
+    <img src="img/s3.gif">
+    <img src="img/s4.gif">
+    <img src="img/s5.gif">
+    <img src="img/s6.gif">
+    <img src="img/s7.gif">
+    <img src="img/s8.gif">
+    <img src="img/s9.gif">
+    <img src="img/s0.gif">
+    <br>
+    <img src="img/z1.gif">
+    <img src="img/z2.gif">
+    <img src="img/z3.gif">
+    <img src="img/z4.gif">
+    <img src="img/z5.gif">
+    <img src="img/z6.gif">
+    <img src="img/z7.gif">
+    <img src="img/pai.gif">
+    <br>
+</div>
+
+<div id="editor">
+
+<h1><img src="img/logo.png" alt="電脳麻将"> 牌譜エディタ</h1>
+
+<div class="paipu_file">
+    <div class="list">
+        <div style="display:none;">
+            <div><div class="title"></div><div class="player"></div></div>
+            <div class="button">
+<!--
+                <span class="delete">再生</span>
+                <span class="delete">編集</span>
+                <span class="delete">保存</span>
+                <span class="delete">削除</span>
+-->
+            </div>
+        </div>
+    </div>
+    <div class="error"></div>
+    <label class="upload">牌譜追加<input type="file" multiple></label>
+    <a class="download" href="#" target="_blank">牌譜保存</a>
+<!--    <a class="edit" href="#">新規編集</a>   -->
+</div>
+
+</div>
+
+</body>
+</html>
