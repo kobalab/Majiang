@@ -92,5 +92,5 @@ h1 img {
 .paipu_file .upload input {
     display: none;
 }
-.paipu_file .upload     { float: left;  }
-.paipu_file .download   { float: right; }
+.paipu_file > .upload     { float: left;  }
+.paipu_file > .download   { float: right; }

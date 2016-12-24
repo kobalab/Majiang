@@ -98,14 +98,14 @@ Majiang.PaipuEditor = function() {
                     var paipu;
                     try {
                         self._model.add_paipu(JSON.parse(event.target.result));
-                        self._view.paipu_file.redraw();
-                        self._view.paipu_file.update();
-                        self.set_handler();
                     }
                     catch(e) {
                         self._view.paipu_file.error('不正なファイル: ' + filename);
                         return;
                     }
+                    self._view.paipu_file.redraw();
+                    self._view.paipu_file.update();
+                    self.set_handler();
                 };
             })(file.name);
             reader.readAsText(file);
@@ -124,11 +124,19 @@ Majiang.PaipuEditor.prototype.set_handler = function(paipu) {
     
     var list = $('#editor .paipu_file .list > div');
     for (var i = 0; i < this._model._paipu.length; i++) {
+
         list.eq(i).find('.delete').on('click', i, function(event){
             self._model.del_paipu(event.data);
             self._view.paipu_file.redraw();
             self.set_handler();
-        })
+        });
+    
+        var title = this._model._paipu[i].title.replace(/[ \\\/\:]/g,'_');
+        var blob = new Blob([JSON.stringify(this._model._paipu[i])],
+                            { type: 'application/json' });
+        list.eq(i).find('.download')
+                        .attr('href', URL.createObjectURL(blob))
+                        .attr('download', '牌譜(' + title + ').json');
     }
     
     var title = this._model._paipu[0].title.replace(/[ \\\/\:]/g,'_');
