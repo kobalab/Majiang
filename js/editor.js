@@ -12,7 +12,7 @@ Majiang.PaipuFile.prototype.get_paipu = function(idx) {
     return this._paipu[idx];
 }
 
-Majiang.PaipuFile.prototype.delete_paipu = function(idx) {
+Majiang.PaipuFile.prototype.del_paipu = function(idx) {
     this._paipu.splice(idx, 1);
 }
 
@@ -62,7 +62,6 @@ Majiang.View.PaipuFile.prototype.redraw = function() {
 }
 
 Majiang.View.PaipuFile.prototype.update = function() {
-    this.redraw();
     this._node.find('.list > div').fadeIn();
 }
 
@@ -98,8 +97,10 @@ Majiang.PaipuEditor = function() {
                 return function(event){
                     var paipu;
                     try {
-                        self.add_paipu(JSON.parse(event.target.result));
+                        self._model.add_paipu(JSON.parse(event.target.result));
+                        self._view.paipu_file.redraw();
                         self._view.paipu_file.update();
+                        self.set_handler();
                     }
                     catch(e) {
                         self._view.paipu_file.error('不正なファイル: ' + filename);
@@ -115,9 +116,20 @@ Majiang.PaipuEditor = function() {
     self._view.paipu_file.redraw();
 }
 
-Majiang.PaipuEditor.prototype.add_paipu = function(paipu) {
+Majiang.PaipuEditor.prototype.set_handler = function(paipu) {
+
+    var self = this;
     
-    this._model.add_paipu(paipu);
+    if (this._model._paipu.length == 0) return;
+    
+    var list = $('#editor .paipu_file .list > div');
+    for (var i = 0; i < this._model._paipu.length; i++) {
+        list.eq(i).find('.delete').on('click', i, function(event){
+            self._model.del_paipu(event.data);
+            self._view.paipu_file.redraw();
+            self.set_handler();
+        })
+    }
     
     var title = this._model._paipu[0].title.replace(/[ \\\/\:]/g,'_');
     

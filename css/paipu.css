@@ -64,6 +64,9 @@ h1 img {
 .paipu_file .list .button span:hover {
     background: #ccc;
 }
+.paipu_file .list .button span.delete:hover {
+    background: red;
+}
 .paipu_file .list > div:after {
     display: block;
     content: '';
