@@ -7,6 +7,7 @@
     <link rel="icon" type="image/png" href="icon.png">
     <link rel="apple-touch-icon" type="image/png" href="icon.png">
     <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/desktop.css" />
     <link rel="stylesheet" type="text/css" href="css/paipu.css" />
     <script src="js/jquery-2.1.4.min.js"></script>
     <script src="js/majiang.js"></script>
@@ -26,6 +27,14 @@
 </head>
 
 <body>
+
+<div id="navi">
+<a href="index.html">電脳麻将</a> |
+<a href="autoplay.html">自動対戦</a> |
+<a href="paili.html">牌理</a> |
+<a href="hule.html">和了点計算</a> |
+<a href="paiga.html">牌画入力</a>
+</div>
 
 <div id="loadimage">
     <img src="img/m1.gif">
@@ -72,6 +81,85 @@
     <br>
 </div>
 
+<div id="game">
+
+<div class="chang">
+<div class="xiaoxi">
+    <div class="title">東一局</div>
+    <div class="jicun">
+        <img src="img/100.gif" class="choma"> : <span class="changbang">0</span><br />
+        <img src="img/1000.gif" class="choma"> : <span class="lizhibang">0</span>
+    </div></div>
+<div class="shan">
+    <div class="baopai"><img src="img/pai.gif" class="pai"><img src="img/pai.gif" class="pai"><img src="img/pai.gif" class="pai"><img src="img/pai.gif" class="pai"><img src="img/pai.gif" class="pai"></div>
+    <div>牌数: <span class="paishu">70</span></div></div>
+<div class="defen">
+    <span class="main lunban">東: 25,000</span>
+    <span class="xiajia">南: 25,000</span>
+    <span class="duimian">西: 25,000</span>
+    <span class="shangjia">北: 25,000</span></div>
+</div>
+
+<div class="he xiajia">
+    <div class="lizhi"><img src="img/1000.gif" class="choma"></div>
+    <div class="dapai"></div></div>
+<div class="shoupai xiajia">
+    <div class="bingpai"></div><div class="fulou"></div></div>
+<div class="say xiajia"></div>
+
+<div class="he duimian">
+    <div class="lizhi"><img src="img/1000.gif" class="choma"></div>
+    <div class="dapai"></div></div>
+<div class="shoupai duimian">
+    <div class="bingpai"></div><div class="fulou"></div></div>
+<div class="say duimian"></div>
+
+<div class="he shangjia">
+    <div class="lizhi"><img src="img/1000.gif" class="choma"></div>
+    <div class="dapai"></div></div>
+<div class="shoupai shangjia">
+    <div class="bingpai"></div><div class="fulou"></div></div>
+<div class="say shangjia"></div>
+
+<div class="he main">
+    <div class="lizhi"><img src="img/1000.gif" class="choma"></div>
+    <div class="dapai"></div></div>
+<div class="shoupai main">
+    <div class="bingpai"></div><div class="fulou"></div></div>
+<div class="say main"></div>
+
+<div class="controler">
+<div class="sound"><span class="label">Sound:</span>
+    <span class="scale"><span>■</span><span>■</span><span>■</span><span>■</span><span>■</span></span></div>
+<div class="speed"><span class="label">Speed:</span>
+    <span class="scale"><span>■</span><span>■</span><span>■</span><span>■</span><span>■</span></span></div>
+</div>
+
+<div class="jiesuan">
+<div class="shan">
+    <span class="baopai">ドラ<img src="img/pai.gif" class="pai" /><img src="img/pai.gif" class="pai" /><img src="img/pai.gif" class="pai" /><img src="img/pai.gif" class="pai" /><img src="img/pai.gif" class="pai" /></span>
+    <span class="fubaopai">裏ドラ<img src="img/pai.gif" class="pai" /><img src="img/pai.gif" class="pai" /><img src="img/pai.gif" class="pai" /><img src="img/pai.gif" class="pai" /><img src="img/pai.gif" class="pai" /></span></div>
+<div class="shoupai"><div class="bingpai"></div><div class="fulou"></div></div>
+<div class="hupai"><table></table></div>
+<div class="jicun">
+    <img src="img/100.gif" class="choma"> : <span class="changbang">0</span>
+    <img src="img/1000.gif" class="choma"> : <span class="lizhibang">0</span></div>
+<div class="pingju"></div>
+<div class="fenpei">
+    <div class="xiajia"><span class="name"></span>
+        <span class="defen"></span><span class="diff"></span></div>
+    <div class="duimian"><span class="name"></span>
+        <span class="defen"></span><span class="diff"></span></div>
+    <div class="shangjia"><span class="name"></span>
+        <span class="defen"></span><span class="diff"></span></div>
+    <div class="main"><span class="name"></span>
+        <span class="defen"></span><span class="diff"></span></div></div>
+</div>
+
+<div class="jiezhang"><table></table></div>
+
+</div>
+
 <div id="editor">
 
 <h1><img src="img/logo.png" alt="電脳麻将"> 牌譜エディタ</h1>
@@ -81,10 +169,10 @@
         <div style="display:none;">
             <div><div class="title"></div><div class="player"></div></div>
             <div class="button">
+                <a class="replay">再生</a>
                 <a class="download" target="_blank">保存</a>
-                <span class="delete">削除</span>
+                <a class="delete">削除</a>
 <!--
-                <span class="delete">再生</span>
                 <span class="delete">編集</span>
 -->
             </div>

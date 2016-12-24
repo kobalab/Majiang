@@ -1,11 +1,25 @@
 @charset "UTF-8";
 
 body {
-    color: black;
     background: white;
 }
 
+#navi {
+    width: auto;
+    color: black;
+    margin: 0px 15px;
+}
+#navi a {
+    color: black;
+}
+
+#editor {
+    color: black;
+    margin: 0px 15px;
+}
+
 h1 {
+    margin-top: 0px;
     border-bottom: solid 2px black;
     font-family: sans-serif;
     font-size: 24px;
@@ -16,8 +30,7 @@ h1 img {
 }
 
 .paipu_file {
-    width: 780px;
-    margin: 10px auto;
+    min-width: 760px;
 }
 .paipu_file .error {
     display: none;
@@ -36,7 +49,7 @@ h1 img {
     padding: 8px;
 }
 .paipu_file .list > div > div {
-    width: 480px;
+    width: 500px;
     float: left;
 }
 .paipu_file .list .title {
@@ -50,7 +63,7 @@ h1 img {
     float: right;
     text-align: right;
 }
-.paipu_file .list .button > span {
+.paipu_file .list .button > a {
     display: inline-block;
     margin: 2px;
     padding: 2px 10px;
@@ -61,10 +74,10 @@ h1 img {
     cursor: pointer;
     color: white;
 }
-.paipu_file .list .button span:hover {
+.paipu_file .list .button a:hover {
     background: #ccc;
 }
-.paipu_file .list .button span.delete:hover {
+.paipu_file .list .button a.delete:hover {
     background: red;
 }
 .paipu_file .list > div:after {

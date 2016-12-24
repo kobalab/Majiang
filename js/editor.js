@@ -116,6 +116,13 @@ Majiang.PaipuEditor = function() {
     self._view.paipu_file.redraw();
 }
 
+Majiang.PaipuEditor.prototype.start = function() {
+
+    $('#game').hide();
+    $('body').css('background','white');
+    $('#editor').show();
+}
+
 Majiang.PaipuEditor.prototype.set_handler = function(paipu) {
 
     var self = this;
@@ -137,6 +144,17 @@ Majiang.PaipuEditor.prototype.set_handler = function(paipu) {
         list.eq(i).find('.download')
                         .attr('href', URL.createObjectURL(blob))
                         .attr('download', '牌譜(' + title + ').json');
+        
+        list.eq(i).find('.replay').on('click', i, function(event){
+            var paipu = self._model.get_paipu(event.data);
+            var game  = new Majiang.Game.Paipu(paipu);
+            game._callback = editor.start;
+            $('#editor').hide();
+            $('#game').show();
+            $('body').css('background','black');
+            Majiang.Audio.volume(1);
+            game.next();
+        });
     }
     
     var title = this._model._paipu[0].title.replace(/[ \\\/\:]/g,'_');

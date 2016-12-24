@@ -358,6 +358,8 @@ Majiang.Game.Paipu.prototype.jieju = function(data) {
         if (self._callback) self._callback();
     });
     $('.jiezhang .paipu .replay').hide();
+    
+    if (this._callback) $('#game').off().on('click', this._callback);
 }
 
 Majiang.Game.Paipu.prototype.seek = function(log_idx, idx) {
