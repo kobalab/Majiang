@@ -5,6 +5,26 @@ Majiang.PaipuFile = function() {
 }
 
 Majiang.PaipuFile.prototype.add_paipu = function(paipu) {
+
+    var format = {
+        title:  true,
+        player: true,
+        qijia:  true,
+        log:    true,
+        defen:  true,
+        rank:   true,
+        point:  true
+    };
+    
+    for (var p of [].concat(paipu)) {
+        for (var key in format) {
+            if (p[key] == undefined) throw new Error(key+': '+p[key]);
+        }
+        for (var key in p) {
+            if (! format[key]) delete p[key];
+        }
+    }
+    
     this._paipu = this._paipu.concat(paipu);
 }
 
