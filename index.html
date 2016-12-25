@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="css/desktop.css" />
     <link rel="stylesheet" type="text/css" href="css/tablet.css" />
     <link rel="stylesheet" type="text/css" href="css/smartphone.css" />
+    <link rel="stylesheet" type="text/css" href="css/paipu.css" />
     <script src="js/jquery-2.1.4.min.js"></script>
     <script src="js/majiang.js"></script>
     <script src="js/model.js"></script>
@@ -22,8 +23,9 @@
     <script src="js/ui.js"></script>
     <script src="js/game.js"></script>
     <script src="js/paipu.js"></script>
+    <script src="js/editor.js"></script>
     <script>
-        var game, paipu;
+        var game, paipu, editor;
         
         $(function(){
 
@@ -35,12 +37,26 @@
             }, 1000);
 
             function start() {
+                $('#editor').hide();
+                $('body').css('background','black');
                 $('.jiezhang').hide();
+                $('#game').show();
+                $('#navi').show();
                 game = new Majiang.Game();
-                game._callback = start;
+                game._callback = end;
                 game.kaiju();
             }
+          
+            function end() {
+                $('#game').hide();
+                $('body').css('background','white');
+                $('#editor').show();
+                editor.start(game._paipu);
+            }
 
+            editor = new Majiang.PaipuEditor();
+            $('#editor .next').on('click', start);
+          
             $(window).load(function(){
                 Majiang.Audio.volume(1);
                 clearInterval(id);
@@ -55,14 +71,6 @@
 </head>
 
 <body>
-
-<div id="navi">
-電脳麻将 |
-<a href="autoplay.html">自動対戦</a> |
-<a href="paili.html">牌理</a> |
-<a href="hule.html">和了点計算</a> |
-<a href="paiga.html">牌画入力</a>
-</div>
 
 <div id="title">
     <h1><img src="img/logo.png" alt="電脳麻将"></h1>
@@ -200,10 +208,35 @@
         <span class="defen"></span><span class="diff"></span></div></div>
 </div>
 
-<div class="jiezhang"><table></table>
-    <div class="paipu">
-        <a class="next">次の半荘へ</a>
-        <a class="replay">牌譜再生</a></div>
+<div class="jiezhang"><table></table></div>
+
+</div>
+
+<div id="editor" style="display:none">
+
+<div class="navi">
+電脳麻将 |
+<a href="autoplay.html">自動対戦</a> |
+<a href="paili.html">牌理</a> |
+<a href="hule.html">和了点計算</a> |
+<a href="paiga.html">牌画入力</a>
+</div>
+
+<h1><img src="img/logo.png" alt="電脳麻将"></h1>
+
+<div class="paipu_file">
+    <div class="list">
+        <div style="display:none;">
+            <div><div class="title"></div><div class="player"></div></div>
+            <div class="button">
+                <a class="replay">再生</a>
+                <a class="download" target="_blank">保存</a>
+            </div>
+        </div>
+    </div>
+    <div class="error"></div>
+    <a class="next">次の半荘へ</a>
+    <a class="download" target="_blank">牌譜保存</a>
 </div>
 
 </div>

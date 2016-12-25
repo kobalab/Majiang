@@ -132,15 +132,19 @@ Majiang.PaipuEditor = function() {
         }
         $(this).val(null);
     });
-    
-    self._view.paipu_file.redraw();
 }
 
-Majiang.PaipuEditor.prototype.start = function() {
+Majiang.PaipuEditor.prototype.start = function(paipu) {
 
     $('#game').hide();
+    $('#navi').hide();
     $('body').css('background','white');
     $('#editor').show();
+
+    if (paipu) this._model.add_paipu(paipu);
+    this._view.paipu_file.redraw();
+    this._view.paipu_file.update();
+    this.set_handler();
 }
 
 Majiang.PaipuEditor.prototype.set_handler = function(paipu) {
@@ -168,8 +172,9 @@ Majiang.PaipuEditor.prototype.set_handler = function(paipu) {
         list.eq(i).find('.replay').on('click', i, function(event){
             var paipu = self._model.get_paipu(event.data);
             var game  = new Majiang.Game.Paipu(paipu);
-            game._callback = editor.start;
+            game._callback = function(){ self.start() };
             $('#editor').hide();
+            $('#navi').show();
             $('#game').show();
             $('body').css('background','black');
             Majiang.Audio.volume(1);

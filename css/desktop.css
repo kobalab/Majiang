@@ -61,7 +61,7 @@ body {
     -moz-user-select: none;
     width: 800px;
     height: 680px;
-    margin: 0px auto;
+    margin: 15px auto;
     background: #036;
     overflow-y: auto;
 }
