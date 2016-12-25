@@ -317,7 +317,8 @@ Majiang.Game.prototype.audio_play = function(name, lunban) {
 Majiang.Game.prototype.create_view = function(viewpoint) {
 
     $('.jiezhang').hide();
-
+    $('.menu').hide();
+ 
     viewpoint = viewpoint || 0;
 
     this._view = {

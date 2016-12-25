@@ -18,6 +18,7 @@ Majiang.Game.Paipu = function(paipu) {
     this._log_idx = 0;
     this._idx     = 0;
     
+    this._stop   = false;
     this._delay  = false;
     this._replay = false;
     
@@ -37,6 +38,7 @@ Majiang.Game.Paipu.prototype.next = function() {
 
     var self = this;
 
+    if (this._stop)  return;
     if (this._delay) return;
     
     if (this._log_idx >= this._paipu.log.length) {
@@ -116,7 +118,34 @@ Majiang.Game.Paipu.prototype.create_view = function() {
     var self = this;
 
     if (! this._mode.auto_play) $('.controler .speed').hide();
+    
+    $('.menu .summary').off('click').on('click', function(){
 
+        $('.jiezhang').off('click').on('click', function(){
+            self._stop = false;
+            $(this).hide();
+            if (self._mode.auto_play) setTimeout(function(){self.next()}, 500);
+            return false;
+        });
+    
+        self._stop = true;
+        Majiang.View.Jiezhang($('.jiezhang'), self._paipu);
+        $('.jiezhang .paipu .replay').hide();                       // for DEBUG
+        return false;
+    });
+
+    $('.menu .exit').off('click').on('click', function(){
+        self._delay = true;
+        if (self._mode.auto_play) {
+            self._timeout_id = clearTimeout(self._timeout_id);
+            self._mode.auto_play = false;
+        }
+        self._callback();
+        return false;
+    });
+ 
+    $('.menu').show();
+    
     $('#game').unbind('click').bind('click', function(){
         self._mode.auto_play = ! self._mode.auto_play;
         if (self._mode.auto_play) {
@@ -315,6 +344,8 @@ Majiang.Game.Paipu.prototype.hule = function(data) {
     };
     this._view.jiesuan.hule(info);
 
+    $('.menu').hide();
+    
     $('#game').unbind('click').bind('click', function(){
         self._view.jiesuan.hide();
         if (self._idx == self._paipu.log[self._log_idx].length) {
@@ -341,6 +372,8 @@ Majiang.Game.Paipu.prototype.pingju = function(data) {
 
     this._view.jiesuan.pingju({ name: data.name, fenpei: data.fenpei });
 
+    $('.menu').hide();
+    
     $('#game').unbind('click').bind('click', function(){
         self._view.jiesuan.hide();
         self._log_idx++; self._idx = 0; self.next();
@@ -350,6 +383,8 @@ Majiang.Game.Paipu.prototype.pingju = function(data) {
 
 Majiang.Game.Paipu.prototype.jieju = function(data) {
 
+    $('.menu').show();
+
     Majiang.View.Jiezhang($('.jiezhang'), this._paipu);
     
     /* 暫定 */
@@ -358,8 +393,6 @@ Majiang.Game.Paipu.prototype.jieju = function(data) {
         if (self._callback) self._callback();
     });
     $('.jiezhang .paipu .replay').hide();
-    
-    if (this._callback) $('#game').off().on('click', this._callback);
 }
 
 Majiang.Game.Paipu.prototype.seek = function(log_idx, idx) {

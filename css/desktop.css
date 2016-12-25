@@ -398,7 +398,7 @@ body {
 }
 
 .controler {
-    transform: translate(160px, 180px);
+    transform: translate(160px, 160px);
     font-family: Impact, "Arial Narrow", sans-serif;
     font-size: 16px;
     color: white;
@@ -409,4 +409,19 @@ body {
 }
 .controler .scale .off{
     color: #666;
+}
+
+.menu {
+    width: 120px;
+    transform: translate(520px, 160px);
+    font-size: 14px;
+    text-align: right;
+}
+.menu a {
+    color: white;
+    text-decoration: none;
+    opacity: 0.3;
+}
+.menu a:hover {
+    opacity: 1.0;
 }

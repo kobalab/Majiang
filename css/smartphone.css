@@ -221,4 +221,8 @@ body   { margin: 0;         }
     transform: translate(140px, 60px);
 }
 
+.menu {
+    transform: translate(540px, 60px);
+}
+
 }

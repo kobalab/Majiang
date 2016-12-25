@@ -139,7 +139,7 @@ Majiang.PaipuEditor.prototype.start = function(paipu) {
     $('#game').hide();
     $('#navi').hide();
     $('body').css('background','white');
-    $('#editor').show();
+    $('#editor').fadeIn();
 
     if (paipu) this._model.add_paipu(paipu);
     this._view.paipu_file.redraw();
