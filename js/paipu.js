@@ -135,7 +135,7 @@ Majiang.Game.Paipu.prototype.create_view = function() {
     });
 
     $('.menu .exit').off('click').on('click', function(){
-        self._delay = true;
+        self._stop = true;
         if (self._mode.auto_play) {
             self._timeout_id = clearTimeout(self._timeout_id);
             self._mode.auto_play = false;
@@ -147,6 +147,7 @@ Majiang.Game.Paipu.prototype.create_view = function() {
     $('.menu').show();
     
     $('#game').unbind('click').bind('click', function(){
+        if (self._stop) return;
         self._mode.auto_play = ! self._mode.auto_play;
         if (self._mode.auto_play) {
             self.next();
@@ -160,6 +161,7 @@ Majiang.Game.Paipu.prototype.create_view = function() {
     });
     
     $(window).unbind('keydown').bind('keydown', function(event){
+        if (self._stop) return;
         if (event.keyCode == 40) {
             if (event.shiftKey) {
                 var log = self._paipu.log[self._log_idx];
@@ -348,6 +350,7 @@ Majiang.Game.Paipu.prototype.hule = function(data) {
     
     $('#game').unbind('click').bind('click', function(){
         self._view.jiesuan.hide();
+        if (self._log_idx >= self._paipu.log.length) return;
         if (self._idx == self._paipu.log[self._log_idx].length) {
             self._log_idx++; self._idx = 0; self.next();
         }
@@ -386,6 +389,8 @@ Majiang.Game.Paipu.prototype.jieju = function(data) {
     $('.menu').show();
 
     Majiang.View.Jiezhang($('.jiezhang'), this._paipu);
+    
+    this._mode.auto_play = false;
     
     /* 暫定 */
     var self = this;
