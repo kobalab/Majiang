@@ -386,8 +386,15 @@ Majiang.Game.Paipu.prototype.pingju = function(data) {
 
 Majiang.Game.Paipu.prototype.jieju = function(data) {
 
+    var self = this;
+    
     $('.menu').show();
 
+    $('.jiezhang').off('click').on('click', function(){
+        $(this).hide();
+        self._callback();
+        return false;
+    });
     Majiang.View.Jiezhang($('.jiezhang'), this._paipu);
     
     this._mode.auto_play = false;
