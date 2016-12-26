@@ -130,7 +130,6 @@ Majiang.Game.Paipu.prototype.create_view = function() {
     
         self._stop = true;
         Majiang.View.Jiezhang($('.jiezhang'), self._paipu);
-        $('.jiezhang .paipu .replay').hide();                       // for DEBUG
         return false;
     });
 
@@ -398,13 +397,6 @@ Majiang.Game.Paipu.prototype.jieju = function(data) {
     Majiang.View.Jiezhang($('.jiezhang'), this._paipu);
     
     this._mode.auto_play = false;
-    
-    /* 暫定 */
-    var self = this;
-    $('.jiezhang .paipu .next').unbind('click').bind('click', function(){
-        if (self._callback) self._callback();
-    });
-    $('.jiezhang .paipu .replay').hide();
 }
 
 Majiang.Game.Paipu.prototype.seek = function(log_idx, idx) {
