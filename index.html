@@ -51,6 +51,9 @@
                 $('#game').hide();
                 $('body').css('background','white');
                 $('#editor').show();
+                while (editor._model.length() >= 10) {
+                    editor._model.del_paipu(0);
+                }
                 editor.start(game._paipu);
             }
 
