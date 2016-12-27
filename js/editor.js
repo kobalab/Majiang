@@ -1,10 +1,6 @@
 /* Model */
 
-Majiang.PaipuFile = function() {
-    this._paipu = [];
-}
-
-Majiang.PaipuFile.prototype.add_paipu = function(paipu) {
+function fix_paipu(paipu) {
 
     var format = {
         title:  true,
@@ -24,8 +20,35 @@ Majiang.PaipuFile.prototype.add_paipu = function(paipu) {
             if (! format[key]) delete p[key];
         }
     }
-    
-    this._paipu = this._paipu.concat(paipu);
+    return paipu;
+}
+
+Majiang.PaipuFile = function(storage) {
+
+    this._paipu = [];
+
+    if (storage && localStorage) {
+        if (localStorage.getItem(storage)) {
+            this._paipu = fix_paipu(JSON.parse(localStorage.getItem(storage)));
+        }
+        this._storage = storage;
+    }
+}
+
+Majiang.PaipuFile.prototype.length = function() {
+    return this._paipu.length;
+}
+
+Majiang.PaipuFile.prototype.stringify = function(idx) {
+    if (idx == null) return JSON.stringify(this._paipu);
+    else             return JSON.stringify(this._paipu[idx]);
+}
+
+Majiang.PaipuFile.prototype.add_paipu = function(paipu) {
+    this._paipu = this._paipu.concat(fix_paipu(paipu));
+    if (this._storage) {
+        localStorage.setItem(this._storage, this.stringify())
+    }
 }
 
 Majiang.PaipuFile.prototype.get_paipu = function(idx) {
@@ -34,6 +57,9 @@ Majiang.PaipuFile.prototype.get_paipu = function(idx) {
 
 Majiang.PaipuFile.prototype.del_paipu = function(idx) {
     this._paipu.splice(idx, 1);
+    if (this._storage) {
+        localStorage.setItem(this._storage, this.stringify())
+    }
 }
 
 /* View */
@@ -58,7 +84,7 @@ Majiang.View.PaipuFile.prototype.redraw = function() {
     var node =  this._node.find('.list');
     node.empty();
     
-    for (var i = 0; i < this._model._paipu.length; i++) {
+    for (var i = 0; i < this._model.length(); i++) {
         var paipu = this._model._paipu[i];
         var player = ['','','',''];
         for (var l = 0; l < 4; l++) {
@@ -75,10 +101,10 @@ Majiang.View.PaipuFile.prototype.redraw = function() {
         node.append(row);
         if (i < this._max_idx) row.show();
     }
-    this._max_idx = this._model._paipu.length;
+    this._max_idx = this._model.length();
     
-    if (this._model._paipu.length == 0) this._node.find('.download').hide();
-    else                                this._node.find('.download').show();
+    if (this._model.length() == 0) this._node.find('.download').hide();
+    else                           this._node.find('.download').show();
 }
 
 Majiang.View.PaipuFile.prototype.update = function() {
@@ -93,11 +119,11 @@ Majiang.View.PaipuFile.prototype.error = function(msg) {
 
 /* Controller */
 
-Majiang.PaipuEditor = function() {
+Majiang.PaipuEditor = function(storage) {
 
     var self = this;
 
-    this._model  = new Majiang.PaipuFile();
+    this._model  = new Majiang.PaipuFile(storage);
     this._view   = {
         paipu_file: new Majiang.View.PaipuFile(
                         $('#editor .paipu_file'), this._model),
@@ -151,10 +177,10 @@ Majiang.PaipuEditor.prototype.set_handler = function(paipu) {
 
     var self = this;
     
-    if (this._model._paipu.length == 0) return;
+    if (this._model.length() == 0) return;
     
     var list = $('#editor .paipu_file .list > div');
-    for (var i = 0; i < this._model._paipu.length; i++) {
+    for (var i = 0; i < this._model.length(); i++) {
 
         list.eq(i).find('.delete').on('click', i, function(event){
             self._model.del_paipu(event.data);
@@ -163,7 +189,7 @@ Majiang.PaipuEditor.prototype.set_handler = function(paipu) {
         });
     
         var title = this._model._paipu[i].title.replace(/[ \\\/\:]/g,'_');
-        var blob = new Blob([JSON.stringify(this._model._paipu[i])],
+        var blob = new Blob([ this._model.stringify(i) ],
                             { type: 'application/json' });
         list.eq(i).find('.download')
                         .attr('href', URL.createObjectURL(blob))
@@ -184,7 +210,7 @@ Majiang.PaipuEditor.prototype.set_handler = function(paipu) {
     
     var title = this._model._paipu[0].title.replace(/[ \\\/\:]/g,'_');
     
-    var blob = new Blob([JSON.stringify(this._model._paipu)],
+    var blob = new Blob([ this._model.stringify() ],
                         { type: 'application/json' });
     $('#editor .paipu_file > .download')
                     .attr('href', URL.createObjectURL(blob))
