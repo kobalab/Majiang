@@ -5,7 +5,7 @@
 #navi  { display: none;     }
 #title { margin-top: 160px; }
 body  { margin: 0;      }
-#game { height: 600px; margin: 0px; }
+#game { height: 600px; margin: 0px auto; }
 
 .chang {
     transform: translate(260px, 200px);
