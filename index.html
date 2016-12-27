@@ -54,7 +54,7 @@
                 editor.start(game._paipu);
             }
 
-            editor = new Majiang.PaipuEditor();
+            editor = new Majiang.PaipuEditor('Majiang.game');
             $('#editor .next').on('click', start);
           
             $(window).load(function(){
@@ -62,8 +62,15 @@
                 clearInterval(id);
                 setTimeout(function(){
                     $('#title').hide();
-                    $('#game').show();
-                    start();
+                    if (editor._model.length() > 0) {
+                        $('body').css('background','white');
+                        $('#editor').show();
+                        editor.start();
+                    }
+                    else {
+                        $('#game').show();
+                        start();
+                    }
                 }, 2000);
             });
         });
@@ -241,7 +248,7 @@
         </div>
     </div>
     <div class="error"></div>
-    <a class="next">次の半荘へ</a>
+    <a class="next">ゲーム開始</a>
     <a class="download" target="_blank">牌譜保存</a>
 </div>
 

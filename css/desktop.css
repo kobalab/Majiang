@@ -193,6 +193,7 @@ body {
 }
 
 .UI {
+    display: none;
     width: 580px;
     text-align: right;
     transform: translate(120px, 580px);
