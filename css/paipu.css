@@ -24,6 +24,12 @@
     height: 36px;
     vertical-align: bottom;
 }
+#editor .version {
+    margin-top: -3em;
+    font-size: 12px;
+    font-family: serif;
+    text-align: right;
+}
 
 .paipu_file {
     min-width: 760px;
