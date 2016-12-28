@@ -120,14 +120,6 @@ Majiang.Game.Paipu.prototype.create_view = function() {
     if (! this._mode.auto_play) $('.controler .speed').hide();
     
     $('.menu .summary').off('click').on('click', function(){
-
-        $('.jiezhang').off('click').on('click', function(){
-            self._stop = false;
-            $(this).hide();
-            if (self._mode.auto_play) setTimeout(function(){self.next()}, 500);
-            return false;
-        });
-    
         self._stop = true;
         Majiang.View.Jiezhang($('.jiezhang'), self._paipu);
         return false;
@@ -143,10 +135,13 @@ Majiang.Game.Paipu.prototype.create_view = function() {
         return false;
     });
  
-    $('.menu').show();
-    
     $('#game').unbind('click').bind('click', function(){
-        if (self._stop) return;
+        if (self._stop) {
+            self._stop = false;
+            $('.jiezhang').hide();
+            if (self._mode.auto_play) setTimeout(function(){self.next()}, 500);
+            return false;
+        }
         self._mode.auto_play = ! self._mode.auto_play;
         if (self._mode.auto_play) {
             self.next();
@@ -180,6 +175,8 @@ Majiang.Game.Paipu.prototype.create_view = function() {
         if (event.keyCode == 37) self.seek(self._log_idx - 1, 0);
         if (event.keyCode == 39) self.seek(self._log_idx + 1, 0);
     });
+
+    $('.menu').show();
 }
 
 Majiang.Game.Paipu.prototype.qipai = function(data) {
@@ -389,12 +386,10 @@ Majiang.Game.Paipu.prototype.jieju = function(data) {
     
     $('.menu').show();
 
-    $('.jiezhang').off('click').on('click', function(){
-        $(this).hide();
-        self._callback();
-        return false;
-    });
     Majiang.View.Jiezhang($('.jiezhang'), this._paipu);
+    $('#game').off('click').on('click', function(){
+        $('.jiezhang').hide();
+    });
     
     this._mode.auto_play = false;
 }
