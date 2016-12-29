@@ -374,6 +374,10 @@ body {
     text-align: center;
     font-size:  24px;
 }
+.jiezhang.summary tbody tr:hover,
+.jiezhang.summary tbody tr:hover td {
+    background: #999;
+}
 .jiezhang .paipu {
     width: 640px;
     margin: 10px auto;

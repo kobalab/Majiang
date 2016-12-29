@@ -120,8 +120,7 @@ Majiang.Game.Paipu.prototype.create_view = function() {
     if (! this._mode.auto_play) $('.controler .speed').hide();
     
     $('.menu .summary').off('click').on('click', function(){
-        self._stop = true;
-        Majiang.View.Jiezhang($('.jiezhang'), self._paipu);
+        self.show_summary();
         return false;
     });
 
@@ -383,15 +382,28 @@ Majiang.Game.Paipu.prototype.pingju = function(data) {
 Majiang.Game.Paipu.prototype.jieju = function(data) {
 
     var self = this;
-    
-    $('.menu').show();
 
-    Majiang.View.Jiezhang($('.jiezhang'), this._paipu);
+    self.show_summary();
+    
     $('#game').off('click').on('click', function(){
-        $('.jiezhang').hide();
+        self._callback();
     });
     
     this._mode.auto_play = false;
+}
+
+Majiang.Game.Paipu.prototype.show_summary = function() {
+
+    var self = this;
+
+    Majiang.View.Jiezhang($('.jiezhang'), self._paipu);
+    $('.jiezhang').addClass('summary');
+    $('.summary tbody tr').off('click').each(function(i){
+        $(this).on('click', i, function(event){
+            self.seek(event.data);
+        });
+    });
+    self._stop = true;
 }
 
 Majiang.Game.Paipu.prototype.seek = function(log_idx, idx) {
