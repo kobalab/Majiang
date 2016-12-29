@@ -37,10 +37,9 @@
             }, 1000);
 
             function start() {
+                $('body').removeClass('editor').addClass('game');
                 $('#editor').hide();
-                $('body').css('background','black');
                 $('#game').show();
-                $('#navi').show();
                 game = new Majiang.Game();
                 game._callback = end;
                 game.kaiju();
@@ -48,7 +47,7 @@
           
             function end() {
                 $('#game').hide();
-                $('body').css('background','white');
+                $('body').removeClass('game').addClass('editor');
                 $('#editor').show();
                 while (editor._model.length() >= 10) {
                     editor._model.del_paipu(0);
@@ -65,12 +64,10 @@
                 setTimeout(function(){
                     $('#title').hide();
                     if (editor._model.length() > 0) {
-                        $('body').css('background','white');
-                        $('#editor').show();
+                        $('body').removeClass('game').addClass('editor');
                         editor.start();
                     }
                     else {
-                        $('#game').show();
                         start();
                     }
                 }, 2000);
@@ -79,7 +76,15 @@
     </script>
 </head>
 
-<body>
+<body class="game">
+
+<div id="navi">
+電脳麻将 |
+<a href="autoplay.html">自動対戦</a> |
+<a href="paili.html">牌理</a> |
+<a href="hule.html">和了点計算</a> |
+<a href="paiga.html">牌画入力</a>
+</div>
 
 <div id="title">
     <h1><img src="img/logo.png" alt="電脳麻将"></h1>
@@ -226,15 +231,7 @@
 
 </div>
 
-<div id="editor" style="display:none">
-
-<div class="navi">
-電脳麻将 |
-<a href="autoplay.html">自動対戦</a> |
-<a href="paili.html">牌理</a> |
-<a href="hule.html">和了点計算</a> |
-<a href="paiga.html">牌画入力</a>
-</div>
+<div id="editor">
 
 <h1><img src="img/logo.png" alt="電脳麻将"></h1>
 <p class="version"></p>

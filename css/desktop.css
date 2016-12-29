@@ -2,23 +2,20 @@
 
 @import url(style.css);
 
-@media print {
-    .jiesuan, .jiezhang {
-        border: solid 1px black;
-    }
-    .controler {
-        display: none;
-    }
-}
-
-body {
+body.game {
+    color: white;
     background: black;
     margin: 0;
 }
 
-#navi {
+.game #navi {
     width: 800px;
     margin: 0 auto;
+}
+
+.game #navi a {
+    color: white;
+    text-decoration: none;
 }
 
 #title {
@@ -429,4 +426,29 @@ body {
 }
 .menu a:hover {
     opacity: 1.0;
+}
+
+@media print {
+    body.game {
+        color: black;
+        background: white;
+    }
+    #game {
+        margin: 15px auto;
+        background: white;
+    }
+    .chang {
+        background: white;
+        border: solid 1px #ccc;
+    }
+    .jiesuan, .jiezhang {
+        background: white;
+        border: solid 1px #ccc;
+    }
+    .controler {
+        display: none;
+    }
+    .menu {
+        display: none !important;
+    }
 }

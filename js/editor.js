@@ -105,9 +105,7 @@ Majiang.View.PaipuFile.prototype.redraw = function() {
     
     if (this._model.length() == 0) this._node.find('.download').hide();
     else                           this._node.find('.download').show();
-}
 
-Majiang.View.PaipuFile.prototype.update = function() {
     this._node.find('.list > div').fadeIn();
 }
 
@@ -150,7 +148,6 @@ Majiang.PaipuEditor = function(storage) {
                         return;
                     }
                     self._view.paipu_file.redraw();
-                    self._view.paipu_file.update();
                     self.set_handler();
                 };
             })(file.name);
@@ -162,14 +159,12 @@ Majiang.PaipuEditor = function(storage) {
 
 Majiang.PaipuEditor.prototype.start = function(paipu) {
 
+    $('body').removeClass('game').addClass('editor');
     $('#game').hide();
-    $('#navi').hide();
-    $('body').css('background','white');
     $('#editor').fadeIn();
 
     if (paipu) this._model.add_paipu(paipu);
     this._view.paipu_file.redraw();
-    this._view.paipu_file.update();
     this.set_handler();
 }
 
@@ -199,11 +194,9 @@ Majiang.PaipuEditor.prototype.set_handler = function(paipu) {
             var paipu = self._model.get_paipu(event.data);
             var game  = new Majiang.Game.Paipu(paipu);
             game._callback = function(){ self.start() };
+            $('body').removeClass('editor').addClass('game');
             $('#editor').hide();
-            $('#navi').show();
             $('#game').show();
-            $('body').css('background','black');
-            Majiang.Audio.volume(1);
             game.next();
         });
     }

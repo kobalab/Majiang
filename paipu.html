@@ -24,14 +24,23 @@
         var editor;
         $(function(){
             $('.version').text('ver. ' + Majiang.VERSION);
-            
+            Majiang.Audio.volume(1);
+          
             editor = new Majiang.PaipuEditor('Majiang.paipu');
             editor.start();
         });
     </script>
 </head>
 
-<body>
+<body class="editor">
+
+<div id="navi">
+<a href="index.html">電脳麻将</a> |
+<a href="autoplay.html">自動対戦</a> |
+<a href="paili.html">牌理</a> |
+<a href="hule.html">和了点計算</a> |
+<a href="paiga.html">牌画入力</a>
+</div>
 
 <div id="loadimage">
     <img src="img/m1.gif">
@@ -163,14 +172,6 @@
 </div>
 
 <div id="editor">
-
-<div class="navi">
-<a href="index.html">電脳麻将</a> |
-<a href="autoplay.html">自動対戦</a> |
-<a href="paili.html">牌理</a> |
-<a href="hule.html">和了点計算</a> |
-<a href="paiga.html">牌画入力</a>
-</div>
 
 <h1><img src="img/logo.png" alt="電脳麻将"> 牌譜エディタ</h1>
 <p class="version"></p>

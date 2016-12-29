@@ -1,17 +1,24 @@
 @charset "UTF-8";
 
+body.editor {
+    color: black;
+    background: white;
+    margin: 0;
+}
+
 #editor {
+    display: none;
     color: black;
     margin: 0px 15px;
 }
 
-#editor .navi {
-    color: black;
-    text-align: right;
+.editor #navi {
+    margin: 0px 15px;
     width: auto;
 }
-#editor .navi a {
+.editor #navi a {
     color: black;
+    text-decoration: none;
 }
 
 #editor h1 {
