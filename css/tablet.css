@@ -5,7 +5,12 @@
 #navi  { display: none;     }
 #title { margin-top: 160px; }
 body  { margin: 0;      }
-#game { height: 600px; margin: 0px auto; }
+#game  {
+    height: 600px;
+    position: absolute;
+    top: 0; bottom: 0; left: 0; right: 0;
+    margin: auto;
+}
 
 .chang {
     transform: translate(260px, 200px);
