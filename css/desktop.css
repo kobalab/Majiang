@@ -103,6 +103,31 @@ body.game {
     transform: translate(10px, 24px);
 }
 
+#game .player {
+    width: 120px;
+    height: 30px;
+    border-radius: 12px 0px;
+    padding: 2px 20px;
+    background: #111;
+    font-size: 20px;
+    font-family: "Georgia", serif;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.player.main {
+    transform: translate(120px, 570px);
+}
+.player.xiajia {
+    transform: translate(710px, 580px) rotate(270deg);
+}
+.player.duimian {
+    transform: translate(640px, 90px) rotate(180deg);
+}
+.player.shangjia {
+    transform: translate(90px, 100px) rotate(90deg);
+}
+
 .shoupai.main {
     width: 680px;
     height: 80px;
@@ -438,6 +463,10 @@ body.game {
         background: white;
     }
     .chang {
+        background: white;
+        border: solid 1px #ccc;
+    }
+    #game .player {
         background: white;
         border: solid 1px #ccc;
     }

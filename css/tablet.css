@@ -16,6 +16,19 @@ body  { margin: 0;      }
     transform: translate(260px, 200px);
 }
 
+.player.main {
+    transform: translate(80px, 480px);
+}
+.player.xiajia {
+    transform: translate(710px, 500px) rotate(270deg);
+}
+.player.duimian {
+    transform: translate(660px, 90px) rotate(180deg);
+}
+.player.shangjia {
+    transform: translate(90px, 100px) rotate(90deg);
+}
+
 .shoupai.main {
     width: 720px;
     height: 88px;
