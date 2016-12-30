@@ -208,4 +208,9 @@ Majiang.PaipuEditor.prototype.set_handler = function(paipu) {
     $('#editor .paipu_file > .download')
                     .attr('href', URL.createObjectURL(blob))
                     .attr('download', '牌譜(' + title + ').json');
+
+    var ua = navigator.userAgent;
+    if (! ua.match(/\bChrome\b/) && ua.match(/\bSafari\b/)) {
+        $('.download').hide();
+    }
 }
