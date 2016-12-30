@@ -574,9 +574,10 @@ Majiang.View.Say = {
     },
     _node: [],
  
-    init: function() {
+    init: function(viewpoint) {
+        viewpoint = viewpoint || 0;
         for (var l = 0; l < 4; l++) {
-            this._node[l] = $('.say.' + view_class[l]);
+            this._node[l] = $('.say.' + view_class[(l + 4 - viewpoint) % 4]);
         }
     },
  

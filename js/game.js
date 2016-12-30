@@ -344,6 +344,8 @@ Majiang.Game.prototype.create_view = function(viewpoint) {
         this._view.he[l].redraw();
     }
  
+    Majiang.View.Say.init(viewpoint);
+ 
     this._view.jiesuan = new Majiang.View.Jiesuan($('.jiesuan'),
                                 this._model.shan, this._chang, viewpoint);
  

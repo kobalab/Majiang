@@ -2,6 +2,8 @@
  *  Majiang.Game.Paipu
  */
 
+(function(){
+
 Majiang.Game.Paipu = function(paipu) {
     
     this._paipu = paipu;
@@ -12,6 +14,8 @@ Majiang.Game.Paipu = function(paipu) {
         qijia:  paipu.qijia,
         defen:  [0,0,0,0]
     };
+    
+    this._viewpoint = 0;
     
     this._mode = { shoupai: true, he: true, auto_play: false };
     
@@ -106,8 +110,10 @@ Majiang.Game.Paipu.prototype._create_view = Majiang.Game.prototype.create_view;
 
 Majiang.Game.Paipu.prototype.create_view = function() {
 
-    this._create_view();
+    this._create_view(this._viewpoint);
     
+    var view_class = ['main','xiajia','duimian','shangjia'];
+ 
     for (var l = 0; l < 4; l++) {
         this._view.shoupai[l]._open = this._mode.shoupai;
         this._view.shoupai[l].redraw()
@@ -118,7 +124,15 @@ Majiang.Game.Paipu.prototype.create_view = function() {
     var self = this;
 
     if (! this._mode.auto_play) $('.controler .speed').hide();
-    
+ 
+    for (var id = 0; id < 4; id++) {
+        var c = view_class[(id + 4 - this._viewpoint) % 4];
+        $('#game .player.'+c).off('click').on('click', id, function(event){
+            self.change_viewpoint(event.data);
+            return false;
+        });
+    }
+ 
     $('.menu .summary').off('click').on('click', function(){
         self.show_summary();
         return false;
@@ -362,7 +376,7 @@ Majiang.Game.Paipu.prototype.pingju = function(data) {
     this._view.he[this._lunban].redraw();
 
     for (var l = 0; l < 4; l++) {
-        if (! data.shoupai[l] && this.player_id(l) != 0) {
+        if (! data.shoupai[l] && this.player_id(l) != this._viewpoint) {
             this._view.shoupai[l]._open = false;
             this._view.shoupai[l].redraw();
         }
@@ -466,3 +480,14 @@ Majiang.Game.Paipu.prototype.seek = function(log_idx, idx) {
     
     this.create_view();
 }
+
+Majiang.Game.Paipu.prototype.change_viewpoint = function(viewpoint) {
+    this._viewpoint = viewpoint;
+    this.create_view();
+    if (this._idx == this._paipu.log[this._log_idx].length) {
+        this._idx--;
+        this.next();
+    }
+}
+
+})();

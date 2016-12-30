@@ -114,6 +114,7 @@ body.game {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    cursor: pointer;
 }
 .player.main {
     transform: translate(120px, 570px);
