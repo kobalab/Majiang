@@ -426,7 +426,7 @@ body.game {
 }
 
 .controler {
-    transform: translate(160px, 160px);
+    transform: translate(120px, 120px);
     font-family: Impact, "Arial Narrow", sans-serif;
     font-size: 16px;
     color: white;
@@ -441,7 +441,7 @@ body.game {
 
 .menu {
     width: 120px;
-    transform: translate(520px, 160px);
+    transform: translate(560px, 480px);
     font-size: 14px;
     text-align: right;
 }

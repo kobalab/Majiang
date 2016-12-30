@@ -115,8 +115,10 @@ Majiang.Game.Paipu.prototype.create_view = function() {
     var view_class = ['main','xiajia','duimian','shangjia'];
  
     for (var l = 0; l < 4; l++) {
-        this._view.shoupai[l]._open = this._mode.shoupai;
-        this._view.shoupai[l].redraw()
+        if (this._mode.shoupai) {
+            this._view.shoupai[l]._open = true;
+            this._view.shoupai[l].redraw()
+        }
         this._view.he[l]._open = this._mode.he;
         this._view.he[l].redraw()
     }
@@ -128,13 +130,20 @@ Majiang.Game.Paipu.prototype.create_view = function() {
     for (var id = 0; id < 4; id++) {
         var c = view_class[(id + 4 - this._viewpoint) % 4];
         $('#game .player.'+c).off('click').on('click', id, function(event){
-            self.change_viewpoint(event.data);
+            self._viewpoint = event.data;
+            self.change_mode();
             return false;
         });
     }
  
     $('.menu .summary').off('click').on('click', function(){
         self.show_summary();
+        return false;
+    });
+
+    $('.menu .open_shoupai').off('click').on('click', function(){
+        self._mode.shoupai = ! self._mode.shoupai;
+        self.change_mode();
         return false;
     });
 
@@ -152,6 +161,7 @@ Majiang.Game.Paipu.prototype.create_view = function() {
         if (self._stop) {
             self._stop = false;
             $('.jiezhang').hide();
+            $('.menu .summary').css('visibility','visible');
             if (self._mode.auto_play) setTimeout(function(){self.next()}, 500);
             return false;
         }
@@ -189,6 +199,7 @@ Majiang.Game.Paipu.prototype.create_view = function() {
         if (event.keyCode == 39) self.seek(self._log_idx + 1, 0);
     });
 
+    $('.menu .summary').css('visibility','visible');
     $('.menu').show();
 }
 
@@ -335,6 +346,7 @@ Majiang.Game.Paipu.prototype.hule = function(data) {
         return;
     }
     this._delay = false;
+    this._view.shoupai[data.l].open();
     
     this._model.shan.fubaopai(data.fubaopai);
     
@@ -355,7 +367,7 @@ Majiang.Game.Paipu.prototype.hule = function(data) {
     };
     this._view.jiesuan.hule(info);
 
-    $('.menu').hide();
+    $('.menu .summary').css('visibility','hidden');
     
     $('#game').unbind('click').bind('click', function(){
         self._view.jiesuan.hide();
@@ -380,12 +392,13 @@ Majiang.Game.Paipu.prototype.pingju = function(data) {
             this._view.shoupai[l]._open = false;
             this._view.shoupai[l].redraw();
         }
+        else this._view.shoupai[l].open();
     }
 
     this._view.jiesuan.pingju({ name: data.name, fenpei: data.fenpei });
 
-    $('.menu').hide();
-    
+    $('.menu .summary').css('visibility','hidden');
+ 
     $('#game').unbind('click').bind('click', function(){
         self._view.jiesuan.hide();
         self._log_idx++; self._idx = 0; self.next();
@@ -417,6 +430,7 @@ Majiang.Game.Paipu.prototype.show_summary = function() {
             self.seek(event.data);
         });
     });
+    $('.menu .summary').css('visibility','hidden');
     self._stop = true;
 }
 
@@ -481,13 +495,20 @@ Majiang.Game.Paipu.prototype.seek = function(log_idx, idx) {
     this.create_view();
 }
 
-Majiang.Game.Paipu.prototype.change_viewpoint = function(viewpoint) {
-    this._viewpoint = viewpoint;
+Majiang.Game.Paipu.prototype.change_mode = function() {
+
     this.create_view();
-    if (this._idx == this._paipu.log[this._log_idx].length) {
+ 
+    var data = this._paipu.log[this._log_idx][this._idx - 1];
+
+    if (! (data.hule || data.pingju)) return; 
+    do {
         this._idx--;
-        this.next();
-    }
+        data = this._paipu.log[this._log_idx][this._idx - 1];
+ 
+    } while (data.hule || data.pingju);
+
+    this.next();
 }
 
 })();

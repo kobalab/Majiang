@@ -243,11 +243,11 @@ body   { margin: 0;         }
 }
 
 .controler {
-    transform: translate(150px, 80px);
+    transform: translate(150px, 60px);
 }
 
 .menu {
-    transform: translate(550px, 80px);
+    transform: translate(530px, 280px);
 }
 
 }

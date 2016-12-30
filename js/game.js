@@ -336,7 +336,8 @@ Majiang.Game.prototype.create_view = function(viewpoint) {
         var c = view_class[(this.player_id(l) + 4 - viewpoint) % 4];
         this._view.shoupai[l]
             = new Majiang.View.Shoupai(
-                    $('.shoupai.'+c), this._model.shoupai[l], c == 'main');
+                    $('.shoupai.'+c), this._model.shoupai[l],
+                                            this.player_id(l) == viewpoint);
         this._view.shoupai[l].redraw();
  
         this._view.he[l]
