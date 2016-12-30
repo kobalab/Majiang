@@ -147,6 +147,12 @@ Majiang.Game.Paipu.prototype.create_view = function() {
         return false;
     });
 
+    $('.menu .open_he').off('click').on('click', function(){
+        self._mode.he = ! self._mode.he;
+        self.change_mode();
+        return false;
+    });
+
     $('.menu .exit').off('click').on('click', function(){
         self._stop = true;
         if (self._mode.auto_play) {
