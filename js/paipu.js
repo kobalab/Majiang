@@ -38,6 +38,32 @@ Majiang.Game.Paipu.prototype.audio_play = Majiang.Game.prototype.audio_play;
 
 Majiang.Game.Paipu.prototype.say = Majiang.Game.prototype.say;
 
+Majiang.Game.Paipu.prototype.kaiju = function() {
+
+    var self = this;
+ 
+    if ($('#game > .kaiju').length == 0) {
+        this.next();
+        return;
+    }
+ 
+    $('#game > *').hide();
+ 
+    $('#game > .kaiju .title').text(this._chang.title);
+    var view_class = ['main','xiajia','duimian','shangjia'];
+    for (var id = 0; id < 4; id++) {
+        var c = view_class[id];
+        $('#game > .kaiju .player .'+c).text(this._chang.player[id]);
+    }
+    $('#game > .kaiju').fadeIn();
+ 
+    $('#game').off('click').on('click', function(){
+        $('#game > .kaiju').fadeOut();
+        $('#game > *').show();
+        self.next();
+    });
+}
+
 Majiang.Game.Paipu.prototype.next = function() {
 
     var self = this;

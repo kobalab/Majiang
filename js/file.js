@@ -1,4 +1,8 @@
-/* Model */
+/*
+ *  Majiang.PaipuFile
+ */
+
+(function(){
 
 function fix_paipu(paipu) {
 
@@ -62,7 +66,13 @@ Majiang.PaipuFile.prototype.del_paipu = function(idx) {
     }
 }
 
-/* View */
+})();
+
+/*
+ *  Majiang.View.PaipuFile
+ */
+
+(function(){
 
 Majiang.View.PaipuFile = function(node, paipu_file) {
 
@@ -115,7 +125,13 @@ Majiang.View.PaipuFile.prototype.error = function(msg) {
     setTimeout(function(){ self._node.find('.error').click() }, 5000);
 }
 
-/* Controller */
+})();
+
+/*
+ *  Majiang.PaipuEditor
+ */
+
+(function(){
 
 Majiang.PaipuEditor = function(storage) {
 
@@ -144,7 +160,6 @@ Majiang.PaipuEditor = function(storage) {
                         self._model.add_paipu(JSON.parse(event.target.result));
                     }
                     catch(e) {
-                        console.log(filename + ': ' + e);           // for DEBUG
                         self._view.paipu_file.error('不正なファイル: ' + filename);
                         return;
                     }
@@ -198,7 +213,7 @@ Majiang.PaipuEditor.prototype.set_handler = function(paipu) {
             $('body').removeClass('editor').addClass('game');
             $('#editor').hide();
             $('#game').show();
-            game.next();
+            game.kaiju();
         });
     }
     
@@ -215,3 +230,5 @@ Majiang.PaipuEditor.prototype.set_handler = function(paipu) {
         $('.download').hide();
     }
 }
+
+})();
