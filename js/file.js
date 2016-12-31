@@ -144,6 +144,7 @@ Majiang.PaipuEditor = function(storage) {
                         self._model.add_paipu(JSON.parse(event.target.result));
                     }
                     catch(e) {
+                        console.log(filename + ': ' + e);           // for DEBUG
                         self._view.paipu_file.error('不正なファイル: ' + filename);
                         return;
                     }
