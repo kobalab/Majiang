@@ -1,4 +1,8 @@
-/* Model */
+/*
+ *  Majiang.PaipuFile
+ */
+
+(function(){
 
 function fix_paipu(paipu) {
 
@@ -62,7 +66,13 @@ Majiang.PaipuFile.prototype.del_paipu = function(idx) {
     }
 }
 
-/* View */
+})();
+
+/*
+ *  Majiang.View.PaipuFile
+ */
+
+(function(){
 
 Majiang.View.PaipuFile = function(node, paipu_file) {
 
@@ -115,7 +125,13 @@ Majiang.View.PaipuFile.prototype.error = function(msg) {
     setTimeout(function(){ self._node.find('.error').click() }, 5000);
 }
 
-/* Controller */
+})();
+
+/*
+ *  Majiang.PaipuEditor
+ */
+
+(function(){
 
 Majiang.PaipuEditor = function(storage) {
 
@@ -214,3 +230,5 @@ Majiang.PaipuEditor.prototype.set_handler = function(paipu) {
         $('.download').hide();
     }
 }
+
+})();
