@@ -213,7 +213,7 @@ Majiang.PaipuEditor.prototype.set_handler = function(paipu) {
             $('body').removeClass('editor').addClass('game');
             $('#editor').hide();
             $('#game').show();
-            game.next();
+            game.kaiju();
         });
     }
     

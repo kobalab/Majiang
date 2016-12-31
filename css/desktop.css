@@ -68,6 +68,52 @@ body.game {
     cursor: default;
 }
 
+#game > .kaiju {
+    display: none;
+    position: relative;
+    border: solid 1px #666;
+    width:  580px;
+    background: #111;
+    margin: auto;
+    margin-top: 120px;
+}
+.kaiju .title {
+    margin: 40px 20px;
+    font-family: "Georgia", serif;
+    font-size: 32px;
+    text-align: center;
+}
+.kaiju .player {
+    margin: 40px 20px;
+    height: 132px;
+    font-family: "Georgia", serif;
+    font-size: 24px;
+}
+.kaiju .player > div {
+    position: absolute;
+    width: 240px;
+    height: 38px;
+    padding: 0px 10px;
+    background: #333;
+    border-radius: 4px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.kaiju .player .main {
+    transform: translate(140px, 96px);
+}
+.kaiju .player .xiajia {
+    transform: translate(280px, 48px);
+}
+.kaiju .player .duimian {
+    transform: translate(140px, 0px);
+}
+.kaiju .player .shangjia {
+    transform: translate(0px, 48px);
+}
+
 .chang {
     background: #111;
     width: 280px;
@@ -103,7 +149,7 @@ body.game {
     transform: translate(10px, 24px);
 }
 
-#game .player {
+#game > .player {
     width: 120px;
     height: 30px;
     border-radius: 12px 0px;
@@ -116,16 +162,16 @@ body.game {
     text-overflow: ellipsis;
     cursor: pointer;
 }
-.player.main {
+#game > .player.main {
     transform: translate(120px, 570px);
 }
-.player.xiajia {
+#game > .player.xiajia {
     transform: translate(710px, 580px) rotate(270deg);
 }
-.player.duimian {
+#game > .player.duimian {
     transform: translate(640px, 90px) rotate(180deg);
 }
-.player.shangjia {
+#game > .player.shangjia {
     transform: translate(90px, 100px) rotate(90deg);
 }
 

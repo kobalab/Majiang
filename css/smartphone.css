@@ -12,6 +12,10 @@ body   { margin: 0;         }
     margin: auto;
 }
 
+#game > .kaiju {
+    margin-top: 60px;
+}
+
 .chang {
     width: 280px;
     height: 100px;
@@ -67,23 +71,23 @@ body   { margin: 0;         }
     transform: translate(20px, 0px);
 }
 
-#game .player {
+#game > .player {
     width: 120px;
     height: 24px;
     border-radius: 10px 0px;
     padding: 2px 16px;
     font-size: 18px;
 }
-.player.main {
+#game > .player.main {
     transform: translate(120px, 340px);
 }
-.player.xiajia {
+#game > .player.xiajia {
     transform: translate(664px, 360px) rotate(270deg);
 }
-.player.duimian {
+#game > .player.duimian {
     transform: translate(680px, 70px) rotate(180deg);
 }
-.player.shangjia {
+#game > .player.shangjia {
     transform: translate(136px, 40px) rotate(90deg);
 }
 

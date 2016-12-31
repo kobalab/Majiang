@@ -12,20 +12,24 @@ body   { margin: 0;         }
     margin: auto;
 }
 
+#game > .kaiju {
+    margin-top: 100px;
+}
+
 .chang {
     transform: translate(260px, 200px);
 }
 
-.player.main {
+#game > .player.main {
     transform: translate(80px, 480px);
 }
-.player.xiajia {
+#game > .player.xiajia {
     transform: translate(710px, 500px) rotate(270deg);
 }
-.player.duimian {
+#game > .player.duimian {
     transform: translate(660px, 90px) rotate(180deg);
 }
-.player.shangjia {
+#game > .player.shangjia {
     transform: translate(90px, 100px) rotate(90deg);
 }
 
