@@ -2,6 +2,8 @@
  *  Majiang.Game.Paipu
  */
 
+(function(){
+
 Majiang.Game.Paipu = function(paipu) {
     
     this._paipu = paipu;
@@ -13,11 +15,14 @@ Majiang.Game.Paipu = function(paipu) {
         defen:  [0,0,0,0]
     };
     
+    this._viewpoint = 0;
+    
     this._mode = { shoupai: true, he: true, auto_play: false };
     
     this._log_idx = 0;
     this._idx     = 0;
     
+    this._stop   = false;
     this._delay  = false;
     this._replay = false;
     
@@ -37,6 +42,7 @@ Majiang.Game.Paipu.prototype.next = function() {
 
     var self = this;
 
+    if (this._stop)  return;
     if (this._delay) return;
     
     if (this._log_idx >= this._paipu.log.length) {
@@ -104,11 +110,15 @@ Majiang.Game.Paipu.prototype._create_view = Majiang.Game.prototype.create_view;
 
 Majiang.Game.Paipu.prototype.create_view = function() {
 
-    this._create_view();
+    this._create_view(this._viewpoint);
     
+    var view_class = ['main','xiajia','duimian','shangjia'];
+ 
     for (var l = 0; l < 4; l++) {
-        this._view.shoupai[l]._open = this._mode.shoupai;
-        this._view.shoupai[l].redraw()
+        if (this._mode.shoupai) {
+            this._view.shoupai[l]._open = true;
+            this._view.shoupai[l].redraw()
+        }
         this._view.he[l]._open = this._mode.he;
         this._view.he[l].redraw()
     }
@@ -116,8 +126,51 @@ Majiang.Game.Paipu.prototype.create_view = function() {
     var self = this;
 
     if (! this._mode.auto_play) $('.controler .speed').hide();
+ 
+    for (var id = 0; id < 4; id++) {
+        var c = view_class[(id + 4 - this._viewpoint) % 4];
+        $('#game .player.'+c).off('click').on('click', id, function(event){
+            self._viewpoint = event.data;
+            self.change_mode();
+            return false;
+        });
+    }
+ 
+    $('.menu .summary').off('click').on('click', function(){
+        self.show_summary();
+        return false;
+    });
 
+    $('.menu .open_shoupai').off('click').on('click', function(){
+        self._mode.shoupai = ! self._mode.shoupai;
+        self.change_mode();
+        return false;
+    });
+
+    $('.menu .open_he').off('click').on('click', function(){
+        self._mode.he = ! self._mode.he;
+        self.change_mode();
+        return false;
+    });
+
+    $('.menu .exit').off('click').on('click', function(){
+        self._stop = true;
+        if (self._mode.auto_play) {
+            self._timeout_id = clearTimeout(self._timeout_id);
+            self._mode.auto_play = false;
+        }
+        self._callback();
+        return false;
+    });
+ 
     $('#game').unbind('click').bind('click', function(){
+        if (self._stop) {
+            self._stop = false;
+            $('.jiezhang').hide();
+            $('.menu .summary').css('visibility','visible');
+            if (self._mode.auto_play) setTimeout(function(){self.next()}, 500);
+            return false;
+        }
         self._mode.auto_play = ! self._mode.auto_play;
         if (self._mode.auto_play) {
             self.next();
@@ -131,6 +184,7 @@ Majiang.Game.Paipu.prototype.create_view = function() {
     });
     
     $(window).unbind('keydown').bind('keydown', function(event){
+        if (self._stop) return;
         if (event.keyCode == 40) {
             if (event.shiftKey) {
                 var log = self._paipu.log[self._log_idx];
@@ -150,6 +204,9 @@ Majiang.Game.Paipu.prototype.create_view = function() {
         if (event.keyCode == 37) self.seek(self._log_idx - 1, 0);
         if (event.keyCode == 39) self.seek(self._log_idx + 1, 0);
     });
+
+    $('.menu .summary').css('visibility','visible');
+    $('.menu').show();
 }
 
 Majiang.Game.Paipu.prototype.qipai = function(data) {
@@ -295,6 +352,7 @@ Majiang.Game.Paipu.prototype.hule = function(data) {
         return;
     }
     this._delay = false;
+    this._view.shoupai[data.l].open();
     
     this._model.shan.fubaopai(data.fubaopai);
     
@@ -315,8 +373,11 @@ Majiang.Game.Paipu.prototype.hule = function(data) {
     };
     this._view.jiesuan.hule(info);
 
+    $('.menu .summary').css('visibility','hidden');
+    
     $('#game').unbind('click').bind('click', function(){
         self._view.jiesuan.hide();
+        if (self._log_idx >= self._paipu.log.length) return;
         if (self._idx == self._paipu.log[self._log_idx].length) {
             self._log_idx++; self._idx = 0; self.next();
         }
@@ -333,14 +394,17 @@ Majiang.Game.Paipu.prototype.pingju = function(data) {
     this._view.he[this._lunban].redraw();
 
     for (var l = 0; l < 4; l++) {
-        if (! data.shoupai[l] && this.player_id(l) != 0) {
+        if (! data.shoupai[l] && this.player_id(l) != this._viewpoint) {
             this._view.shoupai[l]._open = false;
             this._view.shoupai[l].redraw();
         }
+        else this._view.shoupai[l].open();
     }
 
     this._view.jiesuan.pingju({ name: data.name, fenpei: data.fenpei });
 
+    $('.menu .summary').css('visibility','hidden');
+ 
     $('#game').unbind('click').bind('click', function(){
         self._view.jiesuan.hide();
         self._log_idx++; self._idx = 0; self.next();
@@ -350,14 +414,31 @@ Majiang.Game.Paipu.prototype.pingju = function(data) {
 
 Majiang.Game.Paipu.prototype.jieju = function(data) {
 
-    Majiang.View.Jiezhang($('.jiezhang'), this._paipu);
-    
-    /* 暫定 */
     var self = this;
-    $('.jiezhang .paipu .next').unbind('click').bind('click', function(){
-        if (self._callback) self._callback();
+
+    $('.menu').hide();
+    self.show_summary();
+ 
+    $('#game').off('click').on('click', function(){
+        self._callback();
     });
-    $('.jiezhang .paipu .replay').hide();
+    
+    this._mode.auto_play = false;
+}
+
+Majiang.Game.Paipu.prototype.show_summary = function() {
+
+    var self = this;
+
+    Majiang.View.Jiezhang($('.jiezhang'), self._paipu);
+    $('.jiezhang').addClass('summary');
+    $('.summary tbody tr').off('click').each(function(i){
+        $(this).on('click', i, function(event){
+            self.seek(event.data);
+        });
+    });
+    $('.menu .summary').css('visibility','hidden');
+    self._stop = true;
 }
 
 Majiang.Game.Paipu.prototype.seek = function(log_idx, idx) {
@@ -420,3 +501,21 @@ Majiang.Game.Paipu.prototype.seek = function(log_idx, idx) {
     
     this.create_view();
 }
+
+Majiang.Game.Paipu.prototype.change_mode = function() {
+
+    this.create_view();
+ 
+    var data = this._paipu.log[this._log_idx][this._idx - 1];
+
+    if (! (data.hule || data.pingju)) return; 
+    do {
+        this._idx--;
+        data = this._paipu.log[this._log_idx][this._idx - 1];
+ 
+    } while (data.hule || data.pingju);
+
+    this.next();
+}
+
+})();

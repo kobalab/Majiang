@@ -5,10 +5,28 @@
 #navi  { display: none;     }
 #title { margin-top: 160px; }
 body  { margin: 0;      }
-#game { height: 600px;  }
+#game  {
+    height: 600px;
+    position: absolute;
+    top: 0; bottom: 0; left: 0; right: 0;
+    margin: auto;
+}
 
 .chang {
     transform: translate(260px, 200px);
+}
+
+.player.main {
+    transform: translate(80px, 480px);
+}
+.player.xiajia {
+    transform: translate(710px, 500px) rotate(270deg);
+}
+.player.duimian {
+    transform: translate(660px, 90px) rotate(180deg);
+}
+.player.shangjia {
+    transform: translate(90px, 100px) rotate(90deg);
 }
 
 .shoupai.main {
@@ -118,6 +136,10 @@ body  { margin: 0;      }
 
 .controler {
     transform: translate(120px, 120px);
+}
+
+.menu {
+    transform: translate(560px, 400px);
 }
 
 }

@@ -17,6 +17,7 @@ body {
     font-size: 12px;
     font-family: sans-serif;
     background: #036;
+    margin-top: 0px;
 }
 
 @media print {

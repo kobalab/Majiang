@@ -316,8 +316,9 @@ Majiang.Game.prototype.audio_play = function(name, lunban) {
 
 Majiang.Game.prototype.create_view = function(viewpoint) {
 
-    $('.jiezhang').hide();
-
+    $('.jiezhang').removeClass('summary').hide();
+    $('.menu').hide();
+ 
     viewpoint = viewpoint || 0;
 
     this._view = {
@@ -335,13 +336,16 @@ Majiang.Game.prototype.create_view = function(viewpoint) {
         var c = view_class[(this.player_id(l) + 4 - viewpoint) % 4];
         this._view.shoupai[l]
             = new Majiang.View.Shoupai(
-                    $('.shoupai.'+c), this._model.shoupai[l], c == 'main');
+                    $('.shoupai.'+c), this._model.shoupai[l],
+                                            this.player_id(l) == viewpoint);
         this._view.shoupai[l].redraw();
  
         this._view.he[l]
             = new Majiang.View.He($('.he.'+c), this._model.he[l]);
         this._view.he[l].redraw();
     }
+ 
+    Majiang.View.Say.init(viewpoint);
  
     this._view.jiesuan = new Majiang.View.Jiesuan($('.jiesuan'),
                                 this._model.shan, this._chang, viewpoint);
@@ -858,23 +862,6 @@ Majiang.Game.prototype.jieju = function() {
  
     Majiang.View.Jiezhang($('.jiezhang'), this._paipu);
 
-    /* 暫定 */
-    $('.jiezhang .paipu .replay').unbind('click').bind('click', function(){
-        $(this).unbind('click');
-        self._stop;
-        paipu = new Majiang.Game.Paipu(self._paipu);
-        paipu._callback = self._callback;
-        self._callback = null;
-        paipu.next();
-        return false;
-    }).show();
- 
-    var blob = new Blob([JSON.stringify(this._paipu)],
-                        { type: 'application/json'});
-    $('.jiezhang .paipu .download')
-        .attr('href', URL.createObjectURL(blob))
-        .attr('download', '牌譜.json')
- 
     var data = [];
     for (var l = 0; l < 4; l++) {
         data[l] = {

@@ -238,6 +238,7 @@ Majiang.View.Chang.prototype.redraw = function() {
     for (var l = 0; l < 4; l++) {
         var id = (this._chang.qijia + this._chang.jushu + l) % 4;
         var c  = view_class[(id + 4 - this._viewpoint) % 4];
+        $('.player.'+c).text(this._chang.player[id]);
         var defen = '' + this._chang.defen[id];
         defen = defen.replace(/(\d)(\d{3})$/, '$1,$2');
         this._node.find('.defen .'+c).text(feng_hanzi[l] + ': ' + defen);
@@ -532,6 +533,8 @@ Majiang.View.Controler = function(node, game) {
             return false;
         });
     });
+ 
+    this._node.children().show();
 
     this.update();
 }
@@ -573,9 +576,10 @@ Majiang.View.Say = {
     },
     _node: [],
  
-    init: function() {
+    init: function(viewpoint) {
+        viewpoint = viewpoint || 0;
         for (var l = 0; l < 4; l++) {
-            this._node[l] = $('.say.' + view_class[l]);
+            this._node[l] = $('.say.' + view_class[(l + 4 - viewpoint) % 4]);
         }
     },
  
