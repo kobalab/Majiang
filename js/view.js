@@ -533,6 +533,8 @@ Majiang.View.Controler = function(node, game) {
             return false;
         });
     });
+ 
+    this._node.children().show();
 
     this.update();
 }
