@@ -3,91 +3,44 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=800">
-    <title>電脳麻将: 自動対戦</title>
-    <meta name="description" content="AIプレーヤーの無限麻雀地獄。">
+    <title>電脳麻将: 牌譜ビューア</title>
     <link rel="icon" type="image/png" href="icon.png">
     <link rel="apple-touch-icon" type="image/png" href="icon.png">
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <link rel="stylesheet" type="text/css" href="css/desktop.css" />
     <link rel="stylesheet" type="text/css" href="css/tablet.css" />
     <link rel="stylesheet" type="text/css" href="css/smartphone.css" />
+    <link rel="stylesheet" type="text/css" href="css/file.css" />
     <script src="js/jquery-2.1.4.min.js"></script>
     <script src="js/majiang.js"></script>
     <script src="js/model.js"></script>
     <script src="js/xiangting.js"></script>
     <script src="js/hule.js"></script>
     <script src="js/view.js"></script>
-    <script src="js/suanpai.js"></script>
-    <script src="js/player.js"></script>
-    <script src="js/ui.js"></script>
     <script src="js/game.js"></script>
     <script src="js/paipu.js"></script>
+    <script src="js/file.js"></script>
     <script>
-        
-        var game, paipu;
-
+        var editor;
         $(function(){
-
             $('.version').text('ver. ' + Majiang.VERSION);
-            $('#title .loading').text('Loading...');
+            Majiang.Audio.volume(1);
           
-            var id = setInterval(function(){
-                $('#title .loading').text($('#title .loading').text()+'.');
-            }, 1000);
-
-            game = { _speed: 3 };
-         
-            function start() {
-                var speed = game._speed;
-                game = new Majiang.Game();
-                game._speed = speed;
-                game._callback = start;
-                game._player[0] = new Majiang.Player(0);
-                game.kaiju();
-            }
-         
-            $(window).load(function(){
-                Majiang.Audio.volume(1);
-                clearInterval(id);
-                setTimeout(function(){
-                    $('#title').hide();
-                    start();
-                    $('#game').show();
-                }, 2000);
-            });
-         
-            $(window).bind('keypress', function(event){
-                if (event.keyCode == 32) {
-                    game._stop = ! game._stop;
-                    game.next();
-                    return false;
-                }
-            });
-            $('body').bind('dblclick', function(){
-                game._speed = (game._speed == 0) ? 3 : 0;
-                game._stop = false;
-                game.next();
-                return false;
-            });
+            editor = new Majiang.PaipuEditor('Majiang.paipu');
+            editor.start();
         });
     </script>
 </head>
 
-<body class="game">
+<body class="editor">
 
 <div id="navi">
 <a href="index.html">電脳麻将</a> |
-自動対戦 |
-<a href="paipu.html">牌譜</a> |
+<a href="autoplay.html">自動対戦</a> |
+牌譜 |
 <a href="paili.html">牌理</a> |
 <a href="hule.html">和了点計算</a> |
 <a href="paiga.html">牌画入力</a>
-</div>
-
-<div id="title">
-    <h1><img src="img/logo.png" alt="電脳麻将"></h1>
-    <div class="version"><span class="error">Sorry, your system does not support JavaScript.</span></div>
-    <div class="loading"></div>
 </div>
 
 <div id="loadimage">
@@ -160,6 +113,7 @@
 <div class="shoupai xiajia">
     <div class="bingpai"></div><div class="fulou"></div></div>
 <div class="say xiajia"></div>
+<div class="player xiajia"></div>
 
 <div class="he duimian">
     <div class="lizhi"><img src="img/1000.gif" class="choma"></div>
@@ -167,6 +121,7 @@
 <div class="shoupai duimian">
     <div class="bingpai"></div><div class="fulou"></div></div>
 <div class="say duimian"></div>
+<div class="player duimian"></div>
 
 <div class="he shangjia">
     <div class="lizhi"><img src="img/1000.gif" class="choma"></div>
@@ -174,6 +129,7 @@
 <div class="shoupai shangjia">
     <div class="bingpai"></div><div class="fulou"></div></div>
 <div class="say shangjia"></div>
+<div class="player shangjia"></div>
 
 <div class="he main">
     <div class="lizhi"><img src="img/1000.gif" class="choma"></div>
@@ -181,6 +137,7 @@
 <div class="shoupai main">
     <div class="bingpai"></div><div class="fulou"></div></div>
 <div class="say main"></div>
+<div class="player main"></div>
 
 <div class="controler">
 <div class="sound"><span class="label">Sound:</span>
@@ -218,6 +175,33 @@
 </div>
 
 <div class="jiezhang"><table></table></div>
+
+</div>
+
+<div id="editor">
+
+<h1><img src="img/logo.png" alt="電脳麻将"> 牌譜ビューア</h1>
+<p class="version"></p>
+
+<div class="paipu_file">
+    <div class="list">
+        <div style="display:none;">
+            <div><div class="title"></div><div class="player"></div></div>
+            <div class="button">
+                <a class="replay">再生</a>
+                <a class="download" target="_blank">保存</a>
+                <a class="delete">削除</a>
+<!--
+                <span class="delete">編集</span>
+-->
+            </div>
+        </div>
+    </div>
+    <div class="error"></div>
+    <label class="upload">牌譜追加<input type="file" multiple></label>
+    <a class="download" target="_blank">牌譜保存</a>
+<!--    <a class="edit" href="#">新規編集</a>   -->
+</div>
 
 </div>
 

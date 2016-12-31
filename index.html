@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="css/desktop.css" />
     <link rel="stylesheet" type="text/css" href="css/tablet.css" />
     <link rel="stylesheet" type="text/css" href="css/smartphone.css" />
+    <link rel="stylesheet" type="text/css" href="css/file.css" />
     <script src="js/jquery-2.1.4.min.js"></script>
     <script src="js/majiang.js"></script>
     <script src="js/model.js"></script>
@@ -22,12 +23,13 @@
     <script src="js/ui.js"></script>
     <script src="js/game.js"></script>
     <script src="js/paipu.js"></script>
+    <script src="js/file.js"></script>
     <script>
-        var game, paipu;
+        var game, paipu, editor;
         
         $(function(){
 
-            $('#title .version').text('ver. ' + Majiang.VERSION);
+            $('.version').text('ver. ' + Majiang.VERSION);
             $('#title .loading').text('Loading...');
           
             var id = setInterval(function(){
@@ -35,30 +37,51 @@
             }, 1000);
 
             function start() {
-                $('.jiezhang').hide();
+                $('body').removeClass('editor').addClass('game');
+                $('#editor').hide();
+                $('#game').show();
                 game = new Majiang.Game();
-                game._callback = start;
+                game._callback = end;
                 game.kaiju();
             }
+          
+            function end() {
+                $('#game').hide();
+                $('body').removeClass('game').addClass('editor');
+                $('#editor').show();
+                while (editor._model.length() >= 10) {
+                    editor._model.del_paipu(0);
+                }
+                editor.start(game._paipu);
+            }
 
+            editor = new Majiang.PaipuEditor('Majiang.game');
+            $('#editor .next').on('click', start);
+          
             $(window).load(function(){
                 Majiang.Audio.volume(1);
                 clearInterval(id);
                 setTimeout(function(){
                     $('#title').hide();
-                    $('#game').show();
-                    start();
+                    if (editor._model.length() > 0) {
+                        $('body').removeClass('game').addClass('editor');
+                        editor.start();
+                    }
+                    else {
+                        start();
+                    }
                 }, 2000);
             });
         });
     </script>
 </head>
 
-<body>
+<body class="game">
 
 <div id="navi">
 電脳麻将 |
 <a href="autoplay.html">自動対戦</a> |
+<a href="paipu.html">牌譜</a> |
 <a href="paili.html">牌理</a> |
 <a href="hule.html">和了点計算</a> |
 <a href="paiga.html">牌画入力</a>
@@ -179,6 +202,13 @@
     <span class="scale"><span>■</span><span>■</span><span>■</span><span>■</span><span>■</span></span></div>
 </div>
 
+<div class="menu">
+    <div class="summary"><a href="#">集計表示</a></div>
+    <div class="open_shoupai"><a href="#">手牌表示</a></div>
+    <div class="open_he"><a href="#">ツモ切り表示</a></div>
+    <div class="exit"><a href="#">再生終了</a></div>
+</div>
+
 <div class="jiesuan">
 <div class="shan">
     <span class="baopai">ドラ<img src="img/pai.gif" class="pai" /><img src="img/pai.gif" class="pai" /><img src="img/pai.gif" class="pai" /><img src="img/pai.gif" class="pai" /><img src="img/pai.gif" class="pai" /></span>
@@ -200,10 +230,28 @@
         <span class="defen"></span><span class="diff"></span></div></div>
 </div>
 
-<div class="jiezhang"><table></table>
-    <div class="paipu">
-        <a class="next">次の半荘へ</a>
-        <a class="replay">牌譜再生</a></div>
+<div class="jiezhang"><table></table></div>
+
+</div>
+
+<div id="editor">
+
+<h1><img src="img/logo.png" alt="電脳麻将"></h1>
+<p class="version"></p>
+
+<div class="paipu_file">
+    <div class="list">
+        <div style="display:none;">
+            <div><div class="title"></div><div class="player"></div></div>
+            <div class="button">
+                <a class="replay">再生</a>
+                <a class="download" target="_blank">保存</a>
+            </div>
+        </div>
+    </div>
+    <div class="error"></div>
+    <a class="next">ゲーム開始</a>
+    <a class="download" target="_blank">牌譜保存</a>
 </div>
 
 </div>

@@ -2,23 +2,20 @@
 
 @import url(style.css);
 
-@media print {
-    .jiesuan, .jiezhang {
-        border: solid 1px black;
-    }
-    .controler {
-        display: none;
-    }
-}
-
-body {
+body.game {
+    color: white;
     background: black;
     margin: 0;
 }
 
-#navi {
+.game #navi {
     width: 800px;
     margin: 0 auto;
+}
+
+.game #navi a {
+    color: white;
+    text-decoration: none;
 }
 
 #title {
@@ -104,6 +101,32 @@ body {
 .chang .defen .shangjia {
     text-align: left;
     transform: translate(10px, 24px);
+}
+
+#game .player {
+    width: 120px;
+    height: 30px;
+    border-radius: 12px 0px;
+    padding: 2px 20px;
+    background: #111;
+    font-size: 20px;
+    font-family: "Georgia", serif;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+}
+.player.main {
+    transform: translate(120px, 570px);
+}
+.player.xiajia {
+    transform: translate(710px, 580px) rotate(270deg);
+}
+.player.duimian {
+    transform: translate(640px, 90px) rotate(180deg);
+}
+.player.shangjia {
+    transform: translate(90px, 100px) rotate(90deg);
 }
 
 .shoupai.main {
@@ -193,6 +216,7 @@ body {
 }
 
 .UI {
+    display: none;
     width: 580px;
     text-align: right;
     transform: translate(120px, 580px);
@@ -373,6 +397,10 @@ body {
     text-align: center;
     font-size:  24px;
 }
+.jiezhang.summary tbody tr:hover,
+.jiezhang.summary tbody tr:hover td {
+    background: #999;
+}
 .jiezhang .paipu {
     width: 640px;
     margin: 10px auto;
@@ -398,7 +426,7 @@ body {
 }
 
 .controler {
-    transform: translate(160px, 180px);
+    transform: translate(120px, 120px);
     font-family: Impact, "Arial Narrow", sans-serif;
     font-size: 16px;
     color: white;
@@ -409,4 +437,48 @@ body {
 }
 .controler .scale .off{
     color: #666;
+}
+
+.menu {
+    width: 120px;
+    transform: translate(560px, 480px);
+    font-size: 14px;
+    text-align: right;
+}
+.menu a {
+    color: white;
+    text-decoration: none;
+    opacity: 0.3;
+}
+.menu a:hover {
+    opacity: 1.0;
+}
+
+@media print {
+    body.game {
+        color: black;
+        background: white;
+    }
+    #game {
+        margin: 15px auto;
+        background: white;
+    }
+    .chang {
+        background: white;
+        border: solid 1px #ccc;
+    }
+    #game .player {
+        background: white;
+        border: solid 1px #ccc;
+    }
+    .jiesuan, .jiezhang {
+        background: white;
+        border: solid 1px #ccc;
+    }
+    .controler {
+        display: none;
+    }
+    .menu {
+        display: none !important;
+    }
 }
