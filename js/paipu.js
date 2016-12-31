@@ -416,8 +416,9 @@ Majiang.Game.Paipu.prototype.jieju = function(data) {
 
     var self = this;
 
+    $('.menu').hide();
     self.show_summary();
-    
+ 
     $('#game').off('click').on('click', function(){
         self._callback();
     });
