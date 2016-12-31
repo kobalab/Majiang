@@ -2,7 +2,7 @@
 
 @media screen and (max-height: 598px) {
 
-#navi  { display: none;     }
+.game #navi { display: none; }
 #title { margin-top: 100px; }
 body   { margin: 0;         }
 #game  {
