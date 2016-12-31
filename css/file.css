@@ -118,6 +118,7 @@ body.editor {
 .paipu_file > .next       { float: left; background: blue; }
 .paipu_file > .upload     { float: left;  }
 .paipu_file > .download   { float: right; }
+.paipu_file .list:before,
 .paipu_file:after {
     display: block;
     content: '';
