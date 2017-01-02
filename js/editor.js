@@ -11,6 +11,11 @@ Majiang.View.PaipuEditor.prototype.redraw = function() {
     
     this.update_title();
     this.set_title_handler();
+    
+    for (var l = 0; l < 4; l++) {
+        this.update_player(l);
+        this.set_player_handler(l);
+    }
 }
 
 Majiang.View.PaipuEditor.prototype.update_title = function() {
@@ -35,5 +40,27 @@ Majiang.View.PaipuEditor.prototype.set_title_handler = function() {
     this._node.find('.title textarea').off('focusout').on('focusout', function(){
         self._paipu.title = $(this).val().replace(/\n+$/,'') || '(牌譜名)';
         self.update_title();
+    });
+}
+
+Majiang.View.PaipuEditor.prototype.update_player = function(l) {
+
+    this._node.find('.player .name').eq(l).text(this._paipu.player[l]).show();
+    this._node.find('.player input').eq(l).val(this._paipu.player[l]).hide();
+}
+
+Majiang.View.PaipuEditor.prototype.set_player_handler = function(l) {
+
+    var self = this;
+
+    this._node.find('.player').off('click').on('click', function(){
+        $(this).find('.name').hide();
+        $(this).find('input').attr('size', 10).show();
+    });
+
+    this._node.find('.player input').eq(l)
+                                    .off('focusout').on('focusout', function(){
+        self._paipu.player[l] = $(this).val();
+        self.update_player(l);
     });
 }
