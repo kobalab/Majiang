@@ -199,7 +199,7 @@ Majiang.PaipuEditor.prototype.set_handler = function(paipu) {
             self.set_handler();
         });
     
-        var title = this._model._paipu[i].title.replace(/[ \\\/\:]/g,'_');
+        var title = this._model._paipu[i].title.replace(/[ \\\/\:\n]/g,'_');
         var blob = new Blob([ this._model.stringify(i) ],
                             { type: 'application/json' });
         list.eq(i).find('.download')
@@ -216,15 +216,15 @@ Majiang.PaipuEditor.prototype.set_handler = function(paipu) {
             game.kaiju();
         });
     }
-    
-    var title = this._model._paipu[0].title.replace(/[ \\\/\:]/g,'_');
+ 
+    var title = this._model._paipu[0].title.replace(/[ \\\/\:\n]/g,'_');
     
     var blob = new Blob([ this._model.stringify() ],
                         { type: 'application/json' });
     $('#editor .paipu_file > .download')
                     .attr('href', URL.createObjectURL(blob))
                     .attr('download', '牌譜(' + title + ').json');
-
+ 
     var ua = navigator.userAgent;
     if (! ua.match(/\bChrome\b/) && ua.match(/\bSafari\b/)) {
         $('.download').hide();

@@ -49,7 +49,11 @@ Majiang.Game.Paipu.prototype.kaiju = function() {
  
     $('#game > *').hide();
  
-    $('#game > .kaiju .title').text(this._chang.title);
+    var title = this._chang.title
+                    .split(/\n/)
+                    .map(function(str){return $('<p>').text(str).html()})
+                    .join('<br>');
+    $('#game > .kaiju .title').html(title);
     var view_class = ['main','xiajia','duimian','shangjia'];
     for (var id = 0; id < 4; id++) {
         var c = view_class[id];
