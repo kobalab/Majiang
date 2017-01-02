@@ -5,9 +5,15 @@
 }
 
 .paipu .chang {
-    width: 160px;
+    width: 200px;
     float: left;
     font-family: sans-serif;
+}
+.paipu .chang .title div {
+    font-size: 16px;
+    text-align: center;
+    min-height: 56px;
+    cursor: pointer;
 }
 .paipu .chang textarea {
     font-size: 12px;
@@ -32,11 +38,8 @@
     background: #ccc;
 }
 
-.paipu .main,
-.paipu .xiajia,
-.paipu .duimian,
-.paipu .shangjia {
-/* border: solid 1px #ccc;  */
-    margin-left: 160px;
+.paipu .paipu > div {
+/*  border: solid 1px #ccc; */
+    margin-left: 220px;
     height: 180px;
 }
