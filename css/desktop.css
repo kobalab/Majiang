@@ -114,7 +114,7 @@ body.game {
     transform: translate(0px, 48px);
 }
 
-.chang {
+#game > .chang {
     background: #111;
     width: 280px;
     height: 160px;

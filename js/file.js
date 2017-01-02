@@ -48,11 +48,15 @@ Majiang.PaipuFile.prototype.stringify = function(idx) {
     else             return JSON.stringify(this._paipu[idx]);
 }
 
-Majiang.PaipuFile.prototype.add_paipu = function(paipu) {
-    this._paipu = this._paipu.concat(fix_paipu(paipu));
+Majiang.PaipuFile.prototype.update = function() {
     if (this._storage) {
         localStorage.setItem(this._storage, this.stringify())
     }
+}
+
+Majiang.PaipuFile.prototype.add_paipu = function(paipu) {
+    this._paipu = this._paipu.concat(fix_paipu(paipu));
+    this.update();
 }
 
 Majiang.PaipuFile.prototype.get_paipu = function(idx) {
@@ -61,9 +65,7 @@ Majiang.PaipuFile.prototype.get_paipu = function(idx) {
 
 Majiang.PaipuFile.prototype.del_paipu = function(idx) {
     this._paipu.splice(idx, 1);
-    if (this._storage) {
-        localStorage.setItem(this._storage, this.stringify())
-    }
+    this.update();
 }
 
 })();
@@ -187,13 +189,17 @@ Majiang.PaipuEditor.prototype.start = function(paipu) {
 Majiang.PaipuEditor.prototype.set_handler = function(paipu) {
 
     var self = this;
-    
+ 
+    $('#editor .paipu_file > .edit').off('click').on('click', function(){
+        self.edit();
+    });
+ 
     if (this._model.length() == 0) return;
     
     var list = $('#editor .paipu_file .list > div');
     for (var i = 0; i < this._model.length(); i++) {
 
-        list.eq(i).find('.delete').on('click', i, function(event){
+        list.eq(i).find('.delete').off('click').on('click', i, function(event){
             self._model.del_paipu(event.data);
             self._view.paipu_file.redraw();
             self.set_handler();
@@ -206,7 +212,7 @@ Majiang.PaipuEditor.prototype.set_handler = function(paipu) {
                         .attr('href', URL.createObjectURL(blob))
                         .attr('download', '牌譜(' + title + ').json');
         
-        list.eq(i).find('.replay').on('click', i, function(event){
+        list.eq(i).find('.replay').off('click').on('click', i, function(event){
             var paipu = self._model.get_paipu(event.data);
             var game  = new Majiang.Game.Paipu(paipu);
             game._callback = function(){ self.start() };
@@ -215,8 +221,13 @@ Majiang.PaipuEditor.prototype.set_handler = function(paipu) {
             $('#game').show();
             game.kaiju();
         });
-    }
  
+        list.eq(i).find('.edit').off('click').on('click', i, function(event){
+            var paipu = self._model.get_paipu(event.data);
+            self.edit(paipu);
+        });
+    }
+
     var title = this._model._paipu[0].title.replace(/[ \\\/\:\n]/g,'_');
     
     var blob = new Blob([ this._model.stringify() ],
@@ -229,6 +240,50 @@ Majiang.PaipuEditor.prototype.set_handler = function(paipu) {
     if (! ua.match(/\bChrome\b/) && ua.match(/\bSafari\b/)) {
         $('.download').hide();
     }
+}
+
+Majiang.PaipuEditor.prototype.edit = function(paipu) {
+
+    var self = this;
+ 
+    if (! paipu) {
+        paipu = {
+            title:  '(牌譜名)',
+            player: ['仮東','仮南','仮西','仮北'],
+            qijia:  0,
+            log:    [[{qipai: {
+                        zhuangfeng: 0,
+                        jushu:      0,
+                        changbang:  0,
+                        lizhibang:  0,
+                        defen:      [25000,25000,25000,25000],
+                        baopai:     '',
+                        shoupai:    ['','','','']
+                    }}]],
+            defen:  [25000,25000,25000,25000],
+            rank:   [1,2,3,4],
+            point:  [0,0,0,0]
+        };
+        this._model.add_paipu(paipu);
+    }
+ 
+    $('#editor .paipu_file').hide();
+    $('#editor .paipu .close').off('click').on('click', function(){
+        self.close();
+    });
+    var editor = new Majiang.View.PaipuEditor($('#editor .paipu'), paipu);
+    editor.redraw();
+    $('#editor .paipu').show();
+}
+
+Majiang.PaipuEditor.prototype.close = function() {
+
+    $('#editor .paipu').hide();
+    $('#editor .paipu_file').show();
+
+    this._model.update();
+    this._view.paipu_file.redraw();
+    this.set_handler();
 }
 
 })();

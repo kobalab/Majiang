@@ -323,10 +323,12 @@ Majiang.Game.prototype.create_view = function(viewpoint) {
     viewpoint = viewpoint || 0;
 
     this._view = {
-        shan:    new Majiang.View.Shan($('.chang .shan'), this._model.shan),
+        shan:    new Majiang.View.Shan(
+                                $('#game .chang .shan'), this._model.shan),
         shoupai: [],
         he:      [],
-        chang:   new Majiang.View.Chang($('.chang'), this._chang, viewpoint)
+        chang:   new Majiang.View.Chang(
+                                $('#game .chang'), this._chang, viewpoint)
     };
  
     this._view.chang.redraw();

@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="css/tablet.css" />
     <link rel="stylesheet" type="text/css" href="css/smartphone.css" />
     <link rel="stylesheet" type="text/css" href="css/file.css" />
+    <link rel="stylesheet" type="text/css" href="css/editor.css" />
     <script src="js/jquery-2.1.4.min.js"></script>
     <script src="js/majiang.js"></script>
     <script src="js/model.js"></script>
@@ -20,6 +21,7 @@
     <script src="js/game.js"></script>
     <script src="js/paipu.js"></script>
     <script src="js/file.js"></script>
+    <script src="js/editor.js"></script>
     <script>
         var editor;
         $(function(){
@@ -198,19 +200,28 @@
         <div style="display:none;">
             <div><div class="title"></div><div class="player"></div></div>
             <div class="button">
+                <a class="edit">編集</a>
                 <a class="replay">再生</a>
                 <a class="download" target="_blank">保存</a>
                 <a class="delete">削除</a>
-<!--
-                <span class="delete">編集</span>
--->
             </div>
         </div>
     </div>
     <div class="error"></div>
     <label class="upload">牌譜追加<input type="file" multiple></label>
+    <a class="edit">新規編集</a>
     <a class="download" target="_blank">牌譜保存</a>
-<!--    <a class="edit" href="#">新規編集</a>   -->
+</div>
+
+<div class="paipu">
+    <div class="chang">
+        <div class="title"><textarea></textarea></div>
+        <div><a class="close">閉じる</a></div>
+    </div>
+    <div class="main"></div>
+    <div class="xiajia"></div>
+    <div class="duimian"></div>
+    <div class="shangjia"></div>
 </div>
 
 </div>
