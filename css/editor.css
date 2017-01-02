@@ -23,6 +23,16 @@
     resize: none;
     border: none;
 }
+.paipu .chang .jushu {
+    font-size: 24px;
+    text-align: center;
+    cursor: pointer;
+}
+.paipu .chang .jushu select {
+    box-sizing: border-box;
+    font-size: 100%;
+    width: 100%;
+}
 .paipu .chang a {
     display: inline-block;
     margin: 2px;
