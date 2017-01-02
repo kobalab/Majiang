@@ -30,6 +30,7 @@
 }
 .paipu .chang .jushu select {
     box-sizing: border-box;
+    border: 1px;
     font-size: 100%;
     width: 100%;
 }
@@ -59,6 +60,7 @@
     font-family: "Georgia", serif;
     writing-mode: vertical-rl;
     -webkit-writing-mode: vertical-rl;
+    cursor: pointer;
 }
 .paipu .paipu .player .menfeng {
     display: inline-block;
