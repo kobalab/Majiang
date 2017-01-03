@@ -23,10 +23,26 @@ body.editor #navi {
     margin: 10px 0px;
     text-align: center;
 }
+
+#editor .chang > h1 {
+    margin: 0px;
+    font-family: sans-serif;
+    font-size: 20px;
+}
+#editor h1 img {
+    height: 36px;
+    vertical-align: bottom;
+}
+#editor .chang > .version {
+    margin: 5px 0px;
+    font-size: 12px;
+    font-family: serif;
+}
+
 #editor .chang .title div {
-    font-size: 16px;
+    margin: 15px 0px;
+    font-size: 18px;
     text-align: center;
-    min-height: 56px;
     cursor: pointer;
 }
 #editor .chang textarea {
