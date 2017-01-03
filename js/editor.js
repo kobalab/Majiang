@@ -24,6 +24,9 @@ Majiang.View.PaipuEditor.prototype.redraw = function() {
     this.update_jushu();
     this.set_jushu_handler();
 
+    this.update_jicun();
+    this.set_jicun_handler();
+
     for (var l = 0; l < 4; l++) {
         this.update_player(l);
         this.set_player_handler(l);
@@ -52,6 +55,9 @@ Majiang.View.PaipuEditor.prototype.set_title_handler = function() {
     });
     
     this._node.find('.title textarea').off('focusout').on('focusout', function(){
+        self.update_title();
+    });
+    this._node.find('.title textarea').off('change').on('change', function(){
         self._paipu.title = $(this).val().replace(/\n+$/,'') || '（牌譜名）';
         self.update_title();
     });
@@ -103,6 +109,27 @@ Majiang.View.PaipuEditor.prototype.set_jushu_handler = function() {
         self._paipu.log[self._log_idx][0].qipai.jushu
                                     = Math.floor($(this).val() % 4);
         self.redraw();
+    });
+}
+
+Majiang.View.PaipuEditor.prototype.update_jicun = function() {
+    this._node.find('.jicun .changbang input')
+                .val(this._paipu.log[this._log_idx][0].qipai.changbang);
+    this._node.find('.jicun .lizhibang input')
+                .val(this._paipu.log[this._log_idx][0].qipai.lizhibang);
+}
+
+Majiang.View.PaipuEditor.prototype.set_jicun_handler = function() {
+
+    var self = this;
+    
+    this._node.find('.jicun .changbang input').off('change')
+                                              .on('change', function(){
+        self._paipu.log[self._log_idx][0].qipai.changbang = $(this).val();
+    });
+    this._node.find('.jicun .lizhibang input').off('change')
+                                              .on('change', function(){
+        self._paipu.log[self._log_idx][0].qipai.lizhibang = $(this).val();
     });
 }
 

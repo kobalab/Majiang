@@ -19,6 +19,10 @@ body.editor #navi {
     float: left;
     font-family: sans-serif;
 }
+#editor .chang > * {
+    margin: 10px 0px;
+    text-align: center;
+}
 #editor .chang .title div {
     font-size: 16px;
     text-align: center;
@@ -44,6 +48,13 @@ body.editor #navi {
     border: 1px;
     font-size: 100%;
     width: 100%;
+}
+#editor .chang .jicun {
+    font-size: 12px;
+}
+#editor .chang .jicun input {
+    width: 1em;
+    border: none;
 }
 #editor .chang a {
     display: inline-block;
