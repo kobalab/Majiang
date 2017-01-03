@@ -27,6 +27,9 @@ Majiang.View.PaipuEditor.prototype.redraw = function() {
     this.update_jicun();
     this.set_jicun_handler();
 
+    this.update_log();
+    this.set_log_handler();
+
     for (var l = 0; l < 4; l++) {
         this.update_player(l);
         this.set_player_handler(l);
@@ -130,6 +133,38 @@ Majiang.View.PaipuEditor.prototype.set_jicun_handler = function() {
     this._node.find('.jicun .lizhibang input').off('change')
                                               .on('change', function(){
         self._paipu.log[self._log_idx][0].qipai.lizhibang = $(this).val();
+    });
+}
+
+Majiang.View.PaipuEditor.prototype.update_log = function() {
+
+    var feng_hanzi = ['東','南','西','北'];
+    var shu_hanzi  = ['一','二','三','四'];
+
+    var log_list = this._node.find('.log').empty();
+    
+    for (var log_idx = 0; log_idx < this._paipu.log.length; log_idx++) {
+        var qipai = this._paipu.log[log_idx][0].qipai;
+        var log = $('<div>').text(
+                          feng_hanzi[qipai.zhuangfeng]
+                        + shu_hanzi[qipai.jushu]
+                        + '局 '
+                        + qipai.changbang
+                        + '本場');
+        if (log_idx == this._log_idx) log.addClass('selected');
+        log_list.append(log);
+    }
+}
+
+Majiang.View.PaipuEditor.prototype.set_log_handler = function() {
+
+    var self = this;
+    
+    this._node.find('.log > div').each(function(i){
+        $(this).off('click').on('click', i, function(event){
+            self._log_idx = event.data;
+            self.redraw();
+        });
     });
 }
 

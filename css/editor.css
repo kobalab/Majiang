@@ -72,6 +72,18 @@ body.editor #navi {
     width: 1em;
     border: none;
 }
+#editor .chang .log > div {
+    border: solid 1px #ccc;
+    border-radius: 2px;
+    cursor: pointer;
+}
+#editor .chang .log > div.selected {
+    background: #ccc;
+}
+#editor .chang .log > div:hover {
+    color: white;
+    background: #999;
+}
 #editor .chang a {
     display: inline-block;
     margin: 2px;
