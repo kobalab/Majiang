@@ -3,7 +3,7 @@
 body.editor {
     color: black;
     background: white;
-    margin: 15px;
+    margin: 10px;
 }
 
 body.editor #navi {
@@ -71,6 +71,23 @@ body.editor #navi {
 #editor .chang .jicun input {
     width: 1em;
     border: none;
+}
+#editor .chang .input_pai {
+    display: inline-block;
+    width: 24px;
+}
+#editor .chang .input_pai img {
+    width: 100%;
+    vertical-align: middle;
+}
+#editor .chang .input_pai input {
+    box-sizing: border-box;
+    width: 100%;
+    border: none;
+}
+#editor .chang img.pai {
+    width: 24px;
+    vertical-align: middle;
 }
 #editor .chang .log > div {
     border: solid 1px #ccc;

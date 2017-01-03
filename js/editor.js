@@ -1,5 +1,31 @@
 /* View */
 
+var imgHtml = Majiang.View.imgHtml;
+
+function input_pai(p) {
+
+    var node = $('<label>').addClass('input_pai');
+    var img;
+    var input = $('<input>').val(p);
+    
+    if (p != null) {
+        img = $(imgHtml(p.substr(0,2)));
+        node.append(img);
+        input.hide();
+        node.on('click', function(){
+            $(this).find('img').hide();
+            $(this).find('input').show();
+        });
+        node.on('focusout', function(){
+            $(this).find('input').hide();
+            $(this).find('img').show();
+        });
+    }
+    node.append(input);
+    
+    return node;
+}
+
 Majiang.View.PaipuEditor = function(node, paipu) {
     this._node  = node;
     this._paipu = paipu;
@@ -26,6 +52,9 @@ Majiang.View.PaipuEditor.prototype.redraw = function() {
 
     this.update_jicun();
     this.set_jicun_handler();
+    
+    this.update_baopai();
+    this.set_baopai_handler();
 
     this.update_log();
     this.set_log_handler();
@@ -133,6 +162,29 @@ Majiang.View.PaipuEditor.prototype.set_jicun_handler = function() {
     this._node.find('.jicun .lizhibang input').off('change')
                                               .on('change', function(){
         self._paipu.log[self._log_idx][0].qipai.lizhibang = $(this).val();
+    });
+}
+
+Majiang.View.PaipuEditor.prototype.update_baopai = function() {
+
+    var baopai = this._paipu.log[this._log_idx][0].qipai.baopai;
+    this._node.find('.baopai').empty()
+                              .append('<span>ドラ </span>')
+                              .append(input_pai(baopai))
+                              .append($(imgHtml()))
+                              .append($(imgHtml()))
+                              .append($(imgHtml()))
+                              .append($(imgHtml()));
+}
+
+Majiang.View.PaipuEditor.prototype.set_baopai_handler = function() {
+
+    var self = this;
+    
+    this._node.find('.baopai input').off('change').on('change', function(){
+        self._paipu.log[self._log_idx][0].qipai.baopai = $(this).val();
+        self.update_baopai();
+        self.set_baopai_handler();
     });
 }
 
