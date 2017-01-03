@@ -123,6 +123,7 @@ body.editor #navi {
 }
 
 #editor .paipu .player {
+    float: left;
     font-size: 16px;
     font-family: "Georgia", serif;
     writing-mode: vertical-rl;
@@ -136,4 +137,14 @@ body.editor #navi {
     background: black;
     border-radius: 4px;
     text-align: center;
+}
+#editor .paipu .defen {
+    float: right;
+    width: 60px;
+}
+#editor .paipu .defen input {
+    box-sizing: border-box;
+    width: 100%;
+    border: none;
+    text-align: right;
 }

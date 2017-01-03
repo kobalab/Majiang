@@ -60,8 +60,12 @@ Majiang.View.PaipuEditor.prototype.redraw = function() {
     this.set_log_handler();
 
     for (var l = 0; l < 4; l++) {
+    
         this.update_player(l);
         this.set_player_handler(l);
+        
+        this.update_defen(l);
+        this.set_defen_handler(l);
     }
 
     this._node.fadeIn();
@@ -241,5 +245,23 @@ Majiang.View.PaipuEditor.prototype.set_player_handler = function(l) {
                                     .off('focusout').on('focusout', function(){
         self._paipu.player[self.player_id(l)] = $(this).val();
         self.update_player(l);
+    });
+}
+
+Majiang.View.PaipuEditor.prototype.update_defen = function(l) {
+
+    var qipai = this._paipu.log[this._log_idx][0].qipai;
+
+    this._node.find('.defen input').eq(l).val(qipai.defen[l]);
+}
+
+Majiang.View.PaipuEditor.prototype.set_defen_handler = function(l) {
+
+    var self = this;
+    var qipai = this._paipu.log[this._log_idx][0].qipai;
+    
+    this._node.find('.defen input').eq(l)
+                                   .off('change').on('change', function(){
+        qipai.defen[l] = + $(this).val();
     });
 }
