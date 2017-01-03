@@ -1,21 +1,31 @@
 @charset "UTF-8";
 
-.paipu {
+body.editor {
+    color: black;
+    background: white;
+    margin: 15px;
+}
+
+body.editor #navi {
     display: none;
 }
 
-.paipu .chang {
+#editor {
+    display: none;
+}
+
+#editor .chang {
     width: 200px;
     float: left;
     font-family: sans-serif;
 }
-.paipu .chang .title div {
+#editor .chang .title div {
     font-size: 16px;
     text-align: center;
     min-height: 56px;
     cursor: pointer;
 }
-.paipu .chang textarea {
+#editor .chang textarea {
     font-size: 12px;
     box-sizing: border-box;
     width: 100%;
@@ -23,18 +33,19 @@
     resize: none;
     border: none;
 }
-.paipu .chang .jushu {
+#editor .chang .jushu {
+    font-family: "DFPLeiSho-SB", "HGP行書体", serif;
     font-size: 24px;
     text-align: center;
     cursor: pointer;
 }
-.paipu .chang .jushu select {
+#editor .chang .jushu select {
     box-sizing: border-box;
     border: 1px;
     font-size: 100%;
     width: 100%;
 }
-.paipu .chang a {
+#editor .chang a {
     display: inline-block;
     margin: 2px;
     padding: 2px 10px;
@@ -45,24 +56,24 @@
     cursor: pointer;
     color: white;
 }
-.paipu .chang a:hover {
+#editor .chang a:hover {
     background: #ccc;
 }
 
-.paipu .paipu > div {
+#editor .paipu > div {
 /*  border: solid 1px #ccc; */
     margin-left: 220px;
     height: 180px;
 }
 
-.paipu .paipu .player {
+#editor .paipu .player {
     font-size: 16px;
     font-family: "Georgia", serif;
     writing-mode: vertical-rl;
     -webkit-writing-mode: vertical-rl;
     cursor: pointer;
 }
-.paipu .paipu .player .menfeng {
+#editor .paipu .player .menfeng {
     display: inline-block;
     height: 24px;
     color: white;

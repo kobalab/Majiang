@@ -1,37 +1,37 @@
 @charset "UTF-8";
 
-body.editor {
+body.file {
     color: black;
     background: white;
     margin: 0;
 }
 
-#editor {
+#file {
     display: none;
     color: black;
     margin: 0px 15px;
 }
 
-.editor #navi {
+.file #navi {
     margin: 0px 15px;
     width: auto;
 }
-.editor #navi a {
+.file #navi a {
     color: black;
     text-decoration: none;
 }
 
-#editor h1 {
+#file h1 {
     margin-top: 0px;
     border-bottom: solid 2px black;
     font-family: sans-serif;
     font-size: 24px;
 }
-#editor h1 img {
+#file h1 img {
     height: 36px;
     vertical-align: bottom;
 }
-#editor .version {
+#file .version {
     margin-top: -3em;
     font-size: 12px;
     font-family: serif;

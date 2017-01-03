@@ -142,10 +142,10 @@ Majiang.PaipuEditor = function(storage) {
     this._model  = new Majiang.PaipuFile(storage);
     this._view   = {
         paipu_file: new Majiang.View.PaipuFile(
-                        $('#editor .paipu_file'), this._model),
+                        $('#file .paipu_file'), this._model),
     };
     
-    $('#editor .paipu_file .upload input').on('change', function(){
+    $('#file .paipu_file .upload input').on('change', function(){
         for (var i = 0; i < this.files.length; i++) {
             var file = this.files[i];
             if (! file.type.match(/application\/json/i)
@@ -177,9 +177,9 @@ Majiang.PaipuEditor = function(storage) {
 
 Majiang.PaipuEditor.prototype.start = function(paipu) {
 
-    $('body').removeClass('game').addClass('editor');
+    $('body').removeClass('game').addClass('file');
     $('#game').hide();
-    $('#editor').fadeIn();
+    $('#file').fadeIn();
 
     if (paipu) this._model.add_paipu(paipu);
     this._view.paipu_file.redraw();
@@ -190,13 +190,13 @@ Majiang.PaipuEditor.prototype.set_handler = function(paipu) {
 
     var self = this;
  
-    $('#editor .paipu_file > .edit').off('click').on('click', function(){
+    $('#file .paipu_file > .edit').off('click').on('click', function(){
         self.edit();
     });
  
     if (this._model.length() == 0) return;
     
-    var list = $('#editor .paipu_file .list > div');
+    var list = $('#file .paipu_file .list > div');
     for (var i = 0; i < this._model.length(); i++) {
 
         list.eq(i).find('.delete').off('click').on('click', i, function(event){
@@ -216,8 +216,8 @@ Majiang.PaipuEditor.prototype.set_handler = function(paipu) {
             var paipu = self._model.get_paipu(event.data);
             var game  = new Majiang.Game.Paipu(paipu);
             game._callback = function(){ self.start() };
-            $('body').removeClass('editor').addClass('game');
-            $('#editor').hide();
+            $('body').removeClass('file').addClass('game');
+            $('#file').hide();
             $('#game').show();
             game.kaiju();
         });
@@ -232,7 +232,7 @@ Majiang.PaipuEditor.prototype.set_handler = function(paipu) {
     
     var blob = new Blob([ this._model.stringify() ],
                         { type: 'application/json' });
-    $('#editor .paipu_file > .download')
+    $('#file .paipu_file > .download')
                     .attr('href', URL.createObjectURL(blob))
                     .attr('download', '牌譜(' + title + ').json');
  
@@ -248,8 +248,8 @@ Majiang.PaipuEditor.prototype.edit = function(paipu) {
  
     if (! paipu) {
         paipu = {
-            title:  '(牌譜名)',
-            player: ['仮東','仮南','仮西','仮北'],
+            title:  '（牌譜名）',
+            player: ['（東家）','（南家）','（西家）','（北家）'],
             qijia:  0,
             log:    [[{qipai: {
                         zhuangfeng: 0,
@@ -267,19 +267,21 @@ Majiang.PaipuEditor.prototype.edit = function(paipu) {
         this._model.add_paipu(paipu);
     }
  
-    $('#editor .paipu_file').hide();
-    $('#editor .paipu .close').off('click').on('click', function(){
+    $('#file').hide();
+    $('#editor .close').off('click').on('click', function(){
         self.close();
     });
-    var editor = new Majiang.View.PaipuEditor($('#editor .paipu'), paipu);
+    var editor = new Majiang.View.PaipuEditor($('#editor'), paipu);
     editor.redraw();
-    $('#editor .paipu').show();
+    $('#editor').show();
+    $('body').removeClass('file').addClass('editor');
 }
 
 Majiang.PaipuEditor.prototype.close = function() {
 
-    $('#editor .paipu').hide();
-    $('#editor .paipu_file').show();
+    $('#editor').hide();
+    $('#file').show();
+    $('body').removeClass('editor').addClass('file');
 
     this._model.update();
     this._view.paipu_file.redraw();

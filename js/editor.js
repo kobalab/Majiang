@@ -52,7 +52,7 @@ Majiang.View.PaipuEditor.prototype.set_title_handler = function() {
     });
     
     this._node.find('.title textarea').off('focusout').on('focusout', function(){
-        self._paipu.title = $(this).val().replace(/\n+$/,'') || '(牌譜名)';
+        self._paipu.title = $(this).val().replace(/\n+$/,'') || '（牌譜名）';
         self.update_title();
     });
 }
