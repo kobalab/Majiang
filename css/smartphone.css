@@ -16,7 +16,7 @@ body   { margin: 0;         }
     margin-top: 60px;
 }
 
-.chang {
+#game > .chang {
     width: 280px;
     height: 100px;
     transform: translate(260px, 150px);
