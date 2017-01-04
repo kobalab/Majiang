@@ -66,6 +66,9 @@ Majiang.View.PaipuEditor.prototype.redraw = function() {
         
         this.update_defen(l);
         this.set_defen_handler(l);
+        
+        this.update_qipai(l);
+        this.set_qipai_handler(l);
     }
 
     this._node.fadeIn();
@@ -263,5 +266,50 @@ Majiang.View.PaipuEditor.prototype.set_defen_handler = function(l) {
     this._node.find('.defen input').eq(l)
                                    .off('change').on('change', function(){
         qipai.defen[l] = + $(this).val();
+    });
+}
+
+Majiang.View.PaipuEditor.prototype.update_qipai = function(l) {
+
+    var qipai = this._paipu.log[this._log_idx][0].qipai;
+    var paistr = qipai.shoupai[l];
+    
+    var input   = this._node.find('.qipai input').eq(l);
+    var shoupai = this._node.find('.qipai > span').eq(l);
+    
+    new Majiang.View.Shoupai(
+                shoupai, Majiang.Shoupai.fromString(paistr), true
+    ).redraw();
+    
+    if (paistr) {
+        input.val(paistr).hide();
+        shoupai.show();
+    }
+    else {
+        shoupai.hide();
+        input.val('').show();
+    }
+    
+}
+
+Majiang.View.PaipuEditor.prototype.set_qipai_handler = function(l) {
+
+    var self = this;
+    var qipai = this._paipu.log[this._log_idx][0].qipai;
+    
+    this._node.find('.qipai').off('click').on('click', function(){
+        $(this).find('> span').hide();
+        $(this).find('input').show();
+    });
+    
+    this._node.find('.qipai input').eq(l)
+                                .off('change').on('change', l, function(event){
+        qipai.shoupai[event.data] = $(this).val();
+        self.update_qipai(event.data);
+    });
+    
+    this._node.find('.qipai input').eq(l)
+                            .off('focusout').on('focusout', l, function(event){
+        self.update_qipai(event.data);
     });
 }

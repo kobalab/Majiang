@@ -75,9 +75,11 @@ body.editor #navi {
 #editor .chang .input_pai {
     display: inline-block;
     width: 24px;
+    height: 33px;
 }
 #editor .chang .input_pai img {
-    width: 100%;
+    width: 24px;
+    height: 33px;
     vertical-align: middle;
 }
 #editor .chang .input_pai input {
@@ -87,6 +89,7 @@ body.editor #navi {
 }
 #editor .chang img.pai {
     width: 24px;
+    height: 33px;
     vertical-align: middle;
 }
 #editor .chang .log > div {
@@ -147,4 +150,17 @@ body.editor #navi {
     width: 100%;
     border: none;
     text-align: right;
+}
+#editor .paipu .qipai {
+    display: block;
+    width: 360px;
+    height: 40px;
+    margin-left: 40px;
+}
+#editor .paipu .qipai .pai{
+    width: 24px;
+    height: 33px;
+}
+#editor .paipu .qipai input {
+    width: 160px;
 }
