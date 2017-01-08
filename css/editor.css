@@ -114,9 +114,13 @@ body.editor #navi {
     background: #ccc;
 }
 
-#editor .paipu > div {
+#editor .paipu {
     margin-left: 220px;
-    height: 180px;
+    min-width: 800px;
+}
+
+#editor .paipu > hr {
+    border: solid 1px #ccc;
 }
 
 #editor .paipu .player {
@@ -199,4 +203,34 @@ body.editor #navi {
     height: 11px;
     font-size: 9px;
     white-space: nowrap;
+}
+#editor .paipu .shoupai {
+    height: 44px;
+    width: 400px;
+    margin-left: 40px;
+}
+#editor .paipu .shoupai .pai {
+    width:  24px;
+    height: 33px;
+}
+#editor .paipu .shoupai .bingpai {
+    margin-top: 11px;
+}
+#editor .paipu .shoupai .fulou {
+    float: left;
+    padding-left: 4px;
+    margin-top: 11px;
+}
+#editor .paipu .shoupai .fulou .rotate {
+    width: 33px;
+    transform: rotate(270deg) translate(-33px, 0px);
+}
+
+@media print {
+    #editor .chang {
+        display: none;
+    }
+    #editor .paipu {
+        margin-left: 0px;
+    }
 }

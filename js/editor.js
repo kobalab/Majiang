@@ -358,13 +358,23 @@ Majiang.View.PaipuEditor.prototype.update_moda = function() {
     var mo = this._node.find('.paipu .mo').empty();
     var da = this._node.find('.paipu .da').empty();
     
+    var shoupai = [];
+    for (var l = 0; l < 4; l++) {
+        shoupai.push(Majiang.Shoupai.fromString(log[0].qipai.shoupai[l]));
+    }
+    
     var i = 1, j = 0;
     while (i < log.length) {
     
         var k = log[i];
         var l = Math.floor(j/2);
         
-        if (!(k.zimo || k.dapai || k.gang || k.gangzimo || k.fulou)) {
+        if (k.pingju || k.kaigang) {
+            i++;
+            continue;
+        }
+        if (k.hule) {
+            shoupai[k.hule.l] = Majiang.Shoupai.fromString(k.hule.shoupai);
             i++;
             continue;
         }
@@ -373,10 +383,13 @@ Majiang.View.PaipuEditor.prototype.update_moda = function() {
             if (k.zimo && k.zimo.l == l) {
                 var p = k.zimo.p;
                 if (log[i+1].hule)
-                        mo.eq(l).append(input_pai('mo', p, p, 'ツモ'));
+                        mo.eq(l).append(input_pai('mo', p, p+'!', 'ツモ'));
+                else if (log[i+1].pingju)
+                        mo.eq(l).append(input_pai('mo', p, p+'~'));
                 else if (log[i+1].dapai && log[i+1].dapai.p[2] == '_')
                         mo.eq(l).append(input_pai('mo', '_', p));
                 else    mo.eq(l).append(input_pai('mo', p));
+                shoupai[l].zimo(p);
                 i++;
             }
             else if (k.gangzimo && k.gangzimo.l == l) {
@@ -386,6 +399,7 @@ Majiang.View.PaipuEditor.prototype.update_moda = function() {
                 else if (log[i+1].dapai && log[i+1].dapai.p[2] == '_')
                         mo.eq(l).append(input_pai('mo', '_', p));
                 else    mo.eq(l).append(input_pai('mo', p));
+                shoupai[l].zimo(p);
                 i++;
             }
             else if (k.fulou && k.fulou.l == l) {
@@ -395,6 +409,7 @@ Majiang.View.PaipuEditor.prototype.update_moda = function() {
                             :                                'チー';
                 var p = m[0] + m.match(/(\d)[\+\-\=]/)[1];
                 mo.eq(l).append(input_pai('mo', p, k.fulou.m, caption));
+                shoupai[l].fulou(k.fulou.m);
                 i++;
             }
             else {
@@ -407,7 +422,10 @@ Majiang.View.PaipuEditor.prototype.update_moda = function() {
                 if (p.substr(-1) == '*') caption += 'リーチ';
                 if (log[i+1].hule)       caption += '放銃';
                 if (p[2] == '_')         val = p.substr(2);
+                if (log[i+1].hule)       val += '!';
+                if (log[i+1].pingju)     val += '~';
                 da.eq(l).append(input_pai('da', p.substr(0,2), val, caption));
+                shoupai[l].dapai(p);
                 i++;
                 if (log[i].fulou) {
                     j++;
@@ -427,6 +445,7 @@ Majiang.View.PaipuEditor.prototype.update_moda = function() {
                 var val = p + '^';
                 if (log[i+1].hule)       caption += '放銃';
                 da.eq(l).append(input_pai('da', p, val, caption));
+                shoupai[l].gang(k.gang.m);
                 i++;
             }
             else {
@@ -435,5 +454,11 @@ Majiang.View.PaipuEditor.prototype.update_moda = function() {
         }
         
         j = (j + 1) % 8;
+    }
+    
+    for (var l = 0; l < 4; l++) {
+        (new Majiang.View.Shoupai(
+            this._node.find('.shoupai').eq(l), shoupai[l], true
+        )).redraw();
     }
 }
