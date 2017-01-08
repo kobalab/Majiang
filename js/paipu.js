@@ -4,7 +4,7 @@
 
 (function(){
 
-Majiang.Game.Paipu = function(paipu) {
+Majiang.Game.Paipu = function(paipu, log_idx) {
     
     this._paipu = paipu;
     
@@ -15,12 +15,16 @@ Majiang.Game.Paipu = function(paipu) {
         defen:  [0,0,0,0]
     };
     
-    this._viewpoint = 0;
-    
     this._mode = { shoupai: true, he: true, auto_play: false };
-    
-    this._log_idx = 0;
+ 
+    this._play_log_idx = log_idx;
+
+    this._log_idx = log_idx || 0;
     this._idx     = 0;
+    
+    this._viewpoint = log_idx != null
+                        ? paipu.qijia + paipu.log[log_idx][0].qipai.jushu % 4
+                        : 0;
     
     this._stop   = false;
     this._delay  = false;
@@ -29,7 +33,7 @@ Majiang.Game.Paipu = function(paipu) {
     this._speed = 3;
     this._timeout_id;
 
-    this._callback;
+    this._callback = function(){};
 }
 
 Majiang.Game.Paipu.prototype.player_id = Majiang.Game.prototype.player_id;
@@ -74,6 +78,11 @@ Majiang.Game.Paipu.prototype.next = function() {
 
     if (this._stop)  return;
     if (this._delay) return;
+ 
+    if (this._play_log_idx != null && this._log_idx != this._play_log_idx) {
+        this._callback();
+        return;
+    }
     
     if (this._log_idx >= this._paipu.log.length) {
         this.jieju();
@@ -481,6 +490,11 @@ Majiang.Game.Paipu.prototype.seek = function(log_idx, idx) {
     if (this._mode.auto_play) {
         this._timeout_id = clearTimeout(self._timeout_id);
         this._mode.auto_play = false;
+    }
+
+    if (this._play_log_idx != null && log_idx != this._play_log_idx) {
+        this._callback();
+        return;
     }
 
     this._log_idx = log_idx;

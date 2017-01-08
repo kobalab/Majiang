@@ -87,7 +87,28 @@ Majiang.View.PaipuEditor.prototype.redraw = function() {
     
     this.update_moda();
 
+    this.set_replay_handler();
+    
     this._node.fadeIn();
+}
+
+Majiang.View.PaipuEditor.prototype.set_replay_handler = function() {
+
+    var self = this;
+    
+    this._node.find('.replay').on('click', function(){
+        var game = new Majiang.Game.Paipu(self._paipu, self._log_idx);
+        game._callback = function(){
+            $('body').removeClass('game').addClass('editor');
+            $('#game').hide();
+            $('#editor').show();
+            self.redraw();
+        };
+        $('body').removeClass('editor').addClass('game');
+        $('#editor').hide();
+        $('#game').show();
+        game.next();
+    });
 }
 
 Majiang.View.PaipuEditor.prototype.update_title = function() {
