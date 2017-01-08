@@ -2,27 +2,41 @@
 
 var imgHtml = Majiang.View.imgHtml;
 
-function input_pai(p) {
+function input_pai(type, p, val, str) {
 
-    var node = $('<label>').addClass('input_pai');
-    var img;
-    var input = $('<input>').val(p);
+    var node    = $('<label>').addClass('input_pai');
     
-    if (p != null) {
-        img = $(imgHtml(p.substr(0,2)));
-        node.append(img);
-        input.hide();
-        node.on('click', function(){
-            $(this).find('img').hide();
-            $(this).find('input').show();
-        });
-        node.on('focusout', function(){
-            $(this).find('input').hide();
-            $(this).find('img').show();
-        });
+    if (type == null) return node;
+    
+    var input   = $('<div>').addClass('input').append($('<input>').val(val||p));
+    var caption = $('<div>').addClass('caption').text(str||'');
+    
+    if (p == null) {
+        if (type == 'mo')      node.append(caption).append(input);
+        else if (type == 'da') node.append(input).append(caption);
+        else                   node.append(input);
+        return node;
     }
-    node.append(input);
-    
+
+    var pai     = p == '_'  ? $('<div>').addClass('pai').text('↓')
+                            : imgHtml(p);
+
+    if (type == 'mo')      node.append(caption).append(pai).append(input);
+    else if (type == 'da') node.append(pai).append(input).append(caption);
+    else                   node.append(pai).append(input);
+
+    input.hide();
+    node.on('click', function(){
+        $(this).find('.pai').hide();
+        $(this).find('.caption').css('visibility','hidden');
+        $(this).find('.input').show();
+    });
+    node.on('focusout', function(){
+        $(this).find('.input').hide();
+        $(this).find('.pai').show();
+        $(this).find('.caption').css('visibility','visible');
+    });
+
     return node;
 }
 
@@ -70,6 +84,8 @@ Majiang.View.PaipuEditor.prototype.redraw = function() {
         this.update_qipai(l);
         this.set_qipai_handler(l);
     }
+    
+    this.update_moda();
 
     this._node.fadeIn();
 }
@@ -177,7 +193,7 @@ Majiang.View.PaipuEditor.prototype.update_baopai = function() {
     var baopai = this._paipu.log[this._log_idx][0].qipai.baopai;
     this._node.find('.baopai').empty()
                               .append('<span>ドラ </span>')
-                              .append(input_pai(baopai))
+                              .append(input_pai('baopai', baopai))
                               .append($(imgHtml()))
                               .append($(imgHtml()))
                               .append($(imgHtml()))
@@ -312,4 +328,91 @@ Majiang.View.PaipuEditor.prototype.set_qipai_handler = function(l) {
                             .off('focusout').on('focusout', l, function(event){
         self.update_qipai(event.data);
     });
+}
+
+Majiang.View.PaipuEditor.prototype.update_moda = function() {
+
+    var log = this._paipu.log[this._log_idx];
+    
+    var mo = this._node.find('.paipu .mo').empty();
+    var da = this._node.find('.paipu .da').empty();
+    
+    var i = 1, j = 0;
+    while (i < log.length) {
+    
+        var k = log[i];
+        var l = Math.floor(j/2);
+        
+        if (!(k.zimo || k.dapai || k.gang || k.gangzimo || k.fulou)) {
+            i++;
+            continue;
+        }
+        
+        if (j % 2 == 0) {
+            if (k.zimo && k.zimo.l == l) {
+                var p = k.zimo.p;
+                if (log[i+1].hule)
+                        mo.eq(l).append(input_pai('mo', p, p, 'ツモ'));
+                else if (log[i+1].dapai && log[i+1].dapai.p[2] == '_')
+                        mo.eq(l).append(input_pai('mo', '_', p));
+                else    mo.eq(l).append(input_pai('mo', p));
+                i++;
+            }
+            else if (k.gangzimo && k.gangzimo.l == l) {
+                var p = k.gangzimo.p;
+                if (log[i+1].hule)
+                        mo.eq(l).append(input_pai('mo', p, p, 'ツモ'));
+                else if (log[i+1].dapai && log[i+1].dapai.p[2] == '_')
+                        mo.eq(l).append(input_pai('mo', '_', p));
+                else    mo.eq(l).append(input_pai('mo', p));
+                i++;
+            }
+            else if (k.fulou && k.fulou.l == l) {
+                var m = k.fulou.m.replace('0','5');
+                var caption = m.match(/^[mpsz](\d)\1\1\1/) ? 'カン'
+                            : m.match(/^[mpsz](\d)\1\1/)   ? 'ポン'
+                            :                                'チー';
+                var p = m[0] + m.match(/(\d)[\+\-\=]/)[1];
+                mo.eq(l).append(input_pai('mo', p, k.fulou.m, caption));
+                i++;
+            }
+            else {
+                mo.eq(l).append(input_pai());
+            }
+        }
+        else {
+            if (k.dapai && k.dapai.l == l) {
+                var p = k.dapai.p, caption = '', val = p;
+                if (p.substr(-1) == '*') caption += 'リーチ';
+                if (log[i+1].hule)       caption += '放銃';
+                if (p[2] == '_')         val = p.substr(2);
+                da.eq(l).append(input_pai('da', p.substr(0,2), val, caption));
+                i++;
+                if (log[i].fulou) {
+                    j++;
+                    while (j < 8) {
+                        l = Math.floor(j/2);
+                        mo.eq(l).append(input_pai());
+                        da.eq(l).append(input_pai());
+                        j += 2;
+                    }
+                    j = 0;
+                    continue;
+                }
+            }
+            else if (k.gang && k.gang.l == l) {
+                var p = k.gang.m[0] + k.gang.m.substr(-1);
+                var caption = 'カン';
+                var val = p + '^';
+                if (log[i+1].hule)       caption += '放銃';
+                da.eq(l).append(input_pai('da', p, val, caption));
+                i++;
+            }
+            else {
+                da.eq(l).append(input_pai());
+            }
+        }
+        
+        j = (j + 1) % 8;
+    }
 }

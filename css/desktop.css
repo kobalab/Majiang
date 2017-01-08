@@ -509,7 +509,7 @@ body.game {
         margin: 15px auto;
         background: white;
     }
-    .chang {
+    #game > .chang {
         background: white;
         border: solid 1px #ccc;
     }

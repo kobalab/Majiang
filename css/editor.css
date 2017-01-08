@@ -77,11 +77,6 @@ body.editor #navi {
     width: 24px;
     height: 33px;
 }
-#editor .chang .input_pai img {
-    width: 24px;
-    height: 33px;
-    vertical-align: middle;
-}
 #editor .chang .input_pai input {
     box-sizing: border-box;
     width: 100%;
@@ -120,7 +115,6 @@ body.editor #navi {
 }
 
 #editor .paipu > div {
-/*  border: solid 1px #ccc; */
     margin-left: 220px;
     height: 180px;
 }
@@ -154,7 +148,7 @@ body.editor #navi {
 #editor .paipu .qipai {
     display: block;
     width: 360px;
-    height: 40px;
+    height: 36px;
     margin-left: 40px;
 }
 #editor .paipu .qipai .pai{
@@ -163,4 +157,46 @@ body.editor #navi {
 }
 #editor .paipu .qipai input {
     width: 160px;
+}
+#editor .paipu .mo,
+#editor .paipu .da {
+    height: 44px;
+    margin-left: 40px;
+}
+#editor .paipu .mo .input_pai,
+#editor .paipu .da .input_pai {
+    display: block;
+    width: 24px;
+    height: 44px;
+    float: left;
+    text-align: center;
+}
+#editor .paipu .mo .input_pai .pai,
+#editor .paipu .da .input_pai .pai {
+    display: block;
+    width: 100%;
+    height: 33px;
+    font-family: sans-serif;
+    font-size: 20px;
+}
+#editor .paipu .mo .input_pai .input,
+#editor .paipu .da .input_pai .input {
+    width:  100%;
+    height: 33px;
+}
+#editor .paipu .mo .input_pai input,
+#editor .paipu .da .input_pai input {
+    display: block;
+    box-sizing: border-box;
+    width:  100%;
+    height: 100%;
+    border: none;
+    text-align: center;
+}
+#editor .paipu .mo .input_pai .caption,
+#editor .paipu .da .input_pai .caption {
+    width:  100%;
+    height: 11px;
+    font-size: 9px;
+    white-space: nowrap;
 }
