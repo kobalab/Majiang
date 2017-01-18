@@ -1,6 +1,13 @@
-/* View */
+/*
+ *  Majiang.View.PaipuEditor
+ */
+
+(function(){
 
 var imgHtml = Majiang.View.imgHtml;
+
+var feng_hanzi = ['東','南','西','北'];
+var shu_hanzi  = ['一','二','三','四'];
 
 function input_pai(type, p, val, str) {
 
@@ -57,39 +64,42 @@ Majiang.View.PaipuEditor.prototype.redraw = function() {
     var self = this;
     
     this._node.hide();
+ 
+    this.draw();
     
-    this.update_title();
     this.set_title_handler();
-    
-    this.update_jushu();
     this.set_jushu_handler();
-
-    this.update_jicun();
     this.set_jicun_handler();
-    
-    this.update_baopai();
     this.set_baopai_handler();
 
-    this.update_log();
-    this.set_log_handler();
+    this.set_log_list_handler();
 
     for (var l = 0; l < 4; l++) {
-    
-        this.update_player(l);
         this.set_player_handler(l);
-        
-        this.update_defen(l);
         this.set_defen_handler(l);
-        
-        this.update_qipai(l);
         this.set_qipai_handler(l);
     }
-    
-    this.update_moda();
 
     this.set_replay_handler();
-    
+ 
     this._node.fadeIn();
+}
+
+Majiang.View.PaipuEditor.prototype.draw = function() {
+
+    this.draw_title();
+    this.draw_jushu();
+    this.draw_jicun();
+    this.draw_baopai();
+    this.draw_log_list();
+
+    for (var l = 0; l < 4; l++) {
+        this.draw_player(l);
+        this.draw_defen(l);
+        this.draw_qipai(l);
+    }
+ 
+    this.draw_moda();
 }
 
 Majiang.View.PaipuEditor.prototype.set_replay_handler = function() {
@@ -111,7 +121,7 @@ Majiang.View.PaipuEditor.prototype.set_replay_handler = function() {
     });
 }
 
-Majiang.View.PaipuEditor.prototype.update_title = function() {
+Majiang.View.PaipuEditor.prototype.draw_title = function() {
 
     var title_html = this._paipu.title
                         .split(/\n/)
@@ -131,18 +141,15 @@ Majiang.View.PaipuEditor.prototype.set_title_handler = function() {
     });
     
     this._node.find('.title textarea').off('focusout').on('focusout', function(){
-        self.update_title();
+        self.draw_title();
     });
     this._node.find('.title textarea').off('change').on('change', function(){
         self._paipu.title = $(this).val().replace(/\n+$/,'') || '（牌譜名）';
-        self.update_title();
+        self.draw_title();
     });
 }
 
-Majiang.View.PaipuEditor.prototype.update_jushu = function() {
-
-    var feng_hanzi = ['東','南','西','北'];
-    var shu_hanzi  = ['一','二','三','四'];
+Majiang.View.PaipuEditor.prototype.draw_jushu = function() {
 
     var qipai = this._paipu.log[this._log_idx][0].qipai;
     
@@ -188,7 +195,7 @@ Majiang.View.PaipuEditor.prototype.set_jushu_handler = function() {
     });
 }
 
-Majiang.View.PaipuEditor.prototype.update_jicun = function() {
+Majiang.View.PaipuEditor.prototype.draw_jicun = function() {
     this._node.find('.jicun .changbang input')
                 .val(this._paipu.log[this._log_idx][0].qipai.changbang);
     this._node.find('.jicun .lizhibang input')
@@ -209,7 +216,7 @@ Majiang.View.PaipuEditor.prototype.set_jicun_handler = function() {
     });
 }
 
-Majiang.View.PaipuEditor.prototype.update_baopai = function() {
+Majiang.View.PaipuEditor.prototype.draw_baopai = function() {
 
     var baopai = this._paipu.log[this._log_idx][0].qipai.baopai;
     this._node.find('.baopai').empty()
@@ -227,15 +234,12 @@ Majiang.View.PaipuEditor.prototype.set_baopai_handler = function() {
     
     this._node.find('.baopai input').off('change').on('change', function(){
         self._paipu.log[self._log_idx][0].qipai.baopai = $(this).val();
-        self.update_baopai();
+        self.draw_baopai();
         self.set_baopai_handler();
     });
 }
 
-Majiang.View.PaipuEditor.prototype.update_log = function() {
-
-    var feng_hanzi = ['東','南','西','北'];
-    var shu_hanzi  = ['一','二','三','四'];
+Majiang.View.PaipuEditor.prototype.draw_log_list = function() {
 
     var log_list = this._node.find('.log').empty();
     
@@ -252,7 +256,7 @@ Majiang.View.PaipuEditor.prototype.update_log = function() {
     }
 }
 
-Majiang.View.PaipuEditor.prototype.set_log_handler = function() {
+Majiang.View.PaipuEditor.prototype.set_log_list_handler = function() {
 
     var self = this;
     
@@ -264,7 +268,7 @@ Majiang.View.PaipuEditor.prototype.set_log_handler = function() {
     });
 }
 
-Majiang.View.PaipuEditor.prototype.update_player = function(l) {
+Majiang.View.PaipuEditor.prototype.draw_player = function(l) {
 
     var id = this.player_id(l);
 
@@ -282,13 +286,17 @@ Majiang.View.PaipuEditor.prototype.set_player_handler = function(l) {
     });
 
     this._node.find('.player input').eq(l)
-                                    .off('focusout').on('focusout', function(){
+                                    .off('change').on('change', function(){
         self._paipu.player[self.player_id(l)] = $(this).val();
-        self.update_player(l);
+        self.draw_player(l);
+    });
+    this._node.find('.player input').eq(l)
+                                    .off('focusout').on('focusout', function(){
+        self.draw_player(l);
     });
 }
 
-Majiang.View.PaipuEditor.prototype.update_defen = function(l) {
+Majiang.View.PaipuEditor.prototype.draw_defen = function(l) {
 
     var qipai = this._paipu.log[this._log_idx][0].qipai;
 
@@ -306,7 +314,7 @@ Majiang.View.PaipuEditor.prototype.set_defen_handler = function(l) {
     });
 }
 
-Majiang.View.PaipuEditor.prototype.update_qipai = function(l) {
+Majiang.View.PaipuEditor.prototype.draw_qipai = function(l) {
 
     var qipai = this._paipu.log[this._log_idx][0].qipai;
     var paistr = qipai.shoupai[l];
@@ -341,17 +349,18 @@ Majiang.View.PaipuEditor.prototype.set_qipai_handler = function(l) {
     
     this._node.find('.qipai input').eq(l)
                                 .off('change').on('change', l, function(event){
-        qipai.shoupai[event.data] = $(this).val();
-        self.update_qipai(event.data);
+        qipai.shoupai[event.data]
+                    = Majiang.Shoupai.fromString($(this).val()).toString();
+        self.draw_qipai(event.data);
     });
     
     this._node.find('.qipai input').eq(l)
                             .off('focusout').on('focusout', l, function(event){
-        self.update_qipai(event.data);
+        self.draw_qipai(event.data);
     });
 }
 
-Majiang.View.PaipuEditor.prototype.update_moda = function() {
+Majiang.View.PaipuEditor.prototype.draw_moda = function() {
 
     var log = this._paipu.log[this._log_idx];
     
@@ -462,3 +471,5 @@ Majiang.View.PaipuEditor.prototype.update_moda = function() {
         )).redraw();
     }
 }
+
+})();
