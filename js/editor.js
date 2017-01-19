@@ -331,6 +331,7 @@ Majiang.View.PaipuEditor.prototype.draw_qipai = function(l) {
         shoupai.show();
     }
     else {
+        input.attr('tabindex', 1);
         shoupai.hide();
         input.val('').show();
     }
@@ -352,6 +353,7 @@ Majiang.View.PaipuEditor.prototype.set_qipai_handler = function(l) {
         qipai.shoupai[event.data]
                     = Majiang.Shoupai.fromString($(this).val()).toString();
         self.draw_qipai(event.data);
+        self.draw_moda();
     });
     
     this._node.find('.qipai input').eq(l)
@@ -362,114 +364,124 @@ Majiang.View.PaipuEditor.prototype.set_qipai_handler = function(l) {
 
 Majiang.View.PaipuEditor.prototype.draw_moda = function() {
 
+    function padding(lunban, type, open) {
+        for (;;) {
+            var l = Math.floor(moda/2) % 4;
+            var t = moda % 2;
+            if (l == lunban && t == type) return input;
+ 
+            var tabindex = Math.floor(moda/8) + 1;
+            var input = input_pai(
+                              ! open ? null
+                            : t == 0 ? 'mo'
+                            :          'da'
+                        );
+            input.find('input').attr('tabindex', tabindex);
+ 
+            if (t == 0) mo.eq(l).append(input);
+            else        da.eq(l).append(input);
+ 
+            moda++;
+        }
+    }
+
     var log = this._paipu.log[this._log_idx];
-    
+
     var mo = this._node.find('.paipu .mo').empty();
     var da = this._node.find('.paipu .da').empty();
-    
+ 
     var shoupai = [];
     for (var l = 0; l < 4; l++) {
         shoupai.push(Majiang.Shoupai.fromString(log[0].qipai.shoupai[l]));
     }
-    
-    var i = 1, j = 0;
-    while (i < log.length) {
-    
-        var k = log[i];
-        var l = Math.floor(j/2);
-        
-        if (k.pingju || k.kaigang) {
-            i++;
-            continue;
+ 
+    log.push({dummy:{}});
+
+    var moda = 0;
+    var done = false;
+    var l, p, m, val, str;
+    for (var i = 1; i < log.length - 1; i++) {
+ 
+        if (log[i].zimo || log[i].gangzimo) {
+            l = log[i].zimo ? log[i].zimo.l : log[i].gangzimo.l;
+            p = log[i].zimo ? log[i].zimo.p : log[i].gangzimo.p;
+            shoupai[l].zimo(p);
+            val = p;
+            str = '';
+            if (log[i+1].hule)      str += 'ツモ';
+            if (log[i+1].hule)      val += '!';
+            if (log[i+1].pingju)    val += '~';
+            if (log[i+1].dapai && log[i+1].dapai.p[2] == '_')   p = '_';
+            padding(l, 0, true);
+            mo.eq(l).append(input_pai('mo', p, val, str));
+            moda++;
         }
-        if (k.hule) {
-            shoupai[k.hule.l] = Majiang.Shoupai.fromString(k.hule.shoupai);
-            i++;
-            continue;
+        else if (log[i].dapai) {
+            l = log[i].dapai.l;
+            p = log[i].dapai.p;
+            shoupai[l].dapai(p);
+            val = p;
+            str = '';
+            if (p.substr(-1) == '*') str += 'リーチ';
+            if (log[i+1].hule)       str += '放銃';
+            if (p[2] == '_')         val = p.substr(2);
+            if (log[i+1].hule)       val += '!';
+            if (log[i+1].pingju)     val += '~';
+            padding(l, 1, true);
+            da.eq(l).append(input_pai('da', p.substr(0,2), val, str));
+            moda++;
         }
-        
-        if (j % 2 == 0) {
-            if (k.zimo && k.zimo.l == l) {
-                var p = k.zimo.p;
-                if (log[i+1].hule)
-                        mo.eq(l).append(input_pai('mo', p, p+'!', 'ツモ'));
-                else if (log[i+1].pingju)
-                        mo.eq(l).append(input_pai('mo', p, p+'~'));
-                else if (log[i+1].dapai && log[i+1].dapai.p[2] == '_')
-                        mo.eq(l).append(input_pai('mo', '_', p));
-                else    mo.eq(l).append(input_pai('mo', p));
-                shoupai[l].zimo(p);
-                i++;
-            }
-            else if (k.gangzimo && k.gangzimo.l == l) {
-                var p = k.gangzimo.p;
-                if (log[i+1].hule)
-                        mo.eq(l).append(input_pai('mo', p, p, 'ツモ'));
-                else if (log[i+1].dapai && log[i+1].dapai.p[2] == '_')
-                        mo.eq(l).append(input_pai('mo', '_', p));
-                else    mo.eq(l).append(input_pai('mo', p));
-                shoupai[l].zimo(p);
-                i++;
-            }
-            else if (k.fulou && k.fulou.l == l) {
-                var m = k.fulou.m.replace('0','5');
-                var caption = m.match(/^[mpsz](\d)\1\1\1/) ? 'カン'
-                            : m.match(/^[mpsz](\d)\1\1/)   ? 'ポン'
-                            :                                'チー';
-                var p = m[0] + m.match(/(\d)[\+\-\=]/)[1];
-                mo.eq(l).append(input_pai('mo', p, k.fulou.m, caption));
-                shoupai[l].fulou(k.fulou.m);
-                i++;
-            }
-            else {
-                mo.eq(l).append(input_pai());
-            }
+        else if (log[i].fulou) {
+            l = log[i].fulou.l;
+            m = log[i].fulou.m;
+            shoupai[l].fulou(m);
+            p = m[0] + m.match(/(\d)[\+\-\=]/)[1];
+            val = m;
+            m = m.replace('0','5');
+            str = m.match(/^[mpsz](\d)\1\1\1/) ? 'カン'
+                : m.match(/^[mpsz](\d)\1\1/)   ? 'ポン'
+                :                                'チー';
+            padding(0, 0, true);
+            padding(l, 0, true);
+            mo.eq(l).append(input_pai('mo', p, val, str));
+            moda++;
         }
-        else {
-            if (k.dapai && k.dapai.l == l) {
-                var p = k.dapai.p, caption = '', val = p;
-                if (p.substr(-1) == '*') caption += 'リーチ';
-                if (log[i+1].hule)       caption += '放銃';
-                if (p[2] == '_')         val = p.substr(2);
-                if (log[i+1].hule)       val += '!';
-                if (log[i+1].pingju)     val += '~';
-                da.eq(l).append(input_pai('da', p.substr(0,2), val, caption));
-                shoupai[l].dapai(p);
-                i++;
-                if (log[i].fulou) {
-                    j++;
-                    while (j < 8) {
-                        l = Math.floor(j/2);
-                        mo.eq(l).append(input_pai());
-                        da.eq(l).append(input_pai());
-                        j += 2;
-                    }
-                    j = 0;
-                    continue;
-                }
-            }
-            else if (k.gang && k.gang.l == l) {
-                var p = k.gang.m[0] + k.gang.m.substr(-1);
-                var caption = 'カン';
-                var val = p + '^';
-                if (log[i+1].hule)       caption += '放銃';
-                da.eq(l).append(input_pai('da', p, val, caption));
-                shoupai[l].gang(k.gang.m);
-                i++;
-            }
-            else {
-                da.eq(l).append(input_pai());
-            }
+        else if (log[i].gang) {
+            l = log[i].gang.l;
+            m = log[i].gang.m;
+            shoupai[l].gang(m);
+            p = m[0] + m.substr(-1);
+            val = p + '^';
+            str = 'カン';
+            if (log[i+1].hule)       str += '放銃';
+            padding(l, 1, true);
+            da.eq(l).append(input_pai('da', p, val, str));
+            moda++;
         }
-        
-        j = (j + 1) % 8;
+        else if (log[i].hule) {
+            l = log[i].hule.l;
+            shoupai[l] = Majiang.Shoupai.fromString(log[i].hule.shoupai);
+            done = true;
+        }
+        else if (log[i].pingju) {
+            done = true;
+        }
     }
-    
+ 
     for (var l = 0; l < 4; l++) {
         (new Majiang.View.Shoupai(
             this._node.find('.shoupai').eq(l), shoupai[l], true
         )).redraw();
     }
+ 
+    log.pop();
+ 
+    if (done) return;
+ 
+    var l = Math.floor(moda/2) % 4;
+    var t = moda % 2;
+    padding(Math.floor((moda+1)/2) % 4, (moda+1) % 2, true).find('input').focus();
+    padding(l, t, true);
 }
 
 })();
