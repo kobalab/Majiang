@@ -60,6 +60,7 @@ body.game {
     height: 680px;
     margin: 0px auto;
     background: #036;
+    overflow-x: hidden;
     overflow-y: auto;
 }
 #game > * {
