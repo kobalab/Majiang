@@ -111,7 +111,7 @@ Majiang.SuanPai.prototype.paijia = function(p) {
     var s = p[0], n = p[1]-0||5;
 
     if (s == 'z') {
-        rv = this.paishu(s+n) * weight(s+n);
+        rv = this.paishu(s+n) * weight(s, n);
     }
     else {
         var left   = (1 <= n-2)
