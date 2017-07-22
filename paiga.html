@@ -90,7 +90,8 @@ $(function(){
                         url = imgbase + img[s+n+'_'];
                         html += '<img src="'+url+'" width="'+h+'" height="'+w+'"'
                                 + (d == '='
-                                        ? ' style="vertical-align:bottom;"'
+                                        ? ' style="vertical-align:bottom;'
+                                                + 'display:block;"'
                                         : '')
                                 + ' alt="'+(s+n+d)+'">';
                     }
