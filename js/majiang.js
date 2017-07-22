@@ -6,4 +6,4 @@
  *  http://kobalab.net/majiang/LICENSE
  */
 
-var Majiang = { VERSION: '0.8.6' };
+var Majiang = { VERSION: '0.8.7' };
