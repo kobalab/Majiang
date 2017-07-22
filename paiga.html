@@ -56,6 +56,11 @@ $(function(){
         z5_: 'yhaku.gif', z6_: 'yhatu.gif', z7_: 'ytyun.gif'
     };
 
+    function set_size(sizestr) {
+        var size = sizestr.match(/^(\d+)x(\d+)$/);
+        if (size) { w = size[1]; h = size[2] }
+    }
+  
     function markup(match, mark) {
   
         if (! mark.length) return '';
@@ -119,6 +124,7 @@ $(function(){
   
     $('input[type="submit"]').on('click', function(event){
 
+        set_size($('form input[name="size"]:checked').val());
         var html = parse($('form textarea').val());
         $('#paiga div')
             .empty()
@@ -177,6 +183,9 @@ textarea {
 <textarea rows="10">このような記述ができます。
 {s067z1 z1}(ツモ) {p2-13} {z66=6-6} {_z77_} {  }(ドラ){m1}
 </textarea><br>
+<input name="size" type="radio" value="24x34" checked="checked">大(24x34)
+<input name="size" type="radio" value="19x26">中(19x26)
+<input name="size" type="radio" value="16x23">小(16x23)
 <input type="submit" value="変換">
 <input type="reset" value="消去">
 </form>
