@@ -269,7 +269,8 @@ function get_chi_mianzi(shoupai, p) {
     if (2 <= n &&  n <= 8 && bingpai[n-1] > 0 && bingpai[n+1] > 0) {
         p1 = (n-1 == 5 && bingpai[0] > 0) ? 0 : n-1;
         p2 = (n+1 == 5 && bingpai[0] > 0) ? 0 : n+1;
-        mianzi.push(s + p1 + (p0+d) + p2);
+        if (shoupai._fulou.length == 3 && bingpai[n] == 2) ;
+        else mianzi.push(s + p1 + (p0+d) + p2);
     }
     
     return mianzi;
