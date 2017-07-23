@@ -334,7 +334,6 @@ for (join('', <>) =~ /<.*?>/g) {
                         if ($paipu->{defen}[($paipu->{qijia} + $j) % 4]
                                 > $paipu->{defen}[($paipu->{qijia} + $i) % 4]);
                 }
-#                $rank[$j]++ if ($paipu->{defen}[$i] >= $paipu->{defen}[$j]);
             }
         }
         $paipu->{rank} = \@rank;
