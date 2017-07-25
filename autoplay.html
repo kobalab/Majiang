@@ -59,14 +59,13 @@
             $(window).bind('keypress', function(event){
                 if (event.keyCode == 32) {
                     game._stop = ! game._stop;
-                    game.next();
+                    if (! game._timeout_id)
+                        game._timeout_id = setTimeout(function(){game.next()}, 0);
                     return false;
                 }
             });
             $('body').bind('dblclick', function(){
-                game._speed = (game._speed == 0) ? 3 : 0;
-                game._stop = false;
-                game.next();
+                game._speed = 0;
                 return false;
             });
         });
