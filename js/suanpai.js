@@ -197,4 +197,18 @@ Majiang.SuanPai.prototype.suan_weixian_all = function(l) {
     return weixian;
 }
 
+Majiang.SuanPai.prototype.suan_paishu_all = function() {
+
+    var paishu = {};
+    for (var s of ['m','p','s','z']) {
+        var nn = (s == 'z') ? [1,2,3,4,5,6,7] : [0,1,2,3,4,5,6,7,8,9];
+        for (var n of nn) {
+            if (s != 'z' && n == 5)
+                    paishu[s+n] = this._paishu[s][n] - this._paishu[s][0];
+            else    paishu[s+n] = this._paishu[s][n];
+        }
+    }
+    return paishu;
+}
+
 })();
