@@ -698,4 +698,32 @@ Majiang.Player.prototype.tingpai = function(shoupai) {
     return pai;
 }
 
+Majiang.Player.prototype.get_defen = function(shoupai) {
+
+    var menqian = (shoupai._fulou.filter(
+                        function(m){return m.match(/[\-\+\=]/)}).length == 0);
+
+    var new_shoupai = shoupai.clone();
+    
+    var param = {
+        zhuangfeng: this._zhuangfeng,
+        menfeng:    this._menfeng,
+        hupai: {
+            lizhi:      menqian,
+            yifa:       0,
+            qianggang:  false,
+            lingshang:  false,
+            haidi:      0,
+            tianhu:     0
+        },
+        baopai:     this._baopai,
+        fubaopai:   [],
+        jicun:      { changbang: this._changbang, lizhibang: this._lizhibang }
+    };
+    
+    var hule = Majiang.Util.hule(new_shoupai, null, param);
+    
+    return hule.defen;
+}
+
 })();
