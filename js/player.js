@@ -539,7 +539,7 @@ Majiang.Player.prototype.select_dapai = function() {
         return this._shoupai._zimo + '_';
     }
 
-    var n_xiangting = this.xiangting(this._shoupai);
+    var n_xiangting = Majiang.Util.xiangting(this._shoupai);
     if (n_xiangting == -1) n_xiangting = 0;
  
     var anquan, min = Infinity;
@@ -554,17 +554,16 @@ Majiang.Player.prototype.select_dapai = function() {
     }
 
     var dapai, max = 0;
+    var paishu = this._suanpai.suan_paishu_all();
+ 
     for (var p of this.get_dapai()) {
         var new_shoupai = this._shoupai.clone();
         new_shoupai.dapai(p);
-        if (this.xiangting(new_shoupai) > n_xiangting) continue;
-        var x = 1 - this._suanpai.paijia(p)/100;
-        for (var tp of this.tingpai(new_shoupai)) {
-            x += this._suanpai.paishu(tp.substr(0,2))
-                    * (tp[2] == '+' ? 4 :
-                       tp[2] == '-' ? 2 :
-                                      1   );
-        }
+        if (Majiang.Util.xiangting(new_shoupai) > n_xiangting) continue;
+
+        var x = 1 - this._suanpai.paijia(p)/100
+              + this.eval_shoupai(new_shoupai, paishu);
+        
         if (x >= max) {
             max = x;
             dapai = p;
