@@ -205,27 +205,24 @@ Majiang.Player.prototype.jieju = function(data, callback) {
     this.wait(callback);
 }
 
-Majiang.Player.prototype.get_dapai = function() {
+function get_dapai(shoupai) {
 
-    var pai = []
- 
-    if (this._lizhi[this._menfeng]) return [ this._shoupai._zimo ];
- 
-    var fulou = this._shoupai._zimo.replace(/0/,'5');
+    var pai = [];
+    
+    var fulou = shoupai._zimo.replace(/0/,'5');
     var deny = {};
-    var chipai = fulou.match(/\d(?=[\-\+\=])/);
-    if (chipai) {
-        var s = fulou[0];
-        var n = chipai[0] -0;
+    var s = fulou[0];
+    var n = + fulou.match(/\d(?=[\-\+\=])/);
+    if (n) {
         deny[s+n] = true;
         if (! fulou.match(/^[mpsz](\d)\1\1.*$/)) {
             if (n < 7 && fulou.match(/^[mps]\d\-\d\d$/)) deny[s+(n+3)] = true;
             if (3 < n && fulou.match(/^[mps]\d\d\d\-$/)) deny[s+(n-3)] = true;
         }
     }
- 
-    for (var s in this._shoupai._bingpai) {
-        var bingpai = this._shoupai._bingpai[s];
+    
+    for (var s of ['m','p','s','z']) {
+        var bingpai = shoupai._bingpai[s];
         for (var n = 1; n < bingpai.length; n++) {
             if (bingpai[n] == 0) continue;
             if (deny[s+n]) continue;
@@ -238,6 +235,13 @@ Majiang.Player.prototype.get_dapai = function() {
     }
  
     return pai;
+}
+
+Majiang.Player.prototype.get_dapai = function() {
+ 
+    if (this._lizhi[this._menfeng]) return [ this._shoupai._zimo ];
+ 
+    return get_dapai(this._shoupai);
 }
 
 function get_chi_mianzi(shoupai, p) {
