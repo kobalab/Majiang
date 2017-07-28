@@ -730,4 +730,65 @@ Majiang.Player.prototype.get_defen = function(shoupai) {
     return hule.defen;
 }
 
+Majiang.Player.prototype.eval_shoupai = function(shoupai, paishu) {
+
+    function add_hongpai(pai) {
+        var new_pai = [];
+        for (var p of pai) {
+            if (p[0] != 'z' && p[1] == '5') new_pai.push(p.replace(/5/,'0'));
+            new_pai.push(p);
+        }
+        return new_pai;
+    }
+    
+    var n_xiangting = Majiang.Util.xiangting(shoupai);
+    
+    if (n_xiangting == -1) {
+        return this.get_defen(shoupai);
+    }
+    
+    if (shoupai._zimo) {
+    
+        var max = 0;
+        for (var p of get_dapai(shoupai)) {
+            var new_shoupai = shoupai.clone();
+            new_shoupai.dapai(p);
+            if (Majiang.Util.xiangting(new_shoupai) > n_xiangting) continue;
+            
+            var r = this.eval_shoupai(new_shoupai, paishu);
+            if (r > max) max = r;
+        }
+        return max;
+    }
+    
+    if (n_xiangting < 3) {
+    
+        var r = 0;
+        for (var p of add_hongpai(Majiang.Util.tingpai(shoupai))) {
+            if (paishu[p] == 0) continue;
+            
+            var new_shoupai = shoupai.clone();
+            new_shoupai.zimo(p);
+
+            paishu[p]--;
+            var ev = this.eval_shoupai(new_shoupai, paishu);
+            paishu[p]++;
+            
+            r += ev * paishu[p];
+        }
+        return r;
+    }
+    else {
+    
+        var r = 0;
+        for (var p of add_hongpai(this.tingpai(shoupai))) {
+            if (paishu[p.substr(0,2)] == 0) continue;
+            
+            r += paishu[p.substr(0,2)] * (p[2] == '+' ? 4 :
+                                          p[2] == '-' ? 2 : 1);
+        }
+        return r;
+    }
+}
+
 })();
