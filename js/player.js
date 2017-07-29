@@ -555,6 +555,7 @@ Majiang.Player.prototype.select_dapai = function() {
 
     var dapai, max = 0;
     var paishu = this._suanpai.suan_paishu_all();
+    this._eval_cache = {};
  
     for (var p of this.get_dapai()) {
         var new_shoupai = this._shoupai.clone();
@@ -740,13 +741,16 @@ Majiang.Player.prototype.eval_shoupai = function(shoupai, paishu) {
         return new_pai;
     }
     
+    var paistr = shoupai.toString();
+    if (this._eval_cache[paistr]) return this._eval_cache[paistr];
+ 
+    var rv;
     var n_xiangting = Majiang.Util.xiangting(shoupai);
     
     if (n_xiangting == -1) {
-        return this.get_defen(shoupai);
+        rv = this.get_defen(shoupai);
     }
-    
-    if (shoupai._zimo) {
+    else if (shoupai._zimo) {
     
         var max = 0;
         for (var p of get_dapai(shoupai)) {
@@ -757,10 +761,9 @@ Majiang.Player.prototype.eval_shoupai = function(shoupai, paishu) {
             var r = this.eval_shoupai(new_shoupai, paishu);
             if (r > max) max = r;
         }
-        return max;
+        rv = max;
     }
-    
-    if (n_xiangting < 3) {
+    else if (n_xiangting < 3) {
     
         var r = 0;
         for (var p of add_hongpai(Majiang.Util.tingpai(shoupai))) {
@@ -775,7 +778,7 @@ Majiang.Player.prototype.eval_shoupai = function(shoupai, paishu) {
             
             r += ev * paishu[p];
         }
-        return r;
+        rv = r;
     }
     else {
     
@@ -786,8 +789,11 @@ Majiang.Player.prototype.eval_shoupai = function(shoupai, paishu) {
             r += paishu[p.substr(0,2)] * (p[2] == '+' ? 4 :
                                           p[2] == '-' ? 2 : 1);
         }
-        return r;
+        rv = r;
     }
+
+    this._eval_cache[paistr] = rv;
+    return rv;
 }
 
 })();
