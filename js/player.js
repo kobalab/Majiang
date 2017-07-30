@@ -551,6 +551,7 @@ Majiang.Player.prototype.select_dapai = function() {
 
     var dapai, max = 0;
     for (var p of this.get_dapai()) {
+        if (! dapai) dapai = p;
         var new_shoupai = this._shoupai.clone();
         new_shoupai.dapai(p);
         if (this.xiangting(new_shoupai) > n_xiangting) continue;
