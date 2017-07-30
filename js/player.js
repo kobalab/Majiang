@@ -707,8 +707,6 @@ Majiang.Player.prototype.get_defen = function(shoupai) {
     var menqian = (shoupai._fulou.filter(
                         function(m){return m.match(/[\-\+\=]/)}).length == 0);
 
-    var new_shoupai = shoupai.clone();
-    
     var param = {
         zhuangfeng: this._zhuangfeng,
         menfeng:    this._menfeng,
@@ -725,7 +723,7 @@ Majiang.Player.prototype.get_defen = function(shoupai) {
         jicun:      { changbang: this._changbang, lizhibang: this._lizhibang }
     };
     
-    var hule = Majiang.Util.hule(new_shoupai, null, param);
+    var hule = Majiang.Util.hule(shoupai, null, param);
     
     return hule.defen;
 }
