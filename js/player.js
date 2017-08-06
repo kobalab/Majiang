@@ -560,7 +560,9 @@ Majiang.Player.prototype.select_dapai = function() {
     for (var p of this.get_dapai()) {
         var new_shoupai = this._shoupai.clone();
         new_shoupai.dapai(p);
-        if (Majiang.Util.xiangting(new_shoupai) > n_xiangting) continue;
+        if (Majiang.Util.xiangting(new_shoupai) > n_xiangting) {
+            if (n_xiangting > 1) continue;
+        }
 
         var x = 1 - this._suanpai.paijia(p)/100
               + this.eval_shoupai(new_shoupai, paishu);
@@ -776,7 +778,7 @@ Majiang.Player.prototype.eval_shoupai = function(shoupai, paishu) {
             
             r += ev * paishu[p];
         }
-        rv = r;
+        rv = r / [12, 12*6, 12*6*3][n_xiangting];
     }
     else {
     
