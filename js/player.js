@@ -553,7 +553,7 @@ Majiang.Player.prototype.select_dapai = function() {
         }
     }
 
-    var dapai, max = 0;
+    var dapai, max = 0, backtrack = [];
     var paishu = this._suanpai.suan_paishu_all();
     this._eval_cache = {};
  
@@ -561,7 +561,8 @@ Majiang.Player.prototype.select_dapai = function() {
         var new_shoupai = this._shoupai.clone();
         new_shoupai.dapai(p);
         if (Majiang.Util.xiangting(new_shoupai) > n_xiangting) {
-            if (n_xiangting > 1) continue;
+            if (n_xiangting < 2) backtrack.push(p);
+            continue;
         }
 
         var x = 1 - this._suanpai.paijia(p)/100
@@ -572,7 +573,22 @@ Majiang.Player.prototype.select_dapai = function() {
             dapai = p;
         }
     }
-    
+
+    var tmp_max = max;
+ 
+    for (var p of backtrack) {
+        var new_shoupai = this._shoupai.clone();
+        new_shoupai.dapai(p);
+
+        var x = 1 - this._suanpai.paijia(p)/100
+              + this.eval_backtrack(new_shoupai, paishu, tmp_max, p);
+
+        if (x >= max) {
+            max = x;
+            dapai = p;
+        }
+    }
+ 
     if (anquan) {
         if      (n_xiangting > 1)                             dapai = anquan;
         else if (n_xiangting == 1 && suan_weixian(dapai) > 5) dapai = anquan;
@@ -730,17 +746,19 @@ Majiang.Player.prototype.get_defen = function(shoupai) {
     return hule.defen;
 }
 
-Majiang.Player.prototype.eval_shoupai = function(shoupai, paishu) {
+var width = [12, 12*6, 12*6*3];
 
-    function add_hongpai(pai) {
-        var new_pai = [];
-        for (var p of pai) {
-            if (p[0] != 'z' && p[1] == '5') new_pai.push(p.replace(/5/,'0'));
-            new_pai.push(p);
-        }
-        return new_pai;
+function add_hongpai(pai) {
+    var new_pai = [];
+    for (var p of pai) {
+        if (p[0] != 'z' && p[1] == '5') new_pai.push(p.replace(/5/,'0'));
+        new_pai.push(p);
     }
-    
+    return new_pai;
+}
+
+Majiang.Player.prototype.eval_shoupai = function(shoupai, paishu, dapai) {
+
     var paistr = shoupai.toString();
     if (this._eval_cache[paistr]) return this._eval_cache[paistr];
  
@@ -758,7 +776,7 @@ Majiang.Player.prototype.eval_shoupai = function(shoupai, paishu) {
             new_shoupai.dapai(p);
             if (Majiang.Util.xiangting(new_shoupai) > n_xiangting) continue;
             
-            var r = this.eval_shoupai(new_shoupai, paishu);
+            var r = this.eval_shoupai(new_shoupai, paishu, dapai);
             if (r > max) max = r;
         }
         rv = max;
@@ -767,18 +785,19 @@ Majiang.Player.prototype.eval_shoupai = function(shoupai, paishu) {
     
         var r = 0;
         for (var p of add_hongpai(Majiang.Util.tingpai(shoupai))) {
+            if (p == dapai)     return 0;
             if (paishu[p] == 0) continue;
             
             var new_shoupai = shoupai.clone();
             new_shoupai.zimo(p);
 
             paishu[p]--;
-            var ev = this.eval_shoupai(new_shoupai, paishu);
+            var ev = this.eval_shoupai(new_shoupai, paishu, dapai);
             paishu[p]++;
             
             r += ev * paishu[p];
         }
-        rv = r / [12, 12*6, 12*6*3][n_xiangting];
+        rv = r / width[n_xiangting];
     }
     else {
     
@@ -794,6 +813,29 @@ Majiang.Player.prototype.eval_shoupai = function(shoupai, paishu) {
 
     this._eval_cache[paistr] = rv;
     return rv;
+}
+
+Majiang.Player.prototype.eval_backtrack = function(shoupai, paishu, min, dapai) {
+
+    var n_xiangting = Majiang.Util.xiangting(shoupai);
+    
+    var r = 0;
+    for (var p of add_hongpai(Majiang.Util.tingpai(shoupai))) {
+        if (p == dapai)     continue;
+        if (paishu[p] == 0) continue;
+            
+        var new_shoupai = shoupai.clone();
+        new_shoupai.zimo(p);
+
+        paishu[p]--;
+        var ev = this.eval_shoupai(new_shoupai, paishu, dapai);
+        paishu[p]++;
+        
+        if (ev < min * 2) continue;
+            
+        r += ev * paishu[p];
+    }
+    return r / width[n_xiangting];
 }
 
 })();
