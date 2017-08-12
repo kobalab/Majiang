@@ -553,7 +553,7 @@ Majiang.Player.prototype.select_dapai = function() {
         }
     }
 
-    var dapai, max = 0, backtrack = [];
+    var dapai, max = 0, max_tingpai = 0, backtrack = [];
     var paishu = this._suanpai.suan_paishu_all();
     this._eval_cache = {};
  
@@ -568,9 +568,15 @@ Majiang.Player.prototype.select_dapai = function() {
         var x = 1 - this._suanpai.paijia(p)/100
               + this.eval_shoupai(new_shoupai, paishu);
         
+        var n_tingpai = 0;
+        for (var tp of Majiang.Util.tingpai(new_shoupai)) {
+            n_tingpai += paishu[tp];
+        }
+ 
         if (x >= max) {
             max = x;
             dapai = p;
+            max_tingpai = n_tingpai;
         }
     }
 
@@ -579,6 +585,12 @@ Majiang.Player.prototype.select_dapai = function() {
     for (var p of backtrack) {
         var new_shoupai = this._shoupai.clone();
         new_shoupai.dapai(p);
+
+        var n_tingpai = 0;
+        for (var tp of Majiang.Util.tingpai(new_shoupai)) {
+            n_tingpai += paishu[tp];
+        }
+        if (n_tingpai < max_tingpai * 6) continue;
 
         var x = 1 - this._suanpai.paijia(p)/100
               + this.eval_backtrack(new_shoupai, paishu, tmp_max, p);
