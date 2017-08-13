@@ -84,7 +84,12 @@ Majiang.Game.Paipu.prototype.next = function() {
     var data = this._paipu.log[this._log_idx][this._idx];
     this._idx++;
     
-    if (this._lizhi && ! data.hule) {
+    if (this._lizhi && ! data.hule
+        && !(data.pingju
+             && data.pingju.shoupai.filter(function(x){return x}).length == 3
+             && data.pingju.fenpei.filter(
+                                function(x){return x == 0}).length == 4))
+    {
         this._chang.defen[this.player_id(this._lunban)] -= 1000;
         this._chang.lizhibang++;
         this._lizhi = false;
@@ -416,8 +421,24 @@ Majiang.Game.Paipu.prototype.pingju = function(data) {
 
     var self = this;
 
-    this._view.shoupai[this._lunban].redraw();
-    this._view.he[this._lunban].redraw();
+    if (! this._delay) {
+        if (data.shoupai.filter(function(x){return x}).length == 3
+            && data.fenpei.filter(function(x){return x == 0}).length == 4)
+        {
+            for (var l = 0; l < 4; l++) {
+                if (data.shoupai[l]) this.say('rong', l);
+            }
+        }
+        else {
+            this._view.shoupai[this._lunban].redraw();
+            this._view.he[this._lunban].redraw();
+        }
+        this._delay = true;
+        this._timeout_id = clearTimeout(this._timeout_id);
+        setTimeout(function(){ self.pingju(data) }, 500);
+        return;
+    }
+    this._delay = false;
 
     for (var l = 0; l < 4; l++) {
         if (! data.shoupai[l] && this.player_id(l) != this._viewpoint) {
@@ -486,7 +507,12 @@ Majiang.Game.Paipu.prototype.seek = function(log_idx, idx) {
 
         var data = this._paipu.log[this._log_idx][this._idx];
         
-        if (this._lizhi && ! data.hule) {
+        if (this._lizhi && ! data.hule
+            && !(data.pingju
+                && data.pingju.shoupai.filter(function(x){return x}).length == 3
+                && data.pingju.fenpei.filter(
+                                    function(x){return x == 0}).length == 4))
+        {
             this._chang.defen[this.player_id(this._lunban)] -= 1000;
             this._chang.lizhibang++;
             this._lizhi = false;
