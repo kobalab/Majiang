@@ -805,6 +805,8 @@ Majiang.Player.prototype.eval_shoupai = function(shoupai, paishu, dapai) {
 
             paishu[p]--;
             var ev = this.eval_shoupai(new_shoupai, paishu, dapai);
+            if (! dapai && n_xiangting > 0)
+                ev += this.eval_fulou(shoupai, p, paishu);
             paishu[p]++;
             
             r += ev * paishu[p];
@@ -848,6 +850,36 @@ Majiang.Player.prototype.eval_backtrack = function(shoupai, paishu, min, dapai) 
         r += ev * paishu[p];
     }
     return r / width[n_xiangting];
+}
+
+Majiang.Player.prototype.eval_fulou = function(shoupai, p, paishu) {
+
+    var self = this;
+ 
+    var n_xiangting = Majiang.Util.xiangting(shoupai);
+    if (n_xiangting <= 0) return;
+
+    var r = 0, peng_max = 0;
+    for (var m of get_peng_mianzi(shoupai, p+'+')) {
+        var new_shoupai = shoupai.clone();
+        new_shoupai.fulou(m);
+        if (Majiang.Util.xiangting(new_shoupai) >= n_xiangting) continue;
+        
+        var ev = this.eval_shoupai(new_shoupai, paishu);
+        if (ev > peng_max) peng_max = ev;
+    }
+    
+    var chi_max = 0;
+    for (var m of get_chi_mianzi(shoupai, p+'-')) {
+        var new_shoupai = shoupai.clone();
+        new_shoupai.fulou(m);
+        if (Majiang.Util.xiangting(new_shoupai) >= n_xiangting) continue;
+        
+        var ev = this.eval_shoupai(new_shoupai, paishu);
+        if (ev > chi_max) chi_max = ev;
+    }
+
+    return (peng_max > chi_max) ? peng_max * 3 : peng_max * 2 + chi_max;
 }
 
 })();
