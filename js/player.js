@@ -778,6 +778,8 @@ function add_hongpai(pai) {
 
 Majiang.Player.prototype.eval_shoupai = function(shoupai, paishu, dapai) {
 
+    var self = this;
+
     var paistr = shoupai.toString();
     if (this._eval_cache[paistr]) return this._eval_cache[paistr];
  
@@ -812,8 +814,13 @@ Majiang.Player.prototype.eval_shoupai = function(shoupai, paishu, dapai) {
 
             paishu[p]--;
             var ev = this.eval_shoupai(new_shoupai, paishu, dapai);
-            if (! dapai && n_xiangting > 0)
-                ev += this.eval_fulou(shoupai, p, paishu);
+            if (! dapai) {
+                if (n_xiangting > 1)
+                    ev += this.eval_fulou(shoupai, p, paishu,
+                                    function(s){return self.xiangting(s)});
+                else if (n_xiangting > 0)
+                    ev += this.eval_fulou(shoupai, p, paishu);
+            }
             paishu[p]++;
             
             r += ev * paishu[p];
@@ -859,16 +866,18 @@ Majiang.Player.prototype.eval_backtrack = function(shoupai, paishu, min, dapai) 
     return r / width[n_xiangting];
 }
 
-Majiang.Player.prototype.eval_fulou = function(shoupai, p, paishu) {
+Majiang.Player.prototype.eval_fulou = function(shoupai, p, paishu, xiangting) {
  
-    var n_xiangting = Majiang.Util.xiangting(shoupai);
+    xiangting = xiangting || Majiang.Util.xiangting;
+
+    var n_xiangting = xiangting(shoupai);
     if (n_xiangting <= 0) return;
 
     var r = 0, peng_max = 0;
     for (var m of get_peng_mianzi(shoupai, p+'+')) {
         var new_shoupai = shoupai.clone();
         new_shoupai.fulou(m);
-        if (Majiang.Util.xiangting(new_shoupai) >= n_xiangting) continue;
+        if (xiangting(new_shoupai) >= n_xiangting) continue;
         
         var ev = this.eval_shoupai(new_shoupai, paishu);
         if (ev > peng_max) peng_max = ev;
@@ -878,7 +887,7 @@ Majiang.Player.prototype.eval_fulou = function(shoupai, p, paishu) {
     for (var m of get_chi_mianzi(shoupai, p+'-')) {
         var new_shoupai = shoupai.clone();
         new_shoupai.fulou(m);
-        if (Majiang.Util.xiangting(new_shoupai) >= n_xiangting) continue;
+        if (xiangting(new_shoupai) >= n_xiangting) continue;
         
         var ev = this.eval_shoupai(new_shoupai, paishu);
         if (ev > chi_max) chi_max = ev;
