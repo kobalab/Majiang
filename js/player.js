@@ -55,6 +55,8 @@ Majiang.Player.prototype.qipai = function(data) {
 
     this._suanpai = new Majiang.SuanPai(this._chang.hongpai)
     this._suanpai.qipai(data, this._menfeng);
+
+    this._defen_cache = {};
 }
 
 Majiang.Player.prototype.zimo = function(data, callback, option) {
@@ -734,6 +736,9 @@ Majiang.Player.prototype.tingpai = function(shoupai) {
 
 Majiang.Player.prototype.get_defen = function(shoupai) {
 
+    var paistr = shoupai.toString();
+    if (this._defen_cache[paistr]) return this._defen_cache[paistr];
+
     var menqian = (shoupai._fulou.filter(
                         function(m){return m.match(/[\-\+\=]/)}).length == 0);
 
@@ -755,6 +760,8 @@ Majiang.Player.prototype.get_defen = function(shoupai) {
     
     var hule = Majiang.Util.hule(shoupai, null, param);
     
+    this._defen_cache[paistr] = hule.defen;
+
     return hule.defen;
 }
 
