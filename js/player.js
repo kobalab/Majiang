@@ -860,8 +860,6 @@ Majiang.Player.prototype.eval_backtrack = function(shoupai, paishu, min, dapai) 
 }
 
 Majiang.Player.prototype.eval_fulou = function(shoupai, p, paishu) {
-
-    var self = this;
  
     var n_xiangting = Majiang.Util.xiangting(shoupai);
     if (n_xiangting <= 0) return;
