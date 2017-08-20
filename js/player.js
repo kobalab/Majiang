@@ -69,6 +69,7 @@ Majiang.Player.prototype.zimo = function(data, callback, option) {
  
     this._shoupai.zimo(data.p);
  
+    this._eval_cache = {};
     this.action_zimo(data, callback, option);
 
     this._diyizimo = false;
@@ -104,6 +105,7 @@ Majiang.Player.prototype.dapai = function(data, callback) {
         callback();
     }
     else {
+        this._eval_cache = {};
         this.action_dapai(data, callback);
     } 
  
@@ -567,7 +569,6 @@ Majiang.Player.prototype.select_dapai = function() {
 
     var dapai, max = 0, max_tingpai = 0, backtrack = [];
     var paishu = this._suanpai.suan_paishu_all();
-    this._eval_cache = {};
  
     for (var p of this.get_dapai()) {
         var new_shoupai = this._shoupai.clone();
