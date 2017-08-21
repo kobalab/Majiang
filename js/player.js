@@ -527,21 +527,37 @@ Majiang.Player.prototype.select_fulou = function(data) {
 
 Majiang.Player.prototype.select_gang = function() {
 
-    function check_xiangting(shoupai, m, n_xiangting) {
-        var new_shoupai = shoupai.clone();
-        new_shoupai.gang(m);
-        if (self.xiangting(new_shoupai) <= n_xiangting) return m;
-    }
- 
-    var self = this;
-
-    var n_xiangting = this.xiangting(this._shoupai);
+    var n_xiangting = Majiang.Util.xiangting(this._shoupai);
 
     if (this._lizhi.filter(function(x){return x}).length > 0
         && n_xiangting > 0) return;
  
-    for (var m of this.get_gang_mianzi()) {
-        return check_xiangting(this._shoupai, m, n_xiangting);
+    if (n_xiangting < 3) {
+
+        var paishu = this._suanpai.suan_paishu_all();
+        var ev = this.eval_shoupai(this._shoupai, paishu);
+
+        for (var m of this.get_gang_mianzi()) {
+ 
+            var new_shoupai = this._shoupai.clone();
+            new_shoupai.gang(m);
+            if (Majiang.Util.xiangting(new_shoupai) >= 3) continue;
+ 
+            if (this.eval_shoupai(new_shoupai, paishu) > ev) return m;
+        }
+    }
+    else {
+
+        n_xiangting = this.xiangting(this._shoupai);
+
+        for (var m of this.get_gang_mianzi()) {
+
+            var new_shoupai = this._shoupai.clone();
+            new_shoupai.gang(m);
+
+            n_xiangting = this.xiangting(this._shoupai);
+            if (this.xiangting(new_shoupai) <= n_xiangting) return m;
+        }
     }
 }
 
