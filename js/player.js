@@ -586,6 +586,36 @@ Majiang.Player.prototype.select_dapai = function() {
         return weixian;
     }
     
+    var n_suit, n_sifeng, n_sanyuan;
+    
+    function paijia(p) {
+        if (! n_suit) {
+            n_suit = { m: 0, p: 0, s: 0, z: 0 };
+            for (var s of ['m','p','s','z']) {
+                var bingpai = self._shoupai._bingpai[s];
+                for (var n = 1; n < bingpai.length; n++) {
+                    n_suit[s] += bingpai[n];
+                }
+            }
+            var bingpai = self._shoupai._bingpai.z;
+            n_sifeng  = bingpai[1] + bingpai[2] + bingpai[3] + bingpai[4];
+            n_sanyuan = bingpai[5] + bingpai[6] + bingpai[7];
+            for (var m of self._shoupai._fulou) {
+                n_suit[m[0]] += 3;
+                if (m.match(/^z[1234]/)) n_sifeng  += 3;
+                if (m.match(/^z[567]/))  n_sanyuan += 3;
+            }
+        }
+        return self._suanpai.paijia(p)
+                * ( p.match(/^z[1234]/) && n_sifeng  >= 9   ? 8
+                  : p.match(/^[567]/)   && n_sanyuan >= 6   ? 8
+                  : (p[0] == 'z'
+                     && Math.max(n_suit.m, n_suit.p, n_suit.s)
+                                  + n_suit.z >= 10)         ? 4
+                  : (n_suit[p[0]] + n_suit.z >= 10)         ? 2
+                  :                                           1 );
+    }
+    
     var self = this;
 
     if (this._lizhi[this._menfeng]) {
@@ -617,7 +647,7 @@ Majiang.Player.prototype.select_dapai = function() {
             continue;
         }
 
-        var x = 1 - this._suanpai.paijia(p)/100
+        var x = 1 - paijia(p)/100
               + this.eval_shoupai(new_shoupai, paishu);
         
         var n_tingpai = 0;
@@ -644,7 +674,7 @@ Majiang.Player.prototype.select_dapai = function() {
         }
         if (n_tingpai < max_tingpai * 6) continue;
 
-        var x = 1 - this._suanpai.paijia(p)/100
+        var x = 1 - paijia(p)/100
               + this.eval_backtrack(new_shoupai, paishu, tmp_max, p);
 
         if (x >= max) {
