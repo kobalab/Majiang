@@ -57,7 +57,7 @@
             });
          
             $(window).bind('keypress', function(event){
-                if (event.keyCode == 32) {
+                if (event.key == ' ' || event.keyCode == 32) {
                     game._stop = ! game._stop;
                     if (! game._timeout_id)
                         game._timeout_id = setTimeout(function(){game.next()}, 0);
