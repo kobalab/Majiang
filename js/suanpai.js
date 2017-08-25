@@ -17,6 +17,9 @@ Majiang.SuanPai = function(hongpai) {
         this._paishu.p[0] = hongpai.p;
         this._paishu.s[0] = hongpai.s;
     }
+    this._zhuangfeng = 0;
+    this._menfeng    = 0;
+    this._baopai     = [];
  
     this._dapai = [];
     for (var l = 0; l < 4; l++) {
