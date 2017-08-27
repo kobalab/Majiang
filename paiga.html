@@ -63,7 +63,7 @@ $(function(){
   
     function markup(match, mark) {
   
-        if (! mark.length) return '';
+        if (match[0] == '\\') return match.substr(1);
 
         var html = '<span style="white-space:pre;">', url, v = 0;
 
@@ -118,7 +118,7 @@ $(function(){
     }
 
     function parse(text) {
-        var html = text.replace(/{(.*?)}/g, markup);
+        var html = text.replace(/\\.|{(.+?)}/g, markup);
         return html;
     }
   

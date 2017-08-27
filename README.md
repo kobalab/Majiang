@@ -5,9 +5,9 @@ HTML5 + JavaScript で動作する麻雀アプリ「電脳麻将」
 http://kobalab.net/majiang/
 
 ## ライセンス
-Copyright&copy; 2015−2017 Satoshi Kobayashi<br>
+Copyright&copy; 2017 Satoshi Kobayashi<br>
 Released under the MIT license<br>
-http://kobalab.net/majiang/LICENSE
+https://github.com/kobalab/Majiang/blob/master/LICENSE
 
 ## 作者
 Satoshi Kobayashi

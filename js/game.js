@@ -98,6 +98,7 @@ Majiang.Game.prototype.call_players = function(type, data, timeout) {
     else    timeout = this._speed * 200;
  
     this._reply = [];
+    this._timeout_id = setTimeout(function(){self.next()}, timeout);
     for (var l = 0; l < 4; l++) {
         (function(){
             var id = self.player_id(l);
@@ -106,10 +107,9 @@ Majiang.Game.prototype.call_players = function(type, data, timeout) {
                 self._player[id].action(type, data[lb], function(type, reply){
                     self.reply(id, type || '', reply)
                 });
-            }, 0);
+            }, self._speed ? 20 : 0);
         })();
     }
-    this._timeout_id = setTimeout(function(){self.next()}, timeout);
 }
 
 Majiang.Game.prototype.reply = function(id, type, data) {
