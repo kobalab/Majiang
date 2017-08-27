@@ -608,7 +608,7 @@ Majiang.Player.prototype.select_dapai = function() {
         }
         return self._suanpai.paijia(p)
                 * ( p.match(/^z[1234]/) && n_sifeng  >= 9   ? 8
-                  : p.match(/^[567]/)   && n_sanyuan >= 6   ? 8
+                  : p.match(/^z[567]/)  && n_sanyuan >= 6   ? 8
                   : (p[0] == 'z'
                      && Math.max(n_suit.m, n_suit.p, n_suit.s)
                                   + n_suit.z >= 10)         ? 4
