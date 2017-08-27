@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/kobalab/Majiang/issues"
   },
-  "homepage": "https://github.com/kobalab/Majiang#readme"
+  "homepage": "https://github.com/kobalab/Majiang#readme",
+  "devDependencies": {
+    "webpack": "^3.5.5"
+  }
 }
