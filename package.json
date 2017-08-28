@@ -4,6 +4,7 @@
   "description": "HTML5 + JavaScript で動作する麻雀アプリ「電脳麻将」",
   "main": "index.js",
   "scripts": {
+    "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
