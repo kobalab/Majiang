@@ -6,8 +6,8 @@
  *  https://github.com/kobalab/Majiang/blob/master/LICENSE
  */
 
-Majiang = {
+"use strict";
+
+module.exports = {
     VERSION: require('../../package.json').version,
 };
-
-module.exports = Majiang;
