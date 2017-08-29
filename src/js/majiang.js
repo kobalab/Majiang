@@ -1,4 +1,5 @@
-/*
+/*!
+ *
  *  Majiang
  *
  *  Copyright(C) 2017 Satoshi Kobayashi
