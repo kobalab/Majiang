@@ -29,5 +29,7 @@
     "mocha": "^3.5.0",
     "webpack": "^3.5.5"
   },
-  "dependencies": {}
+  "dependencies": {
+    "babel-polyfill": "^6.26.0"
+  }
 }

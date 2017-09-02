@@ -1,5 +1,5 @@
 module.exports = {
-    entry:  './src/js/entry.js',
+    entry:  [ 'babel-polyfill', './src/js/entry.js' ],
     output: {
         path:     __dirname + '/www/js/',
         filename: 'majiang.js'
