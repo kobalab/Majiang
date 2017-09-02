@@ -7,7 +7,9 @@
   "scripts": {
     "build": "webpack --devtool inline-source-map",
     "release": "webpack -p",
-    "test": "mocha -u tdd"
+    "test": "mocha -u tdd",
+    "update": "npm run test -- -R min && npm run release",
+    "install": "npm run update"
   },
   "repository": {
     "type": "git",
