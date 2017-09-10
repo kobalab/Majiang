@@ -8,6 +8,7 @@
     "build": "webpack --devtool inline-source-map",
     "release": "webpack -p",
     "test": "mocha -u tdd",
+    "test:cover": "istanbul cover _mocha -- -u tdd --no-timeouts",
     "update": "npm run test -- -R min && npm run release",
     "install": "npm run update"
   },
@@ -26,6 +27,7 @@
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.0",
+    "istanbul": "^0.4.5",
     "mocha": "^3.5.0",
     "webpack": "^3.5.5"
   },
