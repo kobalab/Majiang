@@ -369,19 +369,19 @@ suite('Majiang.Shoupai', function(){
                                 'm123p456s789z1223*');
     });
     test('不正な牌は打牌できないこと', function(){
-      assert.throws(()=>Shoupai('m123p456s789z4567').dapai());
-      assert.throws(()=>Shoupai('m123p456s789z4567').dapai('z0'));
-      assert.throws(()=>Shoupai('m123p456s789z4567').dapai('z8'));
-      assert.throws(()=>Shoupai('m123p456s789z4567').dapai('mm'));
-      assert.throws(()=>Shoupai('m123p456s789z4567').dapai('xx'));
+      assert.throws(()=>Shoupai('m123p456s789z34567').dapai());
+      assert.throws(()=>Shoupai('m123p456s789z34567').dapai('z0'));
+      assert.throws(()=>Shoupai('m123p456s789z34567').dapai('z8'));
+      assert.throws(()=>Shoupai('m123p456s789z34567').dapai('mm'));
+      assert.throws(()=>Shoupai('m123p456s789z34567').dapai('xx'));
     });
     test('打牌の直後には打牌できないこと', function(){
       assert.throws(()=>Shoupai('m123p456s789z4567').dapai('m1'));
     });
     test('手牌にない牌は打牌できないこと', function(){
-      assert.throws(()=>Shoupai('m123p456s789z4567').dapai('z1'));
-      assert.throws(()=>Shoupai('m123p456s789z4567').dapai('p0'));
-      assert.throws(()=>Shoupai('m123p406s789z4567').dapai('p5'));
+      assert.throws(()=>Shoupai('m123p456s789z34567').dapai('z1'));
+      assert.throws(()=>Shoupai('m123p456s789z34567').dapai('p0'));
+      assert.throws(()=>Shoupai('m123p406s789z34567').dapai('p5'));
     });
   });
 
@@ -421,9 +421,9 @@ suite('Majiang.Shoupai', function(){
       assert.throws(()=>Shoupai('m123p456s789z22,z111=,').fulou('z222='));
     });
     test('手牌にない牌を使って副露できないこと', function(){
-      assert.throws(()=>Shoupai('m123p456s789z2,z111=,').fulou('z333='));
-      assert.throws(()=>Shoupai('m123p40s789z22,z111=,').fulou('p456='));
-      assert.throws(()=>Shoupai('m123p45s789z22,z111=,').fulou('p406='));
+      assert.throws(()=>Shoupai('m123p456s789z2,z111=').fulou('z333='));
+      assert.throws(()=>Shoupai('m123p40s789z22,z111=').fulou('p456-'));
+      assert.throws(()=>Shoupai('m123p45s789z22,z111=').fulou('p406-'));
     });
   });
 
@@ -637,6 +637,7 @@ suite('Majiang.Shoupai', function(){
     });
     test('不正な牌でチーできないこと', function(){
       assert.throws(()=>Shoupai('m123p456s789z1234').get_chi_mianzi('mm-'));
+      assert.throws(()=>Shoupai('m123p456s789z1234').get_chi_mianzi('m1'));
     });
     test('字牌でチーできないこと', function(){
       assert.deepEqual(Shoupai('m123p456s789z1234').get_chi_mianzi('z1-'), []);
@@ -649,8 +650,9 @@ suite('Majiang.Shoupai', function(){
 
   suite('.get_peng_mianzi(p)', function(){
     test('ツモ直後と副露の直後にポンできないこと', function(){
-      assert.throws(()=>Shoupai('m112p456s789z12345').get_chi_mianzi('m1+'));
-      assert.throws(()=>Shoupai('m112p456s789z12,z333=,').get_chi_mianzi('m1='));
+      assert.throws(()=>Shoupai('m112p456s789z12345').get_peng_mianzi('m1+'));
+      assert.throws(()=>Shoupai('m112p456s789z12,z333=,')
+                                                     .get_peng_mianzi('m1='));
     });
     test('ポンできるメンツがない場合', function(){
       assert.deepEqual(Shoupai('m123p456s789z1234').get_peng_mianzi('m1+'), []);
@@ -689,13 +691,15 @@ suite('Majiang.Shoupai', function(){
     });
     test('不正な牌でポンできないこと', function(){
       assert.throws(()=>Shoupai('m123p456s789z1234').get_peng_mianzi('mm+'));
+      assert.throws(()=>Shoupai('m112p456s789z1234').get_peng_mianzi('m1'));
     });
   });
 
   suite('.get_gang_mianzi(p)', function(){
     test('ツモ直後と副露の直後に大明槓できないこと', function(){
       assert.throws(()=>Shoupai('m111p456s789z12345').get_gang_mianzi('m1+'));
-      assert.throws(()=>Shoupai('m111p456s789z12,z333=,').get_gang_mianzi('m1+'));
+      assert.throws(()=>Shoupai('m111p456s789z12,z333=,')
+                                                     .get_gang_mianzi('m1+'));
     });
     test('大明槓できるメンツがない場合', function(){
       assert.deepEqual(Shoupai('m123p456s789z1122').get_gang_mianzi('z1+'), []);
@@ -730,6 +734,7 @@ suite('Majiang.Shoupai', function(){
     });
     test('不正な牌で大明槓できないこと', function(){
       assert.throws(()=>Shoupai('m111p555s999z1234').get_gang_mianzi('mm+'));
+      assert.throws(()=>Shoupai('m111p555s999z1234').get_gang_mianzi('m1'));
     });
 
     test('打牌と副露の直後には暗槓できないこと', function(){
