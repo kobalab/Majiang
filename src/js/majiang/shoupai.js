@@ -154,6 +154,7 @@ dapai(p) {
     let [s, n] = p;
     let bingpai = this._bingpai[s];
     if (bingpai[n] == 0)                        throw new Error([this,p]);
+    if (n == 5 && bingpai[0] == bingpai[5])     throw new Error([this,p]);
     bingpai[n]--;
     if (n == 0) bingpai[5]--;
     this._zimo = null;
@@ -168,6 +169,7 @@ fulou(m) {
     let bingpai = this._bingpai[s];
     for (let n of m.match(/\d(?![\+\=\-])/g)) {
         if (bingpai[n] == 0)                    throw new Error([this,m]);
+        if (n == 5 && bingpai[0] == bingpai[5]) throw new Error([this,p]);
         bingpai[n]--;
         if (n == 0) bingpai[5]--;
     }
