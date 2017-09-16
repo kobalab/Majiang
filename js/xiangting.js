@@ -6,30 +6,39 @@ Majiang.Util = {};
  *  Majiang.Util.xiangting
  */
 
+function _xiangting(m, d, g, j) {
+
+    var n = j ? 4 : 5;
+    if (m         > 4) { d += m     - 4; m = 4         }
+    if (m + d     > 4) { g += m + d - 4; d = 4 - m     }
+    if (m + d + g > n) {                 g = n - m - d }
+    if (j) d++;
+    return 13 - m * 3 - d * 2 - g;
+}
+
 function dazi(bingpai) {
 
-    var n_pai  = 0;
-    var n_dazi = 0;
-    
+    var n_pai  = 0, n_dazi = 0, n_guli = 0;
+
     for (var n = 1; n <= 9; n++) {
         n_pai += bingpai[n];
         if (n <= 7 && bingpai[n+1] == 0 && bingpai[n+2] == 0) {
-            n_dazi += Math.floor(n_pai / 2);
+            n_dazi += n_pai >> 1;
+            n_guli += n_pai  % 2;
             n_pai = 0;
         }
     }
-    n_dazi += Math.floor(n_pai / 2);
-    
-    return n_dazi;
+    n_dazi += n_pai >> 1;
+    n_guli += n_pai  % 2;
+
+    return [ [ 0, n_dazi, n_guli ],
+             [ 0, n_dazi, n_guli ] ];
 }
 
 function mianzi(bingpai, n) {
 
-    if (n > 9) {
-        var n_dazi = dazi(bingpai);
-        return [[0, n_dazi], [0, n_dazi]];
-    }
-    
+    if (n > 9) return dazi(bingpai);
+
     var max = mianzi(bingpai, n+1);
     
     if (n <= 7 && bingpai[n] > 0 && bingpai[n+1] > 0 && bingpai[n+2] > 0) {
@@ -53,61 +62,49 @@ function mianzi(bingpai, n) {
     return max;
 }
 
-function mianzi_all(shoupai) {
+function mianzi_all(shoupai, jiangpai) {
 
     var r = {};
     
     r.m = mianzi(shoupai._bingpai.m ,1);
     r.p = mianzi(shoupai._bingpai.p ,1);
     r.s = mianzi(shoupai._bingpai.s ,1);
-    
-    var z = [0, 0];
+
+    var z = [0, 0, 0];
     for (var n = 1; n <=7; n++) {
         if (shoupai._bingpai.z[n] >= 3) z[0]++;
         if (shoupai._bingpai.z[n] == 2) z[1]++;
+        if (shoupai._bingpai.z[n] == 1) z[2]++;
     }
 
     var n_fulou = shoupai._fulou.length;
 
-    var min_xiangting = 8;
-    
+    var min_xiangting = 13;
+
     for (var m of r.m) {
         for (var p of r.p) {
             for (var s of r.s) {
                 var n_mianzi = m[0] + p[0] + s[0] + z[0] + n_fulou;
                 var n_dazi   = m[1] + p[1] + s[1] + z[1];
-                if (n_mianzi > 4) n_mianzi = 4;
-                if (n_mianzi + n_dazi > 4) n_dazi = 4 - n_mianzi;
-                var xiangting = 8 - n_mianzi * 2 - n_dazi;
+                var n_guli   = m[2] + p[2] + s[2] + z[2];
+                var xiangting = _xiangting(n_mianzi, n_dazi, n_guli, jiangpai);
                 if (xiangting < min_xiangting) min_xiangting = xiangting;
             }
         }
     }
-    
+
     return min_xiangting;
 }
 
-function paishu(shoupai) {
- 
-    var n_pai = shoupai._fulou.length * 3;
-    for (var s in shoupai._bingpai) {
-        var bingpai = shoupai._bingpai[s];
-        for (var n = 1; n < bingpai.length; n++) {
-            n_pai += bingpai[n];
-        }
-    }
-    return n_pai;
-}
-
 function xiangting_yiban(shoupai) {
-    
-    var min_xiangting = mianzi_all(shoupai) + (paishu(shoupai) < 13 ? 1 : 0);
-    
+
+    var min_xiangting = mianzi_all(shoupai);
+
     for (var s of ['m','p','s','z']) {
         for (var n = 1; n <= shoupai._bingpai[s].length; n++) {
             if (shoupai._bingpai[s][n] >= 2) {
                 shoupai._bingpai[s][n] -= 2;
-                var xiangting = mianzi_all(shoupai) - 1;
+                var xiangting = mianzi_all(shoupai, true);
                 shoupai._bingpai[s][n] += 2;
                 if (xiangting < min_xiangting) min_xiangting = xiangting;
             }
@@ -146,10 +143,11 @@ function xiangting_qiduizi(shoupai) {
             else if (bingpai[n] == 1) n_danqi++;
         }
     }
-    
-    return (n_duizi + n_danqi < 7)
-                ? 6 - n_duizi + (7 - n_duizi - n_danqi)
-                : 6 - n_duizi;
+
+    if (n_duizi           > 7) n_duizi = 7;
+    if (n_duizi + n_danqi > 7) n_danqi = 7 - n_duizi;
+
+    return 13 - n_duizi * 2 - n_danqi;
 }
 
 Majiang.Util.xiangting = function(shoupai) {
