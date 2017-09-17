@@ -308,7 +308,8 @@ suite('Majiang.Util', function(){
     });
     test('打牌可能な手牌に4枚ある牌は待ち牌としないこと', function(){
       assert.deepEqual(Majiang.Util.tingpai(
-                          Majiang.Shoupai.fromString('m123p456s789z1111')), []);
+                          Majiang.Shoupai.fromString('m1234444p456s789')
+                      ), ['m1']);
     });
     test('暗刻の牌は待ち牌とできること', function(){
       assert.deepEqual(Majiang.Util.tingpai(
