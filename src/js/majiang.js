@@ -12,5 +12,6 @@
 module.exports = {
     VERSION: require('../../package.json').version,
     Shoupai: require('./majiang/shoupai'),
+    Shan:    require('./majiang/shan'),
     Util:    require('./majiang/util'),
 };
