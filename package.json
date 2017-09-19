@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "build": "webpack --devtool inline-source-map",
+    "build:css": "stylus src/css/index.styl -o www/css/majiang.css",
     "release": "webpack -p",
     "test": "mocha -u tdd",
     "test:cover": "istanbul cover node_modules/mocha/bin/_mocha -- -u tdd --no-timeouts",
@@ -29,6 +30,7 @@
     "babel-preset-env": "^1.6.0",
     "istanbul": "^0.4.5",
     "mocha": "^3.5.0",
+    "stylus": "^0.54.5",
     "webpack": "^3.5.5"
   },
   "dependencies": {

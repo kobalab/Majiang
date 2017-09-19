@@ -1,4 +1,5 @@
 node_modules/
 www/js/
+www/css/
 coverage/
 package-lock.json
