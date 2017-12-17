@@ -550,10 +550,6 @@ Majiang.Game.prototype.gang = function(gang) {
 
     var self = this;
  
-    this._diyizimo = false;
-    this._yifa     = [false, false, false, false];
-    this._dapai    = null;
-
     this._model.shoupai[this._lunban].gang(gang);
     this._view.shoupai[this._lunban].redraw();
 
@@ -574,6 +570,10 @@ Majiang.Game.prototype.gangzimo = function() {
 
     var self = this;
  
+    this._diyizimo = false;
+    this._yifa     = [false, false, false, false];
+    this._dapai    = null;
+
     if (this._kaigang) this.kaigang();
  
     var zimo = this._model.shan.gangzimo();
