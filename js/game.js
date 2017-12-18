@@ -392,6 +392,7 @@ Majiang.Game.prototype.qipai = function() {
     this._hule_option   = null;
     this._tmp_changbang = this._chang.changbang;
     this._lianzhuang    = false;
+    this._no_game       = true;
 
 
     var qipai = [ [], [], [], [] ];
@@ -619,6 +620,8 @@ Majiang.Game.prototype.kaigang = function() {
 Majiang.Game.prototype.hule = function() {
 
     var self = this;
+ 
+    this._no_game = false;
 
     if (this._status != 'hule') {
         this._hule_option = (this._status == 'gang')     ? 'qianggang'
@@ -722,6 +725,8 @@ Majiang.Game.prototype.pingju = function(name) {
 
     if (name == '荒牌平局') {
 
+        this._no_game = false;
+ 
         var n_tingpai = 0;
         for (var l = 0; l < 4; l++) {
             if (Majiang.Util.xiangting(this._model.shoupai[l]) == 0
@@ -829,7 +834,8 @@ Majiang.Game.prototype.jiesuan = function() {
         if (guanjun != -1) jieju = true;
     }
     else if (this._chang.zhuangfeng == 1 && this._chang.jushu == 3) {
-        if (guanjun == this.player_id(0) && this._lianzhuang) jieju = true;
+        if (guanjun == this.player_id(0) && this._lianzhuang && ! this._no_game)
+                jieju = true;
     }
  
     if (jieju) this.delay(function(){ self.jieju() });
