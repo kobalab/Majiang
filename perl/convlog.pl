@@ -41,7 +41,7 @@ sub player {
     my @name = map { url_decode($attr{$_}) } ('n0','n1','n2','n3');
     my @dan  = map { $dan_name[$_] } split(',', $attr{dan});
     my @rate = map { int($_) } split(',', $attr{rate});
-    my @player = map { "$name[$_] ($dan[$_] R$rate[$_])" } (0..3);
+    my @player = map { "$name[$_]\n($dan[$_] R$rate[$_])" } (0..3);
     return \@player;
 }
 
@@ -237,7 +237,7 @@ my $gang;
 my $baopai;
 my $lizhi;
 
-for (join('', <>) =~ /<.*?>/g) {
+for (join('', <STDIN>) =~ /<.*?>/g) {
     my ($elem, $attr) = /^<(\/?\w+)(.*?)\/?>$/;
     my %attr = $attr ? ($attr =~ /\s+(\w+)="(.*?)"/g) : ();
 
@@ -246,6 +246,7 @@ for (join('', <>) =~ /<.*?>/g) {
     }
     elsif ($elem eq 'GO') {
         $paipu->{title} = type($attr{type});
+        $paipu->{title} .= "\n@ARGV"    if (@ARGV);
         die "+++ Not Majiang log\n" if ($type{sanma});
     }
     elsif ($elem eq 'UN' && ! $paipu->{player}) {

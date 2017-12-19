@@ -392,6 +392,7 @@ Majiang.Game.prototype.qipai = function() {
     this._hule_option   = null;
     this._tmp_changbang = this._chang.changbang;
     this._lianzhuang    = false;
+    this._no_game       = true;
 
 
     var qipai = [ [], [], [], [] ];
@@ -550,10 +551,6 @@ Majiang.Game.prototype.gang = function(gang) {
 
     var self = this;
  
-    this._diyizimo = false;
-    this._yifa     = [false, false, false, false];
-    this._dapai    = null;
-
     this._model.shoupai[this._lunban].gang(gang);
     this._view.shoupai[this._lunban].redraw();
 
@@ -574,6 +571,10 @@ Majiang.Game.prototype.gangzimo = function() {
 
     var self = this;
  
+    this._diyizimo = false;
+    this._yifa     = [false, false, false, false];
+    this._dapai    = null;
+
     if (this._kaigang) this.kaigang();
  
     var zimo = this._model.shan.gangzimo();
@@ -619,6 +620,8 @@ Majiang.Game.prototype.kaigang = function() {
 Majiang.Game.prototype.hule = function() {
 
     var self = this;
+ 
+    this._no_game = false;
 
     if (this._status != 'hule') {
         this._hule_option = (this._status == 'gang')     ? 'qianggang'
@@ -722,6 +725,8 @@ Majiang.Game.prototype.pingju = function(name) {
 
     if (name == '荒牌平局') {
 
+        this._no_game = false;
+ 
         var n_tingpai = 0;
         for (var l = 0; l < 4; l++) {
             if (Majiang.Util.xiangting(this._model.shoupai[l]) == 0
@@ -730,6 +735,7 @@ Majiang.Game.prototype.pingju = function(name) {
                 n_tingpai++;
                 this._view.shoupai[l].open();
                 shoupai[l] = this._model.shoupai[l].toString();
+                if (l == 0) this._lianzhuang = true;
             }
         }
  
@@ -763,26 +769,26 @@ Majiang.Game.prototype.pingju = function(name) {
     else if (name == '九種九牌') {
         this._view.shoupai[this._lunban].open();
         shoupai[this._lunban] = this._model.shoupai[this._lunban].toString();
+        this._lianzhuang = true;
     }
     else if (name == '四家立直') {
         for (var l = 0; l < 4; l++) {
             this._view.shoupai[l].open();
             shoupai[l] = this._model.shoupai[l].toString();
         }
+        this._lianzhuang = true;
     }
     else if (name == '三家和') {
         for (var l of this._hule) {
             this._view.shoupai[l].open();
             shoupai[l] = this._model.shoupai[l].toString();
         }
+        this._lianzhuang = true;
     }
+    else this._lianzhuang = true;
  
     this._view.jiesuan.pingju({name: name, fenpei: fenpei});
  
-    if (this._model.shan.paishu() == 0) {
-        this._lianzhuang = shoupai[0] != '';
-    }
-    else this._lianzhuang = true;
     this._chang.changbang++;
 
     for (var l = 0; l < 4; l++) {
@@ -828,7 +834,8 @@ Majiang.Game.prototype.jiesuan = function() {
         if (guanjun != -1) jieju = true;
     }
     else if (this._chang.zhuangfeng == 1 && this._chang.jushu == 3) {
-        if (guanjun == this.player_id(0) && this._lianzhuang) jieju = true;
+        if (guanjun == this.player_id(0) && this._lianzhuang && ! this._no_game)
+                jieju = true;
     }
  
     if (jieju) this.delay(function(){ self.jieju() });
