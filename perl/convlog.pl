@@ -41,7 +41,7 @@ sub player {
     my @name = map { url_decode($attr{$_}) } ('n0','n1','n2','n3');
     my @dan  = map { $dan_name[$_] } split(',', $attr{dan});
     my @rate = map { int($_) } split(',', $attr{rate});
-    my @player = map { "$name[$_] ($dan[$_] R$rate[$_])" } (0..3);
+    my @player = map { "$name[$_]\n($dan[$_] R$rate[$_])" } (0..3);
     return \@player;
 }
 
