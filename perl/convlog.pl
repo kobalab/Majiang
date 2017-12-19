@@ -237,7 +237,7 @@ my $gang;
 my $baopai;
 my $lizhi;
 
-for (join('', <>) =~ /<.*?>/g) {
+for (join('', <STDIN>) =~ /<.*?>/g) {
     my ($elem, $attr) = /^<(\/?\w+)(.*?)\/?>$/;
     my %attr = $attr ? ($attr =~ /\s+(\w+)="(.*?)"/g) : ();
 
@@ -246,6 +246,7 @@ for (join('', <>) =~ /<.*?>/g) {
     }
     elsif ($elem eq 'GO') {
         $paipu->{title} = type($attr{type});
+        $paipu->{title} .= "\n@ARGV"    if (@ARGV);
         die "+++ Not Majiang log\n" if ($type{sanma});
     }
     elsif ($elem eq 'UN' && ! $paipu->{player}) {
