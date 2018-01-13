@@ -1,3 +1,149 @@
 #loaddata {
-  display: none;
+    display: none;
+}
+
+title-font = "DFPLeiSho-SB", "HGP行書体", serif;
+defen-font = "Georgia", serif;
+
+@keyframes blink {
+    100% { opacity: 0.7; }
+}
+
+.hide {
+    display: none;
+}
+
+shoupai-size($width, $height, $bingpai-height, $fulou-height) {
+    width:  $width;
+    height: $height;
+    .bingpai {
+        margin-top: $height - $bingpai-height;
+        .pai {
+            width: ($bingpai-height * 5 / 7);
+            height: $bingpai-height;
+            transition: width 0.2s ease-out;
+            &.deleted {
+                opacity: 0;
+                width: 0px;
+            }
+            &.selected {
+                transform: translate(0px, - $bingpai-height / 7);
+            }
+        }
+        .zimo {
+            margin-left: ($bingpai-height * 5 / 7 * 0.1);
+        }
+    }
+    .fulou {
+        margin-top: $height - $fulou-height;
+        .rotate {
+            width: $fulou-height;
+            transform: rotate(270deg) translate(- $fulou-height, 0px);
+        }
+        .pai {
+            width: ($fulou-height * 5 / 7);
+            height: $fulou-height;
+        }
+    }
+}
+
+.shoupai {
+    .bingpai {
+        line-height: 0px;
+        float: left;
+    }
+    .fulou {
+        line-height: 0px;
+        float: right;
+        .mianzi {
+            white-space: nowrap;
+            margin-left: 2px;
+            float: right;
+            .rotate {
+                display: inline-block;
+                white-space: nowrap;
+                text-align: left;
+                transform-origin: 0% 0%;
+            }
+        }
+    }
+}
+
+he-size($width, $dapai-height, $mode = block) {
+    width:  $width;
+    if ($mode == line) {
+        height: ($dapai-height * (2 + 7) / 7);
+    }
+    else {
+        height: ($dapai-height * (2 + 7 * 3) / 7);
+    }
+    div.lizhi {
+        width:  ($dapai-height * 5 / 7 * 6);
+        height: ($dapai-height * 2 / 7);
+        if ($mode == line) {
+            text-align: left;
+        }
+        else {
+            text-align: center;
+        }
+        .choma {
+            max-width: @width * 0.6;
+        }
+    }
+    div.dapai {
+        if ($mode == line) {
+            height: $dapai-height;
+        }
+        else {
+            height: $dapai-height * 3;
+        }
+        .lizhi {
+            width: $dapai-height;
+        }
+        .pai {
+            width: ($dapai-height * 5 / 7);
+            height: $dapai-height;
+            &.dapai {
+                transform: translate(2px, 1px);
+            }
+        }
+        .break {
+            if ($mode == line) {
+                display: inline-block;
+                width: ($dapai-height * 5 / 7 * 0.1);
+            }
+            else {
+                display: block;
+            }
+        }
+    }
+}
+
+.he {
+    div.lizhi {
+        line-height: 0px;
+    }
+    div.dapai {
+        line-height: 0px;
+        .lizhi {
+            display: inline-block;
+            text-align: left;
+            transform: rotate(270deg);
+        }
+        .pai {
+            &.mopai {
+                opacity: 0.8;
+            }
+            &.dapai {
+                animation: blink 0.5s infinite;
+            }
+        }
+    }
+}
+
+pai-size($pai-height) {
+    .pai {
+        width: ($pai-height * 5 / 7);
+        height: $pai-height;
+    }
 }
