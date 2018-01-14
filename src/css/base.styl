@@ -103,9 +103,6 @@ he-size($width, $dapai-height, $mode = block) {
         .pai {
             width: ($dapai-height * 5 / 7);
             height: $dapai-height;
-            &.dapai {
-                transform: translate(2px, 1px);
-            }
         }
         .break {
             if ($mode == line) {
@@ -129,6 +126,9 @@ he-size($width, $dapai-height, $mode = block) {
             display: inline-block;
             text-align: left;
             transform: rotate(270deg);
+            .pai.dapai {
+                transform: translate(-1px, 2px);
+            }
         }
         .pai {
             &.mopai {
@@ -136,6 +136,7 @@ he-size($width, $dapai-height, $mode = block) {
             }
             &.dapai {
                 animation: blink 0.5s infinite;
+                transform: translate(2px, 1px);
             }
         }
     }
