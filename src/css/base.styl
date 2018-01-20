@@ -148,3 +148,38 @@ pai-size($pai-height) {
         height: $pai-height;
     }
 }
+
+body.demo {
+    user-select: none;
+    color: white;
+    background: #036;
+    font-family: sans-serif;
+    font-size: 12px;
+    a {
+        color: white;
+    }
+    form {
+        input {
+            &[type="text"] {
+                font-family:monospace;
+            }
+            &.paistr {
+                width: 16em;
+            }
+        }
+    }
+    .shoupai {
+        margin: 10px 0px;
+        shoupai-size: 680px 70px 56px 49px;
+    }
+    .he {
+        margin: 10px 0px;
+        he-size: 680px 42px line;
+    }
+    .paili {
+        img {
+            vertical-align: middle;
+        }
+        pai-size: 35px;
+    }
+}

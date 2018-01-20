@@ -1,8 +1,11 @@
 module.exports = {
-    entry:  [ 'babel-polyfill', './src/js/entry.js' ],
+    entry:  {
+        majiang: [ 'babel-polyfill', './src/js/entry.js' ],
+        paili:     './src/js/paili.js',
+    },
     output: {
         path:     __dirname + '/www/js/',
-        filename: 'majiang.js'
+        filename: '[name].js'
     },
     module: {
         rules: [
