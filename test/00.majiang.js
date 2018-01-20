@@ -1,6 +1,8 @@
 const assert  = require('assert');
 const semver  = require('semver');
 
+const package = require('../package.json');
+
 const Majiang = require('../src/js/majiang');
 
 suite('Majiang', function(){
@@ -14,6 +16,9 @@ suite('Majiang', function(){
     });
     test('メジャー・バージョン番号が 1 であること', function(){
       assert.ok(semver.satisfies(Majiang.VERSION, '<2 >=1'));
+    });
+    test('package.json のバージョン番号と一致すること', function(){
+      assert.equal(Majiang.VERSION, package.version);
     });
   });
 });

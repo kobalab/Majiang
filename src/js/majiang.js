@@ -10,7 +10,7 @@
 "use strict";
 
 module.exports = {
-    VERSION: require('../../package.json').version,
+    VERSION: '1.0.0',
     Shoupai: require('./majiang/shoupai'),
     Shan:    require('./majiang/shan'),
     He:      require('./majiang/he'),
