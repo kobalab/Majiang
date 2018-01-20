@@ -259,6 +259,7 @@ for (join('', <STDIN>) =~ /<.*?>/g) {
     elsif ($elem eq 'INIT') {
         @fulou = ( [], [], [], [] );
         $oya = $attr{oya};
+        undef $gang;
         $log = [ qipai(%attr) ];
         push(@{$paipu->{log}}, $log);
     }
