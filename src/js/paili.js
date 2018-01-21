@@ -38,7 +38,7 @@ function qipai(paistr) {
     if (! model.shoupai._zimo) setTimeout(zimo, 0);
     else                       paili();
 
-    $('form input.paistr').val(model.shoupai.toString());
+    $('form input[name="paistr"]').val(model.shoupai.toString());
 }
 
 function set_handler() {
@@ -180,7 +180,7 @@ $(function(){
         return false;
     });
     $('form').on('submit', function(){
-        qipai($('form input.paistr').val());
+        qipai($('form input[name="paistr"]').val());
         return false;
     })
     qipai();
