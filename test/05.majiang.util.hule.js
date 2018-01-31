@@ -2,6 +2,8 @@ const assert = require('assert');
 
 const Majiang = require('../src/js/majiang');
 
+const data = require('./data/hule.json');
+
 function param(opt = {}) {
 
     let param = {
@@ -1319,6 +1321,14 @@ suite('Majiang.Util', function(){
                         { hupai: [{ name: '九蓮宝燈',    fanshu: '*' }],
                           fu: null, fanshu: null, damanguan: 1, defen: 32000,
                           fenpei: [-16000, 32000, -8000, -8000]});
+    });
+
+    test('和了点計算: 10000パターン', function(){
+      for (let t of data) {
+        hule = Majiang.Util.hule(Majiang.Shoupai.fromString(t.in.shoupai),
+                                 t.in.rongpai, t.in.param);
+        assert.deepEqual(hule, t.out, t.in.shoupai);                         
+      }
     });
   });
 });
