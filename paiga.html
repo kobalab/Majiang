@@ -105,6 +105,11 @@ $(function(){
                         html += '<img src="'+url+'" width="'+w+'" height="'+h+'"'
                                 + ' alt="'+(s+n)+'">';
                     }
+
+                    if (d != '=') {
+                        if (v) html += '</span>';
+                        v = 0;
+                    }
                 }
             }
             else {
