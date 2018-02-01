@@ -173,6 +173,7 @@ function hule_mianzi_jiulian(shoupai, hulepai) {
             mianzi += n;
         }
     }
+    if (mianzi.length != 14) return [];
     mianzi += hulepai.substr(1) + '!';
 
     return [[mianzi]];
