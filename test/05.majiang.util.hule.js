@@ -341,6 +341,13 @@ suite('Majiang.Util', function(){
                 's6=', param());
       assert.deepEqual(hule.hupai, [{ name: '断幺九', fanshu: 1 }]);
     });
+    test('和了役: 断幺九(七対子形)', function(){
+      hule = Majiang.Util.hule(
+                Majiang.Shoupai.fromString('m2255p4488s336677'),
+                's7=', param());
+      assert.deepEqual(hule.hupai, [{ name: '断幺九', fanshu: 1 },
+                                    { name: '七対子', fanshu: 2 }]);
+    });
     test('和了役: 一盃口', function(){
       hule = Majiang.Util.hule(
                 Majiang.Shoupai.fromString('m33455p111s33789m4'),
