@@ -173,6 +173,7 @@ function hule_mianzi_jiulian(shoupai, hulepai) {
             mianzi += n;
         }
     }
+    if (mianzi.length != 14) return [];
     mianzi += hulepai.substr(1) + '!';
 
     return [[mianzi]];
@@ -680,7 +681,11 @@ Majiang.Util.hule = function(shoupai, rongpai, param) {
             }
         }
         
-        if (defen + defen2 > max.defen) {
+        if (defen + defen2 > max.defen
+            || defen + defen2 == max.defen
+                && (! fanshu || fanshu > max.fanshu
+                    || fanshu == max.fanshu && fu > max.fu))
+        {
             max = {
                 hupai:      hupai,
                 fu:         fu,

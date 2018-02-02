@@ -306,6 +306,10 @@ for (join('', <STDIN>) =~ /<.*?>/g) {
         push(@{$fulou[$attr{who}]}, $m);
     }
     elsif ($elem eq 'DORA') {
+        if ($baopai) {
+            push(@$log, { kaigang => { baopai => $baopai } });
+            undef $baopai;
+        }
         $baopai = pai($attr{hai});
     }
     elsif ($elem eq 'REACH' && $attr{step} == 1) {

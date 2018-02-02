@@ -405,8 +405,15 @@ Majiang.Game.Paipu.prototype.hule = function(data) {
     this._view.jiesuan.hule(info);
 
     $('.menu .summary').css('visibility','hidden');
+ 
+    for (var l = 0; l < 4; l++) {
+        this._chang.defen[this.player_id(l)] += data.fenpei[l];
+    }
+    this._chang.lizhibang = 0;
+    this._chang.changbang = 0;
     
     $('#game').unbind('click').bind('click', function(){
+        self._view.chang.redraw();
         self._view.jiesuan.hide();
         if (self._log_idx >= self._paipu.log.length) return;
         if (self._idx == self._paipu.log[self._log_idx].length) {
