@@ -24,13 +24,13 @@ function qipai(paistr) {
         model.shoupai = new Majiang.Shoupai(pai);
     }
 
-    view.shoupai  = new Majiang.View.Shoupai('.shoupai', model.shoupai);
+    view.shoupai  = new Majiang.View.Shoupai($('.shoupai'), model.shoupai);
     view.shoupai.redraw(true);
 
     while (model.shan.paishu() > 18) { model.shan.zimo() }
 
     model.he = new Majiang.He();
-    view.he  = new Majiang.View.He('.he', model.he);
+    view.he  = new Majiang.View.He($('.he'), model.he);
     view.he.redraw(true);
 
     $('.paili').empty();

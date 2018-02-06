@@ -8,9 +8,8 @@ const Majiang = { View: { pai: require('./pai') } };
 
 module.exports = class Shan {
 
-constructor(selector, shan) {
+constructor(root, shan) {
 
-    let root = $(selector);
     this._node = {
         baopai:   $('.baopai',   root),
         fubaopai: $('.fubaopai', root),

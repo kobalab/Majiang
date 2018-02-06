@@ -8,9 +8,8 @@ const Majiang = { View: { pai: require('./pai') } };
 
 module.exports = class Shoupai {
 
-constructor(selector, shoupai, open) {
+constructor(root, shoupai, open) {
 
-    let root = $(selector);
     this._node = {
         bingpai: $('.bingpai', root),
         fulou:   $('.fulou',   root)
