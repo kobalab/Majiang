@@ -565,7 +565,7 @@ function get_post_hupai(paistr, baopai, fubaopai) {
     if (n_hongpai) post_hupai.push({ name: '赤ドラ', fanshu: n_hongpai });
 
     let n_fubaopai = 0;
-    for (let p of fubaopai) {
+    for (let p of fubaopai || []) {
         p = Majiang.Shan.zhenbaopai(p);
         const regexp = new RegExp(p[1],'g');
         for (let m of suitstr) {

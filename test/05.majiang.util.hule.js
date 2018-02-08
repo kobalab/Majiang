@@ -11,7 +11,7 @@ function param(opt = {}) {
         menfeng:    1,
         hupai:      {},
         baopai:     [],
-        fubaopai:   [],
+        fubaopai:   null,
         jicun:      { changbang: 0, lizhibang: 0 }
     };
 
