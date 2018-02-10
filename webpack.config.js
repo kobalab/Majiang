@@ -2,6 +2,7 @@ module.exports = {
     entry:  {
         majiang: [ 'babel-polyfill', './src/js/entry.js' ],
         paili:     './src/js/paili.js',
+        hule:      './src/js/hule.js',
     },
     output: {
         path:     __dirname + '/www/js/',
