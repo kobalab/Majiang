@@ -31,7 +31,7 @@ redraw() {
     this._node.fubaopai.empty();
     for (let i = 0; i < 5; i++) {
         this._node.fubaopai.append(
-            Majiang.View.pai(i < baopai.length ? fubaopai[i] : '_'));
+            Majiang.View.pai(i < fubaopai.length ? fubaopai[i] : '_'));
     }
 
     this._node.paishu.text(this._shan.paishu());
