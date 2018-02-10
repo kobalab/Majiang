@@ -12,6 +12,9 @@ defen-font = "Georgia", serif;
 .hide {
     display: none;
 }
+.fadeout {
+    opacity: 0;
+}
 
 shoupai-size($width, $height, $bingpai-height, $fulou-height) {
     width:  $width;
@@ -31,7 +34,8 @@ shoupai-size($width, $height, $bingpai-height, $fulou-height) {
             }
         }
         .zimo {
-            margin-left: ($bingpai-height * 5 / 7 * 0.1);
+            margin-left:  ($bingpai-height * 5 / 7 * 0.1);
+            margin-right: ($bingpai-height * 5 / 7 * 0.1);
         }
     }
     .fulou {
@@ -48,6 +52,7 @@ shoupai-size($width, $height, $bingpai-height, $fulou-height) {
 }
 
 .shoupai {
+    display: table;
     .bingpai {
         line-height: 0px;
         float: left;
@@ -149,6 +154,50 @@ pai-size($pai-height) {
     }
 }
 
+.huledialog {
+    white-space: nowrap;
+    transition: opacity 0.2s ease-out;
+    .hule {
+        .shan {
+            font-family: title-font;
+        }
+        .hupai {
+            font-family: title-font;
+            .fanshu {
+                text-align: right;
+                padding-left: 2em;
+            }
+        }
+        .jicun {
+            font-family: defen-font;
+        }
+    }
+    .pingju {
+        font-family: title-font;
+    }
+    .fenpei {
+        font-family: defen-font;
+        .player {
+            display: inline-block;
+            vertical-align: bottom;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .defen
+        .diff {
+            display: inline-block;
+            vertical-align: bottom;
+            text-align: right;
+        }
+        .plus {
+            color: #0ff;
+        }
+        .muinus {
+            color: #f00;
+        }
+    }
+}
+
 body.demo {
     user-select: none;
     color: white;
@@ -159,12 +208,23 @@ body.demo {
         color: white;
     }
     form {
+        div {
+            margin: 2px 0;
+        }
+        span {
+            margin-right: 1em;
+        }
         input {
             &[type="text"] {
-                font-family:monospace;
+                font-family: monospace;
             }
             &[name="paistr"] {
                 width: 16em;
+            }
+            &[name="baopai"],
+            &[name="fubaopai"] {
+                text-align: center;
+                width: 2em;
             }
         }
     }
@@ -181,5 +241,23 @@ body.demo {
             vertical-align: middle;
         }
         pai-size: 35px;
+    }
+    .huledialog {
+        margin-top: 20px;
+        .hule {
+            .shan {
+                float: left;
+                margin-right: 40px;
+                font-size: 20px;
+                pai-size: 35px;
+            }
+            .shoupai {
+                clear: both;
+                shoupai-size: auto 70px 49px 49px;
+            }
+            .hupai {
+                font-size: 24px;
+            }
+        }
     }
 }
