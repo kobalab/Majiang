@@ -62,6 +62,8 @@ hule(info) {
         let r_defen = _defen.clone();
         $('.defen', r_defen).text('役なし');
         hupai.append(r_defen);
+        $('.jicun', this._node.hule).addClass('hide');
+        this._node.fenpei.addClass('hide');
     }
     else {
         for (let h of info.hule.hupai) {
@@ -89,12 +91,13 @@ hule(info) {
         let r_defen = _defen.clone();
         $('.defen', r_defen).text(text);
         hupai.append(r_defen);
+
+        $('.jicun', this._node.hule).removeClass('hide');
+        $('.jicun .changbang', this._node.hule).text(this._chang.changbang);
+        $('.jicun .lizhibang', this._node.hule).text(this._chang.lizhibang);
+
+        this.fenpei(info.hule.fenpei);
     }
-
-    $('.jicun .changbang', this._node.hule).text(this._chang.changbang);
-    $('.jicun .lizhibang', this._node.hule).text(this._chang.lizhibang);
-
-    this.fenpei(info.hule.fenpei);
 
     this._node.hule.removeClass('hide');
     this._node.pingju.addClass('hide');
@@ -122,6 +125,8 @@ fenpei(fenpei) {
 
     const feng_hanzi = ['東','南','西','北'];
     const view_class = ['main','xiajia','duimian','shangjia'];
+
+    this._node.fenpei.removeClass('hide');
 
     $('.diff', this._node.fenpei).removeClass('plus')
                                  .removeClass('muinus');
