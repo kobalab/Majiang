@@ -95,7 +95,7 @@ Majiang.Player.prototype.dapai = function(data, callback) {
         this._shoupai.dapai(data.p);
  
         if (! this._lizhi[this._menfeng]) this._neng_rong = true;
-        this._dapai[data.p[0]+(data.p[1]||'5')] = true;
+        this._dapai[data.p.substr(0,2).replace(/0/,'5')] = true;
         if (Majiang.Util.xiangting(this._shoupai) == 0) {
             for (var p of Majiang.Util.tingpai(this._shoupai)) {
                 if (this._dapai[p]) this._neng_rong = false;
@@ -448,6 +448,8 @@ Majiang.Player.prototype.allow_hule = function(data, option) {
                           lizhibang: this._lizhibang }
     };
     var hule = Majiang.Util.hule(new_shoupai, rongpai, param);
+ 
+    this._neng_rong = false;
 
     return hule.hupai;
 }
