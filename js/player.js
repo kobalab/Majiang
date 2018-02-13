@@ -448,6 +448,8 @@ Majiang.Player.prototype.allow_hule = function(data, option) {
                           lizhibang: this._lizhibang }
     };
     var hule = Majiang.Util.hule(new_shoupai, rongpai, param);
+ 
+    this._neng_rong = false;
 
     return hule.hupai;
 }
