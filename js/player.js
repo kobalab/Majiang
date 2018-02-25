@@ -370,6 +370,7 @@ Majiang.Player.prototype.get_gang_mianzi = function(data) {
     if (this._baopai.length == 5) return [];
     
     if (data) {
+        if (this._lizhi[this._menfeng]) return [];
         var d = ['','+','=','-'][(4 + data.l - this._menfeng) % 4];
         return get_gang_mianzi(this._shoupai, data.p.substr(0,2)+d)
     }
