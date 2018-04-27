@@ -821,7 +821,7 @@ Majiang.Player.prototype.tingpai = function(shoupai) {
 Majiang.Player.prototype.get_defen = function(shoupai) {
 
     var paistr = shoupai.toString();
-    if (this._defen_cache[paistr]) return this._defen_cache[paistr];
+    if (this._defen_cache[paistr] != null) return this._defen_cache[paistr];
 
     var menqian = (shoupai._fulou.filter(
                         function(m){return m.match(/[\-\+\=]/)}).length == 0);
@@ -865,7 +865,7 @@ Majiang.Player.prototype.eval_shoupai = function(shoupai, paishu, dapai) {
     var self = this;
 
     var paistr = shoupai.toString();
-    if (this._eval_cache[paistr]) return this._eval_cache[paistr];
+    if (this._eval_cache[paistr] != null) return this._eval_cache[paistr];
  
     var rv;
     var n_xiangting = Majiang.Util.xiangting(shoupai);
