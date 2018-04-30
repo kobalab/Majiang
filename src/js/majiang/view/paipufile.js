@@ -68,7 +68,7 @@ constructor(node, storage) {
 
     this._node    = node;
     this._paipu   = new PaipuStorage(storage);
-    this._row     = $('.list > div', node);
+    this._row     = $('.row', node);
     this._max_idx = 0;
 
     const self = this;
@@ -123,7 +123,7 @@ redraw() {
     else                      $('.download', this._node).hide();
 
     this.set_handler();
-    $('.list > div', this._node).fadeIn();
+    $('.row', this._node).fadeIn();
 }
 
 set_handler() {
@@ -132,7 +132,7 @@ set_handler() {
 
     if (! this._paipu.length()) return;
 
-    let row = $('.list > div', this._node);
+    let row = $('.row', this._node);
     for (let i = 0; i < this._paipu.length(); i++) {
 
         $('.delete', row.eq(i)).on('click', i, function(event){
