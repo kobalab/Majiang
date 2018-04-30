@@ -141,6 +141,7 @@ redraw() {
         axis:        'y',
         containment: '.list',
         tolerance:   'pointer',
+        handle:      '.move',
         update:      function(event, ui){
             let sort = $.makeArray($(this).children().map(
                             function(){return $(this).data('idx')}));
