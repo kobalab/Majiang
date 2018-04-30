@@ -4,6 +4,7 @@
 "use strict";
 
 const $ = require('jquery');
+require('jquery-ui/ui/widgets/sortable');
 
 function fix_paipu(paipu) {
 
@@ -60,6 +61,14 @@ class PaipuStorage {
     get(idx) {
         return this._paipu[idx];
     }
+
+    sort(sort) {
+        let tmp = this._paipu.concat();
+        for (let i = 0; i < this.length(); i++) {
+            this._paipu[i] = tmp[sort[i]];
+        }
+        this.save();
+    }
 }
 
 module.exports = class PaipuFile {
@@ -112,6 +121,7 @@ redraw() {
         }
 
         let row = this._row.clone();
+        row.attr('data-idx', i);
         $('.title', row).text(paipu.title);
         $('.player', row).text(player.join(' '));
         list.append(row.hide());
@@ -123,6 +133,22 @@ redraw() {
     else                      $('.download', this._node).hide();
 
     this.set_handler();
+
+    const self = this;
+    $('.list', this._node).sortable({
+        opacity:     0.7,
+        cursor:      'move',
+        axis:        'y',
+        containment: '.list',
+        tolerance:   'pointer',
+        update:      function(event, ui){
+            let sort = $.makeArray($(this).children().map(
+                            function(){return $(this).data('idx')}));
+            self._paipu.sort(sort);
+            self.redraw();
+        }
+    });
+
     $('.row', this._node).fadeIn();
 }
 
