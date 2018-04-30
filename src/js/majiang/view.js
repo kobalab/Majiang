@@ -9,5 +9,6 @@ module.exports = {
     Shoupai:    require('./view/shoupai'),
     Shan:       require('./view/shan'),
     He:         require('./view/he'),
-    HuleDialog: require('./view/huledialog')
+    HuleDialog: require('./view/huledialog'),
+    PaipuFile:  require('./view/paipufile')
 };
