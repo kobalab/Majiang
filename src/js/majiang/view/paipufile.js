@@ -172,7 +172,7 @@ set_handler() {
             row.eq(event.data).slideUp(200, ()=>self.redraw());
         });
 
-        let title = this._paipu.get(i).title.replace(/[\ \\\/\:]/g, '_');
+        let title = this._paipu.get(i).title.replace(/[\ \\\/\:\n]/g, '_');
         let blob  = new Blob([ this._paipu.stringify(i) ],
                              { type: 'application/json' });
         $('.download', row.eq(i))
@@ -180,7 +180,7 @@ set_handler() {
                     .attr('download', `牌譜(${title}).json`);
     }
 
-    let title = this._paipu.get(0).title.replace(/[\ \\\/\:]/g, '_');
+    let title = this._paipu.get(0).title.replace(/[\ \\\/\:\n]/g, '_');
     let blob  = new Blob([ this._paipu.stringify() ],
                          { type: 'application/json' });
     $('.file > .button .download', this._node)
