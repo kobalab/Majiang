@@ -28,10 +28,15 @@ class PaipuStorage {
 
     constructor(storage) {
         this._paipu = [];
-        if (storage && localStorage) {
-            this._paipu = fix_paipu(JSON.parse(
+        try {
+            if (storage && localStorage) {
+                this._paipu = fix_paipu(JSON.parse(
                                         localStorage.getItem(storage) || '[]'));
-            this._storage = storage;
+                this._storage = storage;
+            }
+        }
+        catch(e) {
+            console.log(e);
         }
     }
 
