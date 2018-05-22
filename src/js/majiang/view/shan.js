@@ -35,6 +35,8 @@ redraw() {
     }
 
     this._node.paishu.text(this._shan.paishu());
+
+    return this;
 }
 
 }

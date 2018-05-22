@@ -103,6 +103,8 @@ dapai(p) {
         }
     }
     dapai.addClass('deleted');
+
+    return this;
 }
 
 }
