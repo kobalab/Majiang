@@ -54,6 +54,7 @@ redraw(open) {
 dapai(p) {
 
     let pai = Majiang.View.pai(p).addClass('dapai');
+    if (p[2] == '_') pai.addClass('mopai');
     if (p.match(/\*/)) pai = $('<span class="lizhi">').append(pai);
     this._node.dapai.append(pai);
     return this;
