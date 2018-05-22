@@ -144,7 +144,7 @@ redraw() {
         opacity:     0.7,
         cursor:      'move',
         axis:        'y',
-        containment: '.list',
+        containment: 'parent',
         tolerance:   'pointer',
         handle:      '.move',
         update:      function(event, ui){
