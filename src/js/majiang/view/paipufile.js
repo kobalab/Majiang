@@ -89,7 +89,9 @@ constructor(node, storage) {
 
     $('.upload input', node).on('change', function(){
         for (let file of  this.files) {
-            if (! file.type.match(/^application\/json$/i)) {
+            if (! file.type.match(/^application\/json$/i)
+                && ! file.name.match(/\.json$/i)) 
+            {
                 self.error(`不正なファイル: ${file.name}`);
                 continue;
             }
