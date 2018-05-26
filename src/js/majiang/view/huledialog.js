@@ -133,7 +133,7 @@ fenpei(fenpei) {
 
     for (let l = 0; l < 4; l++) {
 
-        let id = (this._chang.qijia + this._chang.jishu + l) % 4;
+        let id = (this._chang.qijia + this._chang.jushu + l) % 4;
         let c  = view_class[(id + 4 - this._viewpoint) % 4];
         let node = $(`.${c}`, this._node.fenpei);
 
@@ -141,7 +141,7 @@ fenpei(fenpei) {
 
         $('.player', node).text(this._chang.player[id]);
 
-        let defen = ('' + this._chang.defen[id]).replace(/(\d{3})$/,',$1');
+        let defen = (''+this._chang.defen[id]).replace(/(\d)(\d{3})$/,'$1,$2');
         $('.defen', node).text(defen);
 
         let diff = fenpei[l];
@@ -150,7 +150,7 @@ fenpei(fenpei) {
         diff = (diff > 0) ? '+' + diff
              : (diff < 0) ? ''  + diff
              :              '';
-        diff = diff.replace(/(\d{3})$/, ',$1');
+        diff = diff.replace(/(\d)(\d{3})$/, '$1,$2');
         $('.diff', node).text(diff);
     }
 }
