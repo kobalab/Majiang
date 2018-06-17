@@ -20,7 +20,14 @@ shoupai-size($width, $height, $bingpai-height, $fulou-height) {
     width:  $width;
     height: $height;
     .bingpai {
-        margin-top: $height - $bingpai-height;
+        if ($height < $bingpai-height + $fulou-height / 7 * 10) {
+            margin-top: $height - $bingpai-height;
+            float: left;
+        }
+        else {
+            margin-top: 0px;
+            float: none;
+        }
         .pai {
             width: ($bingpai-height * 5 / 7);
             height: $bingpai-height;
@@ -39,7 +46,14 @@ shoupai-size($width, $height, $bingpai-height, $fulou-height) {
         }
     }
     .fulou {
-        margin-top: $height - $fulou-height;
+        if ($height < $bingpai-height + $fulou-height / 7 * 10) {
+            margin-top: $height - $fulou-height;
+            float: right;
+        }
+        else {
+            margin-top: $height - $bingpai-height - $fulou-height;
+            float: none;
+        }
         .rotate {
             width: $fulou-height;
             transform: rotate(270deg) translate(- $fulou-height, 0px);
@@ -55,11 +69,9 @@ shoupai-size($width, $height, $bingpai-height, $fulou-height) {
     display: table;
     .bingpai {
         line-height: 0px;
-        float: left;
     }
     .fulou {
         line-height: 0px;
-        float: right;
         .mianzi {
             white-space: nowrap;
             margin-left: 2px;
