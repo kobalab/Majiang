@@ -8,7 +8,6 @@ body.game {
 #game {
     display: none;
     width:  800px;
-    height: 680px;
     background: #036;
     margin: 0 auto;
     user-select: none;
@@ -21,126 +20,48 @@ body.game {
     .chang {
         background: #111;
         font-family: defen-font;
-        width: 280px;
-        height: 160px;
         border-radius: 4px;
-        transform: translate(260px, 260px);
         .xiaoxi {
-            height: 68px
             float: left;
-            padding: 6px;
             .jushu {
                 font-family: title-font;
-                font-size:   32px;
-            }
-            .jicun {
-                font-size: 14px;
-                padding: 0px 8px;
-                .choma {
-                    width: 60px;
-                    height: 8px;
-                }
             }
         }
         .shan {
-            height: 68px
             float: right;
-            padding: 6px;
-            pai-size: 42px;
-            font-size: 14px;
             text-align: right;
         }
         .defen {
             clear: both;
-            font-size: 16px;
             span {
                 display: block;
-                width: 120px;
-                height: 24px;
                 position: absolute;
                 &.lunban {
                     color: #0ff;
                 }
                 &.main {
                     text-align: center;
-                    transform: translate(80px, 48px);
                 }
                 &.xiajia {
                     text-align: right;
-                    transform: translate(150px, 24px);
                 }
                 &.duimian {
                     text-align: center;
-                    transform: translate(80px, 0px);
                 }
                 &.shangjia {
                     text-align: left;
-                    transform: translate(10px, 24px);
                 }
             }
         }
     }
-    .he {
-        he-size: 282px 42px;
-        &.main {
-            transform: translate(310px, 420px);
-        }
-        &.xiajia {
-            transform: translate(540px, 430px) rotate(270deg);
-        }
-        &.duimian {
-            transform: translate(490px, 260px) rotate(180deg);
-        }
-        &.shangjia {
-            transform: translate(260px, 250px) rotate(90deg);
-        }
-    }
-    .shoupai {
-        &.main {
-            shoupai-size: 680px 60px 56px 42px;
-            transform: translate(120px, 620px);
-        }
-        &.xiajia {
-            shoupai-size: 560px 60px 42px 42px;
-            transform: translate(740px, 560px) rotate(270deg);
-        }
-        &.duimian {
-            shoupai-size: 680px 60px 42px 42px;
-            transform: translate(680px, 60px) rotate(180deg);
-        }
-        &.shangjia {
-            shoupai-size: 560px 60px 42px 42px;
-            transform: translate(60px, 120px) rotate(90deg);
-        }
-    }
     > .player {
         font-family: defen-font;
-        font-size:   20px;
         white-space:   nowrap;
         overflow:      hidden;
         text-overflow: ellipsis;
         background: #111;
-        width: 160px;
-        height: 30px;
-        border-radius: 12px 0px;
-        padding: 2px 20px;
-        &.main {
-            transform: translate(120px, 580px);
-        }
-        &.xiajia {
-            transform: translate(700px, 560px) rotate(270deg);
-        }
-        &.duimian {
-            transform: translate(680px, 100px) rotate(180deg);
-        }
-        &.shangjia {
-            transform: translate(100px, 120px) rotate(90deg);
-        }
     }
     .say {
-        width:  200px;
-        height: 100px;
-        font-size: 64px;
         font-family: serif;
         color: white;
         text-shadow: 3px  3px 6px #333,
@@ -150,47 +71,28 @@ body.game {
         transition: opacity 0.4s ease-out;
         &.main {
             text-align: center;
-            transform: translate(300px, 520px);
         }
         &.xiajia {
             text-align: left;
-            transform: translate(600px, 290px);
         }
         &.duimian {
             text-align: center;
-            transform: translate(300px, 50px);
         }
         &.shangjia {
             text-align: right;
-            transform: translate(0px, 290px);
         }
     }
     .controler {
-        transform: translate(120px, 120px);
         img {
             opacity: 0.2;
             &:hover {
                 opacity: 1;
             }
         }
-        > img {
-            width:  20px;
-            height: 20px;
-            margin: 0px 2px;
-        }
         .speed {
-            text-align: center;
-            img {
-                width:  16px;
-                height: 16px;
-                margin: 0px 2px;
-            }
             span {
                 display: inline-block;
                 border-radius: 4px;
-                width: 14px;
-                height: 8px;
-                margin: 4px 0px;
                 background: white;
                 opacity: 0.1;
             }
@@ -198,7 +100,6 @@ body.game {
     }
     .kaiju {
         position: relative;
-        transform: translate(0px, 120px);
         margin: auto;
         width: 580px;
         border: solid 1px #666;
@@ -208,6 +109,7 @@ body.game {
             text-align: center;
             font-family: title-font;
             font-size: 32px;
+            line-height: 1;
         }
         .player {
             margin: 40px 20px;
@@ -246,84 +148,44 @@ body.game {
     .huledialog {
         display: table;
         position: relative;
-        transform: translate(0px, 100px);
-        min-width: 460px;
-        padding: 20px;
         background: rgba(0,0,0,0.8);
         margin: auto;
         .hule {
             .shan {
-                font-size: 20px;
-                pai-size:  35px;
                 &.baopai {
-                    margin-left: 40px;
                     float: left;
                 }
                 &.fubaopai {
-                    margin-right: 40px;
                     float: right;
                 }
             }
             .shoupai {
                 clear: both;
-                shoupai-size: auto 70px 49px 49px;
             }
             .hupai {
-                margin: 10px auto;
-                min-width: 280px;
-                font-size: 24px;
                 .r_defen {
                     text-align: right;
                 }
             }
             .jicun {
-                font-size: 16px;
                 text-align: center;
-                .choma {
-                    padding-left: 8px;
-                    width: 60px;
-                    height: 8px;
-                }
             }
         }
         .pingju {
-            font-size: 48px;
-            margin-top: 50px;
-            margin-bottom: 100px;
             text-align: center;
         }
         .fenpei {
-            width: 380px;
-            height: 80px;
-            margin: 15px auto 0px auto;
-            font-size: 16px;
-            line-height: 16px;
             > * {
                 position: absolute;
                 transform-origin: 0% 0%;
-                width: 88px;
-                &.main {
-                    transform: translate(146px, 48px);
-                }
-                &.xiajia {
-                    transform: translate(292px, 24px);
-                }
-                &.duimian {
-                    transform: translate(146px, 0px);
-                }
-                &.shangjia {
-                    transform: translate(0px, 24px);
-                }
                 .player {
                     display: none;
                 }
                 .defen {
                     float: right;
-                    width: 60px;
                 }
                 .diff {
                     float: right;
-                    width: 88px;
                 }
             }
         }
@@ -332,15 +194,9 @@ body.game {
         position: relative;
         background: rgba(0,0,0,0.8);
         margin: auto;
-        width:  680px;
-        max-height: 540px;
         overflow: auto;
-        transform: translate(0px, 60px);
         transition: opacity 0.4s ease-out;
         table {
-            width: 640px;
-            margin: 18px auto;
-            font-size: 18px;
             font-family: defen-font;
             border-collapse: collapse;
             line-height: 1.5;
@@ -354,9 +210,6 @@ body.game {
             }
             tfoot {
                 border-top: solid 2px;
-            }
-            .player {
-                width: 114px;
             }
             .zhuangjia {
                 background: rgba(128,128,128,0.4);

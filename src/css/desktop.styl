@@ -1,0 +1,223 @@
+#game {
+    height: 680px;
+    .chang {
+        width:  280px;
+        height: 160px;
+        transform: translate(260px, 260px);
+        .xiaoxi {
+            height: 68px;
+            padding: 6px;
+            .jushu {
+                font-size:   32px;
+            }
+            .jicun {
+                font-size: 14px;
+                padding: 0px 8px;
+                .choma {
+                    width: 60px;
+                    height: 8px;
+                }
+            }
+        }
+        .shan {
+            height: 68px
+            padding: 6px;
+            pai-size: 42px;
+            font-size: 14px;
+        }
+        .defen {
+            font-size: 16px;
+            span {
+                width: 120px;
+                height: 24px;
+                &.main {
+                    transform: translate(80px, 48px);
+                }
+                &.xiajia {
+                    transform: translate(150px, 24px);
+                }
+                &.duimian {
+                    transform: translate(80px, 0px);
+                }
+                &.shangjia {
+                    transform: translate(10px, 24px);
+                }
+            }
+        }
+    }
+    .he {
+        he-size: 282px 42px;
+        &.main {
+            transform: translate(310px, 420px);
+        }
+        &.xiajia {
+            transform: translate(540px, 430px) rotate(270deg);
+        }
+        &.duimian {
+            transform: translate(490px, 260px) rotate(180deg);
+        }
+        &.shangjia {
+            transform: translate(260px, 250px) rotate(90deg);
+        }
+    }
+    .shoupai {
+        &.main {
+            shoupai-size: 680px 60px 56px 42px;
+            transform: translate(120px, 620px);
+        }
+        &.xiajia {
+            shoupai-size: 560px 60px 42px 42px;
+            transform: translate(740px, 560px) rotate(270deg);
+        }
+        &.duimian {
+            shoupai-size: 680px 60px 42px 42px;
+            transform: translate(680px, 60px) rotate(180deg);
+        }
+        &.shangjia {
+            shoupai-size: 560px 60px 42px 42px;
+            transform: translate(60px, 120px) rotate(90deg);
+        }
+    }
+    > .player {
+        font-size: 20px;
+        width: 160px;
+        height: 30px;
+        border-radius: 12px 0px;
+        padding: 2px 20px;
+        &.main {
+            transform: translate(120px, 580px);
+        }
+        &.xiajia {
+            transform: translate(700px, 560px) rotate(270deg);
+        }
+        &.duimian {
+            transform: translate(680px, 100px) rotate(180deg);
+        }
+        &.shangjia {
+            transform: translate(100px, 120px) rotate(90deg);
+        }
+    }
+    .say {
+        width:  200px;
+        height: 100px;
+        font-size: 64px;
+        &.main {
+            transform: translate(300px, 520px);
+        }
+        &.xiajia {
+            transform: translate(600px, 290px);
+        }
+        &.duimian {
+            transform: translate(300px, 50px);
+        }
+        &.shangjia {
+            transform: translate(0px, 290px);
+        }
+    }
+    .controler {
+        transform: translate(120px, 120px);
+        > img {
+            width:  20px;
+            height: 20px;
+            margin: 0px 2px;
+        }
+        .speed {
+            text-align: center;
+            img {
+                width:  16px;
+                height: 16px;
+                margin: 0px 2px;
+            }
+            span {
+                width: 14px;
+                height: 8px;
+                margin: 4px 0px;
+            }
+        }
+    }
+    .kaiju {
+        transform: translate(0px, 120px);
+    }
+    .huledialog {
+        transform: translate(0px, 100px);
+        min-width: 460px;
+        padding: 20px;
+        .hule {
+            .shan {
+                font-size: 20px;
+                pai-size:  35px;
+                &.baopai {
+                    margin-left: 40px;
+                }
+                &.fubaopai {
+                    margin-right: 40px;
+                }
+            }
+            .shoupai {
+                shoupai-size: auto 70px 49px 49px;
+            }
+            .hupai {
+                margin: 10px auto;
+                min-width: 280px;
+                font-size: 24px;
+            }
+            .jicun {
+                font-size: 16px;
+                .choma {
+                    padding-left: 8px;
+                    width: 60px;
+                    height: 8px;
+                }
+            }
+        }
+        .pingju {
+            font-size: 48px;
+            margin-top: 50px;
+            margin-bottom: 100px;
+        }
+        .fenpei {
+            width: 380px;
+            height: 80px;
+            margin: 15px auto 0px auto;
+            font-size: 16px;
+            line-height: 16px;
+            > * {
+                width: 88px;
+                &.main {
+                    transform: translate(146px, 48px);
+                }
+                &.xiajia {
+                    transform: translate(292px, 24px);
+                }
+                &.duimian {
+                    transform: translate(146px, 0px);
+                }
+                &.shangjia {
+                    transform: translate(0px, 24px);
+                }
+                .defen {
+                    width: 60px;
+                }
+                .diff {
+                    width: 88px;
+                }
+            }
+        }
+    }
+    > .summary {
+        width:  680px;
+        max-height: 540px;
+        transform: translate(0px, 60px);
+        table {
+            width: 640px;
+            margin: 18px auto;
+            font-size: 18px;
+            .player {
+                width: 114px;
+            }
+            .point {
+                font-size: 24px;
+            }
+        }
+    }
+}
