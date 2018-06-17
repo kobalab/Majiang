@@ -6,6 +6,8 @@
 const $ = require('jquery');
 require('jquery-ui/ui/widgets/sortable');
 
+const Paipu = require('./paipu');
+
 function fix_paipu(paipu) {
 
     const format = {};
@@ -90,7 +92,7 @@ constructor(node, storage) {
     $('.upload input', node).on('change', function(){
         for (let file of  this.files) {
             if (! file.type.match(/^application\/json$/i)
-                && ! file.name.match(/\.json$/i)) 
+                && ! file.name.match(/\.json$/i))
             {
                 self.error(`不正なファイル: ${file.name}`);
                 continue;
@@ -158,6 +160,20 @@ redraw() {
     });
 
     $('.row', this._node).fadeIn();
+
+    return this;
+}
+
+open_player(idx) {
+
+    this._viewer = new Paipu($('#game'), this._paipu.get(idx));
+    this._viewer._callback = ()=>{
+        $('body').removeClass('game').addClass('file').hide().fadeIn();
+    };
+    this._viewer.kaiju();
+    $('body').removeClass('file').addClass('game').hide().fadeIn();
+
+    return this;
 }
 
 set_handler() {
@@ -168,6 +184,10 @@ set_handler() {
 
     let row = $('.row', this._node);
     for (let i = 0; i < this._paipu.length(); i++) {
+
+        $('.replay', row.eq(i)).on('click', i, function(event){
+            self.open_player(event.data);
+        });
 
         $('.delete', row.eq(i)).on('click', i, function(event){
             self._paipu.del(event.data);

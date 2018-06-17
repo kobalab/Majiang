@@ -10,10 +10,10 @@ defen-font = "Georgia", serif;
 }
 
 .hide {
-    display: none;
+    display: none !important;
 }
 .fadeout {
-    opacity: 0;
+    opacity: 0 !important;
 }
 
 shoupai-size($width, $height, $bingpai-height, $fulou-height) {
@@ -157,7 +157,6 @@ pai-size($pai-height) {
 }
 
 .huledialog {
-    white-space: nowrap;
     transition: opacity 0.2s ease-out;
     .hule {
         .shan {
@@ -165,6 +164,7 @@ pai-size($pai-height) {
         }
         .hupai {
             font-family: title-font;
+            line-height: 1;
             .fanshu {
                 text-align: right;
                 padding-left: 2em;
@@ -180,11 +180,13 @@ pai-size($pai-height) {
     .fenpei {
         font-family: defen-font;
         .player {
+            white-space: nowrap;
             display: inline-block;
             vertical-align: bottom;
             overflow: hidden;
             text-overflow: ellipsis;
         }
+        .feng
         .defen
         .diff {
             display: inline-block;

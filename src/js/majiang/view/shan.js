@@ -39,4 +39,9 @@ redraw() {
     return this;
 }
 
+update() {
+    this._node.paishu.text(this._shan.paishu());
+    return this;
+}
+
 }

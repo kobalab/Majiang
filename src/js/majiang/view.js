@@ -10,5 +10,7 @@ module.exports = {
     Shan:       require('./view/shan'),
     He:         require('./view/he'),
     HuleDialog: require('./view/huledialog'),
-    PaipuFile:  require('./view/paipufile')
+    PaipuFile:  require('./view/paipufile'),
+    Paipu:      require('./view/paipu'),
+    Game:       require('./view/game'),
 };
