@@ -150,46 +150,47 @@ body.game {
         overflow: auto;
         display: flex;
         align-items: center;
-    }
-    .huledialog > div {
-        background: rgba(0,0,0,0.8);
-        margin: auto;
-        .hule {
-            .shan {
-                &.baopai {
-                    float: left;
+        > div {
+            display: table;
+            background: rgba(0,0,0,0.8);
+            margin: auto;
+            .hule {
+                .shan {
+                    &.baopai {
+                        float: left;
+                    }
+                    &.fubaopai {
+                        float: right;
+                    }
                 }
-                &.fubaopai {
-                    float: right;
+                .shoupai {
+                    clear: both;
+                }
+                .hupai {
+                    .r_defen {
+                        text-align: right;
                 }
             }
-            .shoupai {
-                clear: both;
-            }
-            .hupai {
-                .r_defen {
-                    text-align: right;
+                .jicun {
+                    text-align: center;
                 }
             }
-            .jicun {
+            .pingju {
                 text-align: center;
             }
-        }
-        .pingju {
-            text-align: center;
-        }
-        .fenpei {
-            > * {
-                position: absolute;
-                transform-origin: 0% 0%;
-                .player {
-                    display: none;
-                }
-                .defen {
-                    float: right;
-                }
-                .diff {
-                    float: right;
+            .fenpei {
+                > * {
+                    position: absolute;
+                    transform-origin: 0% 0%;
+                    .player {
+                        display: none;
+                    }
+                    .defen {
+                        float: right;
+                    }
+                    .diff {
+                        float: right;
+                    }
                 }
             }
         }
