@@ -196,12 +196,14 @@ body.game {
         }
     }
     > .summary {
-        position: relative;
-        background: rgba(0,0,0,0.8);
-        margin: auto;
+        width: 800px;
         overflow: auto;
+    }
+    > .summary > div {
+        background: rgba(0,0,0,0.8);
         transition: opacity 0.4s ease-out;
         table {
+            margin: auto;
             font-family: defen-font;
             border-collapse: collapse;
             line-height: 1.5;
