@@ -146,8 +146,12 @@ body.game {
         }
     }
     .huledialog {
-        display: table;
-        position: relative;
+        width: 800px;
+        overflow: auto;
+        display: flex;
+        align-items: center;
+    }
+    .huledialog > div {
         background: rgba(0,0,0,0.8);
         margin: auto;
         .hule {
