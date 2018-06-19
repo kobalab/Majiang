@@ -383,7 +383,7 @@ summary(paipu) {
         else                     point.eq(i).removeClass('minus');
     }
 
-    this._view.summary.removeClass('hide');
+    this._view.summary.removeClass('hide').scrollTop(0);
     setTimeout(() => this._view.summary.removeClass('fadeout'), 10);
 }
 
