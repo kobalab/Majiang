@@ -198,9 +198,15 @@ body.game {
     > .summary {
         width: 800px;
         overflow: auto;
+        display: flex;
+        align-items: center;
+        transition: opacity 0.4s ease-out;
         > div {
+            margin: auto 0px;
+        }
+        > div > div {
+            margin: auto;
             background: rgba(0,0,0,0.8);
-            transition: opacity 0.4s ease-out;
             table {
                 margin: auto;
                 font-family: defen-font;
