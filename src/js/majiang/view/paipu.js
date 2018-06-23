@@ -516,8 +516,10 @@ summary() {
     this._timer_id = clearTimeout(this._timer_id);
     if (this._summary) {
         this._view.summary();
+        $('.controler', this._root).removeClass('hide');
     }
     else {
+        $('.controler', this._root).addClass('hide');
         this._view.summary(this._paipu);
         $('.summary tbody tr').each((i, tr) => {
             $(tr).on('mousedown', ()=>this.top(i));
