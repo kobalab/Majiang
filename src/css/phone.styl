@@ -1,0 +1,250 @@
+@media screen and (max-height: 720px) {
+
+body.game {
+    margin: 0px;
+}
+#game {
+    margin-top: 8px;
+    height: 450px;
+    .chang {
+        width:  280px;
+        height: 100px;
+        transform: translate(240px, 170px);
+        .xiaoxi {
+            height: 48px;
+            padding: 4px;
+            .jushu {
+                font-size: 30px;
+                float: left;
+            }
+            .jicun {
+                font-size: 14px;
+                padding-left: 12px;
+                float: left;
+                .choma {
+                    width: 30px;
+                    height: 6px;
+                }
+            }
+        }
+        .shan {
+            height: 48px;
+            padding: 4px;
+            pai-size: 28px;
+            font-size: 14px;
+        }
+        .defen {
+            font-size: 16px;
+            padding: 2px;
+            span {
+                width:  90px;
+                height: 20px;
+                &.main {
+                    transform: translate(95px, 15px);
+                }
+                &.xiajia {
+                    transform: translate(185px, 0px);
+                }
+                &.duimian {
+                    transform: translate(95px, -15px);
+                }
+                &.shangjia {
+                    transform: translate(5px, 0px);
+                }
+            }
+        }
+    }
+    .he {
+        he-size: 235px 35px;
+        &.main {
+            transform: translate(305px, 270px);
+        }
+        &.xiajia {
+            transform: translate(520px, 295px) rotate(270deg);
+        }
+        &.duimian {
+            transform: translate(455px, 170px)  rotate(180deg);
+        }
+        &.shangjia {
+            transform: translate(240px, 145px) rotate(90deg);
+        }
+    }
+    .shoupai {
+        &.main {
+            shoupai-size: 604px 50px 49px 35px;
+            transform: translate(78px, 398px);
+        }
+        &.xiajia {
+            shoupai-size: 448px 87px 35px 35px;
+            transform: translate(652px, 450px) rotate(270deg);
+            .bingpai {
+                margin-left: 60px;
+            }
+        }
+        &.duimian {
+            shoupai-size: 490px 50px 35px 35px;
+            transform: translate(625px, 52px) rotate(180deg);
+        }
+        &.shangjia {
+            shoupai-size: 448px 87px 35px 35px;
+            transform: translate(108px, 0px) rotate(90deg);
+            .bingpai {
+                margin-left: 20px;
+            }
+        }
+    }
+    > .player {
+        display: flex;
+        align-items: center;
+        white-space: normal;
+        font-size: 16px;
+        width:  80px;
+        height: 48px;
+        border-radius: 4px;
+        padding: 2px 4px;
+        &.main {
+            transform: translate(214px, 333px);
+        }
+        &.xiajia {
+            transform: translate(583px, 386px) rotate(270deg);
+        }
+        &.duimian {
+            transform: translate(546px, 107px) rotate(180deg);
+        }
+        &.shangjia {
+            transform: translate(177px, 54px) rotate(90deg);
+        }
+    }
+    .say {
+        &.main {
+            transform: translate(280px, 300px);
+        }
+        &.xiajia {
+            transform: translate(520px, 170px);
+        }
+        &.duimian {
+            transform: translate(280px, 40px);
+        }
+        &.shangjia {
+            transform: translate(40px, 170px);
+        }
+    }
+    .controler {
+        width:   40px;
+        padding-top: 32px;
+        transform: translate(760px, 0px);
+        text-align: center;
+        > img {
+            width:  24px;
+            height: 24px;
+            padding: 2px 8px;
+        }
+        .speed {
+            margin: 10px 0px;
+            img {
+                display: block;
+                width:  24px;
+                height: 24px;
+                margin: 4px auto;
+            }
+            span {
+                display: block;
+                width: 24px;
+                height: 8px;
+                margin: 2px auto;
+            }
+        }
+    }
+    .kaiju {
+        transform: translate(0px, 60px);
+        width: 580px;
+        .title {
+            margin: 40px 20px;
+            font-size: 32px;
+        }
+        .player {
+            margin: 40px 20px;
+            height: 132px;
+            font-size: 24px;
+            > div {
+                width: 240px;
+                height: 38px;
+                padding: 0px 10px;
+                border-radius: 4px;
+                &.main {
+                    transform: translate(140px, 96px);
+                }
+                &.xiajia {
+                    transform: translate(280px, 48px);
+                }
+                &.duimian {
+                    transform: translate(140px, 0px);
+                }
+                &.shangjia {
+                    transform: translate(0px, 48px);
+                }
+            }
+        }
+    }
+    .huledialog {
+        height: 450px;
+        > div {
+            width: 760px;
+            min-height: 340px;
+        }
+        > div > div {
+            min-width: 420px;
+            padding: 12px;
+            .hule {
+                .shan {
+                    font-size: 16px;
+                    pai-size:  28px;
+                    &.baopai {
+                        margin-left: 40px;
+                    }
+                    &.fubaopai {
+                        margin-right: 40px;
+                    }
+                }
+                .shoupai {
+                    shoupai-size: auto 60px 42px 42px;
+                }
+                .hupai {
+                    margin: 10px auto;
+                    min-width: 200px;
+                    font-size: 20px;
+                }
+                .jicun {
+                    font-size: 14px;
+                    .choma {
+                        padding-left: 8px;
+                        width: 60px;
+                        height: 8px;
+                    }
+                }
+            }
+            .pingju {
+                font-size: 40px;
+                margin-top: 40px;
+                margin-bottom: 60px;
+            }
+        }
+    }
+    > .summary {
+        height: 450px;
+        > div {
+            width: 800px;
+            min-height: 360px;
+            > div {
+                table {
+                    font-size: 16px;
+                    .point {
+                        font-size: 20px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+}
