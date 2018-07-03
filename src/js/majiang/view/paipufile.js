@@ -118,6 +118,34 @@ constructor(node, storage) {
     });
 }
 
+load_paipu(url) {
+
+    const success = data => {
+        try {
+            this._paipu.add(data);
+            this.redraw();
+        }
+        catch(e) {
+            this.redraw();
+            this.error(`不正なファイル: ${decodeURI(url)}`);
+        }
+    }
+    const error = e => {
+        console.log(e);
+        this.redraw();
+        this.error(`${decodeURI(url)}: ${e.status} ${e.statusText}`);
+    }
+
+    this.redraw();
+
+    $.ajax({
+        url:         url,
+        contentType: 'application/json',
+        success:     success,
+        error:       error
+    });
+}
+
 redraw() {
 
     let list = $('.list', this._node).empty();

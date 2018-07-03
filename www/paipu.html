@@ -11,7 +11,14 @@
     <script>
         $(function(){
             $('.version').text('ver. ' + Majiang.VERSION);
-            new Majiang.View.PaipuFile($('#file'), 'Majiang.paipu').redraw();
+            if (location.search) {
+                new Majiang.View.PaipuFile($('#file'))
+                    .load_paipu(location.search.replace(/^\?/,''));
+            }
+            else {
+                new Majiang.View.PaipuFile($('#file'), 'Majiang.paipu')
+                    .redraw();
+            }
         });
     </script>
 </head>
