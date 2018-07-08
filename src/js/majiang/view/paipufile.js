@@ -118,7 +118,7 @@ constructor(node, storage) {
     });
 }
 
-load_paipu(url) {
+load_paipu(url, fragment) {
 
     const success = data => {
         try {
@@ -126,8 +126,10 @@ load_paipu(url) {
             this.redraw();
         }
         catch(e) {
-            this.redraw();
             this.error(`不正なファイル: ${decodeURI(url)}`);
+        }
+        if (fragment) {
+            this.open_player(...fragment.split('/').map(x=>(x=='')?0:x));
         }
     }
     const error = e => {
@@ -192,13 +194,16 @@ redraw() {
     return this;
 }
 
-open_player(idx) {
+open_player(paipu_idx, viewpoint, log_idx, idx) {
 
-    this._viewer = new Paipu($('#game'), this._paipu.get(idx));
+    if (paipu_idx >= this._paipu.length()) return this;
+
+    this._viewer = new Paipu($('#game'), this._paipu.get(paipu_idx));
     this._viewer._callback = ()=>{
         $('body').removeClass('game').addClass('file').hide().fadeIn();
     };
-    this._viewer.kaiju();
+    if (viewpoint == null) this._viewer.kaiju();
+    else                   this._viewer.start(viewpoint, log_idx, idx);
     $('body').removeClass('file').addClass('game').hide().fadeIn();
 
     return this;

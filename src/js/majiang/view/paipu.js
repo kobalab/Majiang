@@ -195,9 +195,15 @@ update_controler() {
     });
 }
 
-start() {
+start(viewpoint, log_idx = 0, idx = 0) {
+
     this.set_handler();
-    this.next()
+
+    if (viewpoint != null) {
+        this.seek(log_idx, idx);
+        this.viewpoint(viewpoint);
+    }
+    else this.next();
 }
 
 kaiju() {
