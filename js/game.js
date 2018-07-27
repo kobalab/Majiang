@@ -658,7 +658,8 @@ Majiang.Game.prototype.hule = function() {
                         || this._hule_option == 'lingshang') ? 0
                             : ! rongpai                      ? 1
                             :                                  2,
-            tianhu:     (this._diyizimo && ! rongpai) ? (l == 0 ? 1 : 2) : 0,
+            tianhu:     (this._diyizimo && ! rongpai)
+                            ? (lunban == 0 ? 1 : 2) : 0,
         },
         baopai:         this._model.shan.baopai(),
         fubaopai:       fubaopai || [],
