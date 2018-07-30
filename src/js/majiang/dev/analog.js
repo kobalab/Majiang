@@ -65,6 +65,7 @@ qipai(qipai) {
         shoupai:    [],
         he:         [],
         baopai:     [qipai.baopai],
+        paishu:     136 - 13 * 4 -14,
         lunban:     0,
     };
     for (let l = 0; l < 4; l++) {
@@ -74,6 +75,7 @@ qipai(qipai) {
 }
 
 zimo(zimo) {
+    this._game.paishu--;
     this._game.shoupai[zimo.l].zimo(zimo.p);
     this._game.lunban = zimo.l;
 }
@@ -105,6 +107,7 @@ gang(gang) {
 }
 
 gangzimo(gangzimo) {
+    this._game.paishu--;
     this._game.shoupai[gangzimo.l].zimo(gangzimo.p);
 }
 
