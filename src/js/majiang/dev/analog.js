@@ -29,6 +29,8 @@ constructor() {
 
 analyze(id, paipu) {
     this._id = id;
+    this._ju = 0;
+    this._qijia = paipu.qijia;
     for (let log of paipu.log) {
         this.log(log);
     }
@@ -53,6 +55,7 @@ log(log) {
         else if (data.hule)     this.hule    (data.hule);
         else if (data.pingju)   this.pingju  (data.pingju);
     }
+    this._ju++;
     this._result.n_ju++;
 }
 
@@ -67,6 +70,7 @@ qipai(qipai) {
         baopai:     [qipai.baopai],
         paishu:     136 - 13 * 4 -14,
         lunban:     0,
+        player_id:  [0,1,2,3].map(l=>(this._qijia + qipai.jushu + l) % 4),
     };
     for (let l = 0; l < 4; l++) {
         this._game.shoupai[l] = Majiang.Shoupai.fromString(qipai.shoupai[l]);
@@ -137,6 +141,11 @@ pingju(pingju) {
     if (! this._result.pingju[pingju.name])
         this._result.pingju[pingju.name] = 0;
     this._result.pingju[pingju.name]++;
+}
+
+url(l) {
+    let id = l != null ? this._game.player_id[l] : '';
+    return `${this._id}#/${id}/${this._ju}`;
 }
 
 analyze_file(filename) {
