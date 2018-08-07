@@ -15,4 +15,5 @@ module.exports = {
     Shan:    require('./majiang/shan'),
     He:      require('./majiang/he'),
     Util:    require('./majiang/util'),
+    Game:    require('./majiang/game'),
 };
