@@ -255,7 +255,7 @@ next() {
 
     if (! this._redo) {
         if (this._log && this._log.dapai
-            && this._log.dapai.p.substr(-1) == '*') this._view.lizhi();
+            && this._log.dapai.p.substr(-1) == '*') this._view.update({});
         this._idx++;
         this._log = data;
     }
@@ -430,12 +430,10 @@ hule(hule) {
         }
         this._model.changbang = 0;
         this._model.lizhibang = 0;
-
-        this._view.update({hule:this._log.hule});
     }
 
     this._hule(hule);
-    this._view.hule(hule);
+    this._view.update({hule:hule});
 }
 
 _pingju(pingju) {}
@@ -451,7 +449,7 @@ pingju(pingju) {
     this._redo = false;
 
     this._pingju(pingju);
-    this._view.pingju(pingju);
+    this._view.update({pingju:pingju});
 }
 
 jieju() {
@@ -491,8 +489,7 @@ viewpoint(d) {
     this._view.viewpoint = (this._view.viewpoint + d) % 4;
     this._view.redraw();
     let data = this._paipu.log[this._log_idx][this._idx - 1];
-    if      (data.hule)   this._view.hule(data.hule);
-    else if (data.pingju) this._view.pingju(data.pingju);
+    if (data.hule || data.pingju) this._view.update(data);
     return false;
 }
 
@@ -501,8 +498,7 @@ shoupai() {
     this._view.open_shoupai = ! this._view.open_shoupai;
     this._view.redraw();
     let data = this._paipu.log[this._log_idx][this._idx - 1];
-    if      (data.hule)   this._view.hule(data.hule);
-    else if (data.pingju) this._view.pingju(data.pingju);
+    if (data.hule || data.pingju) this._view.update(data);
     return false;
 }
 
@@ -511,8 +507,7 @@ he() {
     this._view.open_he = ! this._view.open_he;
     this._view.redraw();
     let data = this._paipu.log[this._log_idx][this._idx - 1];
-    if      (data.hule)   this._view.hule(data.hule);
-    else if (data.pingju) this._view.pingju(data.pingju);
+    if (data.hule || data.pingju) this._view.update(data);
     return false;
 }
 

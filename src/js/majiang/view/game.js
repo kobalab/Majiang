@@ -201,8 +201,13 @@ update(data) {
     }
     else if (data.hule) {
         this._view.chang.redraw();
+        this.hule(data.hule);
     }
     else if (data.pingju) {
+        this._view.chang.redraw();
+        this.pingju(data.pingju);
+    }
+    else {
         this._view.chang.redraw();
     }
 
@@ -217,10 +222,6 @@ say(name, l) {
     this._view.say[l].text(say_text[name])
                         .removeClass('fadeout').removeClass('hide');
     this._say[l] = name;
-}
-
-lizhi() {
-    this._view.chang.redraw();
 }
 
 hule(hule) {

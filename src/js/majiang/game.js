@@ -426,7 +426,7 @@ hule() {
     }
     this.call_players('hule', msg, this._delay);
 
-    if (this._view) this._view.hule(paipu.hule);
+    if (this._view) this._view.update(paipu);
 }
 
 pingju(name) {
@@ -503,7 +503,7 @@ pingju(name) {
     }
     this.call_players('pingju', msg, this._delay);
 
-    if (this._view) this._view.pingju(paipu.pingju);
+    if (this._view) this._view.update(paipu);
 }
 
 last() {
@@ -647,7 +647,7 @@ reply_dapai() {
     if (this._dapai.substr(-1) =='*') {
         model.defen[model.player_id[model.lunban]] -= 1000;
         model.lizhibang++;
-        if (this._view) this._view.lizhi();
+        if (this._view) this._view.update({});
 
         if (this._lizhi.filter(x=>x).length == 4) {
             this.delay(()=>this.pingju('四家立直'), 0);
