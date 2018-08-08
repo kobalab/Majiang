@@ -13,6 +13,7 @@ function init_game(param = {}) {
     game._model.lizhibang  = 2;
     game._model.defen      = [10000, 20000, 30000, 38000],
     game._player = [0,1,2,3].map(id => new Player(id));
+    game._view   = new View();
     game._speed = 0;
     game.stop();
     game.kaiju();
@@ -54,6 +55,16 @@ function set_msg(paipu) {
         msg[i] = JSON.parse(JSON.stringify(paipu));
     }
     return msg;
+}
+
+class View {
+    constructor()  {}
+    kaiju  (param) { this._param = {kaiju:   param} }
+    redraw (param) { this._param = {redraw:  param} }
+    update (param) { this._param = {update:  param} }
+    say(name, l)   { let param = {}; param[name] = l;
+                     this._param = {say:     param} }
+    summary(param) { this._param = {summary: param} }
 }
 
 class Player {
@@ -293,6 +304,7 @@ suite ('Majiang.Game', function(){
 
     const game = new Majiang.Game();
     game._player = [0,1,2,3].map(id => new Player(id));
+    game._view   = new View();
     game._speed = 0;
     game.stop();
 
@@ -303,6 +315,9 @@ suite ('Majiang.Game', function(){
       assert.equal(game._paipu.qijia, game._model.qijia);
       assert.equal(game._paipu.log.length, 0);
     });
+    test('表示処理が呼び出されること', function(){
+      assert.deepEqual(game._view._param, {kaiju: null});
+    })
     test('通知が伝わること', function(done){
       paipu = { kaiju: {
         player:  game._model.player,
@@ -366,6 +381,9 @@ suite ('Majiang.Game', function(){
       assert.equal(game._paipu.log[0].length, 1);
       assert.deepEqual(game._paipu.log[0][0], paipu);
     });
+    test('表示処理が呼び出されること', function(){
+      assert.deepEqual(game._view._param, {redraw: null});
+    });
     test('通知が伝わること', function(done){
       let msg = [];
       for (let l = 0; l < 4; l++) {
@@ -403,6 +421,9 @@ suite ('Majiang.Game', function(){
     test('牌譜が記録されること', function(){
       paipu = { zimo: { l: 0, p: game._model.shoupai[0]._zimo } };
       assert.deepEqual(last_paipu(game), paipu);
+    });
+    test('表示処理が呼び出されること', function(){
+      assert.deepEqual(game._view._param, {update: paipu});
     });
     test('通知が伝わること', function(done){
       let msg = [];
@@ -445,6 +466,9 @@ suite ('Majiang.Game', function(){
     test('牌譜が記録されること', function(){
       paipu = { dapai: { l: 0, p: dapai } };
       assert.deepEqual(last_paipu(game), paipu);
+    });
+    test('表示処理が呼び出されること', function(){
+      assert.deepEqual(game._view._param, {update: paipu});
     });
     test('通知が伝わること', function(done){
       setTimeout(()=>{
@@ -523,6 +547,9 @@ suite ('Majiang.Game', function(){
       paipu = { fulou: { l: 1, m: 'm12-3' } };
       assert.deepEqual(last_paipu(game), paipu);
     });
+    test('表示処理が呼び出されること', function(){
+      assert.deepEqual(game._view._param, {update: paipu});
+    });
     test('通知が伝わること', function(done){
       setTimeout(()=>{
         assert.deepEqual(MSG, set_msg(paipu));
@@ -561,6 +588,9 @@ suite ('Majiang.Game', function(){
       paipu = { gang: { l: 0, m: 's555+0' } };
       assert.deepEqual(last_paipu(game), paipu);
     });
+    test('表示処理が呼び出されること', function(){
+      assert.deepEqual(game._view._param, {update: paipu});
+    });
     test('通知が伝わること', function(done){
       setTimeout(()=>{
         assert.deepEqual(MSG, set_msg(paipu));
@@ -598,6 +628,9 @@ suite ('Majiang.Game', function(){
     test('牌譜が記録されること', function(){
       paipu = { gangzimo: { l: 0, p: game._model.shoupai[0]._zimo } };
       assert.deepEqual(last_paipu(game, -1), paipu);
+    });
+    test('表示処理が呼び出されること', function(){
+      assert.deepEqual(game._view._param, {update: paipu});
     });
     test('通知が伝わること', function(done){
       let msg = [];
@@ -641,6 +674,9 @@ suite ('Majiang.Game', function(){
       paipu = { kaigang: { baopai: game._model.shan.baopai().pop() } };
       assert.deepEqual(last_paipu(game), paipu);
     });
+    test('表示処理が呼び出されること', function(){
+      assert.deepEqual(game._view._param, {update: paipu});
+    });
     test('通知が伝わること', function(done){
       setTimeout(()=>{
         assert.deepEqual(MSG, set_msg(paipu));
@@ -660,6 +696,9 @@ suite ('Majiang.Game', function(){
         fenpei: [50300, -16100, -16100, -16100]
       }};
       assert.deepEqual(last_paipu(game), paipu);
+    });
+    test('表示処理が呼び出されること', function(){
+      assert.deepEqual(game._view._param, {update: paipu});
     });
     test('通知が伝わること', function(done){
       setTimeout(()=>{
@@ -876,6 +915,9 @@ suite ('Majiang.Game', function(){
         'm67p678s22,s56-7,p444-','m12345p33s333,m406-'], fenpei: [0,0,0,0]
       }};
       assert.deepEqual(last_paipu(game), paipu);
+    });
+    test('表示処理が呼び出されること', function(){
+      assert.deepEqual(game._view._param, {update: paipu});
     });
     test('通知が伝わること', function(done){
       setTimeout(()=>{
@@ -1184,6 +1226,9 @@ suite ('Majiang.Game', function(){
       assert.deepEqual(game._paipu.rank, [4,3,2,1]);
       assert.deepEqual(game._paipu.point, [-40,-20,10,50]);
     });
+    test('表示処理が呼び出されること', function(){
+      assert.deepEqual(game._view._param, {summary: game._paipu});
+    });
     test('通知が伝わること', function(done){
       paipu = { jieju: {
           defen:[10000,20000,30000,40000],
@@ -1236,6 +1281,7 @@ suite ('Majiang.Game', function(){
       game.zimo();
       setTimeout(()=>{
         game.next(1);
+        assert.deepEqual(game._view._param, {say: {lizhi: 0}});
         setTimeout(()=>{
           assert.ok(last_paipu(game).dapai);
           done();
@@ -1260,6 +1306,7 @@ suite ('Majiang.Game', function(){
       game.zimo();
       setTimeout(()=>{
         game.next(1);
+        assert.deepEqual(game._view._param, {say: {zimo: 0}});
         setTimeout(()=>{
           assert.ok(last_paipu(game).hule);
           done();
@@ -1272,6 +1319,7 @@ suite ('Majiang.Game', function(){
       game.zimo();
       setTimeout(()=>{
         game.next(1);
+        assert.deepEqual(game._view._param, {say: {gang: 0}});
         setTimeout(()=>{
           assert.ok(last_paipu(game).gang);
           done();
@@ -1314,6 +1362,7 @@ suite ('Majiang.Game', function(){
       game.dapai('z2');
       setTimeout(()=>{
         game.next(1);
+        assert.deepEqual(game._view._param, {say: {rong: 1}});
         setTimeout(()=>{
           assert.ok(last_paipu(game).hule);
           done();
@@ -1331,6 +1380,7 @@ suite ('Majiang.Game', function(){
       game.dapai('m1');
       setTimeout(()=>{
         game.next(1);
+        assert.deepEqual(game._view._param, {say: {rong: 0}});
         assert.deepEqual(game._hule, [2,0]);
         done();
       }, 10);
@@ -1345,6 +1395,7 @@ suite ('Majiang.Game', function(){
       game.dapai('m4');
       setTimeout(()=>{
         game.next(1);
+        assert.deepEqual(game._view._param, {say: {rong: 3}});
         setTimeout(()=>{
           assert.equal(last_paipu(game).pingju.name, '三家和');
           done();
@@ -1358,6 +1409,7 @@ suite ('Majiang.Game', function(){
       game.dapai('m1');
       setTimeout(()=>{
         game.next(1);
+        assert.deepEqual(game._view._param, {say: {gang: 1}});
         setTimeout(()=>{
           assert.deepEqual(last_paipu(game), {fulou:{l:1,m:'m1111-'}});
           done();
@@ -1371,6 +1423,7 @@ suite ('Majiang.Game', function(){
       game.dapai('m1');
       setTimeout(()=>{
         game.next(1);
+        assert.deepEqual(game._view._param, {say: {peng: 1}});
         setTimeout(()=>{
           assert.deepEqual(last_paipu(game), {fulou:{l:1,m:'m111-'}});
           done();
@@ -1384,6 +1437,7 @@ suite ('Majiang.Game', function(){
       game.dapai('m3');
       setTimeout(()=>{
         game.next(1);
+        assert.deepEqual(game._view._param, {say: {chi: 1}});
         setTimeout(()=>{
           assert.deepEqual(last_paipu(game), {fulou:{l:1,m:'m123-'}});
           done();
@@ -1398,6 +1452,7 @@ suite ('Majiang.Game', function(){
       game.dapai('m1');
       setTimeout(()=>{
         game.next(1);
+        assert.deepEqual(game._view._param, {say: {peng: 2}});
         setTimeout(()=>{
           assert.deepEqual(last_paipu(game), {fulou:{l:2,m:'m111='}});
           done();
@@ -1412,6 +1467,7 @@ suite ('Majiang.Game', function(){
         game.next(1);
         assert.equal(game._model.defen[1], 19000);
         assert.equal(game._model.lizhibang, 3);
+        assert.deepEqual(game._view._param, {update: {}});
         done();
       }, 10);
     });
@@ -1424,6 +1480,7 @@ suite ('Majiang.Game', function(){
         game.next(1);
         assert.equal(game._model.defen[1], 19000);
         assert.equal(game._model.lizhibang, 3);
+        assert.deepEqual(game._view._param, {say: {peng: 1}});
         setTimeout(()=>{
           assert.deepEqual(last_paipu(game), {fulou:{l:1,m:'z333-'}});
           done();
@@ -1440,6 +1497,7 @@ suite ('Majiang.Game', function(){
         game.next(1);
         assert.equal(game._model.defen[1], 20000);
         assert.equal(game._model.lizhibang, 2);
+        assert.deepEqual(game._view._param, {say: {rong: 1}});
         done();
       }, 10);
     });
@@ -1580,6 +1638,7 @@ suite ('Majiang.Game', function(){
       game.gang('m111=1');
       setTimeout(()=>{
         game.next(1);
+        assert.deepEqual(game._view._param, {say: {rong: 1}});
         setTimeout(()=>{
           assert.ok(last_paipu(game).hule);
           done();
@@ -1596,6 +1655,7 @@ suite ('Majiang.Game', function(){
       setTimeout(()=>{
         game.next(1);
         assert.deepEqual(game._hule, [1,2]);
+        assert.deepEqual(game._view._param, {say: {rong: 2}});
         done();
       }, 10);
     });
@@ -1609,6 +1669,7 @@ suite ('Majiang.Game', function(){
       game.gang('m111=1');
       setTimeout(()=>{
         game.next(1);
+        assert.deepEqual(game._view._param, {say: {rong: 3}});
         setTimeout(()=>{
           assert.equal(last_paipu(game).pingju.name, '三家和');
           done();
