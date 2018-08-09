@@ -511,7 +511,7 @@ last() {
     let model = this._model;
 
     model.lunban = -1;
-    if (this._view) this._view.update({});
+    if (this._view) this._view.update();
 
     if (! this._lianzhuang) {
         model.jushu++;
@@ -650,7 +650,7 @@ reply_dapai() {
     if (this._dapai.substr(-1) =='*') {
         model.defen[model.player_id[model.lunban]] -= 1000;
         model.lizhibang++;
-        if (this._view) this._view.update({});
+        if (this._view) this._view.update();
 
         if (this._lizhi.filter(x=>x).length == 4) {
             this.delay(()=>this.pingju('四家立直'), 0);

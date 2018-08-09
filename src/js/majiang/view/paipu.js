@@ -255,7 +255,7 @@ next() {
 
     if (! this._redo) {
         if (this._log && this._log.dapai
-            && this._log.dapai.p.substr(-1) == '*') this._view.update({});
+            && this._log.dapai.p.substr(-1) == '*') this._view.update();
         this._idx++;
         this._log = data;
     }
@@ -457,7 +457,7 @@ jieju() {
         this._model.defen[id] = this._paipu.defen[id];
     }
     this._model.lunban = -1;
-    this._view.update({});
+    this._view.update();
     this.summary();
     this._jieju = true;
 }

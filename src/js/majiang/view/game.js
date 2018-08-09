@@ -148,7 +148,7 @@ redraw() {
     return this;
 }
 
-update(data) {
+update(data = {}) {
 
     if (this._lunban >= 0 && this._lunban != this._model.lunban) {
         if (this._say[this._lunban]) {

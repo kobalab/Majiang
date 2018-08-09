@@ -1467,7 +1467,7 @@ suite ('Majiang.Game', function(){
         game.next(1);
         assert.equal(game._model.defen[1], 19000);
         assert.equal(game._model.lizhibang, 3);
-        assert.deepEqual(game._view._param, {update: {}});
+        assert.deepEqual(game._view._param, {update: null});
         done();
       }, 10);
     });
