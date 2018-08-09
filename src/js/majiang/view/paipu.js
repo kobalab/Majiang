@@ -457,6 +457,7 @@ jieju() {
         this._model.defen[id] = this._paipu.defen[id];
     }
     this._model.lunban = -1;
+    this._view.update({});
     this.summary();
     this._jieju = true;
 }

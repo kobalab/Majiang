@@ -510,6 +510,9 @@ last() {
 
     let model = this._model;
 
+    model.lunban = -1;
+    if (this._view) this._view.update({});
+
     if (! this._lianzhuang) {
         model.jushu++;
         model.zhuangfeng += Math.floor(model.jushu / 4);
