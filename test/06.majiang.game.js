@@ -1,6 +1,9 @@
 const assert = require('assert');
 
 const Majiang = require('../src/js/majiang');
+Majiang.Dev = { Game: require('../src/js/majiang/dev/game') };
+
+const script = require('./data/script.json');
 
 let MSG = [];
 
@@ -1786,5 +1789,15 @@ suite ('Majiang.Game', function(){
         }, 0);
       }, 10);
     });
+  });
+
+  suite('シナリオ通りに局が進むこと', function(){
+    for (let paipu of script) {
+      test(paipu.title, function(){
+        let game = new Majiang.Dev.Game(
+                        JSON.parse(JSON.stringify(paipu))).do_test();
+        assert.deepEqual(paipu, game._paipu);
+      });
+    }
   });
 });
