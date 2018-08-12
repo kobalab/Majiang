@@ -1259,6 +1259,11 @@ suite ('Majiang.Game', function(){
       game._model.lizhibang = 0;
       game.jieju();
       assert.deepEqual(game._paipu.point, [-30,9,-20,41]);
+      game = init_game();
+      game._model.defen = [-1500, 83800, 6000, 11700];
+      game._model.lizhibang = 0;
+      game.jieju();
+      assert.deepEqual(game._paipu.point, [-51,93,-34,-8]);
     });
   });
 
