@@ -48,4 +48,26 @@ suite('Majiang.He', function(){
       assert.equal(he.fulou('-')._pai.pop().substr(-1), '-');
     });
   });
+
+  suite('.find(p)', function(){
+    let he = new Majiang.He();
+    test('捨てられた牌を探せること', function(){
+      assert.ok(he.dapai('m1').find('m1'));
+    });
+    test('ツモ切りの牌を探せること', function(){
+      assert.ok(he.dapai('m2_').find('m2'));
+    });
+    test('リーチ打牌を探せること', function(){
+      assert.ok(he.dapai('m3*').find('m3'));
+    });
+    test('赤牌を探せること', function(){
+      assert.ok(he.dapai('m0').find('m5'));
+    });
+    test('鳴かれた牌を探せること', function(){
+      assert.ok(he.dapai('m4_').fulou('-').find('m4'));
+    });
+    test('入力が正規化されていない場合でも探せること', function(){
+      assert.ok(he.find('m0_*'));
+    });
+  });
 });
