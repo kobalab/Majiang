@@ -142,9 +142,11 @@ function paili() {
         if (dapai.length && dapai[dapai.length - 1].p == p) continue;
 
         let tingpai   = Majiang.Util.tingpai(new_shoupai);
-        let n_tingpai = tingpai.map(
-                            p => 4 - model.shoupai._bingpai[p[0]][p[1]]
-                        ).reduce((x,y)=>x+y);
+        let n_tingpai = tingpai.length
+                          ? tingpai.map(
+                                p => 4 - model.shoupai._bingpai[p[0]][p[1]]
+                            ).reduce((x,y)=>x+y)
+                          : 0;
 
         dapai.push({ p: p, tingpai: tingpai, n_tingpai: n_tingpai });
     }
