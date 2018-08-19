@@ -146,10 +146,11 @@ qipai(shan) {
     this._dapai    = null;
     this._gang     = null;
 
-    this._lizhi    = [0,0,0,0];
-    this._yifa     = [0,0,0,0];
-    this._n_gang   = [0,0,0,0];
-    this._hule     = [];
+    this._lizhi     = [0,0,0,0];
+    this._yifa      = [0,0,0,0];
+    this._n_gang    = [0,0,0,0];
+    this._neng_rong = [1,1,1,1];
+    this._hule      = [];
 
     this._no_game    = true;
     this._lianzhuang = false;
@@ -216,6 +217,9 @@ dapai(dapai) {
 
     this._yifa[model.lunban] = 0;
 
+    if (! model.shoupai[model.lunban].lizhi())
+                                        this._neng_rong[model.lunban] = true;
+
     model.shoupai[model.lunban].dapai(dapai);
     model.he[model.lunban].dapai(dapai);
 
@@ -232,6 +236,13 @@ dapai(dapai) {
     }
 
     this._dapai = dapai;
+
+    if (Majiang.Util.xiangting(model.shoupai[model.lunban]) == 0
+        && Majiang.Util.tingpai(model.shoupai[model.lunban])
+                                    .find(p=>model.he[model.lunban].find(p)))
+    {
+        this._neng_rong[model.lunban] = false;
+    }
 
     let paipu = { dapai: { l: model.lunban, p: dapai } };
     this.add_paipu(paipu);
@@ -607,23 +618,42 @@ reply_zimo() {
 
     let reply = this._reply[model.player_id[model.lunban]];
     if (reply.pingju) {
-        this.delay(()=>this.pingju('九種九牌'), 0);
+        if (this.allow_pingju()) {
+            this.delay(()=>this.pingju('九種九牌'), 0);
+            return;
+        }
     }
     else if (reply.hule) {
-        if (this._view) this._view.say('zimo', model.lunban);
-        this.delay(()=>this.hule());
+        if (this.allow_hule()) {
+            if (this._view) this._view.say('zimo', model.lunban);
+            this.delay(()=>this.hule());
+            return;
+        }
     }
     else if (reply.gang) {
-        if (this._view) this._view.say('gang', model.lunban);
-        this.delay(()=>this.gang(reply.gang));
+        if (this.get_gang_mianzi().find(m=>m==reply.gang)) {
+            if (this._view) this._view.say('gang', model.lunban);
+            this.delay(()=>this.gang(reply.gang));
+            return;
+        }
     }
     else if (reply.dapai) {
-        if (reply.dapai.substr(-1) == '*') {
-            if (this._view) this._view.say('lizhi', model.lunban);
-            this.delay(()=>this.dapai(reply.dapai));
+        if (this.get_dapai().find(p=>p==reply.dapai.replace(/\*$/,''))) {
+            if (reply.dapai.substr(-1) == '*'
+                && this.allow_lizhi(reply.dapai))
+            {
+                if (this._view) this._view.say('lizhi', model.lunban);
+                this.delay(()=>this.dapai(reply.dapai));
+            }
+            else {
+                this.delay(()=>this.dapai(reply.dapai.replace(/\*$/,'')), 0);
+            }
+            return;
         }
-        else this.delay(()=>this.dapai(reply.dapai), 0);
     }
+
+    let p = this.get_dapai().pop();
+    this.delay(()=>this.dapai(p), 0);
 }
 
 reply_dapai() {
@@ -633,9 +663,14 @@ reply_dapai() {
     for (let i = 1; i < 4; i++) {
         let l = (model.lunban + i) % 4;
         let reply = this._reply[model.player_id[l]];
-        if (reply.hule) {
+        if (reply.hule && this.allow_hule(l)) {
             if (this._view) this._view.say('rong', l);
             this._hule.push(l);
+        }
+        else {
+            let shoupai = model.shoupai[l].clone().zimo(this._dapai);
+            if (Majiang.Util.xiangting(shoupai) == -1)
+                                        this._neng_rong[l] = false;
         }
     }
     if (this._hule.length == 3) {
@@ -679,23 +714,29 @@ reply_dapai() {
         if (reply.fulou) {
             let m = reply.fulou.replace(/0/g,'5');
             if (m.match(/^[mpsz](\d)\1\1\1/)) {
-                if (this._view) this._view.say('gang', l);
-                this.delay(()=>this.fulou(reply.fulou));
-                return;
+                if (this.get_gang_mianzi(l).find(m=>reply.fulou)) {
+                    if (this._view) this._view.say('gang', l);
+                    this.delay(()=>this.fulou(reply.fulou));
+                    return;
+                }
             }
-            if (m.match(/^[mpsz](\d)\1\1/)) {
-                if (this._view) this._view.say('peng', l);
-                this.delay(()=>this.fulou(reply.fulou));
-                return;
+            else if (m.match(/^[mpsz](\d)\1\1/)) {
+                if (this.get_peng_mianzi(l).find(m=>reply.fulou)) {
+                    if (this._view) this._view.say('peng', l);
+                    this.delay(()=>this.fulou(reply.fulou));
+                    return;
+                }
             }
         }
     }
     let l = (model.lunban + 1) % 4;
     let reply = this._reply[model.player_id[l]];
     if (reply.fulou) {
-        if (this._view) this._view.say('chi', l);
-        this.delay(()=>this.fulou(reply.fulou));
-        return;
+        if (this.get_chi_mianzi(l).find(m=>reply.fulou)) {
+            if (this._view) this._view.say('chi', l);
+            this.delay(()=>this.fulou(reply.fulou));
+            return;
+        }
     }
 
     this.delay(()=>this.zimo(), 0);
@@ -712,20 +753,36 @@ reply_fulou() {
 
     let reply = this._reply[model.player_id[model.lunban]];
     if (reply.dapai) {
-        this.delay(()=>this.dapai(reply.dapai), 0);
+        if (this.get_dapai().find(p=>p==reply.dapai.replace(/\*$/,''))) {
+            this.delay(()=>this.dapai(reply.dapai), 0);
+            return;
+        }
     }
+
+    let p = this.get_dapai().pop();
+    this.delay(()=>this.dapai(p), 0);
 }
 
 reply_gang() {
 
     let model = this._model;
 
+    if (this._gang.match(/^[mpsz]\d{4}$/)) {
+        this.delay(()=>this.gangzimo(), 0);
+        return;
+    }
+
     for (let i = 1; i < 4; i++) {
         let l = (model.lunban + i) % 4;
         let reply = this._reply[model.player_id[l]];
-        if (reply.hule) {
+        if (reply.hule && this.allow_hule(l)) {
             if (this._view) this._view.say('rong', l);
             this._hule.push(l);
+        }
+        else {
+            let shoupai = model.shoupai[l].clone().zimo(this._gang.substr(0,2));
+            if (Majiang.Util.xiangting(shoupai) == -1)
+                                        this._neng_rong[l] = false;
         }
     }
     if (this._hule.length == 3) {
@@ -773,6 +830,210 @@ reply_pingju() {
 
 reply_jieju() {
     if (this._callback) this._callback();
+}
+
+get_dapai() {
+    let model = this._model;
+    return Game.get_dapai(model.shoupai[model.lunban]);
+}
+
+get_chi_mianzi(l) {
+    let model = this._model;
+    let p = this._dapai.substr(0,2)
+          + ['','+','=','-'][(4 + model.lunban - l) % 4];
+    return Game.get_chi_mianzi(model.shoupai[l], p, model.shan.paishu());
+}
+
+get_peng_mianzi(l) {
+    let model = this._model;
+    let p = this._dapai.substr(0,2)
+          + ['','+','=','-'][(4 + model.lunban - l) % 4];
+    return Game.get_peng_mianzi(model.shoupai[l], p, model.shan.paishu());
+}
+
+get_gang_mianzi(l) {
+    let model = this._model;
+    if (l != null) {
+        let p = this._dapai.substr(0,2)
+              + ['','+','=','-'][(4 + model.lunban - l) % 4];
+        return Game.get_gang_mianzi(model.shoupai[l], p, model.shan.paishu());
+    }
+    else {
+        return Game.get_gang_mianzi(model.shoupai[model.lunban], null,
+                                    model.shan.paishu());
+    }
+}
+
+allow_lizhi(p) {
+    let model = this._model;
+    return Game.allow_lizhi(model.shoupai[model.lunban], p,
+                            model.shan.paishu(),
+                            model.defen[model.player_id[model.lunban]]);
+}
+
+allow_hule(l) {
+    let model = this._model;
+    if (l != null) {
+        let p = (this._status == 'gang' ? this._gang[0] + this._gang.substr(-1)
+                                        : this._dapai.substr(0,2))
+              + ['','+','=','-'][(4 + model.lunban - l) % 4];
+        let hupai = model.shoupai[l].lizhi()
+                    || this._status == 'gang'
+                    || model.shan.paishu() == 0;
+        return Game.allow_hule(model.shoupai[l], p, model.zhuangfeng, l,
+                               hupai, this._neng_rong[l]);
+    }
+    else {
+        let hupai = model.shoupai[model.lunban].lizhi()
+                    || this._status == 'gangzimo'
+                    || model.shan.paishu() == 0;
+        return Game.allow_hule(model.shoupai[model.lunban], null,
+                               model.zhuangfeng, model.lunban, hupai);
+    }
+}
+
+allow_pingju() {
+    let model = this._model;
+    return Game.allow_pingju(model.shoupai[model.lunban], this._diyizimo);
+}
+
+static get_dapai(shoupai) {
+
+    if (! shoupai._zimo) return [];
+
+    if (shoupai.lizhi()) return [ shoupai._zimo + '_' ];
+
+    let dapai = shoupai.get_dapai();
+    if (shoupai._zimo.length > 2) return dapai;
+
+    let [s, n] = shoupai._zimo;
+    if (shoupai._bingpai[s][n] == 1)
+        dapai.splice(dapai.indexOf(shoupai._zimo), 1);
+    return dapai.concat(shoupai._zimo + '_');
+}
+
+static get_chi_mianzi(shoupai, p, paishu) {
+
+    if (shoupai._zimo) return [];
+
+    if (shoupai.lizhi()) return [];
+
+    if (! paishu) return [];
+
+    return shoupai.get_chi_mianzi(p);
+}
+
+static get_peng_mianzi(shoupai, p, paishu) {
+
+    if (shoupai._zimo) return [];
+
+    if (shoupai.lizhi()) return [];
+
+    if (! paishu) return [];
+
+    return shoupai.get_peng_mianzi(p);
+}
+
+static get_gang_mianzi(shoupai, p, paishu) {
+
+    if (! paishu) return [];
+
+    if (p) {
+        if (shoupai._zimo) return [];
+        if (shoupai.lizhi()) return [];
+        return shoupai.get_gang_mianzi(p);
+    }
+    else {
+        if (! shoupai._zimo) return [];
+
+        if (shoupai.lizhi()) {
+
+            let new_shoupai = shoupai.clone();
+            new_shoupai.dapai(new_shoupai._zimo);
+            let tingpai = Majiang.Util.tingpai(new_shoupai).join(',');
+
+            for (let m of shoupai.get_gang_mianzi()) {
+                if (shoupai._zimo.replace(/0/,'5')
+                                != m.replace(/0/,'5').substr(0,2)) continue;
+                new_shoupai = shoupai.clone();
+                new_shoupai.gang(m.replace(/0/,'5').substr(0,2));
+                if (Majiang.Util.xiangting(new_shoupai) == 0
+                    && Majiang.Util.tingpai(new_shoupai).join(',') == tingpai)
+                {
+                    return [ m ];
+                }
+            }
+            return [];
+        }
+        else return shoupai.get_gang_mianzi();
+    }
+}
+
+static allow_lizhi(shoupai, p, paishu = 4, defen = 1000) {
+
+    if (! shoupai._zimo)     return false;
+    if (shoupai.lizhi())     return false;
+    if (! shoupai.menqian()) return false;
+
+    if (paishu < 4)   return false;
+    if (defen < 1000) return false;
+
+    if (Majiang.Util.xiangting(shoupai) > 0) return false;
+
+    if (p) {
+        let new_shoupai = shoupai.clone().dapai(p);
+        return Majiang.Util.xiangting(new_shoupai) == 0
+                && Majiang.Util.tingpai(new_shoupai).length > 0;
+    }
+    else {
+        let dapai = [];
+        for (let p of Game.get_dapai(shoupai)) {
+            let new_shoupai = shoupai.clone().dapai(p);
+            if (Majiang.Util.xiangting(new_shoupai) == 0
+                && Majiang.Util.tingpai(new_shoupai).length > 0)
+            {
+                dapai.push(p);
+            }
+        }
+        return dapai.length ? dapai : false;
+    }
+}
+
+static allow_hule(shoupai, p, zhuangfeng, menfeng, hupai, neng_rong) {
+
+    if (p && ! neng_rong) return false;
+
+    let new_shoupai = shoupai.clone();
+    if (p) new_shoupai.zimo(p);
+    if (Majiang.Util.xiangting(new_shoupai) != -1) return false;
+
+    if (hupai) return true;
+
+    let param = {
+        zhuangfeng:     zhuangfeng,
+        menfeng:        menfeng,
+        hupai:          {},
+        baopai:         [],
+        jicun:          { changbang: 0, lizhibang: 0 }
+    };
+    let hule = Majiang.Util.hule(new_shoupai, p, param);
+
+    return hule.hupai != null;
+}
+
+static allow_pingju(shoupai, diyizimo) {
+
+    if (! diyizimo) return false;
+
+    let n_yaojiu = 0;
+    for (let s of ['m','p','s','z']) {
+        const bingpai = shoupai._bingpai[s];
+        const nn = (s == 'z') ? [1,2,3,4,5,6,7] : [1,9];
+        for (let n of nn) {
+            if (bingpai[n] > 0) n_yaojiu++;
+        }
+    }
+    return n_yaojiu >= 9;
 }
 
 }

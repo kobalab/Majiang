@@ -303,6 +303,20 @@ suite ('Majiang.Game', function(){
     });
   });
 
+  suite('next(force)', function(){
+    test('未定義の status に対して例外を発生しないこと', function(done){
+      const game = new Majiang.Game();
+      game._player = [0,1,2,3].map(id => new Player(id));
+      game._speed = 0;
+      game.call_players('type', ['a','b','c','d']);
+      setTimeout(()=>{
+        assert.ok(! game.next(1));
+        done();
+      }, 10);
+    });
+  });
+
+
   suite('kaiju()', function(){
 
     const game = new Majiang.Game();
@@ -514,6 +528,26 @@ suite ('Majiang.Game', function(){
       game.zimo();
       game.dapai(game._model.shoupai[0]._zimo);
       assert.ok(! game._yifa[0]);
+    });
+    test('打牌によりフリテンが解除されること', function(){
+      game = init_game({shoupai:['m123p456s789z1122'],zimo:['z3']});
+      game.zimo();
+      game._neng_rong[0] = false;
+      game.dapai('z3_*');
+      assert.ok(game._neng_rong[0]);
+    });
+    test('リーチ後はフリテンが解除されないこと', function(){
+      game = init_game({shoupai:['m123p456s789z1122*'],zimo:['z3']});
+      game.zimo();
+      game._neng_rong[0] = false;
+      game.dapai('z3_');
+      assert.ok(! game._neng_rong[0]);
+    });
+    test('テンパイ時に和了牌が河にある場合、フリテンとなること', function(){
+      game = init_game({shoupai:['m123p456s789z1133'],zimo:['z3']});
+      game.zimo();
+      game.dapai('z3_');
+      assert.ok(! game._neng_rong[0]);
     });
     test('加槓後の打牌で開槓されること', function(){
       game = init_game({shoupai:['m1,m111-']});
@@ -1283,6 +1317,18 @@ suite ('Majiang.Game', function(){
         }, 0);
       }, 10);
     });
+    test('打牌(不正応答)', function(done){
+      game = init_game({zimo:['m1']});
+      game._player[game._model.player_id[0]]._reply[0] = {dapai:'m2_'};
+      game.zimo();
+      setTimeout(()=>{
+        game.next(1);
+        setTimeout(()=>{
+          assert.equal(last_paipu(game).dapai.p, 'm1_');
+          done();
+        }, 0);
+      }, 10);
+    });
     test('リーチ打牌', function(done){
       game = init_game({shoupai:['m123p456s789z1122'],zimo:['m1']});
       game._player[game._model.player_id[0]]._reply[0] = {dapai:'m1_*'};
@@ -1296,6 +1342,18 @@ suite ('Majiang.Game', function(){
         }, 0);
       }, 10);
     });
+    test('リーチ打牌(不正応答)', function(done){
+      game = init_game({shoupai:['m123p456s789z1122*'],zimo:['m1']});
+      game._player[game._model.player_id[0]]._reply[0] = {dapai:'m1_*'};
+      game.zimo();
+      setTimeout(()=>{
+        game.next(1);
+        setTimeout(()=>{
+          assert.equal(last_paipu(game).dapai.p, 'm1_');
+          done();
+        }, 0);
+      }, 10);
+    });
     test('九種九牌', function(done){
       game = init_game({shoupai:['m133589p1s18z1235'],zimo:['s9']});
       game._player[game._model.player_id[0]]._reply[0] = {pingju:'-'};
@@ -1304,6 +1362,18 @@ suite ('Majiang.Game', function(){
         game.next(1);
         setTimeout(()=>{
           assert.equal(last_paipu(game).pingju.name, '九種九牌');
+          done();
+        }, 0);
+      }, 10);
+    });
+    test('九種九牌(不正応答)', function(done){
+      game = init_game({shoupai:['m133589p1s28z1235'],zimo:['s9']});
+      game._player[game._model.player_id[0]]._reply[0] = {pingju:'-'};
+      game.zimo();
+      setTimeout(()=>{
+        game.next(1);
+        setTimeout(()=>{
+          assert.equal(last_paipu(game).dapai.p, 's9_');
           done();
         }, 0);
       }, 10);
@@ -1321,6 +1391,18 @@ suite ('Majiang.Game', function(){
         }, 0);
       }, 10);
     });
+    test('ツモ和了(不正応答)', function(done){
+      game = init_game({shoupai:['m123p456s789z1122'],zimo:['z3']});
+      game._player[game._model.player_id[0]]._reply[0] = {hule:'-'};
+      game.zimo();
+      setTimeout(()=>{
+        game.next(1);
+        setTimeout(()=>{
+          assert.equal(last_paipu(game).dapai.p, 'z3_');
+          done();
+        }, 0);
+      }, 10);
+    });
     test('槓', function(done){
       game = init_game({shoupai:['m1111'],zimo:['p1']});
       game._player[game._model.player_id[0]]._reply[0] = {gang:'m1111'};
@@ -1330,6 +1412,29 @@ suite ('Majiang.Game', function(){
         assert.deepEqual(game._view._param, {say: {gang: 0}});
         setTimeout(()=>{
           assert.ok(last_paipu(game).gang);
+          done();
+        }, 0);
+      }, 10);
+    });
+    test('槓(不正応答)', function(done){
+      game = init_game({shoupai:['m1112'],zimo:['p1']});
+      game._player[game._model.player_id[0]]._reply[0] = {gang:'m1111'};
+      game.zimo();
+      setTimeout(()=>{
+        game.next(1);
+        setTimeout(()=>{
+          assert.equal(last_paipu(game).dapai.p, 'p1_');
+          done();
+        }, 0);
+      }, 10);
+    });
+    test('応答なし', function(done){
+      game = init_game({zimo:['p1']});
+      game.zimo();
+      setTimeout(()=>{
+        game.next(1);
+        setTimeout(()=>{
+          assert.equal(last_paipu(game).dapai.p, 'p1_');
           done();
         }, 0);
       }, 10);
@@ -1364,7 +1469,7 @@ suite ('Majiang.Game', function(){
       }, 10);
     });
     test('ロン和了', function(done){
-      game = init_game({shoupai:['z2','m123p456s789z1122']});
+      game = init_game({shoupai:['z2','m123p456s789z1122','','']});
       game._player[game._model.player_id[1]]._reply[1] = {hule:'-'};
       game.zimo();
       game.dapai('z2');
@@ -1377,9 +1482,35 @@ suite ('Majiang.Game', function(){
         }, 0);
       }, 10);
     });
+    test('ロン和了(不正応答)', function(done){
+      game = init_game({shoupai:['z2','m123p456s789z1122','','']});
+      game._player[game._model.player_id[1]]._reply[1] = {hule:'-'};
+      game.zimo();
+      game._neng_rong[1] = false;
+      game.dapai('z2');
+      setTimeout(()=>{
+        game.next(1);
+        setTimeout(()=>{
+          assert.ok(last_paipu(game).zimo);
+          done();
+        }, 0);
+      }, 10);
+    });
+    test('和了牌見逃しでフリテンになること', function(done){
+      game = init_game({shoupai:['z2','m123p456s789z1122','','']});
+      game.zimo();
+      game.dapai('z2');
+      setTimeout(()=>{
+        game.next(1);
+        setTimeout(()=>{
+          assert.ok(! game._neng_rong[1]);
+          done();
+        }, 0);
+      }, 10);
+    });
     test('ダブロン', function(done){
       game = init_game({shoupai:['m23p456s789z22777','m1',
-                                'm23p456s789z11666']});
+                                'm23p456s789z11666','']});
       game._player[game._model.player_id[0]]._reply[3] = {hule:'-'};
       game._player[game._model.player_id[2]]._reply[3] = {hule:'-'};
       game.zimo();
@@ -1395,7 +1526,7 @@ suite ('Majiang.Game', function(){
     });
     test('三家和', function(done){
       game = init_game({shoupai:['m4','m40577p66s44z4466',
-                            'm1156p345s340567','m2366s789,z111=,m1-23']});
+                            'm1156p345s340567','m2366s789,z222=,m1-23']});
       game._player[game._model.player_id[1]]._reply[1] = {hule:'-'};
       game._player[game._model.player_id[2]]._reply[1] = {hule:'-'};
       game._player[game._model.player_id[3]]._reply[1] = {hule:'-'};
@@ -1411,7 +1542,7 @@ suite ('Majiang.Game', function(){
       }, 10);
     });
     test('カン', function(done){
-      game = init_game({shoupai:['m1','m1112']});
+      game = init_game({shoupai:['m1','m1112','','']});
       game._player[game._model.player_id[1]]._reply[1] = {fulou:'m1111-'};
       game.zimo();
       game.dapai('m1');
@@ -1424,8 +1555,21 @@ suite ('Majiang.Game', function(){
         }, 0);
       }, 10);
     });
+    test('カン(不正応答)', function(done){
+      game = init_game({shoupai:['m1','m1122','','']});
+      game._player[game._model.player_id[1]]._reply[1] = {fulou:'m1111-'};
+      game.zimo();
+      game.dapai('m1');
+      setTimeout(()=>{
+        game.next(1);
+        setTimeout(()=>{
+          assert.ok(last_paipu(game).zimo);
+          done();
+        }, 0);
+      }, 10);
+    });
     test('ポン', function(done){
-      game = init_game({shoupai:['m1','m1112']});
+      game = init_game({shoupai:['m1','m1112','','']});
       game._player[game._model.player_id[1]]._reply[1] = {fulou:'m111-'};
       game.zimo();
       game.dapai('m1');
@@ -1438,8 +1582,21 @@ suite ('Majiang.Game', function(){
         }, 0);
       }, 10);
     });
+    test('ポン(不成応答)', function(done){
+      game = init_game({shoupai:['m1','m1222','','']});
+      game._player[game._model.player_id[1]]._reply[1] = {fulou:'m111-'};
+      game.zimo();
+      game.dapai('m1');
+      setTimeout(()=>{
+        game.next(1);
+        setTimeout(()=>{
+          assert.ok(last_paipu(game).zimo);
+          done();
+        }, 0);
+      }, 10);
+    });
     test('チー', function(done){
-      game = init_game({shoupai:['m3','m1112']});
+      game = init_game({shoupai:['m3','m1112','','']});
       game._player[game._model.player_id[1]]._reply[1] = {fulou:'m123-'};
       game.zimo();
       game.dapai('m3');
@@ -1452,8 +1609,21 @@ suite ('Majiang.Game', function(){
         }, 0);
       }, 10);
     });
+    test('チー(不正応答)', function(done){
+      game = init_game({shoupai:['m3','m1113','','']});
+      game._player[game._model.player_id[1]]._reply[1] = {fulou:'m123-'};
+      game.zimo();
+      game.dapai('m3');
+      setTimeout(()=>{
+        game.next(1);
+        setTimeout(()=>{
+          assert.ok(last_paipu(game).zimo);
+          done();
+        }, 0);
+      }, 10);
+    });
     test('ポンとチーの競合はポンを優先', function(done){
-      game = init_game({shoupai:['m1','m2345','m1145']});
+      game = init_game({shoupai:['m1','m2345','m1145','']});
       game._player[game._model.player_id[1]]._reply[1] = {fulou:'m1-23'};
       game._player[game._model.player_id[2]]._reply[1] = {fulou:'m111='};
       game.zimo();
@@ -1468,7 +1638,7 @@ suite ('Majiang.Game', function(){
       }, 10);
     });
     test('リーチ成立', function(done){
-      game = init_game({shoupai:['m123p456s789z1123',''],zimo:['z2']});
+      game = init_game({shoupai:['m123p456s789z1123','','',''],zimo:['z2']});
       game.zimo();
       game.dapai('z3*');
       setTimeout(()=>{
@@ -1480,7 +1650,8 @@ suite ('Majiang.Game', function(){
       }, 10);
     });
     test('リーチ成立(一発消し)', function(done){
-      game = init_game({shoupai:['m123p456s789z1123','p11z33'],zimo:['z2']});
+      game = init_game({shoupai:['m123p456s789z1123','p11z33','',''],
+                        zimo:['z2']});
       game._player[game._model.player_id[1]]._reply[1] = {fulou:'z333-'};
       game.zimo();
       game.dapai('z3*');
@@ -1496,8 +1667,8 @@ suite ('Majiang.Game', function(){
       }, 10);
     });
     test('リーチ不成立', function(done){
-      game = init_game({shoupai:['m123p456s789z1123','m789p123s456z666z3'],
-                        zimo:['z2']});
+      game = init_game({shoupai:['m123p456s789z1123','m789p123s456z666z3',
+                                 '',''],zimo:['z2']});
       game._player[game._model.player_id[1]]._reply[1] = {hule:'-'};
       game.zimo();
       game.dapai('z3*');
@@ -1552,7 +1723,7 @@ suite ('Majiang.Game', function(){
       }, 10);
     });
     test('四開槓', function(done){
-      game = init_game({shoupai:['m1112,p111+,s111=,z111-','m2223'],
+      game = init_game({shoupai:['m1112,p111+,s111=,z111-','m2223','',''],
                         zimo:['m1'],gangzimo:['p1','s1','z2','z3']});
       game.zimo();
       game.gang('m1111');
@@ -1574,7 +1745,7 @@ suite ('Majiang.Game', function(){
       }, 10);
     });
     test('1人で四開槓', function(done){
-      game = init_game({shoupai:['m1112,p111+,s111=,z111-',''],
+      game = init_game({shoupai:['m1112,p111+,s111=,z111-','','',''],
                         zimo:['m1'],gangzimo:['p1','s1','z1','z2']});
       game.zimo();
       game.gang('m1111');
@@ -1624,10 +1795,37 @@ suite ('Majiang.Game', function(){
         }, 0);
       }, 10);
     });
+    test('チー・ポン(不正応答)', function(done){
+      game = init_game({shoupai:['m1','m1112','']});
+      game._player[game._model.player_id[1]]._reply[2] = {dapai:'m3'};
+      game.zimo();
+      game.dapai('m1');
+      game.fulou('m111-');
+      setTimeout(()=>{
+        game.next(1);
+        setTimeout(()=>{
+          assert.equal(last_paipu(game).dapai.p, 'm2');
+          done();
+        }, 0);
+      }, 10);
+    });
+    test('チー・ポン(応答なし)', function(done){
+      game = init_game({shoupai:['m1','m1112','']});
+      game.zimo();
+      game.dapai('m1');
+      game.fulou('m111-');
+      setTimeout(()=>{
+        game.next(1);
+        setTimeout(()=>{
+          assert.equal(last_paipu(game).dapai.p, 'm2');
+          done();
+        }, 0);
+      }, 10);
+    });
   });
 
   suite('reply_gang()', function(){
-    let game = init_game({shoupai:['m1,m111=']});
+    let game = init_game({shoupai:['m1,m111=','','','']});
     test('応答なし', function(done){
       game.zimo();
       game.gang('m111=1');
@@ -1639,8 +1837,21 @@ suite ('Majiang.Game', function(){
         }, 0);
       }, 10);
     });
+    test('暗槓に槍槓子はできない', function(done){
+      game = init_game({shoupai:['m1111','m24p456s789z11122','','']});
+      game._player[game._model.player_id[1]]._reply[1] = {hule:'-'};
+      game.zimo();
+      game.gang('m1111');
+      setTimeout(()=>{
+        game.next(1);
+        setTimeout(()=>{
+          assert.ok(last_paipu(game).kaigang);
+          done();
+        }, 0);
+      }, 10);
+    });
     test('ロン和了(槍槓)', function(done){
-      game = init_game({shoupai:['m1,m111=','m23p456s789z11122']});
+      game = init_game({shoupai:['m1,m111=','m23p456s789z11122','','']});
       game._player[game._model.player_id[1]]._reply[1] = {hule:'-'};
       game.zimo();
       game.gang('m111=1');
@@ -1653,9 +1864,22 @@ suite ('Majiang.Game', function(){
         }, 0);
       }, 10);
     });
+    test('ロン和了(不正応答)', function(done){
+      game = init_game({shoupai:['m1,m111=','m24p456s789z11122','','']});
+      game._player[game._model.player_id[1]]._reply[1] = {hule:'-'};
+      game.zimo();
+      game.gang('m111=1');
+      setTimeout(()=>{
+        game.next(1);
+        setTimeout(()=>{
+          assert.ok(last_paipu(game).gangzimo);
+          done();
+        }, 0);
+      }, 10);
+    });
     test('ダブロン', function(done){
       game = init_game({shoupai:['m1,m111=','m23p456s789z11122',
-                        'm23p789s456z33344']});
+                        'm23p789s456z33344','']});
       game._player[game._model.player_id[1]]._reply[1] = {hule:'-'};
       game._player[game._model.player_id[2]]._reply[1] = {hule:'-'};
       game.zimo();
@@ -1669,7 +1893,7 @@ suite ('Majiang.Game', function(){
     });
     test('三家和', function(done){
       game = init_game({shoupai:['m1,m111=','m23p456s789z11122',
-                        'm23p789s456z33344','m23p456s789z5566']});
+                        'm23p789s456z33344','m23p456s789z55566']});
       game._player[game._model.player_id[1]]._reply[1] = {hule:'-'};
       game._player[game._model.player_id[2]]._reply[1] = {hule:'-'};
       game._player[game._model.player_id[3]]._reply[1] = {hule:'-'};
@@ -1677,9 +1901,22 @@ suite ('Majiang.Game', function(){
       game.gang('m111=1');
       setTimeout(()=>{
         game.next(1);
+        assert.deepEqual(game._hule, [1,2,3]);
         assert.deepEqual(game._view._param, {say: {rong: 3}});
         setTimeout(()=>{
           assert.equal(last_paipu(game).pingju.name, '三家和');
+          done();
+        }, 0);
+      }, 10);
+    });
+    test('和了牌見逃しでフリテンになること', function(done){
+      game = init_game({shoupai:['z2、z222=','m123p456s789z1122','','']});
+      game.zimo();
+      game.gang('z222=2');
+      setTimeout(()=>{
+        game.next(1);
+        setTimeout(()=>{
+          assert.ok(! game._neng_rong[1]);
           done();
         }, 0);
       }, 10);
@@ -1788,6 +2025,368 @@ suite ('Majiang.Game', function(){
           done();
         }, 0);
       }, 10);
+    });
+  });
+
+  suite('get_dapai()', function(){
+    test('現在の手番の可能な打牌を返すこと', function(){
+      let game = init_game({shoupai:['m123,z111+,z222=,z333-'], zimo:['m1']});
+      game.zimo();
+      assert.deepEqual(game.get_dapai(), ['m1','m2','m3','m1_']);
+    });
+  });
+
+  suite('get_chi_mianzi(l)', function(){
+    test('チー可能な面子を返すこと', function(){
+      let game = init_game({shoupai:['','m1234p456s789z111'], zimo:['m2']});
+      game.zimo();
+      game.dapai('m2_')
+      assert.deepEqual(game.get_chi_mianzi(1), ['m12-3','m2-34']);
+    });
+    test('対面はチーできないこと', function(){
+      let game = init_game({shoupai:['','','m1234p456s789z111'], zimo:['m2']});
+      game.zimo();
+      game.dapai('m2_')
+      assert.deepEqual(game.get_chi_mianzi(2), []);
+    });
+    test('ハイテイ牌はチーできないこと', function(){
+      let game = init_game({shoupai:['','m1234p456s789z111'], zimo:['m2']});
+      game.zimo();
+      while (game._model.shan.paishu()) { game._model.shan.zimo() }
+      game.dapai('m2_')
+      assert.deepEqual(game.get_chi_mianzi(1), []);
+    });
+  });
+
+  suite('get_peng_mianzi(l)', function(){
+    test('ポン可能な面子を返すこと', function(){
+      let game = init_game({shoupai:['','','m1123p456s789z111'], zimo:['m1']});
+      game.zimo();
+      game.dapai('m1_')
+      assert.deepEqual(game.get_peng_mianzi(2), ['m111=']);
+    });
+    test('ハイテイ牌はポンできないこと', function(){
+      let game = init_game({shoupai:['','','m1123p456s789z111'], zimo:['m1']});
+      game.zimo();
+      while (game._model.shan.paishu()) { game._model.shan.zimo() }
+      game.dapai('m1_')
+      assert.deepEqual(game.get_peng_mianzi(2), []);
+    });
+  });
+
+  suite('get_gang_mianzi(l)', function(){
+    test('大明槓可能な面子を返すこと', function(){
+      let game = init_game({shoupai:['','','','m123p055s789z1122'],
+                            zimo:['p5']});
+      game.zimo();
+      game.dapai('p5_')
+      assert.deepEqual(game.get_gang_mianzi(3), ['p5505+']);
+    });
+    test('ハイテイ牌は大明槓できないこと', function(){
+      let game = init_game({shoupai:['','','','m123p055s789z1122'],
+                            zimo:['p5']});
+      game.zimo();
+      while (game._model.shan.paishu()) { game._model.shan.zimo() }
+      game.dapai('p5_')
+      assert.deepEqual(game.get_gang_mianzi(3), []);
+    });
+    test('暗槓・加槓可能な面子を返すこと', function(){
+      let game = init_game({shoupai:['m123p0555s789,z111='], zimo:['z1']});
+      game.zimo();
+      assert.deepEqual(game.get_gang_mianzi(), ['p5550','z111=1']);
+    });
+    test('ハイテイ牌は暗槓・加槓できないこと', function(){
+      let game = init_game({shoupai:['m123p0555s789,z111='], zimo:['z1']});
+      game.zimo();
+      while (game._model.shan.paishu()) { game._model.shan.zimo() }
+      assert.deepEqual(game.get_gang_mianzi(), []);
+    });
+  });
+
+  suite('allow_lizhi(p)', function(){
+    test('指定した牌でリーチ可能な場合、真を返すこと', function(){
+      let game = init_game({shoupai:['m123p456s788z1122'], zimo:['z1']});
+      game.zimo();
+      assert.ok(game.allow_lizhi('s8'));
+    });
+    test('牌を指定しない場合、リーチ可能な牌の一覧を返すこと', function(){
+      let game = init_game({shoupai:['m123p456s788z1122'], zimo:['z1']});
+      game.zimo();
+      assert.deepEqual(game.allow_lizhi(), ['s7','s8']);
+    });
+    test('ツモ番がない場合、リーチできないこと', function(){
+      let game = init_game({shoupai:['m123p456s788z1122'], zimo:['z1']});
+      game.zimo();
+      while (game._model.shan.paishu() >= 4) { game._model.shan.zimo() }
+      assert.ok(! game.allow_lizhi());
+    });
+    test('持ち点が1000点に満たない場合、リーチできないこと', function(){
+      let game = init_game({shoupai:['m123p456s788z1122'], zimo:['z1']});
+      game.zimo();
+      game._model.defen[1] = 900;
+      assert.ok(! game.allow_lizhi());
+    });
+  });
+
+  suite('allow_hule(l)', function(){
+    test('ロン和了', function(){
+      let game = init_game({shoupai:['','m123p456s789z1,z222='],zimo:['z1']});
+      game.zimo();
+      game.dapai('z1_');
+      assert.ok(game.allow_hule(1));
+    });
+    test('リーチのみロン和了', function(){
+      let game = init_game({shoupai:['','m123p456s789z1122*'],zimo:['z1']});
+      game.zimo();
+      game.dapai('z1_');
+      assert.ok(game.allow_hule(1));
+    });
+    test('槍槓のみロン和了', function(){
+      let game = init_game({shoupai:['p1,m111=','m23p456s789z11122'],
+                            zimo:['m1']});
+      game.zimo();
+      game.gang('m111=1');
+      assert.ok(game.allow_hule(1));
+    });
+    test('ハイテイのみロン和了', function(){
+      let game = init_game({shoupai:['','m123p456s789z1122'],zimo:['z1']});
+      game.zimo();
+      while (game._model.shan.paishu()) { game._model.shan.zimo() }
+      game.dapai('z1_');
+      assert.ok(game.allow_hule(1));
+    });
+    test('フリテンはロン和了できない', function(){
+      let game = init_game({shoupai:['','m123p456s789z1,z222='],zimo:['z1']});
+      game.zimo();
+      game._neng_rong[1] = false;
+      game.dapai('z1_');
+      assert.ok(! game.allow_hule(1));
+    });
+    test('ツモ和了', function(){
+      let game = init_game({shoupai:['m123p456s789z1333'],zimo:['z1']});
+      game.zimo();
+      assert.ok(game.allow_hule());
+    });
+    test('嶺上開花のみツモ和了', function(){
+      let game = init_game({shoupai:['m123p456s789z1,z333='],
+                            zimo:['z3'],gangzimo:['z1']});
+      game.zimo();
+      game.gang('z333=3');
+      game.gangzimo();
+      assert.ok(game.allow_hule());
+    });
+    test('ハイテイのみツモ和了', function(){
+      let game = init_game({shoupai:['m123p456s789z1,z333='],zimo:['z1']});
+      game.zimo();
+      while (game._model.shan.paishu()) { game._model.shan.zimo() }
+      assert.ok(game.allow_hule());
+    });
+  });
+
+  suite('allow_pingju()', function(){
+    test('九種九牌', function(){
+      let game = init_game({shoupai:['m123456z1234567'],zimo:['p1']});
+      game.zimo();
+      assert.ok(game.allow_pingju());
+    });
+    test('第一ツモ以降は九種九牌にならない', function(){
+      let game = init_game({shoupai:['m123456z1234567'],zimo:['p1']});
+      game.zimo();
+      game._diyizimo = false;
+      assert.ok(! game.allow_pingju());
+    });
+  });
+
+  suite('static get_dapai(shoupai)', function(){
+    test('打牌可能でない場合、空配列を返す', function(){
+      let shoupai = Majiang.Shoupai.fromString('m123p456s789z1122');
+      assert.deepEqual(Majiang.Game.get_dapai(shoupai), []);
+    });
+    test('リーチ後はツモ切り', function(){
+      let shoupai = Majiang.Shoupai.fromString('m123p456s789z1122z3*');
+      assert.deepEqual(Majiang.Game.get_dapai(shoupai), ['z3_']);
+    });
+    test('手出し・ツモ切りは区別する', function(){
+      let shoupai = Majiang.Shoupai.fromString('m123p456s99,z111+,z222-');
+      assert.deepEqual(Majiang.Game.get_dapai(shoupai),
+                        ['m1','m2','m3','p4','p5','p6','s9','s9_']);
+      shoupai = Majiang.Shoupai.fromString('m123p456s89,z111+,z222-');
+      assert.deepEqual(Majiang.Game.get_dapai(shoupai),
+                        ['m1','m2','m3','p4','p5','p6','s8','s9_']);
+    });
+    test('副露直後はツモ切りはない', function(){
+      let shoupai = Majiang.Shoupai.fromString('m123p456s99,z111+,z222-,');
+      assert.deepEqual(Majiang.Game.get_dapai(shoupai),
+                        ['m1','m2','m3','p4','p5','p6','s9']);
+    });
+  });
+
+  suite('static get_chi_mianzi(shoupai, p, paishu)', function(){
+    test('打牌可能な場合、空配列を返す', function(){
+      let shoupai = Majiang.Shoupai.fromString('m123p456s789z11223');
+      assert.deepEqual(Majiang.Game.get_chi_mianzi(shoupai, 'm1-', 1), []);
+    });
+    test('リーチ後はチーできない', function(){
+      let shoupai = Majiang.Shoupai.fromString('m123p456s789z1122*');
+      assert.deepEqual(Majiang.Game.get_chi_mianzi(shoupai, 'm1-', 1), []);
+    });
+    test('ハイテイ牌はチーできない', function(){
+      let shoupai = Majiang.Shoupai.fromString('m123p456s789z1122');
+      assert.deepEqual(Majiang.Game.get_chi_mianzi(shoupai, 'm1-', 0), []);
+    });
+    test('チー可能な組合せを全て返す', function(){
+      let shoupai = Majiang.Shoupai.fromString('m1234567,z111+,z222-');
+      assert.deepEqual(Majiang.Game.get_chi_mianzi(shoupai, 'm3-', 1),
+                                                ['m123-','m23-4','m3-45']);
+    });
+  });
+
+  suite('static get_peng_mianzi(shoupai, p, paishu)', function(){
+    test('打牌可能な場合、空配列を返す', function(){
+      let shoupai = Majiang.Shoupai.fromString('m123p456s789z11223');
+      assert.deepEqual(Majiang.Game.get_peng_mianzi(shoupai, 'z1+', 1), []);
+    });
+    test('リーチ後はポンできない', function(){
+      let shoupai = Majiang.Shoupai.fromString('m123p456s789z1122*');
+      assert.deepEqual(Majiang.Game.get_peng_mianzi(shoupai, 'z1+', 1), []);
+    });
+    test('ハイテイ牌はポンできない', function(){
+      let shoupai = Majiang.Shoupai.fromString('m123p456s789z1122');
+      assert.deepEqual(Majiang.Game.get_peng_mianzi(shoupai, 'z1+', 0), []);
+    });
+    test('ポン可能な組合せを全て返す', function(){
+      let shoupai = Majiang.Shoupai.fromString('m123z1112,p45-6,s789-');
+      assert.deepEqual(Majiang.Game.get_peng_mianzi(shoupai, 'z1+', 1),
+                                                                ['z111+']);
+    });
+  });
+
+  suite('static get_gang_mianzi(shoupai, p, paishu)', function(){
+    test('ハイテイ牌はカンできない', function(){
+      let shoupai = Majiang.Shoupai.fromString('m111p456s789z1122');
+      assert.deepEqual(Majiang.Game.get_gang_mianzi(shoupai, 'm1=', 0), []);
+    });
+    test('打牌可能な場合、大明槓できない', function(){
+      let shoupai = Majiang.Shoupai.fromString('m111p456s789z11223');
+      assert.deepEqual(Majiang.Game.get_gang_mianzi(shoupai, 'm1=', 1), []);
+    });
+    test('リーチ後は大明槓できない', function(){
+      let shoupai = Majiang.Shoupai.fromString('m111p456s789z1122*');
+      assert.deepEqual(Majiang.Game.get_gang_mianzi(shoupai, 'm1=', 1), []);
+    });
+    test('大明槓可能な組合せを全て返す', function(){
+      let shoupai = Majiang.Shoupai.fromString('m111p456s789z1122');
+      assert.deepEqual(Majiang.Game.get_gang_mianzi(shoupai, 'm1=', 1),
+                                                                ['m1111=']);
+    });
+    test('打牌可能でない場合、暗槓・加槓はできない', function(){
+      let shoupai = Majiang.Shoupai.fromString('m1111p456s789z112');
+      assert.deepEqual(Majiang.Game.get_gang_mianzi(shoupai, '', 1), []);
+    });
+    test('リーチ後も暗槓は許可する', function(){
+      let shoupai = Majiang.Shoupai.fromString('m2223555p345s345m0*');
+      assert.deepEqual(Majiang.Game.get_gang_mianzi(shoupai, '', 1), ['m5550']);
+    });
+    test('リーチ後の送りカンは禁止', function(){
+      let shoupai = Majiang.Shoupai.fromString('m111123s789z1122m4*');
+      assert.deepEqual(Majiang.Game.get_gang_mianzi(shoupai, '', 1), []);
+    });
+    test('リーチ後の待ちの変わるカンは禁止', function(){
+      let shoupai = Majiang.Shoupai.fromString('m1112s789z111222m1*');
+      assert.deepEqual(Majiang.Game.get_gang_mianzi(shoupai, '', 1), []);
+    });
+    test('暗槓・加槓可能な組合せを全て返す', function(){
+      let shoupai = Majiang.Shoupai.fromString('m1111p2222s33z1,z111=');
+      assert.deepEqual(Majiang.Game.get_gang_mianzi(shoupai, '', 1),
+                                                    ['m1111','p2222','z111=1']);
+    });
+  });
+
+  suite('static allow_lizhi(shoupai, p, paishu, defen)', function(){
+    test('打牌できない場合、リーチはできない', function(){
+      let shoupai = Majiang.Shoupai.fromString('m123p456s789z1122');
+      assert.ok(! Majiang.Game.allow_lizhi(shoupai));
+    });
+    test('すでにリーチしている場合、リーチはできない', function(){
+      let shoupai = Majiang.Shoupai.fromString('m123p456s789z11223*');
+      assert.ok(! Majiang.Game.allow_lizhi(shoupai));
+    });
+    test('メンゼンでない場合、リーチはできない', function(){
+      let shoupai = Majiang.Shoupai.fromString('m123p456s789z23,z111=');
+      assert.ok(! Majiang.Game.allow_lizhi(shoupai));
+    });
+    test('ツモ番がない場合、リーチはできない', function(){
+      let shoupai = Majiang.Shoupai.fromString('m123p456s789z11223');
+      assert.ok(! Majiang.Game.allow_lizhi(shoupai, 'z3', 3));
+    });
+    test('持ち点が1000点に満たない場合、リーチはできない', function(){
+      let shoupai = Majiang.Shoupai.fromString('m123p456s789z11223');
+      assert.ok(! Majiang.Game.allow_lizhi(shoupai, 'z3', 4, 900));
+    });
+    test('テンパイしていない場合、リーチはできない', function(){
+      let shoupai = Majiang.Shoupai.fromString('m123p456s789z11234');
+      assert.ok(! Majiang.Game.allow_lizhi(shoupai));
+    });
+    test('形式テンパイと認められない牌姿でリーチはできない', function(){
+      let shoupai = Majiang.Shoupai.fromString('m123p456s789z11112');
+      assert.ok(! Majiang.Game.allow_lizhi(shoupai, 'z2'));
+    });
+    test('指定された打牌でリーチ可能な場合、真を返すこと', function(){
+      let shoupai = Majiang.Shoupai.fromString('m123p456s789z11112');
+      assert.ok(Majiang.Game.allow_lizhi(shoupai, 'z1'));
+    });
+    test('打牌が指定されていない場合、リーチ可能な打牌一覧を返すこと', function(){
+      let shoupai = Majiang.Shoupai.fromString('m123p456s788z11122');
+      assert.deepEqual(Majiang.Game.allow_lizhi(shoupai), ['s7','s8']);
+      shoupai = Majiang.Shoupai.fromString('m123p456s789z11223');
+      assert.deepEqual(Majiang.Game.allow_lizhi(shoupai), ['z3_']);
+    });
+    test('リーチ可能な打牌がない場合、偽を返すこと', function(){
+      let shoupai = Majiang.Shoupai.fromString('m11112344449999');
+      assert.ok(! Majiang.Game.allow_lizhi(shoupai));
+    });
+  });
+
+  suite('static allow_hule(shoupai, p, zhuangfeng, menfeng, hupai, neng_rong)',
+        function(){
+    test('フリテンの場合、ロン和了できない', function(){
+      let shoupai = Majiang.Shoupai.fromString('m123p456z1122,s789-');
+      assert.ok(! Majiang.Game.allow_hule(shoupai, 'z1=', 0, 1, false, false));
+    });
+    test('和了形になっていない場合、和了できない', function(){
+      let shoupai = Majiang.Shoupai.fromString('m123p456z11223,s789-');
+      assert.ok(! Majiang.Game.allow_hule(shoupai, null, 0, 1, false, true));
+    });
+    test('役あり和了形の場合、和了できる', function(){
+      let shoupai = Majiang.Shoupai.fromString('m123p456s789z3377');
+      assert.ok(Majiang.Game.allow_hule(shoupai, 'z3+', 0, 1, true, true));
+    });
+    test('役なし和了形の場合、和了できない', function(){
+      let shoupai = Majiang.Shoupai.fromString('m123p456s789z3377');
+      assert.ok(! Majiang.Game.allow_hule(shoupai, 'z3+', 0, 1, false, true));
+    });
+    test('ツモ和了', function(){
+      let shoupai = Majiang.Shoupai.fromString('m123p456s789z33377');
+      assert.ok(Majiang.Game.allow_hule(shoupai, null, 0, 1, false, false));
+    });
+    test('ロン和了', function(){
+      let shoupai = Majiang.Shoupai.fromString('m123p456z1122,s789-');
+      assert.ok(Majiang.Game.allow_hule(shoupai, 'z1=', 0, 1, false, true));
+    });
+  });
+
+  suite('static allow_pingju(shoupai, diyizimo)', function(){
+    test('第一ツモでない場合、九種九牌とならない', function(){
+      let shoupai = Majiang.Shoupai.fromString('m1234569z1234567');
+      assert.ok(! Majiang.Game.allow_pingju(shoupai, false));
+    });
+    test('八種九牌は流局にできない', function(){
+      let shoupai = Majiang.Shoupai.fromString('m1234567z1234567');
+      assert.ok(! Majiang.Game.allow_pingju(shoupai, true));
+    });
+    test('九種九牌', function(){
+      let shoupai = Majiang.Shoupai.fromString('m1234569z1234567');
+      assert.ok(Majiang.Game.allow_pingju(shoupai, true));
     });
   });
 
