@@ -78,19 +78,29 @@ class Player {
 module.exports = class Game extends Majiang.Game {
     constructor(paipu) {
         super();
-        this._model.title = paipu.title;
-        this._model.qijia = paipu.qijia;
-        this._script = paipu;
-        for (let id = 0; id < 4; id++) { this._player[id] = new Player(id) }
+        if (paipu) {
+            this._model.title = paipu.title;
+            this._model.qijia = paipu.qijia;
+            this._script = paipu;
+            for (let id = 0; id < 4; id++) { this._player[id] = new Player(id) }
+        }
+        else {
+            this._player = [0,1,2,3].map(id=>new Majiang.Player(id));
+        }
         this._speed = 0;
     }
     qipai() {
-        const log = this._script.log.shift();
-        for (let l = 0; l < 4; l++) {
-            let id = (this._model.qijia + this._model.jushu + l) % 4;
-            this._player[id]._reply = make_reply(l, log);
+        if (this._script) {
+            const log = this._script.log.shift();
+            for (let l = 0; l < 4; l++) {
+                let id = (this._model.qijia + this._model.jushu + l) % 4;
+                this._player[id]._reply = make_reply(l, log);
+            }
+            super.qipai(make_shan(log));
         }
-        super.qipai(make_shan(log));
+        else {
+            super.qipai();
+        }
     }
     do_test() {
         this._stop = false;
