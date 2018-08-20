@@ -125,7 +125,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('stop()', function(){
+  suite('.stop()', function(){
     const game = new Majiang.Game();
     test('停止状態になること', function(){
       game.stop();
@@ -134,7 +134,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('start()', function(){
+  suite('.start()', function(){
     const game = new Majiang.Game();
     game.stop();
     test('開始状態になること', function(done){
@@ -156,7 +156,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('delay(callback, timeout)', function(){
+  suite('.delay(callback, timeout)', function(){
     const game = new Majiang.Game();
     test('speed: 0', function(done){
       let called;
@@ -212,7 +212,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('notify_players(type, msg)', function(){
+  suite('.notify_players(type, msg)', function(){
 
     const game = new Majiang.Game();
     game._player = [0,1,2,3].map(id => new Player(id));
@@ -237,7 +237,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('call_players(type, msg)', function(){
+  suite('.call_players(type, msg)', function(){
 
     const game = new Majiang.Game();
     game._player = [0,1,2,3].map(id => new Player(id));
@@ -303,7 +303,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('next(force)', function(){
+  suite('.next(force)', function(){
     test('未定義の status に対して例外を発生しないこと', function(done){
       const game = new Majiang.Game();
       game._player = [0,1,2,3].map(id => new Player(id));
@@ -317,7 +317,7 @@ suite ('Majiang.Game', function(){
   });
 
 
-  suite('kaiju()', function(){
+  suite('.kaiju()', function(){
 
     const game = new Majiang.Game();
     game._player = [0,1,2,3].map(id => new Player(id));
@@ -349,7 +349,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('qipai()', function(){
+  suite('.qipai()', function(){
     const game = init_game();
     test('牌山が生成されること', function(){
       game.kaiju();
@@ -423,7 +423,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('zimo()', function(){
+  suite('.zimo()', function(){
     let game = init_game();
     test('手番が更新されること', function(){
       game.zimo();
@@ -465,7 +465,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('dapai(dapai)', function(){
+  suite('.dapai(dapai)', function(){
     let game = init_game();
     let dapai;
     test('手牌から打牌が切り出されること', function(){
@@ -560,7 +560,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('fulou(fulou)', function(){
+  suite('.fulou(fulou)', function(){
     const game = init_game({shoupai:['m2s123','m13z12','p5506','p56z11']});
     test('河から副露牌が拾われること', function(){
       game.zimo();
@@ -609,7 +609,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('gang(gang)', function(){
+  suite('.gang(gang)', function(){
     const game = init_game({shoupai:['m0555s0p55,s555+'],
                             zimo:['m1'],gangzimo:['m2']});
     test('加槓が副露されること', function(){
@@ -644,7 +644,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('gangzimo()', function(){
+  suite('.gangzimo()', function(){
     const game = init_game({shoupai:['m0555s0p055z12,s555+','p5'],
                             zimo:['p1','p2'],gangzimo:['m1','m2','m3']});
     test('牌山からツモられること', function(){
@@ -697,7 +697,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('kaigang()', function(){
+  suite('.kaigang()', function(){
     const game = init_game({shoupai:['m0,m555=']});
     test('槓ドラが増えること', function(){
       game.zimo();
@@ -722,7 +722,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('hule()', function(){
+  suite('.hule()', function(){
     let game = init_game({shoupai:['m123p456s111789z2'],zimo:['z2']});
     test('牌譜が記録されること(天和)', function(){
       game.zimo();
@@ -937,7 +937,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('pingju()', function(){
+  suite('.pingju()', function(){
     let game = init_game({shoupai:['m22p12366s406789','m55p40s123,z111-,p678-',
                             'm67p678s22,s56-7,p444-','m12345p33s333,m406-'],
                           zimo:['m5','m6','m7','m8']});
@@ -1131,7 +1131,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('last()', function(){
+  suite('.last()', function(){
     let game = init_game();
     test('局が進むこと', function(done){
       game._model.zhuangfeng = 0;
@@ -1252,7 +1252,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('jieju()', function(){
+  suite('.jieju()', function(){
     let game = init_game();
     test('ゲーム終了時に残された供託リーチ棒はトップの得点に加算されること', function(){
       game.jieju();
@@ -1304,7 +1304,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('reply_zimo()', function(){
+  suite('.reply_zimo()', function(){
     let game = init_game({zimo:['m1']});
     test('打牌', function(done){
       game._player[game._model.player_id[0]]._reply[0] = {dapai:'m1_'};
@@ -1455,7 +1455,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('reply_dapai()', function(){
+  suite('.reply_dapai()', function(){
     let game = init_game();
     test('応答なし', function(done){
       game.zimo();
@@ -1767,7 +1767,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('reply_fulou()', function(){
+  suite('.reply_fulou()', function(){
     let game = init_game({shoupai:['m1','m1112']});
     test('大明槓', function(done){
       game.zimo();
@@ -1824,7 +1824,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('reply_gang()', function(){
+  suite('.reply_gang()', function(){
     let game = init_game({shoupai:['m1,m111=','','','']});
     test('応答なし', function(done){
       game.zimo();
@@ -1923,7 +1923,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('reply_hule()', function(){
+  suite('.reply_hule()', function(){
     let game = init_game({shoupai:['m123p456s11789z11'],
                           zimo:['s1'],baopai:'m3'});
     test('和了収支が反映されること', function(done){
@@ -1980,7 +1980,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('reply_pingju()', function(){
+  suite('.reply_pingju()', function(){
     let game = init_game({shoupai:['m123p456s789z1122','','',''],
                           zimo:['m2','m2','m4','m5']});
     test('流局収支が反映されること', function(done){
@@ -2003,7 +2003,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('reply_jieju()', function(){
+  suite('.reply_jieju()', function(){
     let game = init_game();
     test('callbackが呼ばれること', function(done){
       game._callback = ()=>{
@@ -2028,7 +2028,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('get_dapai()', function(){
+  suite('.get_dapai()', function(){
     test('現在の手番の可能な打牌を返すこと', function(){
       let game = init_game({shoupai:['m123,z111+,z222=,z333-'], zimo:['m1']});
       game.zimo();
@@ -2036,7 +2036,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('get_chi_mianzi(l)', function(){
+  suite('.get_chi_mianzi(l)', function(){
     test('チー可能な面子を返すこと', function(){
       let game = init_game({shoupai:['','m1234p456s789z111'], zimo:['m2']});
       game.zimo();
@@ -2058,7 +2058,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('get_peng_mianzi(l)', function(){
+  suite('.get_peng_mianzi(l)', function(){
     test('ポン可能な面子を返すこと', function(){
       let game = init_game({shoupai:['','','m1123p456s789z111'], zimo:['m1']});
       game.zimo();
@@ -2074,7 +2074,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('get_gang_mianzi(l)', function(){
+  suite('.get_gang_mianzi(l)', function(){
     test('大明槓可能な面子を返すこと', function(){
       let game = init_game({shoupai:['','','','m123p055s789z1122'],
                             zimo:['p5']});
@@ -2103,7 +2103,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('allow_lizhi(p)', function(){
+  suite('.allow_lizhi(p)', function(){
     test('指定した牌でリーチ可能な場合、真を返すこと', function(){
       let game = init_game({shoupai:['m123p456s788z1122'], zimo:['z1']});
       game.zimo();
@@ -2128,7 +2128,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('allow_hule(l)', function(){
+  suite('.allow_hule(l)', function(){
     test('ロン和了', function(){
       let game = init_game({shoupai:['','m123p456s789z1,z222='],zimo:['z1']});
       game.zimo();
@@ -2183,7 +2183,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('allow_pingju()', function(){
+  suite('.allow_pingju()', function(){
     test('九種九牌', function(){
       let game = init_game({shoupai:['m123456z1234567'],zimo:['p1']});
       game.zimo();
@@ -2197,7 +2197,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('static get_dapai(shoupai)', function(){
+  suite('get_dapai(shoupai)', function(){
     test('打牌可能でない場合、空配列を返す', function(){
       let shoupai = Majiang.Shoupai.fromString('m123p456s789z1122');
       assert.deepEqual(Majiang.Game.get_dapai(shoupai), []);
@@ -2221,7 +2221,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('static get_chi_mianzi(shoupai, p, paishu)', function(){
+  suite('get_chi_mianzi(shoupai, p, paishu)', function(){
     test('打牌可能な場合、空配列を返す', function(){
       let shoupai = Majiang.Shoupai.fromString('m123p456s789z11223');
       assert.deepEqual(Majiang.Game.get_chi_mianzi(shoupai, 'm1-', 1), []);
@@ -2241,7 +2241,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('static get_peng_mianzi(shoupai, p, paishu)', function(){
+  suite('get_peng_mianzi(shoupai, p, paishu)', function(){
     test('打牌可能な場合、空配列を返す', function(){
       let shoupai = Majiang.Shoupai.fromString('m123p456s789z11223');
       assert.deepEqual(Majiang.Game.get_peng_mianzi(shoupai, 'z1+', 1), []);
@@ -2261,7 +2261,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('static get_gang_mianzi(shoupai, p, paishu)', function(){
+  suite('get_gang_mianzi(shoupai, p, paishu)', function(){
     test('ハイテイ牌はカンできない', function(){
       let shoupai = Majiang.Shoupai.fromString('m111p456s789z1122');
       assert.deepEqual(Majiang.Game.get_gang_mianzi(shoupai, 'm1=', 0), []);
@@ -2302,7 +2302,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('static allow_lizhi(shoupai, p, paishu, defen)', function(){
+  suite('allow_lizhi(shoupai, p, paishu, defen)', function(){
     test('打牌できない場合、リーチはできない', function(){
       let shoupai = Majiang.Shoupai.fromString('m123p456s789z1122');
       assert.ok(! Majiang.Game.allow_lizhi(shoupai));
@@ -2347,7 +2347,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('static allow_hule(shoupai, p, zhuangfeng, menfeng, hupai, neng_rong)',
+  suite('allow_hule(shoupai, p, zhuangfeng, menfeng, hupai, neng_rong)',
         function(){
     test('フリテンの場合、ロン和了できない', function(){
       let shoupai = Majiang.Shoupai.fromString('m123p456z1122,s789-');
@@ -2375,7 +2375,7 @@ suite ('Majiang.Game', function(){
     });
   });
 
-  suite('static allow_pingju(shoupai, diyizimo)', function(){
+  suite('allow_pingju(shoupai, diyizimo)', function(){
     test('第一ツモでない場合、九種九牌とならない', function(){
       let shoupai = Majiang.Shoupai.fromString('m1234569z1234567');
       assert.ok(! Majiang.Game.allow_pingju(shoupai, false));
