@@ -315,7 +315,7 @@ suite('Majiang.Player', function(){
     test('打牌を選択', function(){
       let player = init_player({shoupai:'m123p456s778z11222'});
       player.action_zimo({l:0,p:'z2'});
-      assert.deepEqual(player._reply, {dapai:'s8*'});
+      assert.deepEqual(player._reply, {dapai:'s7*'});
     });
   });
 
@@ -337,7 +337,7 @@ suite('Majiang.Player', function(){
     test('打牌する', function(){
       let player = init_player({shoupai:'m123p456s778z22,z111=,'});
       player.action_fulou({l:0,m:'z111='});
-      assert.deepEqual(player._reply, {dapai:'s8'});
+      assert.deepEqual(player._reply, {dapai:'s7'});
     });
   });
 
@@ -500,9 +500,9 @@ suite('Majiang.Player', function(){
   });
 
   suite('.select_dapai()', function(){
-    test('待ち牌の種類がもっとも多くなる一番右の牌を選択する', function(){
+    test('待ち牌の枚数がもっとも多くなる一番右の牌を選択する', function(){
       let player = init_player({shoupai:'m123p456s778z22,z111='});
-      assert.equal(player.select_dapai(), 's8');
+      assert.equal(player.select_dapai(), 's7');
     });
   });
 

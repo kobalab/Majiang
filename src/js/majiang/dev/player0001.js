@@ -4,9 +4,9 @@
 "use strict";
 
 const Majiang = {
-    Shoupai: require('./shoupai'),
-    Game:    require('./game'),
-    Util:    require('./util')
+    Shoupai: require('../shoupai'),
+    Game:    require('../game'),
+    Util:    require('../util')
 };
 
 module.exports = class Player {
@@ -261,12 +261,9 @@ select_dapai() {
     for (let p of this.get_dapai()) {
         let shoupai = this._shoupai.clone().dapai(p);
         if (Majiang.Util.xiangting(shoupai) > n_xiangting) continue;
-        let x = 0;
-        for (let tp of Majiang.Util.tingpai(shoupai)) {
-            x += 4 - shoupai._bingpai[tp[0]][tp[1]];
-        }
-        if (x >= max) {
-            max = x;
+        let n_tingpai = Majiang.Util.tingpai(shoupai).length;
+        if (n_tingpai >= max) {
+            max = n_tingpai;
             dapai = p;
         }
     }
