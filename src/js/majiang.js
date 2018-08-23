@@ -17,4 +17,5 @@ module.exports = {
     Util:    require('./majiang/util'),
     Game:    require('./majiang/game'),
     Player:  require('./majiang/player'),
+    SuanPai: require('./majiang/suanpai'),
 };

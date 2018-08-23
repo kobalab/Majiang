@@ -4,10 +4,9 @@
 "use strict";
 
 const Majiang = {
-    Shoupai: require('./shoupai'),
-    Game:    require('./game'),
-    Util:    require('./util'),
-    SuanPai: require('./suanpai'),
+    Shoupai: require('../shoupai'),
+    Game:    require('../game'),
+    Util:    require('../util')
 };
 
 module.exports = class Player {
@@ -56,16 +55,11 @@ qipai(qipai) {
 
     this._neng_rong = true;
     this._diyizimo  = true;
-
-    this._suanpai = new Majiang.SuanPai(this._hongpai);
-    this._suanpai.qipai(qipai, model.menfeng);
 }
 
 zimo(zimo, option) {
 
     let model = this._model;
-
-    this._suanpai.zimo(zimo);
 
     this._paishu--;
 
@@ -81,8 +75,6 @@ zimo(zimo, option) {
 dapai(dapai) {
 
     let model = this._model;
-
-    this._suanpai.dapai(dapai);
 
     if (dapai.l == model.menfeng) {
 
@@ -116,8 +108,6 @@ fulou(fulou) {
 
     let model = this._model;
 
-    this._suanpai.fulou(fulou);
-
     this._diyizimo = false;
 
     if (fulou.l != model.menfeng) { this._callback(); return }
@@ -132,8 +122,6 @@ fulou(fulou) {
 gang(gang) {
 
     let model = this._model;
-
-    this._suanpai.gang(gang);
 
     this._diyizimo = false;
 
@@ -159,7 +147,6 @@ gang(gang) {
 }
 
 kaigang(kaigang) {
-    this._suanpai.kaigang(kaigang);
     this._baopai.push(kaigang.baopai);
 }
 
@@ -276,7 +263,7 @@ select_dapai() {
         if (Majiang.Util.xiangting(shoupai) > n_xiangting) continue;
         let x = 0;
         for (let tp of Majiang.Util.tingpai(shoupai)) {
-            x += this._suanpai.paishu(tp);
+            x += 4 - shoupai._bingpai[tp[0]][tp[1]];
         }
         if (x >= max) {
             max = x;

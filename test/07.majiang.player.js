@@ -501,8 +501,8 @@ suite('Majiang.Player', function(){
 
   suite('.select_dapai()', function(){
     test('待ち牌の枚数がもっとも多くなる一番右の牌を選択する', function(){
-      let player = init_player({shoupai:'m123p456s778z22,z111='});
-      assert.equal(player.select_dapai(), 's7');
+      let player = init_player({shoupai:'m123p456s579z22,z111=',baopai:'s6'});
+      assert.equal(player.select_dapai(), 's5');
     });
   });
 
