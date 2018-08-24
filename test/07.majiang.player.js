@@ -504,6 +504,10 @@ suite('Majiang.Player', function(){
       let player = init_player({shoupai:'m123p456s579z22,z111=',baopai:'s6'});
       assert.equal(player.select_dapai(), 's5');
     });
+    test('待ち牌の枚数が同じ場合は牌価値の低い牌を選択する', function(){
+      let player = init_player({shoupai:'m188p3346789s113m0',baopai:'s6'});
+      assert.equal(player.select_dapai(), 'm1');    
+    });
   });
 
   suite('.select_lizhi(p)', function(){

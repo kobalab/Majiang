@@ -165,4 +165,26 @@ suite('Majiang.SuanPai', function(){
       assert.deepEqual(suanpai._paishu.z, [0,1,2,4,3,4,4,4]);
     })
   });
+
+  suite('paijia(p)', function(){
+    test('牌価値の初期値が正しいこと', function(){
+      let suanpai = new Majiang.SuanPai({m:0,p:1,s:2});
+      assert.deepEqual(suanpai.paijia_all(), {
+        m: [40,12,16,20,20,20,20,20,16,12],
+        p: [42,12,16,21,21,21,21,21,16,12],
+        s: [44,12,16,22,22,22,22,22,16,12],
+        z: [  ,16, 4, 4, 4, 8, 8, 8]
+      });
+    });
+    test('配牌後の牌価値が正しいこと', function(){
+      let suanpai = init_suanpai({shoupai:'m233p055s778z1123',baopai:'z1'});
+      suanpai.kaigang({baopai:'z1'});
+      assert.deepEqual(suanpai.paijia_all(), {
+        m: [38, 8, 9,17,17,19,21,21,16,12],
+        p: [34,12,16,17,14,17,14,17,16,12],
+        s: [38,12,16,21,21,19,17,17, 9, 8],
+        z: [  , 0,48, 3, 4, 8, 8, 8],
+      });
+    });
+  });
 });

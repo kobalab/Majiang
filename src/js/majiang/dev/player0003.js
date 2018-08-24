@@ -4,10 +4,10 @@
 "use strict";
 
 const Majiang = {
-    Shoupai: require('./shoupai'),
-    Game:    require('./game'),
-    Util:    require('./util'),
-    SuanPai: require('./suanpai'),
+    Shoupai: require('../shoupai'),
+    Game:    require('../game'),
+    Util:    require('../util'),
+    SuanPai: require('../suanpai'),
 };
 
 module.exports = class Player {
@@ -274,7 +274,7 @@ select_dapai() {
     for (let p of this.get_dapai()) {
         let shoupai = this._shoupai.clone().dapai(p);
         if (Majiang.Util.xiangting(shoupai) > n_xiangting) continue;
-        let x = 1 - this._suanpai.paijia(p)/100;
+        let x = 0;
         for (let tp of Majiang.Util.tingpai(shoupai)) {
             x += this._suanpai.paishu(tp);
         }
