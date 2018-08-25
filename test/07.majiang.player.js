@@ -506,7 +506,31 @@ suite('Majiang.Player', function(){
     });
     test('待ち牌の枚数が同じ場合は牌価値の低い牌を選択する', function(){
       let player = init_player({shoupai:'m188p3346789s113m0',baopai:'s6'});
-      assert.equal(player.select_dapai(), 'm1');    
+      assert.equal(player.select_dapai(), 'm1');
+    });
+    test('リーチ者がいて自身が2シャンテン以上の場合はオリる', function(){
+      let player = init_player({shoupai:'m23p456s578z11223'});
+      player.dapai({l:3,p:'p5*'});
+      player.zimo({l:0,p:'z4'});
+      assert.equal(player.select_dapai(), 'p5');
+    });
+    test('リーチ者がいて自身が1シャンテンの場合は無スジ以外は押す', function(){
+      let player = init_player({shoupai:'m123p456s578z1122'});
+      player.dapai({l:3,p:'p5*'});
+      player.zimo({l:0,p:'z4'});
+      assert.equal(player.select_dapai(), 'z4_');
+    });
+    test('リーチ者がいて自身が1シャンテンの場合でも無スジは押さない', function(){
+      let player = init_player({shoupai:'m123p456s578z1122'});
+      player.dapai({l:3,p:'p5*'});
+      player.zimo({l:0,p:'m1'});
+      assert.equal(player.select_dapai(), 'p5');
+    });
+    test('リーチ者がいても自身もテンパイした場合はリーチする', function(){
+      let player = init_player({shoupai:'m123p456s578z1122'});
+      player.dapai({l:3,p:'p5*'});
+      player.zimo({l:0,p:'s9'});
+      assert.equal(player.select_dapai(), 's5*');
     });
   });
 

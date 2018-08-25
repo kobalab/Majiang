@@ -4,10 +4,10 @@
 "use strict";
 
 const Majiang = {
-    Shoupai: require('./shoupai'),
-    Game:    require('./game'),
-    Util:    require('./util'),
-    SuanPai: require('./suanpai'),
+    Shoupai: require('../shoupai'),
+    Game:    require('../game'),
+    Util:    require('../util'),
+    SuanPai: require('../suanpai'),
 };
 
 module.exports = class Player {
@@ -305,10 +305,7 @@ select_dapai() {
         }
     }
 
-    if (anquan) {
-        if      (n_xiangting > 1)                             dapai = anquan;
-        else if (n_xiangting == 1 && suan_weixian(dapai) > 5) dapai = anquan;
-    }
+    if (anquan) dapai = anquan;
 
     if (this.select_lizhi(dapai)) dapai += '*';
     return dapai;
