@@ -25,6 +25,9 @@ constructor(hongpai) {
     this._zhuangfeng = 0;
     this._menfeng    = 0;
     this._baopai     = [];
+
+    this._dapai = [{},{},{},{}];
+    this._lizhi = [];
 }
 
 diaopai(p) {
@@ -59,6 +62,13 @@ zimo(zimo) {
 
 dapai(dapai) {
     if (dapai.l != this._menfeng) this.diaopai(dapai.p);
+
+    let p = dapai.p.substr(0,2).replace(/0/,'5');
+    this._dapai[dapai.l][p] = true;
+    if (dapai.p.substr(-1) == '*') this._lizhi[dapai.l] = true;
+    for (let l = 0; l < 4; l++) {
+        if (this._lizhi[l]) this._dapai[l][p] = true;
+    }
 }
 
 fulou(fulou) {
@@ -151,6 +161,25 @@ paijia_all() {
         }
     }
     return paijia;
+}
+
+suan_weixian(p, l) {
+
+    let [s, n] = p; n = +n || 5;
+
+    if (this._dapai[l][s+n]) return 0;
+
+    if (s == 'z') return Math.min(this._paishu[s][n], 3);
+    if (n == 1)   return this._dapai[l][s+'4'] ? 3 : 6;
+    if (n == 2)   return this._dapai[l][s+'5'] ? 4 : 8;
+    if (n == 3)   return this._dapai[l][s+'6'] ? 5 : 8;
+    if (n == 7)   return this._dapai[l][s+'4'] ? 5 : 8;
+    if (n == 8)   return this._dapai[l][s+'5'] ? 4 : 8;
+    if (n == 9)   return this._dapai[l][s+'6'] ? 3 : 6;
+
+    return   this._dapai[l][s+(n-3)] && this._dapai[l][s+(n+3)] ?  4
+           : this._dapai[l][s+(n-3)] || this._dapai[l][s+(n+3)] ?  8
+           :                                                      12;
 }
 
 }

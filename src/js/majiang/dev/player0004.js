@@ -4,10 +4,10 @@
 "use strict";
 
 const Majiang = {
-    Shoupai: require('./shoupai'),
-    Game:    require('./game'),
-    Util:    require('./util'),
-    SuanPai: require('./suanpai'),
+    Shoupai: require('../shoupai'),
+    Game:    require('../game'),
+    Util:    require('../util'),
+    SuanPai: require('../suanpai'),
 };
 
 module.exports = class Player {
@@ -269,27 +269,6 @@ select_gang() {
 
 select_dapai() {
 
-    const suan_weixian = (p) => {
-        let weixian = 0;
-        for (let l = 0; l < 4; l++) {
-            if (! this._suanpai._lizhi[l]) continue;
-            let w = this._suanpai.suan_weixian(p, l);
-            if (w > weixian) weixian = w;
-        }
-        return weixian;
-    }
-
-    let anquan, min = Infinity;
-    if (this._suanpai._lizhi.find(l=>l)) {
-        for (let p of this.get_dapai()) {
-            let weixian = suan_weixian(p);
-            if (weixian < min) {
-                min = weixian;
-                anquan = p;
-            }
-        }
-    }
-
     let dapai, max = 0;
     let n_xiangting = Majiang.Util.xiangting(this._shoupai);
     for (let p of this.get_dapai()) {
@@ -304,9 +283,6 @@ select_dapai() {
             dapai = p;
         }
     }
-
-    if (anquan) dapai = anquan;
-
     if (this.select_lizhi(dapai)) dapai += '*';
     return dapai;
 }

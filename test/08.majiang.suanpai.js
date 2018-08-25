@@ -35,6 +35,8 @@ suite('Majiang.SuanPai', function(){
       assert.equal(suanpai._zhuangfeng, 0);
       assert.equal(suanpai._menfeng, 0);
       assert.deepEqual(suanpai._baopai, []);
+      assert.deepEqual(suanpai._dapai, [{},{},{},{}]);
+      assert.deepEqual(suanpai._lizhi, []);
     });
     test('赤牌の数を指定してインスタンスが生成できること', function(){
       suanpai = new Majiang.SuanPai({m:1,p:2,s:3});
@@ -45,10 +47,12 @@ suite('Majiang.SuanPai', function(){
       assert.equal(suanpai._zhuangfeng, 0);
       assert.equal(suanpai._menfeng, 0);
       assert.deepEqual(suanpai._baopai, []);
+      assert.deepEqual(suanpai._dapai, [{},{},{},{}]);
+      assert.deepEqual(suanpai._lizhi, []);
     });
   });
 
-  suite('diaopai(p)', function(){
+  suite('.diaopai(p)', function(){
     let suanpai = new Majiang.SuanPai({m:1,p:1,s:1});
     test('牌数が減算されること', function(){
       suanpai.diaopai('m1');
@@ -60,7 +64,7 @@ suite('Majiang.SuanPai', function(){
     });
   });
 
-  suite('paishu(p)', function(){
+  suite('.paishu(p)', function(){
     let suanpai = new Majiang.SuanPai({m:1,p:1,s:1});
     test('牌数が取得できること', function(){
       assert.equal(suanpai.paishu('m1'), 4);
@@ -73,7 +77,7 @@ suite('Majiang.SuanPai', function(){
     });
   });
 
-  suite('qipai(qipai, menfeng)', function(){
+  suite('.qipai(qipai, menfeng)', function(){
     let suanpai = new Majiang.SuanPai({m:1,p:1,s:1});
     test('牌数が減算されること', function(){
       let qipai = { zhuangfeng: 1, jushu: 2, changbang: 0, lizhibang: 0,
@@ -103,7 +107,7 @@ suite('Majiang.SuanPai', function(){
     });
   });
 
-  suite('zimo(zimo)', function(){
+  suite('.zimo(zimo)', function(){
     let suanpai = init_suanpai();
     test('手番の場合', function(){
       suanpai.zimo({l:0,p:'m4'});
@@ -115,19 +119,27 @@ suite('Majiang.SuanPai', function(){
     });
   });
 
-  suite('dapai(dapai)', function(){
+  suite('.dapai(dapai)', function(){
     let suanpai = init_suanpai();
     test('手番の場合', function(){
       suanpai.dapai({l:0,p:'m1'});
       assert.deepEqual(suanpai._paishu.m, [1,3,3,3,4,4,4,4,4,4]);
     });
     test('手番以外の場合', function(){
-      suanpai.dapai({l:1,p:'m1'});
+      suanpai.dapai({l:1,p:'m1*'});
       assert.deepEqual(suanpai._paishu.m, [1,2,3,3,4,4,4,4,4,4]);
+      assert.ok(suanpai._lizhi[1]);
+    });
+    test('打牌が「現物」となること', function(){
+      assert.equal(suanpai._dapai[1]['m4']);
+    });
+    test('リーチ後は他者の打牌も「現物」となること', function(){
+      suanpai.dapai({l:2,p:'s0_'});
+      assert.ok(suanpai._dapai[1]['s5']);
     });
   })
 
-  suite('fulou(fulou)', function(){
+  suite('.fulou(fulou)', function(){
     let suanpai = init_suanpai();
     test('手番の場合', function(){
       suanpai.fulou({l:0,m:'m123-'});
@@ -139,7 +151,7 @@ suite('Majiang.SuanPai', function(){
     });
   });
 
-  suite('gang(gang)', function(){
+  suite('.gang(gang)', function(){
     let suanpai = init_suanpai();
     test('手番の場合', function(){
       suanpai.gang({l:0,m:'s3333'});
@@ -155,7 +167,7 @@ suite('Majiang.SuanPai', function(){
     });
   });
 
-  suite('kaigang(kaigang)', function(){
+  suite('.kaigang(kaigang)', function(){
     let suanpai = init_suanpai();
     suanpai.kaigang({baopai:'z4'});
     test('ドラが増えること', function(){
@@ -166,7 +178,7 @@ suite('Majiang.SuanPai', function(){
     })
   });
 
-  suite('paijia(p)', function(){
+  suite('.paijia(p)', function(){
     test('牌価値の初期値が正しいこと', function(){
       let suanpai = new Majiang.SuanPai({m:0,p:1,s:2});
       assert.deepEqual(suanpai.paijia_all(), {
@@ -185,6 +197,81 @@ suite('Majiang.SuanPai', function(){
         s: [38,12,16,21,21,19,17,17, 9, 8],
         z: [  , 0,48, 3, 4, 8, 8, 8],
       });
+    });
+  });
+
+  suite('.suan_weixian(p, l)', function(){
+    let suanpai = new Majiang.SuanPai({m:1,p:1,s:1});
+    test('現物: 0', function(){
+      suanpai.dapai({l:1,p:'z1'});
+      assert.equal(suanpai.suan_weixian('z1', 1), 0);
+    })
+    test('字牌 生牌: 3', function(){
+      assert.equal(suanpai.suan_weixian('z2', 1), 3);
+    });
+    test('字牌 1枚見え: 3', function(){
+      suanpai.dapai({l:2,p:'z2'});
+      assert.equal(suanpai.suan_weixian('z2', 1), 3);
+    });
+    test('字牌 2枚見え: 2', function(){
+      suanpai.dapai({l:2,p:'z2'});
+      assert.equal(suanpai.suan_weixian('z2', 1), 2);
+    });
+    test('字牌 3枚見え: 1', function(){
+      suanpai.dapai({l:2,p:'z2'});
+      assert.equal(suanpai.suan_weixian('z2', 1), 1);
+    });
+    test('字牌 ラス牌: 0', function(){
+      suanpai.dapai({l:2,p:'z2'});
+      assert.equal(suanpai.suan_weixian('z2', 1), 0);
+    });
+    test('数牌 無スジ(一九牌): 6', function(){
+      assert.equal(suanpai.suan_weixian('m1', 1), 6);
+      assert.equal(suanpai.suan_weixian('m9', 1), 6);
+    });
+    test('数牌 無スジ(二八牌): 8', function(){
+      assert.equal(suanpai.suan_weixian('m2', 1), 8);
+      assert.equal(suanpai.suan_weixian('m8', 1), 8);
+    });
+    test('数牌 無スジ(三七牌): 8', function(){
+      assert.equal(suanpai.suan_weixian('m3', 1), 8);
+      assert.equal(suanpai.suan_weixian('m7', 1), 8);
+    });
+    test('数牌 無スジ(四五六牌): 12', function(){
+      assert.equal(suanpai.suan_weixian('m4', 1), 12);
+      assert.equal(suanpai.suan_weixian('m5', 1), 12);
+      assert.equal(suanpai.suan_weixian('m6', 1), 12);
+    });
+    test('数牌 スジ(一九牌): 3', function(){
+      suanpai.dapai({l:1,p:'m4'});
+      assert.equal(suanpai.suan_weixian('m1', 1), 3);
+      suanpai.dapai({l:1,p:'m6'});
+      assert.equal(suanpai.suan_weixian('m9', 1), 3);
+    });
+    test('数牌 スジ(二八牌): 4', function(){
+      suanpai.dapai({l:1,p:'m5'});
+      assert.equal(suanpai.suan_weixian('m2', 1), 4);
+      assert.equal(suanpai.suan_weixian('m8', 1), 4);
+    });
+    test('数牌 スジ(三七牌): 5', function(){
+      assert.equal(suanpai.suan_weixian('m3', 1), 5);
+      assert.equal(suanpai.suan_weixian('m7', 1), 5);
+    });
+    test('数牌 片スジ(四五六牌): 8', function(){
+      suanpai.dapai({l:1,p:'p1'});
+      assert.equal(suanpai.suan_weixian('p4', 1), 8);
+      suanpai.dapai({l:1,p:'p2'});
+      assert.equal(suanpai.suan_weixian('p5', 1), 8);
+      suanpai.dapai({l:1,p:'p3'});
+      assert.equal(suanpai.suan_weixian('p6', 1), 8);
+    });
+    test('数牌 両スジ(四五六牌): 4', function(){
+      suanpai.dapai({l:1,p:'p7'});
+      assert.equal(suanpai.suan_weixian('p4', 1), 4);
+      suanpai.dapai({l:1,p:'p8'});
+      assert.equal(suanpai.suan_weixian('p5', 1), 4);
+      suanpai.dapai({l:1,p:'p9'});
+      assert.equal(suanpai.suan_weixian('p6', 1), 4);
     });
   });
 });
