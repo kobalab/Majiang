@@ -546,6 +546,10 @@ suite('Majiang.Player', function(){
       let player = init_player({shoupai:'m188p3346789s113m0',baopai:'s6'});
       assert.equal(player.select_dapai(), 'm1');
     });
+    test('副露を考慮した待ち牌の枚数で打牌を選択する', function(){
+      let player = init_player({shoupai:'m1266p30678s0568p9',baopai:'z1'});
+      assert.equal(player.select_dapai(), 'p9_');
+    });
     test('リーチ者がいて自身が2シャンテン以上の場合はオリる', function(){
       let player = init_player({shoupai:'m23p456s578z11223'});
       player.dapai({l:3,p:'p5*'});
@@ -647,11 +651,12 @@ suite('Majiang.Player', function(){
     });
     test('トイトイの有効牌', function(){
       let player = init_player({shoupai:'p22278s99z333,m111+'});
-      assert.deepEqual(player.tingpai(player._shoupai), ['p7','p8','s9']);
+      assert.deepEqual(player.tingpai(player._shoupai), ['p7','p8','s9+']);
     });
     test('染め手の有効牌', function(){
       let player = init_player({shoupai:'p9s2355z7,z333=,s7-89'});
-      assert.deepEqual(player.tingpai(player._shoupai), ['s1','s4','s5','z7']);
+      assert.deepEqual(player.tingpai(player._shoupai),
+                                                ['s1-','s4-','s5+','z7']);
     });
   });
 });

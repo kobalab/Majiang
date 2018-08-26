@@ -4,10 +4,10 @@
 "use strict";
 
 const Majiang = {
-    Shoupai: require('./shoupai'),
-    Game:    require('./game'),
-    Util:    require('./util'),
-    SuanPai: require('./suanpai'),
+    Shoupai: require('../shoupai'),
+    Game:    require('../game'),
+    Util:    require('../util'),
+    SuanPai: require('../suanpai'),
 };
 
 module.exports = class Player {
@@ -322,10 +322,7 @@ select_dapai() {
         if (this.xiangting(shoupai) > n_xiangting) continue;
         let x = 1 - this._suanpai.paijia(p)/100;
         for (let tp of this.tingpai(shoupai)) {
-            x += this._suanpai.paishu(tp)
-                    * (  tp[2] == '+' ? 4
-                       : tp[2] == '-' ? 2
-                       :                1 );
+            x += this._suanpai.paishu(tp);
         }
         if (x >= max) {
             max = x;
@@ -426,35 +423,7 @@ xiangting(shoupai) {
 }
 
 tingpai(shoupai) {
-
-    let n_xiangting = this.xiangting(shoupai);
-
-    let pai = [];
-    for (let p of Majiang.Util.tingpai(shoupai, s=>this.xiangting(s))) {
-
-        if (n_xiangting > 0) {
-
-            for (let m of shoupai.get_peng_mianzi(p+'+')) {
-                let new_shoupai = shoupai.clone().fulou(m);
-                if (this.xiangting(new_shoupai) < n_xiangting) {
-                    pai.push(p+'+');
-                    break;
-                }
-            }
-            if (pai[pai.length - 1] == p+'+') continue;
-
-            for (let m of shoupai.get_chi_mianzi(p+'-')) {
-                let new_shoupai = shoupai.clone().fulou(m);
-                if (this.xiangting(new_shoupai) < n_xiangting) {
-                    pai.push(p+'-');
-                    break;
-                }
-            }
-            if (pai[pai.length - 1] == p+'-') continue;
-        }
-        pai.push(p);
-    }
-    return pai;
+    return Majiang.Util.tingpai(shoupai, s=>this.xiangting(s))
 }
 
 }
