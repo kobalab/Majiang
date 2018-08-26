@@ -325,7 +325,11 @@ suite('Majiang.Player', function(){
       player.action_dapai({l:2,p:'z2'});
       assert.deepEqual(player._reply, {hule:'-'});
     });
-    test('副露を選択');
+    test('副露を選択', function(){
+      let player = init_player({shoupai:'m123p456s789z1123'});
+      player.action_dapai({l:2,p:'z1'});
+      assert.deepEqual(player._reply, {fulou:'z111='});
+    });
     test('見逃しを選択', function(){
       let player = init_player({shoupai:'m123p456s789z1122'});
       player.action_dapai({l:2,p:'z3'});
@@ -482,9 +486,31 @@ suite('Majiang.Player', function(){
   });
 
   suite('.select_fulou(dapai)', function(){
-    test('副露しないこと', function(){
+    test('役ありでシャンテン数が進む場合、副露する', function(){
+      let player = init_player({shoupai:'m123p456s78z11233'});
+      assert.equal(player.select_fulou({l:2,p:'z1'}), 'z111=');
+    });
+    test('役のない副露はしない', function(){
       let player = init_player({shoupai:'m123p456s78z11223'});
-      assert.ok(! player.select_fulou({l:2,p:'z1'}));
+      assert.ok(! player.select_fulou({l:2,p:'z3'}));
+    });
+    test('役ありでシャンテン数が変わらない場合、大明槓する', function(){
+      let player = init_player({shoupai:'m123p456s78z11133'});
+      assert.equal(player.select_fulou({l:2,p:'z1'}), 'z1111=');
+    });
+    test('役のない大明槓はしない', function(){
+      let player = init_player({shoupai:'m123p456s78z11333'});
+      assert.ok(! player.select_fulou({l:2,p:'z3'}));
+    });
+    test('リーチ者がいる場合、テンパイとならない副露はしない', function(){
+      let player = init_player({shoupai:'m23456p468s34,s06-7'});
+      player.dapai({l:2,p:'m1*'})
+      assert.ok(! player.select_fulou({l:3,p:'s5'}));
+    });
+    test('リーチ者がいても、ポンテン・チーテンはとる', function(){
+      let player = init_player({shoupai:'m22345p468s34,s06-7'});
+      player.dapai({l:2,p:'m1*'})
+      assert.equal(player.select_fulou({l:3,p:'s5'}), 's345-');
     });
   });
 
@@ -496,6 +522,18 @@ suite('Majiang.Player', function(){
     test('シャンテン数が増える場合、暗槓しない', function(){
       let player = init_player({shoupai:'m111123p456s789z12'});
       assert.ok(! player.select_gang());
+    });
+    test('リーチ者がいる場合、テンパイする前は槓しない', function(){
+      let player = init_player({shoupai:'m123p456s579z2,z111='});
+      player.dapai({l:3,p:'m1*'});
+      player.zimo({l:0,p:'z1'})
+      assert.ok(! player.select_gang());
+    });
+    test('リーチ者がいても、テンパイ後は槓する', function(){
+      let player = init_player({shoupai:'m123p456s789z2,z111='});
+      player.dapai({l:3,p:'m1*'});
+      player.zimo({l:0,p:'z1'})
+      assert.equal(player.select_gang(), 'z111=1');
     });
   });
 
@@ -556,6 +594,64 @@ suite('Majiang.Player', function(){
     test('3シャンテン以下は国士無双を狙う', function(){
       let player = init_player({shoupai:'m12345s1z1234567p1'});
       assert.ok(! player.select_pingju());
+    });
+  });
+
+  suite('.xiangting(shoupai)', function(){
+    test('役なし副露のシャンテン数は無限大', function(){
+      let player = init_player({shoupai:'s789z44333,m123-,p456-'});
+      assert.equal(player.xiangting(player._shoupai), Infinity);
+    });
+    test('役牌副露のシャンテン数', function(){
+      let player = init_player({shoupai:'m123p456s789z23,z111='});
+      assert.equal(player.xiangting(player._shoupai), 0);
+    });
+    test('役牌暗刻のシャンテン数', function(){
+      let player = init_player({shoupai:'p456s789z11123,m123-'});
+      assert.equal(player.xiangting(player._shoupai), 0);
+    });
+    test('役牌バックのシャンテン数', function(){
+      let player = init_player({shoupai:'p456s789z11333,m123-'});
+      assert.equal(player.xiangting(player._shoupai), 0);
+    });
+    test('喰いタンのシャンテン数', function(){
+      let player = init_player({shoupai:'m123p456m66777,s6-78'});
+      assert.equal(player.xiangting(player._shoupai), 0);
+    });
+    test('トイトイのシャンテン数', function(){
+      let player = init_player({shoupai:'p222789s99z333,m111+'});
+      assert.equal(player.xiangting(player._shoupai), 1);
+    });
+    test('6対子形のシャンテン数', function(){
+      let player = init_player({shoupai:'p2277s5599z333,m111+,'});
+      assert.equal(player.xiangting(player._shoupai), 1);
+    });
+    test('染め手のシャンテン数', function(){
+      let player = init_player({shoupai:'m2p9s2355z7,z333=,s7-89,'});
+      assert.equal(player.xiangting(player._shoupai), 2);
+    });
+  });
+
+  suite('.tingpai(shoupai)', function(){
+    test('役なし副露に有効牌なし', function(){
+      let player = init_player({shoupai:'s789z4433,m123-,p456-'});
+      assert.deepEqual(player.tingpai(player._shoupai), []);
+    });
+    test('役牌バックの有効牌', function(){
+      let player = init_player({shoupai:'p456s789z1133,m123-'});
+      assert.deepEqual(player.tingpai(player._shoupai), ['z1']);
+    });
+    test('喰いタンの有効牌', function(){
+      let player = init_player({shoupai:'m23p456m66777,s6-78'});
+      assert.deepEqual(player.tingpai(player._shoupai), ['m4']);
+    });
+    test('トイトイの有効牌', function(){
+      let player = init_player({shoupai:'p22278s99z333,m111+'});
+      assert.deepEqual(player.tingpai(player._shoupai), ['p7','p8','s9']);
+    });
+    test('染め手の有効牌', function(){
+      let player = init_player({shoupai:'p9s2355z7,z333=,s7-89'});
+      assert.deepEqual(player.tingpai(player._shoupai), ['s1','s4','s5','z7']);
     });
   });
 });
