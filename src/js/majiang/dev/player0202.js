@@ -4,10 +4,10 @@
 "use strict";
 
 const Majiang = {
-    Shoupai: require('./shoupai'),
-    Game:    require('./game'),
-    Util:    require('./util'),
-    SuanPai: require('./suanpai'),
+    Shoupai: require('../shoupai'),
+    Game:    require('../game'),
+    Util:    require('../util'),
+    SuanPai: require('../suanpai'),
 };
 
 module.exports = class Player {
@@ -59,9 +59,6 @@ qipai(qipai) {
 
     this._suanpai = new Majiang.SuanPai(this._hongpai);
     this._suanpai.qipai(qipai, model.menfeng);
-
-    this._defen_cache = {};
-    this._eval_cache  = {};
 }
 
 zimo(zimo, option) {
@@ -76,7 +73,6 @@ zimo(zimo, option) {
 
     this._shoupai.zimo(zimo.p);
 
-    this._eval_cache = {};
     this.action_zimo(zimo, option);
 
     this._diyizimo = false;
@@ -165,7 +161,6 @@ gang(gang) {
 kaigang(kaigang) {
     this._suanpai.kaigang(kaigang);
     this._baopai.push(kaigang.baopai);
-    this._defen_cache = {};
 }
 
 hule(hule)     { this.wait(); }
@@ -319,16 +314,19 @@ select_dapai() {
         }
     }
 
-    let dapai, max = 0, paishu = this._suanpai.paishu_all();;
-    let n_xiangting = Majiang.Util.xiangting(this._shoupai);
+    let dapai, max = 0;
+    let n_xiangting = this.xiangting(this._shoupai);
     for (let p of this.get_dapai()) {
         if (! dapai) dapai = p;
         let shoupai = this._shoupai.clone().dapai(p);
-        if (Majiang.Util.xiangting(shoupai) > n_xiangting) continue;
-
-        let x = 1 - this._suanpai.paijia(p)/100
-              + this.eval_shoupai(shoupai, paishu);
-
+        if (this.xiangting(shoupai) > n_xiangting) continue;
+        let x = 1 - this._suanpai.paijia(p)/100;
+        for (let tp of this.tingpai(shoupai)) {
+            x += this._suanpai.paishu(tp)
+                    * (  tp[2] == '+' ? 4
+                       : tp[2] == '-' ? 2
+                       :                1 );
+        }
         if (x >= max) {
             max = x;
             dapai = p;
@@ -457,80 +455,6 @@ tingpai(shoupai) {
         pai.push(p);
     }
     return pai;
-}
-
-get_defen(shoupai) {
-
-    let paistr = shoupai.toString();
-    if (this._defen_cache[paistr] != null) return this._defen_cache[paistr];
-
-    let param = {
-        zhuangfeng: this._model.zhuangfeng,
-        menfeng:    this._model.menfeng,
-        hupai:      { lizhi: shoupai.menqian() },
-        baopai:     this._baopai,
-        jicun:      { changbang: 0, lizhibang: 0 }
-    };
-    let hule = Majiang.Util.hule(shoupai, null, param);
-
-    this._defen_cache[paistr] = hule.defen;
-    return hule.defen;
-}
-
-eval_shoupai(shoupai, paishu) {
-
-    function add_hongpai(tingpai) {
-        let new_tingpai = [];
-        for (let p of tingpai) {
-            if (p[0] != 'z' && p[1] == '5')
-                    new_tingpai.push(p.replace(/5/,'0'));
-            new_tingpai.push(p);
-        }
-        return new_tingpai;
-    }
-
-    let paistr = shoupai.toString();
-    if (this._eval_cache[paistr] != null) return this._eval_cache[paistr];
-
-    let rv;
-    let n_xiangting = Majiang.Util.xiangting(shoupai);
-
-    if (n_xiangting == -1) {
-        rv = this.get_defen(shoupai);
-    }
-    else if (shoupai._zimo) {
-        let max = 0;
-        for (let p of shoupai.get_dapai()) {
-            let new_shoupai = shoupai.clone().dapai(p);
-            if (Majiang.Util.xiangting(new_shoupai) > n_xiangting) continue;
-            let r = this.eval_shoupai(new_shoupai, paishu);
-            if (r > max) max = r;
-        }
-        rv = max;
-    }
-    else if (n_xiangting < 3) {
-        let r = 0;
-        for (let p of add_hongpai(Majiang.Util.tingpai(shoupai))) {
-            if (! paishu[p]) continue;
-            let new_shoupai = shoupai.clone().zimo(p);
-            paishu[p]--;
-            let ev = this.eval_shoupai(new_shoupai, paishu);
-            paishu[p]++;
-            r += ev * paishu[p];
-        }
-        rv = r;
-    }
-    else {
-        let r = 0;
-        for (let p of add_hongpai(this.tingpai(shoupai))) {
-            r += this._suanpai.paishu(p) * (  p[2] == '+' ? 4
-                                            : p[2] == '-' ? 2 : 1 );
-        }
-        rv = r;
-    }
-
-    this._eval_cache[paistr] = rv;
-    return rv;
 }
 
 }

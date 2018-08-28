@@ -40,6 +40,16 @@ paishu(p) {
                        : this._paishu[p[0]][p[1]];
 }
 
+paishu_all() {
+    let paishu = {};
+    for (let s of ['m','p','s','z']) {
+        for (let n of (s == 'z' ? [1,2,3,4,5,6,7] : [0,1,2,3,4,5,6,7,8,9])) {
+            paishu[s+n] = this.paishu(s+n);
+        }
+    }
+    return paishu;
+}
+
 qipai(qipai, menfeng) {
 
     this._zhuangfeng = qipai.zhuangfeng;

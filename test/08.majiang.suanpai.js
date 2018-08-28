@@ -77,6 +77,17 @@ suite('Majiang.SuanPai', function(){
     });
   });
 
+  suite('.paishu_all()', function(){
+    let suanpai = init_suanpai({shoupai:'m456p406s999z1122',baopai:'z1'});
+    test('牌数を全て返すこと', function(){
+      assert.deepEqual(suanpai.paishu_all(),
+                       {m0:1,m1:4,m2:4,m3:4,m4:3,m5:2,m6:3,m7:4,m8:4,m9:4,
+                        p0:0,p1:4,p2:4,p3:4,p4:3,p5:3,p6:3,p7:4,p8:4,p9:4,
+                        s0:1,s1:4,s2:4,s3:4,s4:4,s5:3,s6:4,s7:4,s8:4,s9:1,
+                             z1:1,z2:2,z3:4,z4:4,z5:4,z6:4,z7:4});
+    });
+  });
+
   suite('.qipai(qipai, menfeng)', function(){
     let suanpai = new Majiang.SuanPai({m:1,p:1,s:1});
     test('牌数が減算されること', function(){

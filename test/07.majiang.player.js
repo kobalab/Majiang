@@ -12,19 +12,19 @@ function init_player(param = {}) {
 
     let qipai = { zhuangfeng: 1, jushu: 3, changbang: 1, lizhibang: 2,
                   defen: [10000, 20000, 30000, 38000], baopai: 'm3',
-                  shoupai: ['m123p456s789z1123','','',''] }
+                  shoupai: ['','','',''] }
 
-    if (param.qijia)      kaiju.qijia      = param.qijia;
-    if (param.hongpai)    kaiju.hongpai    = param.hongpai;
-    if (param.zhuangfeng) qipai.zhuangfeng = param.zhuangfeng;
-    if (param.jushu)      qipai.jushu      = param.jushu;
-    if (param.changbang)  qipai.changbang  = param.changbang;
-    if (param.lizhibang)  qipai.lizhibang  = param.lizhibang;
-    if (param.defen)      qipai.defen      = param.defen;
-    if (param.baopai)     qipai.baopai     = param.baopai;
+    if (param.qijia != null)      kaiju.qijia      = param.qijia;
+    if (param.hongpai)            kaiju.hongpai    = param.hongpai;
+    if (param.zhuangfeng != null) qipai.zhuangfeng = param.zhuangfeng;
+    if (param.jushu != null)      qipai.jushu      = param.jushu;
+    if (param.changbang != null)  qipai.changbang  = param.changbang;
+    if (param.lizhibang != null)  qipai.lizhibang  = param.lizhibang;
+    if (param.defen)              qipai.defen      = param.defen;
+    if (param.baopai)             qipai.baopai     = param.baopai;
 
     let menfeng = (8 + player._id - kaiju.qijia - qipai.jushu) % 4
-    if (param.shoupai) qipai.shoupai[menfeng] = param.shoupai;
+    qipai.shoupai[menfeng] = param.shoupai || 'm123p456s789z1123';
 
     player.kaiju(kaiju);
     player.qipai(qipai);
@@ -341,7 +341,7 @@ suite('Majiang.Player', function(){
     test('打牌する', function(){
       let player = init_player({shoupai:'m123p456s778z22,z111=,'});
       player.action_fulou({l:0,m:'z111='});
-      assert.deepEqual(player._reply, {dapai:'s7'});
+      assert.ok(player._reply.dapai);
     });
   });
 
@@ -547,8 +547,12 @@ suite('Majiang.Player', function(){
       assert.equal(player.select_dapai(), 'm1');
     });
     test('副露を考慮した待ち牌の枚数で打牌を選択する', function(){
-      let player = init_player({shoupai:'m1266p30678s0568p9',baopai:'z1'});
-      assert.equal(player.select_dapai(), 'p9_');
+      let player = init_player({shoupai:'m223057p2479s357p5',baopai:'z1'});
+      assert.equal(player.select_dapai(), 'p9');
+    });
+    test('打点を考慮して打牌を選択する', function(){
+      let player = init_player({shoupai:'m12378p123s13488m6',baopai:'s9'});
+      assert.equal(player.select_dapai(), 's4*');
     });
     test('リーチ者がいて自身が2シャンテン以上の場合はオリる', function(){
       let player = init_player({shoupai:'m23p456s578z11223'});
@@ -657,6 +661,45 @@ suite('Majiang.Player', function(){
       let player = init_player({shoupai:'p9s2355z7,z333=,s7-89'});
       assert.deepEqual(player.tingpai(player._shoupai),
                                                 ['s1-','s4-','s5+','z7']);
+    });
+  });
+
+  suite('.get_defen(shoupai)', function(){
+    let player = init_player();
+    test('現在の場風、自風、ドラを元にツモ和了の打点を計算する', function(){
+      assert.equal(player.get_defen(
+                Majiang.Shoupai.fromString('m234p456z1122z1,s6-78')), 3900);
+    });
+    test('門前の場合リーチすることを前提に打点を計算する', function(){
+      assert.equal(player.get_defen(
+                Majiang.Shoupai.fromString('m234p456s678z3322z3')), 7800);
+    });
+  });
+
+  suite('.eval_shoupai(shoupai, paishu)', function(){
+    test('和了形の場合は和了打点を評価値とする', function(){
+      let player = init_player({shoupai:'m123678p123s1388s2',baopai:'s9',
+                                zhuangfeng:0,jushu:0,hongpai:{m:1,p:1,s:1}});
+      assert.equal(player.eval_shoupai(player._shoupai,
+                                       player._suanpai.paishu_all()), 8000)
+    });
+    test('テンパイ形の場合は、和了打点×枚数 の総和を評価値とする', function(){
+      let player = init_player({shoupai:'m123678p123s1388',baopai:'s9',
+                                zhuangfeng:0,jushu:0,hongpai:{m:1,p:1,s:1}});
+      assert.equal(player.eval_shoupai(player._shoupai,
+                                       player._suanpai.paishu_all()), 32000)
+    })
+    test('打牌可能な牌姿の場合は、打牌後の牌姿の評価値の最大値を評価値とする', function(){
+      let player = init_player({shoupai:'m123678p123s13488',baopai:'s9',
+                                zhuangfeng:0,jushu:0,hongpai:{m:1,p:1,s:1}});
+      assert.equal(player.eval_shoupai(player._shoupai,
+                                       player._suanpai.paishu_all()), 32000)
+    });
+    test('3シャンテン以上の場合は鳴きを考慮した待ち牌数を評価値とする', function(){
+      let player = init_player({shoupai:'m569p4s5778z11335',baopai:'s9',
+                                zhuangfeng:0,jushu:0,hongpai:{m:1,p:1,s:1}});
+      assert.equal(player.eval_shoupai(player._shoupai,
+                                       player._suanpai.paishu_all()), 61)
     });
   });
 });
