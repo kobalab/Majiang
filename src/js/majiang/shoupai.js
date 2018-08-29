@@ -259,7 +259,7 @@ get_chi_mianzi(p) {
 
     let mianzi = [];
 
-    let [s, n, d] = p.replace(/[\_\*]/,''); n = +n || 5;
+    let [s, n, d] = p.replace(/[\_\*]/g,''); n = +n || 5;
     if (! d)                                    throw new Error([this,p]);
     if (s == 'z' || d != '-') return mianzi;
 
@@ -300,7 +300,7 @@ get_peng_mianzi(p) {
 
     let mianzi = [];
 
-    let [s, n, d] = p.replace(/[\_\*]/,''); n = +n || 5;
+    let [s, n, d] = p.replace(/[\_\*]/g,''); n = +n || 5;
     if (! d)                                    throw new Error([this,p]);
 
     let bingpai = this._bingpai[s];
@@ -324,7 +324,7 @@ get_gang_mianzi(p) {
         if (! Shoupai.valid_pai(p))             throw new Error(p);
         if (this._zimo)                         throw new Error([this,p]);
 
-        let [s, n, d] = p.replace(/[\_\*]/,''); n = +n || 5;
+        let [s, n, d] = p.replace(/[\_\*]/g,''); n = +n || 5;
         if (! d)                                throw new Error([this,p]);
 
         let bingpai = this._bingpai[s];

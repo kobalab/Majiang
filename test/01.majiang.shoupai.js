@@ -623,6 +623,18 @@ suite('Majiang.Shoupai', function(){
       assert.deepEqual(Shoupai('m123p340567s789z1').get_chi_mianzi('p7-'),
                        ['p067-']);
     });
+    test('ツモ切りの牌をチーできること', function(){
+      assert.deepEqual(Shoupai('m123p456s789z1234').get_chi_mianzi('m3_-'),
+                       ['m123-']);
+    });
+    test('リーチ宣言牌をチーできること', function(){
+      assert.deepEqual(Shoupai('m123p456s789z1234').get_chi_mianzi('m3*-'),
+                       ['m123-']);
+    });
+    test('ツモ切りリーチの宣言牌をチーできること', function(){
+      assert.deepEqual(Shoupai('m123p456s789z1234').get_chi_mianzi('m3_*-'),
+                       ['m123-']);
+    });
     test('リーチ後にもチーできること(チェックしない)', function(){
       assert.deepEqual(Shoupai('m123p456s789z1234*').get_chi_mianzi('m3-'),
                        ['m123-']);
@@ -685,6 +697,18 @@ suite('Majiang.Shoupai', function(){
       assert.deepEqual(Shoupai('m123p000s789z1234').get_peng_mianzi('p5='),
                        ['p005=']);
     });
+    test('ツモ切りの牌をポンできること', function(){
+      assert.deepEqual(Shoupai('m112p456s789z1234').get_peng_mianzi('m1_+'),
+                       ['m111+']);
+    });
+    test('リーチ宣言牌をポンできること', function(){
+      assert.deepEqual(Shoupai('m112p456s789z1234').get_peng_mianzi('m1*+'),
+                       ['m111+']);
+    });
+    test('ツモ切りリーチの宣言牌をポンできること', function(){
+      assert.deepEqual(Shoupai('m112p456s789z1234').get_peng_mianzi('m1_*+'),
+                       ['m111+']);
+    });
     test('リーチ後にもポンできること(チェックしない)', function(){
       assert.deepEqual(Shoupai('m112p456s789z1234*').get_peng_mianzi('m1+'),
                        ['m111+']);
@@ -727,6 +751,18 @@ suite('Majiang.Shoupai', function(){
                        ['p5005+']);
       assert.deepEqual(Shoupai('m123p000s789z1234').get_gang_mianzi('p5+'),
                        ['p0005+']);
+    });
+    test('ツモ切りの牌を大明槓できること', function(){
+      assert.deepEqual(Shoupai('m111p456s789z1234').get_gang_mianzi('m1_+'),
+                       ['m1111+']);
+    });
+    test('リーチ宣言牌を大明槓できること', function(){
+      assert.deepEqual(Shoupai('m111p456s789z1234').get_gang_mianzi('m1*+'),
+                       ['m1111+']);
+    });
+    test('ツモ切りリーチの宣言牌を大明槓できること', function(){
+      assert.deepEqual(Shoupai('m111p456s789z1234').get_gang_mianzi('m1_*+'),
+                       ['m1111+']);
     });
     test('リーチ後にも大明槓できること(チェックしない)', function(){
       assert.deepEqual(Shoupai('m111p456s789z1234*').get_gang_mianzi('m1+'),
