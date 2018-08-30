@@ -9,7 +9,7 @@
     "build:css": "stylus src/css/index.styl -o www/css/majiang.css",
     "release": "webpack -p",
     "test": "mocha -u tdd",
-    "test:cover": "istanbul cover node_modules/mocha/bin/_mocha -- -u tdd --no-timeouts",
+    "test:cover": "istanbul cover -x \"**/dev/**\" node_modules/mocha/bin/_mocha -- -u tdd --no-timeouts",
     "update": "npm run test -- -R min && npm run release",
     "install": "npm run update"
   },
