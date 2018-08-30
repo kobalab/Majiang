@@ -276,7 +276,7 @@ select_dapai() {
         if (Majiang.Util.xiangting(shoupai) > n_xiangting) continue;
         let x = 0;
         for (let tp of Majiang.Util.tingpai(shoupai)) {
-            x += this._suanpai.paishu(tp);
+            x += this._suanpai._paishu[tp[0]][tp[1]];
         }
         if (x >= max) {
             max = x;

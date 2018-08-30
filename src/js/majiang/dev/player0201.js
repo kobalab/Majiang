@@ -322,7 +322,7 @@ select_dapai() {
         if (this.xiangting(shoupai) > n_xiangting) continue;
         let x = 1 - this._suanpai.paijia(p)/100;
         for (let tp of this.tingpai(shoupai)) {
-            x += this._suanpai.paishu(tp);
+            x += this._suanpai._paishu[tp[0]][tp[1]];
         }
         if (x >= max) {
             max = x;
