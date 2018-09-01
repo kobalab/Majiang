@@ -4,22 +4,11 @@
 "use strict";
 
 const Majiang = {
-    Shoupai: require('./shoupai'),
-    Game:    require('./game'),
-    Util:    require('./util'),
-    SuanPai: require('./suanpai'),
+    Shoupai: require('../shoupai'),
+    Game:    require('../game'),
+    Util:    require('../util'),
+    SuanPai: require('../suanpai'),
 };
-
-const width = [12, 12*6, 12*6*3];
-
-function add_hongpai(tingpai) {
-    let new_tingpai = [];
-    for (let p of tingpai) {
-        if (p[0] != 'z' && p[1] == '5') new_tingpai.push(p.replace(/5/,'0'));
-        new_tingpai.push(p);
-    }
-    return new_tingpai;
-}
 
 module.exports = class Player {
 
@@ -330,44 +319,15 @@ select_dapai() {
         }
     }
 
-    let dapai, max = 0, max_tingpai = 0, backtrack = [];
-    let paishu = this._suanpai.paishu_all();;
+    let dapai, max = 0, paishu = this._suanpai.paishu_all();;
     let n_xiangting = Majiang.Util.xiangting(this._shoupai);
     for (let p of this.get_dapai()) {
         if (! dapai) dapai = p;
         let shoupai = this._shoupai.clone().dapai(p);
-        if (Majiang.Util.xiangting(shoupai) > n_xiangting) {
-            if (n_xiangting < 2) backtrack.push(p);
-            continue;
-        }
+        if (Majiang.Util.xiangting(shoupai) > n_xiangting) continue;
 
         let x = 1 - this._suanpai.paijia(p)/100
               + this.eval_shoupai(shoupai, paishu);
-
-        let n_tingpai = 0;
-        for (let tp of Majiang.Util.tingpai(shoupai)) {
-            n_tingpai += paishu[tp];
-        }
-
-        if (x >= max) {
-            max = x;
-            dapai = p;
-            max_tingpai = n_tingpai;
-        }
-    }
-    let tmp_max = max;
-
-    for (let p of backtrack) {
-        let shoupai = this._shoupai.clone().dapai(p);
-
-        let n_tingpai = 0;
-        for (let tp of Majiang.Util.tingpai(shoupai)) {
-            n_tingpai += paishu[tp];
-        }
-        if (n_tingpai < max_tingpai * 6) continue;
-
-        let x = 1 - this._suanpai.paijia(p)/100
-              + this.eval_backtrack(shoupai, paishu, tmp_max, p);
 
         if (x >= max) {
             max = x;
@@ -517,7 +477,17 @@ get_defen(shoupai) {
     return hule.defen;
 }
 
-eval_shoupai(shoupai, paishu, dapai) {
+eval_shoupai(shoupai, paishu) {
+
+    function add_hongpai(tingpai) {
+        let new_tingpai = [];
+        for (let p of tingpai) {
+            if (p[0] != 'z' && p[1] == '5')
+                    new_tingpai.push(p.replace(/5/,'0'));
+            new_tingpai.push(p);
+        }
+        return new_tingpai;
+    }
 
     let paistr = shoupai.toString();
     if (this._eval_cache[paistr] != null) return this._eval_cache[paistr];
@@ -533,7 +503,7 @@ eval_shoupai(shoupai, paishu, dapai) {
         for (let p of shoupai.get_dapai()) {
             let new_shoupai = shoupai.clone().dapai(p);
             if (Majiang.Util.xiangting(new_shoupai) > n_xiangting) continue;
-            let r = this.eval_shoupai(new_shoupai, paishu, dapai);
+            let r = this.eval_shoupai(new_shoupai, paishu);
             if (r > max) max = r;
         }
         rv = max;
@@ -541,15 +511,14 @@ eval_shoupai(shoupai, paishu, dapai) {
     else if (n_xiangting < 3) {
         let r = 0;
         for (let p of add_hongpai(Majiang.Util.tingpai(shoupai))) {
-            if (p == dapai)  return 0;
             if (! paishu[p]) continue;
             let new_shoupai = shoupai.clone().zimo(p);
             paishu[p]--;
-            let ev = this.eval_shoupai(new_shoupai, paishu, dapai);
+            let ev = this.eval_shoupai(new_shoupai, paishu);
             paishu[p]++;
             r += ev * paishu[p];
         }
-        rv = r / width[n_xiangting];
+        rv = r;
     }
     else {
         let r = 0;
@@ -562,28 +531,6 @@ eval_shoupai(shoupai, paishu, dapai) {
 
     this._eval_cache[paistr] = rv;
     return rv;
-}
-
-eval_backtrack(shoupai, paishu, min, dapai) {
-
-    let n_xiangting = Majiang.Util.xiangting(shoupai);
-
-    let r = 0;
-    for (var p of add_hongpai(Majiang.Util.tingpai(shoupai))) {
-        if (p == dapai)  continue;
-        if (! paishu[p]) continue;
-
-        let new_shoupai = shoupai.clone().zimo(p);
-
-        paishu[p]--;
-        let ev = this.eval_shoupai(new_shoupai, paishu, dapai);
-        paishu[p]++;
-
-        if (ev < min * 2) continue;
-
-        r += ev * paishu[p];
-    }
-    return r / width[n_xiangting];
 }
 
 }

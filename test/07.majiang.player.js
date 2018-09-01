@@ -554,6 +554,14 @@ suite('Majiang.Player', function(){
       let player = init_player({shoupai:'m12378p123s13488m6',baopai:'s9'});
       assert.equal(player.select_dapai(), 's4*');
     });
+    test('期待値が高くなる場合はシャンテン戻しを選択する', function(){
+      let player = init_player({shoupai:'m123p1234789s3388',baopai:'s3'});
+      assert.equal(player.select_dapai(), 's3');
+    });
+    test('フリテンとなる場合はシャンテン戻しを選択しない', function(){
+      let player = init_player({shoupai:'m12p19s19z1234567m1',baopai:'s3'});
+      assert.equal(player.select_dapai(), 'm2*');
+    });
     test('リーチ者がいて自身が2シャンテン以上の場合はオリる', function(){
       let player = init_player({shoupai:'m23p456s578z11223'});
       player.dapai({l:3,p:'p5*'});
@@ -687,13 +695,13 @@ suite('Majiang.Player', function(){
       let player = init_player({shoupai:'m123678p123s1388',baopai:'s9',
                                 zhuangfeng:0,jushu:0,hongpai:{m:1,p:1,s:1}});
       assert.equal(player.eval_shoupai(player._shoupai,
-                                       player._suanpai.paishu_all()), 32000)
+                                       player._suanpai.paishu_all()), 32000/12)
     })
     test('打牌可能な牌姿の場合は、打牌後の牌姿の評価値の最大値を評価値とする', function(){
       let player = init_player({shoupai:'m123678p123s13488',baopai:'s9',
                                 zhuangfeng:0,jushu:0,hongpai:{m:1,p:1,s:1}});
       assert.equal(player.eval_shoupai(player._shoupai,
-                                       player._suanpai.paishu_all()), 32000)
+                                       player._suanpai.paishu_all()), 32000/12)
     });
     test('3シャンテン以上の場合は鳴きを考慮した待ち牌数を評価値とする', function(){
       let player = init_player({shoupai:'m569p4s5778z11335',baopai:'s9',
