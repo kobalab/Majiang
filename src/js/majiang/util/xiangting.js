@@ -109,6 +109,7 @@ function xiangting_yiban(shoupai) {
             }
         }
     }
+    if (min == -1 && shoupai._zimo && shoupai._zimo.length > 2) return 0;
 
     return min;
 }

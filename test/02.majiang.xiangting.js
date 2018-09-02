@@ -64,6 +64,10 @@ suite('Majiang.Util', function(){
       assert.equal(Majiang.Util.xiangting_yiban(
                 Majiang.Shoupai.fromString('p2234556788z123')), 2);
     });
+    test('副露直後の牌姿が和了形', function(){
+      assert.equal(Majiang.Util.xiangting_yiban(
+                Majiang.Shoupai.fromString('m11122,p123-,s12-3,z111=,')), 0);
+    });
 
     test('一般手: 10000パターン', function(){
       for (let data of data1) {
