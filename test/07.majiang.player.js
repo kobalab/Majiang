@@ -487,16 +487,28 @@ suite('Majiang.Player', function(){
 
   suite('.select_fulou(dapai)', function(){
     test('役ありでシャンテン数が進む場合、副露する', function(){
-      let player = init_player({shoupai:'m123p456s78z11233'});
+      let player = init_player({shoupai:'m123p456s58z11234'});
       assert.equal(player.select_fulou({l:2,p:'z1'}), 'z111=');
     });
     test('役のない副露はしない', function(){
       let player = init_player({shoupai:'m123p456s78z11223'});
       assert.ok(! player.select_fulou({l:2,p:'z3'}));
     });
-    test('役ありでシャンテン数が変わらない場合、大明槓する', function(){
-      let player = init_player({shoupai:'m123p456s78z11133'});
-      assert.equal(player.select_fulou({l:2,p:'z1'}), 'z1111=');
+    test('3シャンテンに戻る副露はしない', function(){
+      let player = init_player({shoupai:'m335p244899s2599'});
+      assert.ok(! player.select_fulou({l:2,p:'p9'}));
+    });
+    test('シャンテン数が変わらなくても期待値が上がる場合は副露を選択する', function(){
+      let player = init_player({shoupai:'m56778p4s2478z255',baopai:'z1'});
+      assert.equal(player.select_fulou({l:2,p:'z5'}), 'z555=');
+    });
+    test('シャンテン数が進んでも期待値が上がらない場合は副露しない', function(){
+      let player = init_player({shoupai:'m456p22378s34455',baopai:'s3'});
+      assert.ok(! player.select_fulou({l:3,p:'s6'}));
+    });
+    test('役ありでも2シャンテンまでは大明槓しない', function(){
+      let player = init_player({shoupai:'m123p147s78z11123'});
+      assert.ok(! player.select_fulou({l:2,p:'z1'}));
     });
     test('役のない大明槓はしない', function(){
       let player = init_player({shoupai:'m123p456s78z11333'});
@@ -515,11 +527,23 @@ suite('Majiang.Player', function(){
   });
 
   suite('.select_gang()', function(){
-    test('シャンテン数が変わらない場合、暗槓する', function(){
-      let player = init_player({shoupai:'m123p456s789z1112z1'});
+    test('シャンテン数が変わらない場合、暗槓・加槓する', function(){
+      let player = init_player({shoupai:'m234p147s1477z111z1'});
       assert.equal(player.select_gang(), 'z1111');
+      player = init_player({shoupai:'m234p147s1477z1,z111+'});
+      assert.equal(player.select_gang(), 'z111+1');
     });
-    test('シャンテン数が増える場合、暗槓しない', function(){
+    test('3シャンテン以上に戻る暗槓はしない', function(){
+      let player = init_player({shoupai:'m133p405557999z36'});
+      assert.ok(! player.select_gang());
+      player = init_player({shoupai:'m569p269s12222z136'});
+      assert.ok(! player.select_gang());
+    });
+    test('シャンテン数が戻っても期待値が上がる場合は暗槓する', function(){
+      let player = init_player({shoupai:'m88p0778888s2m5,s067-',baopai:'p4'});
+      assert.equal(player.select_gang(), 'p8888');
+    });
+    test('期待値が上がらない場合シャンテン数が戻る暗槓はしない', function(){
       let player = init_player({shoupai:'m111123p456s789z12'});
       assert.ok(! player.select_gang());
     });

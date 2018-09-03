@@ -4,10 +4,10 @@
 "use strict";
 
 const Majiang = {
-    Shoupai: require('./shoupai'),
-    Game:    require('./game'),
-    Util:    require('./util'),
-    SuanPai: require('./suanpai'),
+    Shoupai: require('../shoupai'),
+    Game:    require('../game'),
+    Util:    require('../util'),
+    SuanPai: require('../suanpai'),
 };
 
 const width = [12, 12*6, 12*6*3];
@@ -274,77 +274,36 @@ allow_pingju() {
 
 select_fulou(dapai) {
 
-    let n_xiangting = Majiang.Util.xiangting(this._shoupai);
+    let n_xiangting = this.xiangting(this._shoupai);
 
     if (this._suanpai._lizhi.find(l=>l) && n_xiangting > 1) return;
 
-    if (n_xiangting < 3) {
-
-        let mianzi = this.get_gang_mianzi(dapai)
-                        .concat(this.get_peng_mianzi(dapai))
-                        .concat(this.get_chi_mianzi(dapai));
-        if (! mianzi.length) return;
-
-        let fulou;
-        let paishu = this._suanpai.paishu_all();
-        let max    = this.eval_shoupai(this._shoupai, paishu);
-        for (let m of mianzi) {
-            let shoupai = this._shoupai.clone().fulou(m);
-            if (Majiang.Util.xiangting(shoupai) >= 3) continue;
-
-            let ev = this.eval_shoupai(shoupai, paishu);
-
-            if (ev > max) {
-                max = ev;
-                fulou = m;
-            }
-        }
-        return fulou;
+    for (let m of this.get_gang_mianzi(dapai)) {
+        let shoupai = this._shoupai.clone().fulou(m);
+        if (this.xiangting(shoupai) == n_xiangting) return m;
     }
-    else {
 
-        n_xiangting = this.xiangting(this._shoupai);
-
-        for (let m of this.get_peng_mianzi(dapai)
-                            .concat(this.get_chi_mianzi(dapai)))
-        {
-            let shoupai = this._shoupai.clone().fulou(m);
-            if (this.xiangting(shoupai) < n_xiangting) return m;
-        }
+    if (n_xiangting == 0) return;
+    for (let m of this.get_peng_mianzi(dapai)
+                        .concat(this.get_chi_mianzi(dapai)))
+    {
+        let shoupai = this._shoupai.clone().fulou(m);
+        if (this.xiangting(shoupai) < n_xiangting) return m;
     }
 }
 
 select_gang() {
 
-    let n_xiangting = Majiang.Util.xiangting(this._shoupai);
+    let n_xiangting = this.xiangting(this._shoupai);
 
     if (this._suanpai._lizhi.find(l=>l) && n_xiangting > 0) return;
 
-    if (n_xiangting < 3) {
-
-        let paishu = this._suanpai.paishu_all();
-        let ev = this.eval_shoupai(this._shoupai, paishu);
-        for (let m of this.get_gang_mianzi()) {
-            let p = m.match(/^[mpsz]\d{4}$/)
-                        ? m.replace(/0/,'5').substr(0,2)
-                        : m[0] + m.substr(-1);
-            let shoupai = this._shoupai.clone().gang(p);
-            if (Majiang.Util.xiangting(shoupai) >= 3) continue;
-
-            if (this.eval_shoupai(shoupai, paishu) > ev) return m;
-        }
-    }
-    else {
-
-        let n_xiangting = this.xiangting(this._shoupai);
-
-        for (let m of this.get_gang_mianzi()) {
-            let p = m.match(/^[mpsz]\d{4}$/)
-                        ? m.replace(/0/,'5').substr(0,2)
-                        : m[0] + m.substr(-1);
-            let shoupai = this._shoupai.clone().gang(p);
-            if (this.xiangting(shoupai) == n_xiangting) return m;
-        }
+    for (let m of this.get_gang_mianzi()) {
+        let p = m.match(/^[mpsz]\d{4}$/)
+                    ? m.replace(/0/,'5').substr(0,2)
+                    : m[0] + m.substr(-1);
+        let shoupai = this._shoupai.clone().gang(p);
+        if (this.xiangting(shoupai) == n_xiangting) return m;
     }
 }
 
