@@ -493,7 +493,7 @@ Majiang.Player.prototype.select_fulou = function(data) {
             new_shoupai.fulou(m);
             if (Majiang.Util.xiangting(new_shoupai) >= 3) continue;
             
-            ev = this.eval_shoupai(new_shoupai, paishu);
+            var ev = this.eval_shoupai(new_shoupai, paishu);
             
             if (ev > max) {
                 max = ev;
