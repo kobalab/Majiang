@@ -646,6 +646,12 @@ suite('Majiang.Shoupai', function(){
                        []);
       assert.deepEqual(Shoupai('s7889,m123-,p456-,z111+').get_chi_mianzi('s8-'),
                        []);
+      assert.deepEqual(Shoupai('s7899,m123-,p456-,z111+').get_chi_mianzi('s9-'),
+                       []);
+      assert.deepEqual(Shoupai('s7789,m123-,p456-,z111+').get_chi_mianzi('s7-'),
+                       []);
+      assert.deepEqual(Shoupai('s6678999,m123-,p456-').get_chi_mianzi('s6-'),
+                       []);
     });
     test('不正な牌でチーできないこと', function(){
       assert.throws(()=>Shoupai('m123p456s789z1234').get_chi_mianzi('mm-'));

@@ -270,24 +270,22 @@ get_chi_mianzi(p) {
     if (3 <= n && bingpai[n-2] > 0 && bingpai[n-1] > 0) {
         p1 = hongpai_first(n-2);
         p2 = hongpai_first(n-1);
-        if (3 < n && this._fulou.length == 3
-            && bingpai[n-3] == 1 && bingpai[n] == 1)
-                ;
-        else mianzi.push(s + p1 + p2 + (p0+d));
+        if ((3 < n ? bingpai[n-3] : 0) + bingpai[n]
+                < 14 - (this._fulou.length + 1) * 3)
+                                        mianzi.push(s + p1 + p2 + (p0+d));
     }
     if (2 <= n && n <= 8 && bingpai[n-1] > 0 && bingpai[n+1] > 0) {
         p1 = hongpai_first(n-1);
         p2 = hongpai_first(n+1);
-        if (this._fulou.length == 3 && bingpai[n] == 2) ;
-        else mianzi.push(s + p1 + (p0+d) + p2);
+        if (bingpai[n] < 14 - (this._fulou.length + 1) * 3)
+                                        mianzi.push(s + p1 + (p0+d) + p2);
     }
     if (n <= 7 && bingpai[n+1] > 0 && bingpai[n+2] > 0) {
         p1 = hongpai_first(n+1);
         p2 = hongpai_first(n+2);
-        if (n < 7 && this._fulou.length == 3
-            && bingpai[n] == 1 && bingpai[n+3] == 1)
-                ;
-        else mianzi.push(s + (p0+d) + p1 + p2);
+        if (bingpai[n] + (n < 7 ? bingpai[n+3] : 0)
+                < 14 - (this._fulou.length + 1) * 3)
+                                        mianzi.push(s + (p0+d) + p1 + p2);
     }
 
     return mianzi;
