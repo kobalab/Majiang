@@ -4,10 +4,10 @@
 "use strict";
 
 const Majiang = {
-    Shoupai: require('./shoupai'),
-    Game:    require('./game'),
-    Util:    require('./util'),
-    SuanPai: require('./suanpai'),
+    Shoupai: require('../shoupai'),
+    Game:    require('../game'),
+    Util:    require('../util'),
+    SuanPai: require('../suanpai'),
 };
 
 const width = [12, 12*6, 12*6*3];
@@ -371,36 +371,6 @@ select_dapai() {
         }
     }
 
-    let n_suit, n_sifeng, n_sanyuan;
-
-    const paijia = (p) => {
-        if (! n_suit) {
-            n_suit = { m: 0, p: 0, s: 0, z: 0 };
-            for (let s of ['m','p','s','z']) {
-                let bingpai = this._shoupai._bingpai[s];
-                for (let n = 1; n < bingpai.length; n++) {
-                    n_suit[s] += bingpai[n];
-                }
-            }
-            let bingpai = this._shoupai._bingpai.z;
-            n_sifeng  = bingpai[1] + bingpai[2] + bingpai[3] + bingpai[4];
-            n_sanyuan = bingpai[5] + bingpai[6] + bingpai[7];
-            for (let m of this._shoupai._fulou) {
-                n_suit[m[0]] += 3;
-                if (m.match(/^z[1234]/)) n_sifeng  += 3;
-                if (m.match(/^z[567]/))  n_sanyuan += 3;
-            }
-        }
-        return this._suanpai.paijia(p)
-                * (  p.match(/^z[1234]/) && n_sifeng  >= 9  ? 8
-                   : p.match(/^z[567]/)  && n_sanyuan >= 6  ? 8
-                   : p[0] == 'z'
-                      && Math.max(n_suit.m, n_suit.p, n_suit.s)
-                                  + n_suit.z >= 10          ? 4
-                   : n_suit[p[0]] + n_suit.z >= 10          ? 2
-                   :                                          1 );
-    }
-
     let dapai, max = 0, max_tingpai = 0, backtrack = [];
     let paishu = this._suanpai.paishu_all();;
     let n_xiangting = Majiang.Util.xiangting(this._shoupai);
@@ -412,7 +382,7 @@ select_dapai() {
             continue;
         }
 
-        let x = 1 - paijia(p)/100
+        let x = 1 - this._suanpai.paijia(p)/100
               + this.eval_shoupai(shoupai, paishu);
 
         let n_tingpai = 0;
@@ -437,7 +407,7 @@ select_dapai() {
         }
         if (n_tingpai < max_tingpai * 6) continue;
 
-        let x = 1 - paijia(p)/100
+        let x = 1 - this._suanpai.paijia(p)/100
               + this.eval_backtrack(shoupai, paishu, tmp_max, p);
 
         if (x >= max) {

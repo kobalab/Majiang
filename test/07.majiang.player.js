@@ -590,6 +590,18 @@ suite('Majiang.Player', function(){
       let player = init_player({shoupai:'m66678p34s3077z77m9',baopai:'m1'});
       assert.equal(player.select_dapai(), 's3');
     });
+    test('同色が10枚以上の場合、染め手を狙う', function(){
+      let player = init_player({shoupai:'m235689p9s57z6z7,z111='});
+      assert.notEqual(player.select_dapai(), 'z7_');
+    });
+    test('風牌が9枚以上の場合、四喜和を狙う', function(){
+      let player = init_player({shoupai:'m147p1s0z22333z4,z111='});
+      assert.notEqual(player.select_dapai(), 'z4_');
+    });
+    test('三元牌が6枚以上の場合、大三元を狙う', function(){
+      let player = init_player({shoupai:'m125p2469s1z66z7,z555='});
+      assert.notEqual(player.select_dapai(), 'z7_');
+    });
     test('リーチ者がいて自身が2シャンテン以上の場合はオリる', function(){
       let player = init_player({shoupai:'m23p456s578z11223'});
       player.dapai({l:3,p:'p5*'});
