@@ -195,6 +195,8 @@ Majiang.Player.prototype.kaigang = function(data) {
     this._suanpai.kaigang(data);
 
     this._baopai.push(data.baopai);
+ 
+    this._defen_cache = {};
 }
 
 Majiang.Player.prototype.hule = function(data, callback) {
