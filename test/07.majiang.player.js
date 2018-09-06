@@ -192,6 +192,12 @@ suite('Majiang.Player', function(){
       assert.ok(! player._diyizimo);
       assert.ok(! player._neng_rong);
     });
+    test('和了牌でない場合、フリテンにはならないこと', function(){
+      player = init_player({shoupai:'m34p456s789z11122'});
+      player.gang({l:2,m:'m111=1'});
+      assert.ok(! player._diyizimo);
+      assert.ok(player._neng_rong);
+    });
     test('暗槓の場合、フリテンにはならないこと', function(){
       player = init_player({shoupai:'m23p456s789z11122'});
       player.gang({l:2,m:'m1111'});
@@ -579,7 +585,7 @@ suite('Majiang.Player', function(){
       assert.equal(player.select_dapai(), 's4*');
     });
     test('期待値が高くなる場合はシャンテン戻しを選択する', function(){
-      let player = init_player({shoupai:'m123p1234789s3388',baopai:'s3'});
+      let player = init_player({shoupai:'m123p1234789s3388',baopai:'p0'});
       assert.equal(player.select_dapai(), 's3');
     });
     test('フリテンとなる場合はシャンテン戻しを選択しない', function(){

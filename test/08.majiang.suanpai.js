@@ -280,7 +280,7 @@ suite('Majiang.SuanPai', function(){
       suanpai.dapai({l:1,p:'p7'});
       assert.equal(suanpai.suan_weixian('p4', 1), 4);
       suanpai.dapai({l:1,p:'p8'});
-      assert.equal(suanpai.suan_weixian('p5', 1), 4);
+      assert.equal(suanpai.suan_weixian('p0', 1), 4);
       suanpai.dapai({l:1,p:'p9'});
       assert.equal(suanpai.suan_weixian('p6', 1), 4);
     });
