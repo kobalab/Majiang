@@ -303,7 +303,13 @@ for (join('', <STDIN>) =~ /<.*?>/g) {
             if ($m =~ /^[mpsz]\d{4}[\-\+\=]$/) { $gang = 1  }
             else                               { $zimo = '' }
         }
-        push(@{$fulou[$attr{who}]}, $m);
+        if ($m =~ /^([mpsz]\d{3}[\-\+\=])\d$/) {
+            $fulou[$attr{who}]
+                    = [ map { $_ eq $1 ? $m : $_ } @{$fulou[$attr{who}]} ];
+        }
+        else {
+            push(@{$fulou[$attr{who}]}, $m);
+        }
     }
     elsif ($elem eq 'DORA') {
         if ($baopai) {

@@ -195,6 +195,8 @@ Majiang.Player.prototype.kaigang = function(data) {
     this._suanpai.kaigang(data);
 
     this._baopai.push(data.baopai);
+ 
+    this._defen_cache = {};
 }
 
 Majiang.Player.prototype.hule = function(data, callback) {
@@ -261,24 +263,22 @@ function get_chi_mianzi(shoupai, p) {
     if (3 <= n && bingpai[n-2] > 0 && bingpai[n-1] > 0) {
         p1 = (n-2 == 5 && bingpai[0] > 0) ? 0 : n-2;
         p2 = (n-1 == 5 && bingpai[0] > 0) ? 0 : n-1;
-        if (shoupai._fulou.length == 3
-            && bingpai[n] == 1 && 3 < n && bingpai[n-3] == 1)
-            ;
-        else mianzi.push(s + p1 + p2 + (p0+d));
+        if ((3 < n ? bingpai[n-3] : 0) + bingpai[n]
+                < 14 - (shoupai._fulou.length + 1) * 3)
+                                        mianzi.push(s + p1 + p2 + (p0+d));
     }
     if (n <= 7 && bingpai[n+1] > 0 && bingpai[n+2] > 0) {
         p1 = (n+1 == 5 && bingpai[0] > 0) ? 0 : n+1;
         p2 = (n+2 == 5 && bingpai[0] > 0) ? 0 : n+2;
-        if (shoupai._fulou.length == 3
-            && bingpai[n] == 1 && n < 7 && bingpai[n+3] == 1)
-            ;
-        else mianzi.push(s + (p0+d) + p1 + p2);
+        if (bingpai[n] + (n < 7 ? bingpai[n+3] : 0)
+                < 14 - (shoupai._fulou.length + 1) * 3)
+                                        mianzi.push(s + (p0+d) + p1 + p2);
     }
     if (2 <= n &&  n <= 8 && bingpai[n-1] > 0 && bingpai[n+1] > 0) {
         p1 = (n-1 == 5 && bingpai[0] > 0) ? 0 : n-1;
         p2 = (n+1 == 5 && bingpai[0] > 0) ? 0 : n+1;
-        if (shoupai._fulou.length == 3 && bingpai[n] == 2) ;
-        else mianzi.push(s + p1 + (p0+d) + p2);
+        if (bingpai[n] < 14 - (shoupai._fulou.length + 1) * 3)
+                                        mianzi.push(s + p1 + (p0+d) + p2);
     }
     
     return mianzi;
@@ -493,7 +493,7 @@ Majiang.Player.prototype.select_fulou = function(data) {
             new_shoupai.fulou(m);
             if (Majiang.Util.xiangting(new_shoupai) >= 3) continue;
             
-            ev = this.eval_shoupai(new_shoupai, paishu);
+            var ev = this.eval_shoupai(new_shoupai, paishu);
             
             if (ev > max) {
                 max = ev;
