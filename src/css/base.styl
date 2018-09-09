@@ -8,6 +8,9 @@ defen-font = "Georgia", serif;
 @keyframes blink {
     100% { opacity: 0.7; }
 }
+@keyframes blink-text {
+    100% { opacity: 0.2; }
+}
 
 .hide {
     display: none !important;
@@ -15,6 +18,59 @@ defen-font = "Georgia", serif;
 .fadeout {
     opacity: 0 !important;
 }
+
+body.title {
+    color:      white;
+    background: black;
+    #title {
+        display: block;
+    }
+}
+
+#title {
+    display: none;
+    margin: auto;
+    width: 620px;
+    color: black;
+    background: white;
+    padding: 10px;
+    text-align: center;
+    font-family: defen-font;
+    h1 {
+        margin: 0px;
+        height: 150px;
+        text-align: center;
+        img {
+            width: 600px;
+        }
+    }
+    .version {
+        font-size: 24px;
+    }
+    .loading {
+        margin-top: 10px;
+        padding: 4px;
+        color: #666;
+        font-family: Verdana, sans-serif;
+        animation: blink-text 2s infinite;
+    }
+    .start {
+        display: none;
+        margin: 0px auto;
+        margin-top: 10px;
+        padding: 4px;
+        width: 120px;
+        background: #999;
+        color: white;
+        border-radius: 4px;
+        font-family: Verdana, sans-serif;
+        cursor: pointer;
+        &:hover {
+            background: #ccc;
+        }
+    }
+}
+
 
 shoupai-size($width, $height, $bingpai-height, $fulou-height) {
     width:  $width;
