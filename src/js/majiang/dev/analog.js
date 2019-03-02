@@ -155,12 +155,12 @@ analyze_file(filename) {
         id = filename.replace(/^.*\//,'').replace(/\.json\.gz$/,'');
         paipu = JSON.parse(
                         zlib.gunzipSync(
-                            fs.readFileSync(path.join(filename))
+                            fs.readFileSync(filename)
                         ).toString());
     }
     else if (filename.match(/\.json$/)) {
         id = filename.replace(/^.*\//,'').replace(/\.json$/,'');
-        paipu = JSON.parse(fs.readFileSync(path.join(filename)));
+        paipu = JSON.parse(fs.readFileSync(filename));
     }
     else return;
 
