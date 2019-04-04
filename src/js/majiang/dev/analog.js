@@ -27,8 +27,9 @@ constructor() {
     };
 }
 
-analyze(id, paipu) {
+analyze(id, paipu, player_id) {
     this._id = id;
+    this._player_id = player_id;
     this._ju = 0;
     this._qijia = paipu.qijia;
     for (let log of paipu.log) {
@@ -87,6 +88,8 @@ zimo(zimo) {
 dapai(dapai) {
     this._game.shoupai[dapai.l].dapai(dapai.p);
     this._game.he[dapai.l].dapai(dapai.p);
+    if (this._player_id != null
+        && this._game.player_id[dapai.l] != this._player_id) return;
     if (dapai.p.substr(-1) == '*') this._result.n_lizhi++;
 }
 
@@ -95,6 +98,8 @@ fulou(fulou) {
     this._game.shoupai[fulou.l].fulou(fulou.m);
     this._game.he[this._game.lunban].fulou(d);
     this._game.lunban = fulou.l;
+    if (this._player_id != null
+        && this._game.player_id[fulou.l] != this._player_id) return;
     if (this._game.shoupai[fulou.l]._fulou
             .filter(m=>m.match(/[\+\=\-]/)).length == 1) this._result.n_fulou++;
 }
@@ -121,8 +126,15 @@ kaigang(kaigang) {
 
 hule(hule) {
 
+    if (this._player_id != null
+        && this._game.player_id[hule.baojia] == this._player_id)
+                                                    this._result.n_beirong++;
+    if (this._player_id == null && hule.baojia != null)
+                                                    this._result.n_beirong++;
+
+    if (this._player_id != null
+        && this._game.player_id[hule.l] != this._player_id) return;
     this._result.n_hule++;
-    if (hule.baojia != null) this._result.n_beirong++;
     this._result.sum_defen += hule.defen;
 
     for (let hupai of hule.hupai) {
@@ -205,6 +217,19 @@ static analyze(filename, n_try) {
             analog.analyze_dir(filename, n_try);
     else    analog.analyze_file(filename);
 
+    return analog._result;
+}
+
+static analyze_player(filename, player_name) {
+
+    const analog = new AnaLog();
+    for (let paipu of JSON.parse(fs.readFileSync(filename))) {
+        let id = paipu.title.replace(/^.*\n/,'');
+        const r = new RegExp(`^${player_name}\n`);
+        let player_id = [0,1,2,3].find(i=>paipu.player[i].match(r));
+        if (player_id == null) continue;
+        analog.analyze(id, paipu, player_id);
+    }
     return analog._result;
 }
 
