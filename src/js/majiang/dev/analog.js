@@ -56,6 +56,16 @@ log(log) {
         else if (data.hule)     this.hule    (data.hule);
         else if (data.pingju)   this.pingju  (data.pingju);
     }
+
+    let hule = log[log.length - 1].hule;
+    if (hule) {
+        if (this._player_id != null
+            && this._game.player_id[hule.baojia] == this._player_id)
+                                                    this._result.n_beirong++;
+        if (this._player_id == null && hule.baojia != null)
+                                                    this._result.n_beirong++;
+    }
+
     this._ju++;
     this._result.n_ju++;
 }
@@ -125,12 +135,6 @@ kaigang(kaigang) {
 }
 
 hule(hule) {
-
-    if (this._player_id != null
-        && this._game.player_id[hule.baojia] == this._player_id)
-                                                    this._result.n_beirong++;
-    if (this._player_id == null && hule.baojia != null)
-                                                    this._result.n_beirong++;
 
     if (this._player_id != null
         && this._game.player_id[hule.l] != this._player_id) return;
