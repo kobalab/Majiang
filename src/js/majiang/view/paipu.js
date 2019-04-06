@@ -70,7 +70,7 @@ set_handler() {
 
     const controler = $('.controler', this._root);
 
-    this._root.on('mouseup mousemove touchend touchmove', event => {
+    this._root.on('mouseup mousemove touchend', event => {
         this._repeat_timer = clearInterval(this._repeat_timer);
     });
     this._root.on('mousedown', ()=>this.next());
