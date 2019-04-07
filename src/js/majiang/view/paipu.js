@@ -89,7 +89,6 @@ set_handler() {
         if (event.button) return false;
         if (this._repeat_timer) return false;
         this.prev();
-        this.update_controler();
         this._repeat_timer = setTimeout(()=>{
             this._repeat_timer = setInterval(()=>this.prev(), 80);
         }, 200);
