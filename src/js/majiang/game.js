@@ -104,7 +104,10 @@ kaiju() {
         title:  this._model.title,
         player: this._model.player.concat(),
         qijia:  this._model.qijia,
-        log:    []
+        log:    [],
+        defen:  this._model.defen.concat(),
+        point:  [0,0,0,0],
+        rank:   [1,2,3,4]
     };
 
     this._status = null;
@@ -156,6 +159,7 @@ qipai(shan) {
     this._lianzhuang = false;
     this._changbang  = model.changbang;
 
+    this._paipu.defen = model.defen.concat();
     this._paipu.log.push([]);
     let paipu = {
         qipai: {

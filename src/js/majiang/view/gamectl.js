@@ -87,4 +87,19 @@ sound() {
     return false;
 }
 
+start() {
+    $('.download a', this._root).addClass('hide');
+    super.start();
+}
+
+stop() {
+    super.stop();
+    let blob = new Blob([ JSON.stringify(this._paipu) ],
+                        { type: 'application/json' });
+    $('.download a', this._root)
+        .attr('href', URL.createObjectURL(blob))
+        .attr('download', '牌譜.json')
+        .removeClass('hide');
+}
+
 }
