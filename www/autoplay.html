@@ -14,33 +14,57 @@
         var game;
 
         $(function(){
-            var stop  = false;
             var speed = 3;
+            var sound = true;
+            var highspeed = false;
 
             $(window).on('keyup', function(event){
                 if (event.key == ' ') {
                     if (game._stop) game.start();
                     else            game.stop();
                 }
+                game.update_controler();
             });
             $('#game').on('dblclick', function(){
-                game._speed = game._speed ? 0 : speed;
-                game._view.sound_on = game._speed != 0;
+                if (highspeed) {
+                    game._speed = speed;
+                    game._view.sound_on = sound;
+                    highspeed = false;
+                }
+                else {
+                    highspeed = true;
+                    speed = game._speed;
+                    sound = game._view.sound_on;
+                    game._speed = 0;
+                    game._view.sound_on = false;
+                }
+                game.update_controler();
             });
 
             function start() {
-                if (game) { stop = game._stop; speed = game._speed }
-                game = new Majiang.Game();
-                game._player = [0,1,2,3].map(id=>new Majiang.Player(id));
-                game._view = new Majiang.View.Game($('#game'), game._model);
-                game._view.open_shoupai = false;
-                game._view.open_he      = false;
+                if (game && ! highspeed) {
+                   speed = game._speed;
+                   sound = game._view.sound_on;
+                }
+                let player = [
+                    new Majiang.Player(0),
+                    new Majiang.Player(1),
+                    new Majiang.Player(2),
+                    new Majiang.Player(3),
+                ];
+                game = new Majiang.View.GameCtl($('#game'), player);
                 game._callback = start;
                 game._delay = 5000;
-                game._speed = speed;
-                game._view.sound_on = game._speed != 0;
+                if (highspeed) {
+                    game._speed = 0;
+                    game._view.sound_on = false;
+                }
+                else {
+                    game._speed = speed;
+                    game._view.sound_on = sound;
+                }
+                game.update_controler();
                 game.kaiju();
-                if (stop) game.stop();
             }
 
             $('.version').text('ver. ' + Majiang.VERSION);
@@ -214,6 +238,32 @@
             <span class="diff"></span></div>
         </div>
       </div></div>
+    </div>
+
+    <div class="controler">
+      <div>
+        <img class="exit" src="img/icon-exit.png" title="再生終了 [q]">
+        <img class="summary" src="img/icon-list.png" title="集計表示 [?]">
+        <img class="sound on" src="img/icon-volume-up.png" title="音声OFF [a]">
+        <img class="sound off" src="img/icon-volume-off.png" title="音声ON [a]">
+      </div><div>
+        <img class="first" src="img/icon-step-backward.png" title="前局 [←]">
+        <img class="prev" src="img/icon-backward.png" title="戻る [↑]">
+        <img class="autoplay on" src="img/icon-play.png" title="自動再生ON [space]">
+        <img class="autoplay off" src="img/icon-pause.png" title="自動再生OFF [space]">
+        <img class="next" src="img/icon-forward.png" title="進む [↓]">
+        <img class="last" src="img/icon-step-forward.png" title="次局 [→]">
+      </div><div>
+        <div class="speed">
+          <img class="minus" src="img/icon-minus-sign.png" title="速度- [-]">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <img class="plus" src="img/icon-plus-sign.png" title="速度+ [+]">
+        </div>
+      </div>
     </div>
 
     <div class="summary hide">
