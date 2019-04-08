@@ -11,19 +11,20 @@
     <script src="js/majiang.js"></script>
     <script>
 
-        var game;
+        var gamectl;
 
         $(function(){
+            var game;
             var speed = 3;
             var sound = true;
             var highspeed = false;
 
             $(window).on('keyup', function(event){
                 if (event.key == ' ') {
-                    if (game._stop) game.start();
-                    else            game.stop();
+                    if (game._stop) gamectl.start();
+                    else            gamectl.stop();
                 }
-                game.update_controler();
+                gamectl.update_controler();
             });
             $('#game').on('dblclick', function(){
                 if (highspeed) {
@@ -38,7 +39,7 @@
                     game._speed = 0;
                     game._view.sound_on = false;
                 }
-                game.update_controler();
+                gamectl.update_controler();
             });
 
             function start() {
@@ -46,15 +47,16 @@
                    speed = game._speed;
                    sound = game._view.sound_on;
                 }
-                let player = [
+                game = new Majiang.Game();
+                game._player = [
                     new Majiang.Player(0),
                     new Majiang.Player(1),
                     new Majiang.Player(2),
                     new Majiang.Player(3),
                 ];
-                game = new Majiang.View.GameCtl($('#game'), player);
                 game._callback = start;
                 game._delay = 5000;
+                gamectl = new Majiang.View.GameCtl($('#game'), game);
                 if (highspeed) {
                     game._speed = 0;
                     game._view.sound_on = false;
@@ -63,7 +65,7 @@
                     game._speed = speed;
                     game._view.sound_on = sound;
                 }
-                game.update_controler();
+                gamectl.update_controler();
                 game.kaiju();
             }
 

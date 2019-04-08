@@ -7,15 +7,16 @@ const $ = require('jquery');
 
 const Game = require('./game');
 
-module.exports = class GameCtl extends Majiang.Game {
+module.exports = class GameCtl {
 
-constructor(root, player) {
-    super();
+constructor(root, game) {
+
     this._root = root;
-    this._player = player;
-    this._view = new Game(root, this._model);
-    this._view.open_shoupai = false;
-    this._view.open_he      = false;
+    this._game = game;
+
+    game._view = new Game(root, game._model);
+    game._view.open_shoupai = false;
+    game._view.open_he      = false;
 
     this.set_handler();
 }
@@ -26,13 +27,14 @@ set_handler() {
     this.update_controler();
 
     const controler = $('.controler', this._root);
+    const game = this._game;
     $('.sound', controler).on('mousedown', ()=>this.sound());
-    $('.plus',  controler).on('mousedown', ()=>this.speed(this._speed + 1));
-    $('.minus', controler).on('mousedown', ()=>this.speed(this._speed - 1));
+    $('.plus',  controler).on('mousedown', ()=>this.speed(game._speed + 1));
+    $('.minus', controler).on('mousedown', ()=>this.speed(game._speed - 1));
 
     $(window).on('keyup', event => {
-        if      (event.key == '+')  this.speed(this._speed + 1);
-        else if (event.key == '-')  this.speed(this._speed - 1);
+        if      (event.key == '+')  this.speed(game._speed + 1);
+        else if (event.key == '-')  this.speed(game._speed - 1);
         else if (event.key == 'a')  this.sound();
     });
 }
@@ -41,6 +43,7 @@ clear_handler() {}
 
 update_controler() {
 
+    const game = this._game;
     const controler = $('.controler', this._root);
     controler.removeClass('hide');
 
@@ -52,7 +55,7 @@ update_controler() {
     $('.next',     controler).addClass('hide');
     $('.last',     controler).addClass('hide');
 
-    if (this._view.sound_on) {
+    if (game._view.sound_on) {
         $('.sound.off', controler).addClass('hide');
         $('.sound.on',  controler).removeClass('hide');
     }
@@ -61,10 +64,10 @@ update_controler() {
         $('.sound.off', controler).removeClass('hide');
     }
 
-    if (this._speed) {
+    if (game._speed) {
         $('.speed', controler).removeClass('hide');
         $('.speed span', controler).each((i, n)=>{
-            $(n).css('visibility', i + 1 > this._speed ? 'hidden' : 'visible');
+            $(n).css('visibility', i + 1 > game._speed ? 'hidden' : 'visible');
         });
     }
     else {
@@ -74,27 +77,31 @@ update_controler() {
 }
 
 speed(speed) {
-    this._speed = speed;
-    if (this._speed < 1) this._speed = 1;
-    if (this._speed > 5) this._speed = 5;
+    const game = this._game;
+    game._speed = speed;
+    if (game._speed < 1) game._speed = 1;
+    if (game._speed > 5) game._speed = 5;
     this.update_controler();
     return false;
 }
 
 sound() {
-    this._view.sound_on = ! this._view.sound_on;
+    const game = this._game;
+    game._view.sound_on = ! game._view.sound_on;
     this.update_controler();
     return false;
 }
 
 start() {
+    const game = this._game;
     $('.download a', this._root).addClass('hide');
-    super.start();
+    game.start();
 }
 
 stop() {
-    super.stop();
-    let blob = new Blob([ JSON.stringify(this._paipu) ],
+    const game = this._game;
+    game.stop();
+    let blob = new Blob([ JSON.stringify(game._paipu) ],
                         { type: 'application/json' });
     $('.download a', this._root)
         .attr('href', URL.createObjectURL(blob))
