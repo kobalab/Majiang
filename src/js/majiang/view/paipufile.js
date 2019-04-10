@@ -116,6 +116,8 @@ constructor(node, storage) {
     $('.error', node).on('click', function(){
         $(this).fadeOut(500, ()=>$(this).empty());
     });
+
+    this.redraw();
 }
 
 load_paipu(url, fragment) {
@@ -137,8 +139,6 @@ load_paipu(url, fragment) {
         this.redraw();
         this.error(`${decodeURI(url)}: ${e.status} ${e.statusText}`);
     }
-
-    this.redraw();
 
     $.ajax({
         url:         url,
