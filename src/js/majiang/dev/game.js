@@ -81,6 +81,7 @@ module.exports = class Game extends Majiang.Game {
         if (paipu) {
             this._model.title = paipu.title;
             this._model.qijia = paipu.qijia;
+            this._model.player = paipu.player;
             this._script = paipu;
             for (let id = 0; id < 4; id++) { this._player[id] = new Player(id) }
         }
