@@ -39,7 +39,7 @@ action(msg, callback) {
     else if (msg.kaigang)  this.kaigang(msg.kaigang);
     else if (msg.hule)     this.hule   (msg.hule);
     else if (msg.pingju)   this.pingju (msg.pingju);
-    else if (msg.jieju)    this.hule   (msg.jieju);
+    else if (msg.jieju)    this.jieju  (msg.jieju);
 }
 
 kaiju(kaiju) {
