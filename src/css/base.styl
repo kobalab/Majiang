@@ -95,6 +95,9 @@ shoupai-size($width, $height, $bingpai-height, $fulou-height) {
             &.selected {
                 transform: translate(0px, - $bingpai-height / 7);
             }
+            &.blink {
+                animation: blink 0.5s infinite;
+            }
         }
         .zimo {
             margin-left:  ($bingpai-height * 5 / 7 * 0.1);

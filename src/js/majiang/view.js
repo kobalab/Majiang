@@ -14,4 +14,5 @@ module.exports = {
     Paipu:      require('./view/paipu'),
     Game:       require('./view/game'),
     GameCtl:    require('./view/gamectl'),
+    Player:     require('./view/player'),
 };

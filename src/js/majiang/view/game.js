@@ -108,6 +108,8 @@ redraw() {
     this._timer_id = clearTimeout(this._timer_id);
 
     $('> *', this._root).removeClass('hide');
+    $('.UI', this._root).addClass('hide');
+    $('.UI span', this._root).addClass('hide');
     this._view.kaiju.hide();
     this.summary();
 

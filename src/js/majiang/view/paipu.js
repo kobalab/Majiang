@@ -167,7 +167,7 @@ clear_handler() {
 update_controler() {
 
     const controler = $('.controler', this._root);
-    controler.removeClass('hide');
+    $('*', controler).removeClass('hide');
 
     if (this._view.sound_on) {
         $('.sound.off', controler).addClass('hide');
