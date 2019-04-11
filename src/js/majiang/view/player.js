@@ -1,5 +1,5 @@
 /*
- * Majiang.View.player
+ * Majiang.View.Player
  */
 "use strict";
 
@@ -20,6 +20,7 @@ clear_handler() {
     $('.shoupai.main .bingpai .pai')
         .off('mouseover mouseout touchstart click')
         .removeClass('selected blink');
+    this._show_button = false;
 }
 
 get_dapai_of_lizhi() {
@@ -40,7 +41,22 @@ callback(reply) {
 }
 
 wait() {
-    this._root.on('click', ()=>this.callback());
+    this.set_cansel();
+}
+
+set_cansel(reply) {
+    this._root.on('click', ()=>this.callback(reply));
+}
+
+set_button(type, handler) {
+    $(`.UI .${type}`, this._root).on('click', handler).removeClass('hide');
+    this._show_button = true;
+}
+
+show_button() {
+    $('.UI', this._root)
+        .width($('.shoupai.main .bingpai', this._root).width())
+        .removeClass('hide');
 }
 
 action_zimo(zimo, option) {
@@ -70,52 +86,30 @@ action_zimo(zimo, option) {
         return false;
     };
 
-    let show_button = false;
-
     if (this.allow_hule(null, option)) {
-        $('.UI .zimo', this._root)
-            .on('click', ()=>this.callback({hule: '-'}))
-            .removeClass('hide');
-        show_button = true;
+        this.set_button('zimo', ()=>this.callback({hule: '-'}));
     }
 
     if (this.allow_pingju()) {
-        $('.UI .pingju', this._root)
-            .on('click', ()=>this.callback({pingju: '-'}))
-            .removeClass('hide');
-        show_button = true;
+        this.set_button('pingju', ()=>this.callback({pingju: '-'}));
     }
 
     let gang_mianzi = this.get_gang_mianzi();
     if (gang_mianzi.length == 1) {
-        $('.UI .gang', this._root)
-            .on('click', ()=>this.callback({gang: gang_mianzi[0]}))
-            .removeClass('hide');
-        show_button = true;
+        this.set_button('gang', ()=>this.callback({gang: gang_mianzi[0]}));
     }
     else if (gang_mianzi.length > 1) {
-        $('.UI .gang', this._root)
-            .on('click', ()=>set_gang_handler(gang_mianzi))
-            .removeClass('hide');
-        show_button = true;
+        this.set_button('gang', ()=>set_gang_handler(gang_mianzi));
     }
 
     if (this._shoupai.lizhi()) {
-        if (show_button) {
-            this._root.on('click', ()=>this.callback({dapai: zimo.p+'_'}));
-        }
-        else {
-            this.callback({dapai: zimo.p+'_'})
-            return;
-        }
+        if (this._show_button) this.set_cansel({dapai: zimo.p+'_'});
+        else            return this.callback({dapai: zimo.p+'_'});
     }
 
     let dapai = this.get_dapai_of_lizhi();
     if (dapai.length > 0) {
-        $('.UI .lizhi', this._root)
-            .on('click', ()=>set_lizhi_handler(dapai))
-            .removeClass('hide');
-        show_button = true;
+        this.set_button('lizhi', ()=>set_lizhi_handler(dapai));
     }
 
     for (let p of this.get_dapai()) {
@@ -128,9 +122,7 @@ action_zimo(zimo, option) {
         });
     }
 
-    $('.UI', this._root)
-        .width($('.shoupai.main .bingpai', this._root).width())
-        .removeClass('hide');
+    this.show_button();
 }
 
 action_dapai(dapai) {
@@ -179,53 +171,32 @@ action_dapai(dapai) {
         return false;
     };
 
-    let show_button = false;
-
     if (this.allow_hule(dapai)) {
-        $('.UI .rong', this._root)
-            .on('click', ()=>this.callback({hule: '-'}))
-            .removeClass('hide');
-        show_button = true;
+        this.set_button('rong', ()=>this.callback({hule: '-'}));
     }
 
     let gang_mianzi = this.get_gang_mianzi(dapai);
     if (gang_mianzi.length == 1) {
-        $('.UI .gang', this._root)
-            .on('click', ()=>this.callback({fulou: gang_mianzi[0]}))
-            .removeClass('hide');
-        show_button = true;
+        this.set_button('gang', ()=>this.callback({fulou: gang_mianzi[0]}));
     }
 
     let peng_mianzi = this.get_peng_mianzi(dapai);
     if (peng_mianzi.length == 1) {
-        $('.UI .peng', this._root)
-            .on('click', ()=>this.callback({fulou: peng_mianzi[0]}))
-            .removeClass('hide');
-        show_button = true;
+        this.set_button('peng', ()=>this.callback({fulou: peng_mianzi[0]}));
     }
 
     let chi_mianzi = this.get_chi_mianzi(dapai);
     if (chi_mianzi.length == 1) {
-        $('.UI .chi', this._root)
-            .on('click', ()=>this.callback({fulou: chi_mianzi[0]}))
-            .removeClass('hide');
-        show_button = true;
+        this.set_button('chi', ()=>this.callback({fulou: chi_mianzi[0]}));
     }
     else if (chi_mianzi.length > 1) {
-        $('.UI .chi', this._root)
-            .on('click', ()=>set_chi_handler(chi_mianzi))
-            .removeClass('hide');
-        show_button = true;
+        this.set_button('chi', ()=>set_chi_handler(chi_mianzi));
     }
 
-    $('.UI', this._root)
-        .width($('.shoupai.main .bingpai', this._root).width())
-        .removeClass('hide');
+    this.show_button();
 
-    if (show_button) {
-        this._root.on('click', ()=>this.callback());
-    }
-    else this.callback();
+    if (this._show_button) this.set_cansel();
+    else            return this.callback();
 }
 
 action_fulou(fulou) {
@@ -239,31 +210,18 @@ action_fulou(fulou) {
             return this.callback({dapai: p});
         });
     }
-
-    $('.UI', this._root)
-        .width($('.shoupai.main .bingpai', this._root).width())
-        .removeClass('hide');
 }
 
 action_gang(gang) {
 
-    let show_button = false;
-
     if (this.allow_hule(gang, 'qiangang')) {
-        $('.UI .rong', this._root)
-            .on('click', ()=>this.callback({hule: '-'}))
-            .removeClass('hide');
-        show_button = true;
+        this.set_button('rong', ()=>this.callback({hule: '-'}));
     }
 
-    $('.UI', this._root)
-        .width($('.shoupai.main .bingpai', this._root).width())
-        .removeClass('hide');
+    this.show_button();
 
-    if (show_button) {
-        this._root.on('click', ()=>this.callback());
-    }
-    else this.callback();
+    if (this._show_button) this.set_cansel();
+    else            return this.callback();
 }
 
 }
