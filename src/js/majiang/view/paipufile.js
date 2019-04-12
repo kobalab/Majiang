@@ -51,8 +51,16 @@ class PaipuStorage {
     }
 
     save() {
-        if (this._storage)
-            localStorage.setItem(this._storage, this.stringify());
+        try {
+            if (this._storage)
+                localStorage.setItem(this._storage, this.stringify());
+
+        }
+        catch(e) {
+            this._paipu = fix_paipu(JSON.parse(
+                                localStorage.getItem(this._storage) || '[]'));
+            throw e;
+        }
     }
 
     add(paipu) {
@@ -99,11 +107,19 @@ constructor(node, storage) {
             }
             let reader = new FileReader();
             reader.onload = function(event){
+                let paipu;
                 try {
-                    self._paipu.add(JSON.parse(event.target.result));
+                    paipu = JSON.parse(event.target.result);
                 }
                 catch(e) {
                     self.error(`不正なファイル: ${file.name}`);
+                    return;
+                }
+                try {
+                    self._paipu.add(paipu);
+                }
+                catch(e) {
+                    self.error('ローカルストレージ容量オーバー');
                     return;
                 }
                 self.redraw();
