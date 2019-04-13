@@ -205,6 +205,15 @@ redraw() {
         }
     });
 
+    let ua = navigator.userAgent;
+    if (ua.match(/\bMobile\b/)) {
+        $('.download', this._node).hide();
+        $('.move',     this._node).hide();
+    }
+    if (ua.match(/\bMSIE\b/) || ua.match(/\bTrident\b/)) {
+        $('.download', this._node).hide();
+    }
+
     $('.row', this._node).fadeIn();
 
     return this;
