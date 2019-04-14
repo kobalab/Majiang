@@ -1,6 +1,9 @@
 module.exports = {
     entry:  {
         majiang: [ 'babel-polyfill', './src/js/entry.js' ],
+        game:      './src/js/game.js',
+        autoplay:  './src/js/autoplay.js',
+        paipu:     './src/js/paipu.js',
         paili:     './src/js/paili.js',
         hule:      './src/js/hule.js',
         paiga:     './src/js/paiga.js',

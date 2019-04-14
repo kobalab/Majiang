@@ -8,19 +8,7 @@
     <link rel="apple-touch-icon" type="image/png" href="icon.png">
     <link rel="stylesheet" type="text/css" href="css/majiang.css">
     <script src="js/majiang.js"></script>
-    <script>
-        $(function(){
-            $('.version').text('ver. ' + Majiang.VERSION);
-            if (location.search) {
-                new Majiang.View.PaipuFile($('#file'))
-                    .load_paipu(location.search.replace(/^\?/,''),
-                                location.hash.replace(/^#/,''));
-            }
-            else {
-                new Majiang.View.PaipuFile($('#file'), 'Majiang.paipu');
-            }
-        });
-    </script>
+    <script src="js/paipu.js"></script>
 </head>
 <body class="file">
 
