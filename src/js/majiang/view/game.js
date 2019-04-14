@@ -166,7 +166,7 @@ update(data = {}) {
         this._view.shoupai[this._lunban].redraw();
     }
 
-    if (   (this._say[this._lunban] == 'lizhi' && ! data.dapai)
+    if (   (this._say[this._lunban] == 'lizhi')
         || (this._say[this._lunban] == 'chi'   && ! data.fulou)
         || (this._say[this._lunban] == 'peng'  && ! data.fulou)
         || (this._say[this._lunban] == 'gang'
