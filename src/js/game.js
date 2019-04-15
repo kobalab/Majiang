@@ -9,6 +9,8 @@
 
 "use strict";
 
+        var loaded;
+
         $(function(){
             var game, paipu;
 
@@ -51,4 +53,7 @@
                     else                       start();
                 }).show();
             });
+            if (loaded) $(window).trigger('load');
         });
+
+        $(window).on('load', ()=>loaded = true);

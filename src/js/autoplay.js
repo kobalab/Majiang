@@ -9,7 +9,7 @@
 
 "use strict";
 
-        var gamectl;
+        var loaded, gamectl;
 
         $(function(){
             var game;
@@ -76,4 +76,7 @@
                     start();
                 }).show();
             });
+            if (loaded) $(window).trigger('load');
         });
+
+        $(window).on('load', ()=>loaded = true);
