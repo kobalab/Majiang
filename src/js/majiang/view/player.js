@@ -23,17 +23,6 @@ clear_handler() {
     this._show_button = false;
 }
 
-get_dapai_of_lizhi() {
-    let dapai = [];
-    if (! this.allow_lizhi()) return dapai;
-    for (let p of this.get_dapai()) {
-        let shoupai = this._shoupai.clone().dapai(p);
-        if (Majiang.Util.xiangting(shoupai) == 0
-            && Majiang.Util.tingpai(shoupai).length > 0) dapai.push(p);
-    }
-    return dapai;
-}
-
 callback(reply) {
     this.clear_handler();
     this._callback(reply);
@@ -107,7 +96,7 @@ action_zimo(zimo, option) {
         else            return this.callback({dapai: zimo.p+'_'});
     }
 
-    let dapai = this.get_dapai_of_lizhi();
+    let dapai = this.allow_lizhi();
     if (dapai.length > 0) {
         this.set_button('lizhi', ()=>set_lizhi_handler(dapai));
     }
