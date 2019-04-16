@@ -5,13 +5,12 @@
   "main": "src/js/majiang.js",
   "private": true,
   "scripts": {
-    "build": "webpack --devtool inline-source-map",
+    "build:js": "webpack --devtool inline-source-map",
     "build:css": "stylus src/css/index.styl -o www/css/majiang.css",
-    "release": "webpack -p",
+    "build": "npm run build:css && npm run build:js",
+    "release": "npm run build:css && webpack -p",
     "test": "mocha -u tdd",
-    "test:cover": "istanbul cover -x \"**/dev/**\" node_modules/mocha/bin/_mocha -- -u tdd --no-timeouts",
-    "update": "npm run test -- -R min && npm run release",
-    "install": "npm run update"
+    "test:cover": "istanbul cover -x \"**/dev/**\" node_modules/mocha/bin/_mocha -- -u tdd --no-timeouts"
   },
   "repository": {
     "type": "git",
