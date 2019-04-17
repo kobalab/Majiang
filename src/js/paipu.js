@@ -9,14 +9,14 @@
 
 "use strict";
 
-        $(function(){
-            $('.version').text('ver. ' + Majiang.VERSION);
-            if (location.search) {
-                new Majiang.View.PaipuFile($('#file'))
-                    .load_paipu(location.search.replace(/^\?/,''),
-                                location.hash.replace(/^#/,''));
-            }
-            else {
-                new Majiang.View.PaipuFile($('#file'), 'Majiang.paipu');
-            }
-        });
+$(function(){
+    $('.version').text('ver. ' + Majiang.VERSION);
+    if (location.search) {
+        new Majiang.View.PaipuFile($('#file'))
+            .load_paipu(location.search.replace(/^\?/,''),
+                        location.hash.replace(/^#/,''));
+    }
+    else {
+        new Majiang.View.PaipuFile($('#file'), 'Majiang.paipu');
+    }
+});
