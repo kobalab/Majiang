@@ -12,10 +12,10 @@ const $ = require('jquery');
 
 $(function(){
 
-    var w = 24, h = 34;
+    let w = 24, h = 34;
 
-    var imgbase = 'http://www.yk.rim.or.jp/~koba/paiga/';
-    var img = {
+    let imgbase = 'http://www.yk.rim.or.jp/~koba/paiga/';
+    let img = {
         _:  'ura.gif',
 
         m0: 'man5red.gif',
@@ -56,7 +56,7 @@ $(function(){
     };
 
     function set_size(sizestr) {
-        var size = sizestr.match(/^(\d+)x(\d+)$/);
+        let size = sizestr.match(/^(\d+)x(\d+)$/);
         if (size) { w = size[1]; h = size[2] }
     }
 
@@ -64,9 +64,9 @@ $(function(){
 
         if (match[0] == '\\') return match.substr(1);
 
-        var html = '<span style="white-space:pre;">', url, v = 0;
+        let html = '<span style="white-space:pre;">', url, v = 0;
 
-        for (var pai of mark.match(/[mpsz](?:\d+[\-\=]?)+|[ _]|.+/g)) {
+        for (let pai of mark.match(/[mpsz](?:\d+[\-\=]?)+|[ _]|.+/g)) {
 
             if (pai == ' ') {
                 html += ' ';
@@ -77,9 +77,9 @@ $(function(){
                         + ' alt="'+pai+'">';
             }
             else if (pai.match(/^[mpsz](?:\d+[\-\=]?)+/)) {
-                var s = pai[0];
-                for (var n of pai.match(/\d[\-\=]?/g)) {
-                    var d = n[1] || ''; n = n[0];
+                let s = pai[0];
+                for (let n of pai.match(/\d[\-\=]?/g)) {
+                    let d = n[1] || ''; n = n[0];
                     if (d == '=' && ! v) {
                         html += '<span style="display:inline-block;width:'
                                     +h+'px;">';
@@ -122,14 +122,14 @@ $(function(){
     }
 
     function parse(text) {
-        var html = text.replace(/\\.|{(.+?)}/g, markup);
+        let html = text.replace(/\\.|{(.+?)}/g, markup);
         return html;
     }
 
     $('input[type="submit"]').on('click', function(event){
 
         set_size($('form input[name="size"]:checked').val());
-        var html = parse($('form textarea').val());
+        let html = parse($('form textarea').val());
         $('#paiga div')
             .empty()
             .append($('<p><br>'+html.replace(/\n/g,'<br>')+'<br></p>'));

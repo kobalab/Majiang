@@ -9,13 +9,13 @@
 
 "use strict";
 
-var loaded, gamectl;
+let loaded, gamectl;
 
 $(function(){
-    var game;
-    var speed = 3;
-    var sound = true;
-    var highspeed = false;
+    let game;
+    let speed = 3;
+    let sound = true;
+    let highspeed = false;
 
     $(window).on('keyup', function(event){
         if (event.key == ' ') {

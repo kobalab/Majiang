@@ -9,10 +9,10 @@
 
 "use strict";
 
-var loaded;
+let loaded;
 
 $(function(){
-    var game, paipu;
+    let game, paipu;
 
     function start() {
         $('#game > .player').hide();
