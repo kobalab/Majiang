@@ -6,7 +6,7 @@ module.exports = {
         paipu:     './src/js/paipu.js',
         paili:     './src/js/paili.js',
         hule:      './src/js/hule.js',
-        paiga:     './src/js/paiga.js',
+        paiga:   [ 'babel-polyfill', './src/js/paiga.js' ],
     },
     output: {
         path:     __dirname + '/www/js/',
