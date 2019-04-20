@@ -24,23 +24,8 @@ $(function(){
 
     $(window).on('keyup', function(event){
         if (event.key == ' ') {
-            if (game._stop) gamectl.start();
-            else            gamectl.stop();
-        }
-        gamectl.update_controler();
-    });
-    $('#game').on('dblclick', function(){
-        if (highspeed) {
-            game._speed = speed;
-            game._view.sound_on = sound;
-            highspeed = false;
-        }
-        else {
-            highspeed = true;
-            speed = game._speed;
-            sound = game._view.sound_on;
-            game._speed = 0;
-            game._view.sound_on = false;
+            if (game._stop) game.start();
+            else            game.stop();
         }
         gamectl.update_controler();
     });
