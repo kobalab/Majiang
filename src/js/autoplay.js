@@ -20,7 +20,6 @@ $(function(){
     let game;
     let speed = 3;
     let sound = true;
-    let highspeed = false;
 
     $(window).on('keyup', function(event){
         if (event.key == ' ') {
@@ -31,7 +30,7 @@ $(function(){
     });
 
     function start() {
-        if (game && ! highspeed) {
+        if (game) {
            speed = game._speed;
            sound = game._view.sound_on;
         }
@@ -45,14 +44,8 @@ $(function(){
         game._callback = start;
         game._delay = 5000;
         gamectl = new Majiang.View.GameCtl($('#game'), game);
-        if (highspeed) {
-            game._speed = 0;
-            game._view.sound_on = false;
-        }
-        else {
-            game._speed = speed;
-            game._view.sound_on = sound;
-        }
+        game._speed = speed;
+        game._view.sound_on = sound;
         gamectl.update_controler();
         game.kaiju();
     }
