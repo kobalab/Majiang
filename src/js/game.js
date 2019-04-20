@@ -9,6 +9,11 @@
 
 "use strict";
 
+let ua = navigator.userAgent;
+if (ua.match(/\bMSIE\b/) || ua.match(/\bTrident\b/)) {
+    Majiang.Player = require('./majiang/dev/player0202');
+}
+
 let loaded;
 
 $(function(){
