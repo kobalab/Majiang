@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=800">
+    <title>電脳麻将: 自動対戦</title>
+    <meta name="description" content="AIプレーヤーの無限麻雀地獄。">
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="apple-touch-icon" type="image/png" href="icon.png">
+    <link rel="stylesheet" type="text/css" href="css/majiang.css">
+    <script src="js/majiang.js"></script>
+    <script src="js/autoplay.js"></script>
+</head>
+<body class="title">
+
+  <div id="navi">
+    <a href="index.html">電脳麻将</a> |
+    <a href="autoplay.html">自動対戦</a> |
+    <a href="paipu.html">牌譜</a> |
+    <a href="paili.html">牌理</a> |
+    <a href="hule.html">和了点計算</a> |
+    <a href="paiga.html">牌画入力</a>
+  </div>
+
+  <div id="title">
+    <h1><img src="img/logo.png" alt="電脳麻将"></h1>
+    <div class="version"></div>
+    <div class="loading">Loading data...</div>
+    <div class="start">START</div>
+  </div>
+
+  <div id="loaddata">
+    <img class="pai" data-pai="m1" src="img/m1.gif">
+    <img class="pai" data-pai="m2" src="img/m2.gif">
+    <img class="pai" data-pai="m3" src="img/m3.gif">
+    <img class="pai" data-pai="m4" src="img/m4.gif">
+    <img class="pai" data-pai="m5" src="img/m5.gif">
+    <img class="pai" data-pai="m6" src="img/m6.gif">
+    <img class="pai" data-pai="m7" src="img/m7.gif">
+    <img class="pai" data-pai="m8" src="img/m8.gif">
+    <img class="pai" data-pai="m9" src="img/m9.gif">
+    <img class="pai" data-pai="m0" src="img/m0.gif">
+    <br>
+    <img class="pai" data-pai="p1" src="img/p1.gif">
+    <img class="pai" data-pai="p2" src="img/p2.gif">
+    <img class="pai" data-pai="p3" src="img/p3.gif">
+    <img class="pai" data-pai="p4" src="img/p4.gif">
+    <img class="pai" data-pai="p5" src="img/p5.gif">
+    <img class="pai" data-pai="p6" src="img/p6.gif">
+    <img class="pai" data-pai="p7" src="img/p7.gif">
+    <img class="pai" data-pai="p8" src="img/p8.gif">
+    <img class="pai" data-pai="p9" src="img/p9.gif">
+    <img class="pai" data-pai="p0" src="img/p0.gif">
+    <br>
+    <img class="pai" data-pai="s1" src="img/s1.gif">
+    <img class="pai" data-pai="s2" src="img/s2.gif">
+    <img class="pai" data-pai="s3" src="img/s3.gif">
+    <img class="pai" data-pai="s4" src="img/s4.gif">
+    <img class="pai" data-pai="s5" src="img/s5.gif">
+    <img class="pai" data-pai="s6" src="img/s6.gif">
+    <img class="pai" data-pai="s7" src="img/s7.gif">
+    <img class="pai" data-pai="s8" src="img/s8.gif">
+    <img class="pai" data-pai="s9" src="img/s9.gif">
+    <img class="pai" data-pai="s0" src="img/s0.gif">
+    <br>
+    <img class="pai" data-pai="z1" src="img/z1.gif">
+    <img class="pai" data-pai="z2" src="img/z2.gif">
+    <img class="pai" data-pai="z3" src="img/z3.gif">
+    <img class="pai" data-pai="z4" src="img/z4.gif">
+    <img class="pai" data-pai="z5" src="img/z5.gif">
+    <img class="pai" data-pai="z6" src="img/z6.gif">
+    <img class="pai" data-pai="z7" src="img/z7.gif">
+    <img class="pai" data-pai="_" src="img/pai.gif">
+    <br>
+    <audio data-name="dapai" src="audio/dahai11.wav" preload></audio>
+    <audio data-name="chi" src="audio/chii.wav" preload></audio>
+    <audio data-name="peng" src="audio/pon.wav" preload></audio>
+    <audio data-name="gang" src="audio/kan.wav" preload></audio>
+    <audio data-name="rong" src="audio/ron.wav" preload></audio>
+    <audio data-name="zimo" src="audio/tsumo.wav" preload></audio>
+    <audio data-name="lizhi" src="audio/richi.wav" preload></audio>
+  </div>
+
+  <div id="game">
+
+    <div class="chang">
+      <div class="xiaoxi">
+        <div class="jushu"></div>
+        <div class="jicun">
+          <img src="img/100.gif" class="choma"> : <span class="changbang"></span><br>
+          <img src="img/1000.gif" class="choma"> : <span class="lizhibang"></span>
+        </div>
+      </div>
+      <div class="shan">
+        <div class="baopai"></div>
+        <div>牌数: <span class="paishu"></span></div>
+      </div>
+      <div class="defen">
+        <span class="main"></span>
+        <span class="xiajia"></span>
+        <span class="duimian"></span>
+        <span class="shangjia"></span>
+      </div>
+    </div>
+
+    <div class="he xiajia">
+      <div class="lizhi"><img class="choma hide" src="img/1000.gif"></div>
+      <div class="dapai"></div>
+    </div>
+    <div class="shoupai xiajia">
+      <div class="bingpai"></div><div class="fulou"></div>
+    </div>
+    <div class="say xiajia"></div>
+
+    <div class="he duimian">
+      <div class="lizhi"><img class="choma hide" src="img/1000.gif"></div>
+      <div class="dapai"></div>
+    </div>
+    <div class="shoupai duimian">
+      <div class="bingpai"></div><div class="fulou"></div>
+    </div>
+    <div class="say duimian"></div>
+
+    <div class="he shangjia">
+      <div class="lizhi"><img class="choma hide" src="img/1000.gif"></div>
+      <div class="dapai"></div>
+    </div>
+    <div class="shoupai shangjia">
+      <div class="bingpai"></div><div class="fulou"></div>
+    </div>
+    <div class="say shangjia"></div>
+
+    <div class="he main">
+      <div class="lizhi"><img class="choma hide" src="img/1000.gif"></div>
+      <div class="dapai"></div>
+    </div>
+    <div class="shoupai main">
+      <div class="bingpai"></div><div class="fulou"></div>
+    </div>
+    <div class="say main"></div>
+
+    <div class="huledialog hide">
+      <div><div>
+        <div class="hule">
+          <div class="shan baopai">ドラ<span class="baopai"></span></div>
+          <div class="shan fubaopai">裏ドラ<span class="fubaopai"></span></div>
+          <div class="shoupai">
+            <div class="bingpai"></div><div class="fulou"></div>
+          </div>
+          <table class="hupai">
+            <tr class="r_hupai"><td class="name"></td>
+              <td class="fanshu"></td></tr>
+            <tr class="r_defen"><td colspan="2" class="defen"></td></tr>
+          </table>
+          <div class="jicun">
+            <span><img src="img/100.gif" class="choma"> :
+              <span class="changbang">*</span></span>
+            <span><img src="img/1000.gif" class="choma"> :
+              <span class="lizhibang">*</span></span>
+          </div>
+        </div>
+        <div class="pingju"></div>
+        <div class="fenpei">
+          <div class="xiajia"><span class="feng"></span>:
+            <span class="player"></span>
+            <span class="defen"></span>
+            <span class="diff"></span></div>
+          <div class="duimian"><span class="feng"></span>:
+            <span class="player"></span>
+            <span class="defen"></span>
+            <span class="diff"></span></div>
+          <div class="shangjia"><span class="feng"></span>:
+            <span class="player"></span>
+            <span class="defen"></span>
+            <span class="diff"></span></div>
+          <div class="main"><span class="feng"></span>:
+            <span class="player"></span>
+            <span class="defen"></span>
+            <span class="diff"></span></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="controler">
+      <div>
+        <img class="exit" src="img/icon-exit.png" title="再生終了 [q]">
+        <img class="summary" src="img/icon-list.png" title="集計表示 [?]">
+        <img class="sound on" src="img/icon-volume-up.png" title="音声OFF [a]">
+        <img class="sound off" src="img/icon-volume-off.png" title="音声ON [a]">
+      </div><div>
+        <img class="first" src="img/icon-step-backward.png" title="前局 [←]">
+        <img class="prev" src="img/icon-backward.png" title="戻る [↑]">
+        <img class="autoplay on" src="img/icon-play.png" title="自動再生ON [space]">
+        <img class="autoplay off" src="img/icon-pause.png" title="自動再生OFF [space]">
+        <img class="next" src="img/icon-forward.png" title="進む [↓]">
+        <img class="last" src="img/icon-step-forward.png" title="次局 [→]">
+      </div><div>
+        <div class="speed">
+          <img class="minus" src="img/icon-minus-sign.png" title="速度- [-]">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <img class="plus" src="img/icon-plus-sign.png" title="速度+ [+]">
+        </div>
+      </div>
+    </div>
+
+    <div class="summary hide">
+      <div><div>
+        <table>
+          <thead>
+            <tr>
+              <th colspan="3"></th>
+              <th class="player"></th>
+              <th class="player"></th>
+              <th class="player"></th>
+              <th class="player"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th class="jushu"></th>
+              <th class="changbang"></th>
+              <th class="last"></th>
+              <td class="diff"></td>
+              <td class="diff"></td>
+              <td class="diff"></td>
+              <td class="diff"></td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th colspan="3"></th>
+              <td class="defen"></td>
+              <td class="defen"></td>
+              <td class="defen"></td>
+              <td class="defen"></td>
+            </tr>
+            <tr class="point">
+              <th colspan="3"></th>
+              <td></td><td></td><td></td><td></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div></div>
+    </div>
+
+    <div class="download">
+      <a class="hide"><img src="img/icon-download-alt.png">牌譜保存</a>
+    </div>
+
+  </div>
+</body>
+</html>
