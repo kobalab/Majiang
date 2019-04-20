@@ -1,0 +1,102 @@
+body.file {
+    color:      black;
+    a {
+        color:  black;
+    }
+    background: white;
+    #file {
+        display: block;
+    }
+}
+
+#file {
+    display: none;
+    h1 {
+        margin-top: 0;
+        border-bottom: solid 2px black;
+        font-family: sans-serif;
+        font-size: 24px;
+        img {
+            height: 36px;
+            vertical-align: bottom;
+        }
+    }
+    .version {
+        margin-top: -3em;
+        font-size: 12px;
+        font-family: serif;
+        text-align: right;
+    }
+    .file {
+        margin: 15px 0px;
+        font-family: sans-serif;
+        .row {
+            border: solid 1px #ccc;
+            margin: 2px 0px;
+            border-radius: 4px;
+            padding: 8px;
+            .content {
+                margin-right: 240px;
+                .title {
+                    font-size: 16px;
+                }
+                .player {
+                    font-size: 14px;
+                }
+            }
+        }
+        a
+        label {
+            display: inline-block;
+            font-size: 14px;
+            padding: 6px 10px;
+            background: #999;
+            border-radius: 5px;
+            white-space: nowrap;
+            cursor: pointer;
+            color: white;
+            line-height: 1em;
+            text-decoration: none;
+            img {
+                width: 14px
+                height: 14px;
+                margin-right: 4px;
+                vertical-align: bottom;
+            }
+            input {
+                display: none;
+            }
+            &.next {
+                background: blue;
+            }
+            &:hover {
+                background: #ccc;
+            }
+            &.delete:hover {
+                background: red;
+            }
+        }
+        .move {
+            display: inline-block;
+            cursor: move;
+            img {
+                width: 14px
+                height: 14px;
+            }
+        }
+        .button {
+            float: right;
+            text-align: right;
+        }
+        .error {
+            display: none;
+            margin: 2px 0px;
+            border-radius: 5px;
+            border: solid 1px #f99;
+            color: red;
+            background: #fdd;
+            padding: 4px 1em;
+            font-size: 12px;
+        }
+    }
+}

@@ -10,7 +10,17 @@ Released under the MIT license<br>
 https://github.com/kobalab/Majiang/blob/master/LICENSE
 
 ## 作者
-Satoshi Kobayashi
+[Satoshi Kobayashi](https://github.com/kobalab)
+
+## npm-scripts
+| コマンド         | 説明                                        |
+|:----------------|:-------------------------------------------|
+| ``release``     | リリース用にビルドする。                       |
+| ``build``       | デバッグ用にビルドする。                       |
+| ``build:js``    | JavaScriptのみデバッグ用にビルドする。          |
+| ``build:css``   | CSSのみビルドする。                           |
+| ``test``        | ユニットテストを実施する。                      |
+| ``test:cover``  | カバレッジ・レポートつきでユニットテストを実施する。|
 
 ## ドキュメント
 - 手牌などのデータ構造

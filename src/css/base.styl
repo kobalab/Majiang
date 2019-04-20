@@ -1,0 +1,372 @@
+#loaddata {
+    display: none;
+}
+
+title-font = "DFPLeiSho-SB", "HGP行書体", serif;
+defen-font = "Georgia", serif;
+
+@keyframes blink {
+    100% { opacity: 0.7; }
+}
+@keyframes blink-text {
+    100% { opacity: 0.2; }
+}
+
+.hide {
+    display: none !important;
+}
+.fadeout {
+    opacity: 0 !important;
+}
+
+#navi {
+    font-family: Verdana, sans-serif;
+    a {
+        text-decoration: none;
+    }
+    text-align: right;
+    font-size: 12px;
+}
+
+body {
+    margin-top: 0;
+}
+
+body.title {
+    color:      white;
+    a {
+        color:  white;
+    }
+    background: black;
+    #title {
+        display: block;
+    }
+}
+
+#title {
+    display: none;
+    margin: auto;
+    width: 620px;
+    color: black;
+    background: white;
+    padding: 10px;
+    text-align: center;
+    font-family: defen-font;
+    h1 {
+        margin: 0px;
+        height: 150px;
+        text-align: center;
+        img {
+            width: 600px;
+        }
+    }
+    .version {
+        font-size: 24px;
+    }
+    .loading {
+        margin-top: 10px;
+        padding: 4px;
+        color: #666;
+        font-family: Verdana, sans-serif;
+        animation: blink-text 2s infinite;
+    }
+    .start {
+        display: none;
+        margin: 0px auto;
+        margin-top: 10px;
+        padding: 4px;
+        width: 120px;
+        background: #999;
+        color: white;
+        border-radius: 4px;
+        font-family: Verdana, sans-serif;
+        cursor: pointer;
+        &:hover {
+            background: #ccc;
+        }
+    }
+}
+
+
+shoupai-size($width, $height, $bingpai-height, $fulou-height) {
+    width:  $width;
+    height: $height;
+    .bingpai {
+        if ($height < $bingpai-height + $fulou-height / 7 * 10) {
+            margin-top: $height - $bingpai-height;
+            float: left;
+        }
+        else {
+            margin-top: 0px;
+            float: none;
+        }
+        .pai {
+            width: ($bingpai-height * 5 / 7);
+            height: $bingpai-height;
+            transition: width 0.2s ease-out;
+            &.deleted {
+                opacity: 0;
+                width: 0px;
+            }
+            &.selected {
+                transform: translate(0px, - $bingpai-height / 7);
+            }
+            &.blink {
+                animation: blink 0.5s infinite;
+            }
+        }
+        .zimo {
+            margin-left:  ($bingpai-height * 5 / 7 * 0.1);
+            margin-right: ($bingpai-height * 5 / 7 * 0.1);
+        }
+    }
+    .fulou {
+        if ($height < $bingpai-height + $fulou-height / 7 * 10) {
+            margin-top: $height - $fulou-height;
+            float: right;
+        }
+        else {
+            margin-top: $height - $bingpai-height - $fulou-height;
+            float: none;
+        }
+        .rotate {
+            width: $fulou-height;
+            transform: rotate(270deg) translate(- $fulou-height, 0px);
+        }
+        .pai {
+            width: ($fulou-height * 5 / 7);
+            height: $fulou-height;
+        }
+    }
+}
+
+.shoupai {
+    display: table;
+    .bingpai {
+        line-height: 0px;
+    }
+    .fulou {
+        line-height: 0px;
+        .mianzi {
+            white-space: nowrap;
+            margin-left: 2px;
+            float: right;
+            .rotate {
+                display: inline-block;
+                white-space: nowrap;
+                text-align: left;
+                transform-origin: 0% 0%;
+            }
+        }
+    }
+}
+
+he-size($width, $dapai-height, $mode = block) {
+    width:  $width;
+    if ($mode == line) {
+        height: ($dapai-height * (2 + 7) / 7);
+    }
+    else {
+        height: ($dapai-height * (2 + 7 * 3) / 7);
+    }
+    div.lizhi {
+        width:  ($dapai-height * 5 / 7 * 6);
+        height: ($dapai-height * 2 / 7);
+        if ($mode == line) {
+            text-align: left;
+        }
+        else {
+            text-align: center;
+        }
+        .choma {
+            max-width: @width * 0.6;
+        }
+    }
+    div.dapai {
+        if ($mode == line) {
+            height: $dapai-height;
+        }
+        else {
+            height: $dapai-height * 3;
+        }
+        .lizhi {
+            width: $dapai-height;
+        }
+        .pai {
+            width: ($dapai-height * 5 / 7);
+            height: $dapai-height;
+        }
+        .break {
+            if ($mode == line) {
+                display: inline-block;
+                width: ($dapai-height * 5 / 7 * 0.1);
+            }
+            else {
+                display: block;
+            }
+        }
+    }
+}
+
+.he {
+    div.lizhi {
+        line-height: 0px;
+    }
+    div.dapai {
+        line-height: 0px;
+        .lizhi {
+            display: inline-block;
+            text-align: left;
+            transform: rotate(270deg);
+            .pai.dapai {
+                transform: translate(-2px, 4px);
+            }
+        }
+        .pai {
+            &.mopai {
+                opacity: 0.8;
+            }
+            &.dapai {
+                transform: translate(4px, 2px);
+            }
+            &.dapai.mopai {
+                opacity: 0.6;
+            }
+        }
+    }
+}
+
+pai-size($pai-height) {
+    .pai {
+        width: ($pai-height * 5 / 7);
+        height: $pai-height;
+    }
+}
+
+.huledialog {
+    transition: opacity 0.2s ease-out;
+    .hule {
+        .shan {
+            font-family: title-font;
+            img {
+                vertical-align: bottom;
+            }
+        }
+        .hupai {
+            font-family: title-font;
+            line-height: 1;
+            .fanshu {
+                text-align: right;
+                padding-left: 2em;
+            }
+        }
+        .jicun {
+            font-family: defen-font;
+        }
+    }
+    .pingju {
+        font-family: title-font;
+    }
+    .fenpei {
+        font-family: defen-font;
+        .player {
+            white-space: nowrap;
+            display: inline-block;
+            vertical-align: bottom;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .feng
+        .defen
+        .diff {
+            display: inline-block;
+            vertical-align: bottom;
+            text-align: right;
+        }
+        .plus {
+            color: #0ff;
+        }
+        .muinus {
+            color: #f00;
+        }
+    }
+}
+
+body.demo {
+    user-select: none;
+    color: white;
+    background: #036;
+    font-family: sans-serif;
+    font-size: 12px;
+    a {
+        color: white;
+    }
+    form {
+        margin-top: 1em;
+        div {
+            margin: 2px 0;
+        }
+        span {
+            margin-right: 1em;
+        }
+        input {
+            &[type="text"] {
+                font-family: monospace;
+            }
+            &[name="paistr"] {
+                width: 16em;
+            }
+            &[name="baopai"],
+            &[name="fubaopai"] {
+                text-align: center;
+                width: 2em;
+            }
+        }
+    }
+    .shoupai {
+        margin: 10px 0px;
+        shoupai-size: 680px 70px 56px 49px;
+    }
+    .he {
+        margin: 10px 0px;
+        he-size: 680px 42px line;
+    }
+    .paili {
+        img {
+            vertical-align: middle;
+        }
+        pai-size: 35px;
+    }
+    .huledialog {
+        margin-top: 20px;
+        .hule {
+            .shan {
+                float: left;
+                margin-right: 40px;
+                font-size: 20px;
+                pai-size: 35px;
+            }
+            .shoupai {
+                clear: both;
+                shoupai-size: auto 70px 49px 49px;
+            }
+            .hupai {
+                font-size: 24px;
+            }
+        }
+    }
+    textarea {
+        font-family: monospace;
+        box-sizing: border-box;
+        width: 780px;
+    }
+}
+
+#paiga div {
+    width: 780px;
+    color: black;
+    background: white;
+    p {
+        margin: 1em;
+    }
+}
