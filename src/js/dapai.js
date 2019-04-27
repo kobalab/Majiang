@@ -78,45 +78,65 @@ function report(info) {
     $('#dapai').hide().fadeIn();
 }
 
+function submit() {
+
+    let paistr     = $('input[name="paistr"]').val();
+    if (! paistr) return false;
+
+    let zhuangfeng = + $('select[name="zhuangfeng"] option:selected').val();
+    let menfeng    = + $('select[name="menfeng"] option:selected').val();
+    let baopai     = $.makeArray($('input[name="baopai"]'))
+                                    .map(p=>$(p).val()).filter(p=>p);
+    let hongpai    = $('input[name="hongpai"]').prop('checked')
+                        ? { m: 1, p: 1, s: 1 }
+                        : { m: 0, p: 0, s: 0 };
+
+    const player = init_player(paistr, zhuangfeng, menfeng, baopai, hongpai);
+
+    new Majiang.View.Shan('.shan', new Shan(player._baopai)).redraw();
+    new Majiang.View.Shoupai('.shoupai', player._shoupai).redraw(true);
+
+    let info = [];
+    let dapai = player.select_dapai(info);
+    report(info);
+
+    return false;
+}
+
 $(function(){
 
-    $('form').on('submit', ()=>{
-
-        let paistr     = $('input[name="paistr"]').val();
-        if (! paistr) return false;
-
-        let zhuangfeng = + $('select[name="zhuangfeng"] option:selected').val();
-        let menfeng    = + $('select[name="menfeng"] option:selected').val();
-        let baopai     = $.makeArray($('input[name="baopai"]'))
-                                    .map(p=>$(p).val()).filter(p=>p);
-        let hongpai    = $('input[name="hongpai"]').prop('checked')
-                            ? { m: 1, p: 1, s: 1 }
-                            : { m: 0, p: 0, s: 0 };
-
-        const player = init_player(paistr, zhuangfeng, menfeng,
-                                   baopai, hongpai);
-
-        new Majiang.View.Shan('.shan', new Shan(player._baopai)).redraw();
-        new Majiang.View.Shoupai('.shoupai', player._shoupai).redraw(true);
-
-        let info = [];
-        let dapai = player.select_dapai(info);
-        report(info);
-
-        return false;
-    });
+    $('form').on('submit', submit);
 
     $('form').on('reset', ()=>{
         $('input[name="paistr"]').focus();
         $('#dapai').hide();
     });
 
-    $('input[name="paistr"]').val('m123p1234789s338s8').focus();
-    $('input[name="baopai"]').eq(0).val('s3');
     $('#dapai').hide();
-});
-
-$(function(){
     _row = $('.report .row');
     $('.report').empty();
+
+    let fragment = location.hash.replace(/^#/,'');
+    if (fragment) {
+        let [paistr, zhuangfeng, menfeng, baopai, hongpai]
+                                            = fragment.match(/([^,]+)/g);
+        baopai  = (baopai || '').split(/\+/);
+        hongpai = ! hongpai;
+
+        $('input[name="paistr"]').val(paistr);
+        $('select[name="zhuangfeng"] option')
+                                .eq(zhuangfeng).attr('selected', 'selected');
+        $('select[name="menfeng"] option')
+                                .eq(menfeng).attr('selected', 'selected');
+        for (let i = 0; i < baopai.length; i++) {
+            $('input[name="baopai"]').eq(i).val(baopai[i]);
+        }
+        $('input[name="hongpai"]').prop('checked', hongpai);
+
+        submit();
+    }
+    else {
+        $('input[name="paistr"]').val('m123p1234789s338s8').focus();
+        $('input[name="baopai"]').eq(0).val('s3');
+    }
 });
