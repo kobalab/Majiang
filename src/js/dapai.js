@@ -87,11 +87,11 @@ function submit() {
     let menfeng    = + $('select[name="menfeng"] option:selected').val();
     let baopai     = $.makeArray($('input[name="baopai"]'))
                                     .map(p=>$(p).val()).filter(p=>p);
-    let hongpai    = $('input[name="hongpai"]').prop('checked')
-                        ? { m: 1, p: 1, s: 1 }
-                        : { m: 0, p: 0, s: 0 };
+    let hongpai    = $('input[name="hongpai"]').prop('checked');
 
-    const player = init_player(paistr, zhuangfeng, menfeng, baopai, hongpai);
+    const player = init_player(paistr, zhuangfeng, menfeng, baopai, hongpai
+                        ? { m: 1, p: 1, s: 1 }
+                        : { m: 0, p: 0, s: 0 });
 
     new Majiang.View.Shan('.shan', new Shan(player._baopai)).redraw();
     new Majiang.View.Shoupai('.shoupai', player._shoupai).redraw(true);
@@ -99,6 +99,11 @@ function submit() {
     let info = [];
     let dapai = player.select_dapai(info);
     report(info);
+
+    let fragment = '#'
+                 + [ paistr, zhuangfeng, menfeng, baopai.join(',')].join('/');
+    if (! hongpai) fragment += '/1';
+    history.replaceState('', '', fragment)
 
     return false;
 }
@@ -119,8 +124,8 @@ $(function(){
     let fragment = location.hash.replace(/^#/,'');
     if (fragment) {
         let [paistr, zhuangfeng, menfeng, baopai, hongpai]
-                                            = fragment.match(/([^,]+)/g);
-        baopai  = (baopai || '').split(/\+/);
+                                            = fragment.match(/([^\/]+)/g);
+        baopai  = (baopai || '').split(/,/);
         hongpai = ! hongpai;
 
         $('input[name="paistr"]').val(paistr);
