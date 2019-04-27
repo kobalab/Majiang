@@ -100,6 +100,13 @@ function submit() {
     let dapai = player.select_dapai(info);
     report(info);
 
+    paistr = player._shoupai.toString();
+    $('input[name="paistr"]').val(paistr);
+    baopai = player._baopai;
+    for (let i = 0; i < baopai.length; i++) {
+        $('input[name="baopai"]').eq(i).val(baopai[i]);
+    }
+
     let fragment = '#'
                  + [ paistr, zhuangfeng, menfeng, baopai.join(',')].join('/');
     if (! hongpai) fragment += '/1';
