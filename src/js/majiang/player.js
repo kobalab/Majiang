@@ -314,25 +314,46 @@ select_fulou(dapai) {
     }
 }
 
-select_gang() {
+select_gang(info) {
 
     let n_xiangting = Majiang.Util.xiangting(this._shoupai);
 
     if (this._suanpai._lizhi.find(l=>l) && n_xiangting > 0) return;
 
+    let paishu = this._suanpai.paishu_all();
+
     if (n_xiangting < 3) {
 
-        let paishu = this._suanpai.paishu_all();
-        let ev = this.eval_shoupai(this._shoupai, paishu);
+        let max = this.eval_shoupai(this._shoupai, paishu);
+        let gang;
         for (let m of this.get_gang_mianzi()) {
             let p = m.match(/^[mpsz]\d{4}$/)
                         ? m.replace(/0/,'5').substr(0,2)
                         : m[0] + m.substr(-1);
             let shoupai = this._shoupai.clone().gang(p);
-            if (Majiang.Util.xiangting(shoupai) >= 3) continue;
+            let n_xiangting = Majiang.Util.xiangting(shoupai);
+            if (n_xiangting >= 3) continue;
 
-            if (this.eval_shoupai(shoupai, paishu) > ev) return m;
+            let ev = this.eval_shoupai(shoupai, paishu);
+
+            if (info) {
+                let n_tingpai = 0;
+                let tingpai = Majiang.Util.tingpai(shoupai);
+                for (let tp of tingpai) {
+                    n_tingpai += this._suanpai._paishu[tp[0]][tp[1]];
+                }
+                info.push({
+                    p: p, gang: true, n_xiangting: n_xiangting, ev: ev,
+                    tingpai: tingpai, n_tingpai: n_tingpai
+                });
+            }
+
+            if (ev > max) {
+                gang = m;
+                max  = ev;
+            }
         }
+        return gang;
     }
     else {
 
@@ -343,7 +364,21 @@ select_gang() {
                         ? m.replace(/0/,'5').substr(0,2)
                         : m[0] + m.substr(-1);
             let shoupai = this._shoupai.clone().gang(p);
-            if (this.xiangting(shoupai) == n_xiangting) return m;
+            if (this.xiangting(shoupai) == n_xiangting) {
+                if (info) {
+                    let ev = this.eval_shoupai(shoupai, paishu);
+                    let n_tingpai = 0;
+                    let tingpai = Majiang.Util.tingpai(shoupai);
+                    for (let tp of tingpai) {
+                        n_tingpai += this._suanpai._paishu[tp[0]][tp[1]];
+                    }
+                    info.push({
+                        p: p, gang: true, n_xiangting: n_xiangting, ev: ev,
+                        tingpai: tingpai, n_tingpai: n_tingpai
+                    });
+                }
+                return m;
+            }
         }
     }
 }
@@ -422,7 +457,7 @@ select_dapai(info) {
         }
 
         if (info) {
-            if (! info.find(x => x.p == p.substr(0,2))) {
+            if (! info.find(x => x.p == p.substr(0,2) && ! x.gang)) {
                 info.push({
                     p: p.substr(0,2), n_xiangting: n_xiangting, ev: ev,
                     tingpai: tingpai, n_tingpai: n_tingpai
@@ -452,7 +487,7 @@ select_dapai(info) {
         let x  = 1 - paijia(p)/100 + ev;
 
         if (info) {
-            if (! info.find(x => x.p == p.substr(0,2))) {
+            if (! info.find(x => x.p == p.substr(0,2) && ! x.gang)) {
                 info.push({
                     p: p.substr(0,2), n_xiangting: n_xiangting + 1, ev: ev,
                     tingpai: tingpai, n_tingpai: n_tingpai

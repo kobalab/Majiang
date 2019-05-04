@@ -61,6 +61,7 @@ function report(info) {
     for (let r of info.sort((a, b)=> b.ev - a.ev)) {
         let row = _row.clone();
         $('.dapai', row).append(Majiang.View.pai(r.p));
+        if (r.gang) $('.dapai', row).append($('<span>').text('カン'));
         $('.xiangting', row).text(
                     r.n_xiangting ==  0 ? '聴牌' : `${r.n_xiangting}向聴`);
         if (r.n_xiangting < 3) {
@@ -97,6 +98,7 @@ function submit() {
     new Majiang.View.Shoupai('.shoupai', player._shoupai).redraw(true);
 
     let info = [];
+    let gang  = player.select_gang(info);
     let dapai = player.select_dapai(info);
     report(info);
 
