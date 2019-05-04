@@ -58,7 +58,7 @@ function report(info) {
 
     $('.report').empty();
 
-    for (let r of info.sort((a, b)=> b.ev - a.ev)) {
+    for (let r of info.sort((a, b)=> a.selected ? -1 : b.ev - a.ev)) {
         let row = _row.clone();
         $('.dapai', row).append(Majiang.View.pai(r.p));
         if (r.gang) $('.dapai', row).append($('<span>').text('カン'));
@@ -100,6 +100,24 @@ function submit() {
     let info = [];
     let gang  = player.select_gang(info);
     let dapai = player.select_dapai(info);
+    if (gang) {
+        let p = gang.match(/^[mpsz]\d{4}$/)
+                    ? gang.replace(/0/,'5').substr(0,2)
+                    : gang[0] + gang.substr(-1);
+        for (let i = 0; i < info.length; i++) {
+            if (info[i].p == p && info[i].gang) {
+                info[i].selected = true;
+            }
+        }
+    }
+    else if (dapai) {
+        let p = dapai.substr(0,2);
+        for (let i = 0; i < info.length; i++) {
+            if (info[i].p == p && ! info[i].gang) {
+                info[i].selected = true;
+            }
+        }
+    }
     report(info);
 
     paistr = player._shoupai.toString();
