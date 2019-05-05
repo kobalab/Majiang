@@ -565,6 +565,16 @@ suite('Majiang.Player', function(){
       player.zimo({l:0,p:'z1'})
       assert.equal(player.select_gang(), 'z111=1');
     });
+    test('引継情報域が設定された場合は、槓選択に関する情報を設定する', function(){
+      let player = init_player({shoupai:'m234p147s1477z111z1'});
+      let info = [];
+      player.select_gang(info);
+      assert.ok(info.length);
+      player = init_player({shoupai:'m123p456s789z2z1,z111='});
+      info = [];
+      player.select_gang(info);
+      assert.ok(info.length);
+    });
   });
 
   suite('.select_dapai()', function(){
@@ -631,6 +641,16 @@ suite('Majiang.Player', function(){
       player.dapai({l:3,p:'p5*'});
       player.zimo({l:0,p:'s9'});
       assert.equal(player.select_dapai(), 's5*');
+    });
+    test('引継情報域が設定された場合は、打牌選択に関する情報を設定する', function(){
+      let player = init_player({shoupai:'m123p1234789s3388',baopai:'p0'});
+      let info = [];
+      player.select_dapai(info);
+      assert.ok(info.length);
+      player = init_player({shoupai:'m123p456s789z1122m1',baopai:'z3'});
+      info = [];
+      player.select_dapai(info);
+      assert.ok(info.length);
     });
   });
 

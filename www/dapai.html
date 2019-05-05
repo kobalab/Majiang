@@ -3,12 +3,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=800">
-    <title>電脳麻将: 牌理</title>
+    <title>電脳麻将: 何切る解答機</title>
     <link rel="icon" type="image/png" href="icon.png">
     <link rel="apple-touch-icon" type="image/png" href="icon.png">
     <link rel="stylesheet" type="text/css" href="css/majiang.css">
     <script src="js/majiang.js"></script>
-    <script src="js/paili.js"></script>
+    <script src="js/dapai.js"></script>
 </head>
 <body class="demo">
 
@@ -75,21 +75,54 @@
   </div>
 
   <form>
-    <input type="button" value="新規"> |
-    手牌 <input type="text" name="paistr" value="">
-    <input type="submit" value="選択">
-    <input type="reset" value="クリア">
+    <div>
+      牌姿:
+      <input name="paistr" type="text">
+      <input type="submit" value="決定">
+      <input type="reset" value="クリア">
+    </div>
+    <div>
+      <span>
+        場風:
+        <select name="zhuangfeng">
+          <option value="0" selected>東</option>
+          <option value="1">南</option>
+          <option value="2">西</option>
+          <option value="3">北</option>
+        </select>
+        自風:
+        <select name="menfeng">
+          <option value="0" selected>東</option>
+          <option value="1">南</option>
+          <option value="2">西</option>
+          <option value="3">北</option>
+        </select>
+      </span>
+      <span>
+        ドラ表示牌:
+        <input name="baopai" type="text"><input name="baopai" type="text"><input name="baopai" type="text"><input name="baopai" type="text"><input name="baopai" type="text">
+      </span>
+      <span>
+        <input name="hongpai" type="checkbox" checked> 赤牌あり
+      </span>
+    </div>
   </form>
   <hr>
-  <div class="he">
-    <div class="lizhi"><img class="choma hide" src="img/1000.gif"></div>
-    <div class="dapai"></div>
+
+  <div id="dapai">
+    <div class="shan">ドラ<span class="baopai"></span></div>
+    <div class="shoupai">
+      <div class="bingpai"></div><div class="fulou"></div>
+    </div>
+    <table class="report">
+      <tr class="row">
+        <td class="dapai"></td>
+        <td class="xiangting"></td>
+        <td class="eval"></td>
+        <td class="tingpai"></td>
+      </tr>
+    </table>
   </div>
-  <div class="shoupai">
-    <div class="bingpai"></div><div class="fulou"></div>
-  </div>
-  <div><p class="status"></p></div>
-  <div class="paili"></div>
 
 </body>
 </html>
