@@ -98,7 +98,6 @@ constructor(root, model) {
         this._audio[name] = [];
         for (let l = 0; l < 4; l++) {
             this._audio[name][l] = audio(name);
-            this._audio[name][l].volume = 0.2;
         }
     }
 }

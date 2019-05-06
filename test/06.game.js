@@ -2283,6 +2283,10 @@ suite ('Majiang.Game', function(){
       let shoupai = Majiang.Shoupai.fromString('m1111p456s789z112');
       assert.deepEqual(Majiang.Game.get_gang_mianzi(shoupai, '', 1), []);
     });
+    test('副露直後は暗槓・加槓はできない', function(){
+      let shoupai = Majiang.Shoupai.fromString('m1111p456z112,s789-,');
+      assert.deepEqual(Majiang.Game.get_gang_mianzi(shoupai, '', 1), []);
+    });
     test('リーチ後も暗槓は許可する', function(){
       let shoupai = Majiang.Shoupai.fromString('m2223555p345s345m0*');
       assert.deepEqual(Majiang.Game.get_gang_mianzi(shoupai, '', 1), ['m5550']);

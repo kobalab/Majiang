@@ -8,7 +8,10 @@ const $ = require('jquery');
 const _audio = {};
 
 module.exports = function audio(name) {
-    return _audio[name].clone()[0];
+    let new_audio = _audio[name].clone()[0];
+    let volume    = _audio[name].attr('volume');
+    if (volume) new_audio.volume = + volume;
+    return new_audio;
 }
 
 $(function(){

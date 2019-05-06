@@ -949,6 +949,7 @@ static get_gang_mianzi(shoupai, p, paishu) {
     }
     else {
         if (! shoupai._zimo) return [];
+        if (shoupai._zimo.length > 2) return [];
 
         if (shoupai.lizhi()) {
 

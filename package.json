@@ -1,14 +1,14 @@
 {
   "name": "majiang",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "HTML5 + JavaScript で動作する麻雀アプリ「電脳麻将」",
   "main": "src/js/majiang.js",
   "private": true,
   "scripts": {
-    "build:js": "webpack --devtool inline-source-map",
+    "build:js": "webpack --mode development --devtool inline-source-map",
     "build:css": "stylus src/css/index.styl -o www/css/majiang.css",
     "build": "npm run build:css && npm run build:js",
-    "release": "npm run build:css && webpack -p",
+    "release": "npm run build:css && webpack --mode production",
     "test": "mocha -u tdd",
     "test:cover": "istanbul cover -x \"**/dev/**\" node_modules/mocha/bin/_mocha -- -u tdd --no-timeouts"
   },
@@ -30,7 +30,8 @@
     "istanbul": "^0.4.5",
     "mocha": "^6.1.4",
     "stylus": "^0.54.5",
-    "webpack": "^3.5.5"
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.1"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
