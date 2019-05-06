@@ -1,6 +1,6 @@
 {
   "name": "majiang",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "HTML5 + JavaScript で動作する麻雀アプリ「電脳麻将」",
   "main": "src/js/majiang.js",
   "private": true,
