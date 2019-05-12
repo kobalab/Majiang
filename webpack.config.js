@@ -6,8 +6,8 @@ module.exports = {
         paipu:     './src/js/paipu.js',
         paili:     './src/js/paili.js',
         hule:      './src/js/hule.js',
+        dapai:     './src/js/dapai.js',
         paiga:   [ 'babel-polyfill', './src/js/paiga.js' ],
-        dapai:   [ './src/js/dapai.js' ],
     },
     output: {
         path:     __dirname + '/www/js/',

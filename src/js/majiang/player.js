@@ -348,7 +348,7 @@ select_gang(info) {
                 });
             }
 
-            if (ev > max) {
+            if (ev >= max) {
                 gang = m;
                 max  = ev;
             }

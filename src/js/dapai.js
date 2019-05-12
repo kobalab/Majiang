@@ -84,8 +84,8 @@ function submit() {
     let paistr     = $('input[name="paistr"]').val();
     if (! paistr) return false;
 
-    let zhuangfeng = + $('select[name="zhuangfeng"] option:selected').val();
-    let menfeng    = + $('select[name="menfeng"] option:selected').val();
+    let zhuangfeng = + $('select[name="zhuangfeng"]').val();
+    let menfeng    = + $('select[name="menfeng"]').val();
     let baopai     = $.makeArray($('input[name="baopai"]'))
                                     .map(p=>$(p).val()).filter(p=>p);
     let hongpai    = $('input[name="hongpai"]').prop('checked');
@@ -156,10 +156,8 @@ $(function(){
         hongpai = ! hongpai;
 
         $('input[name="paistr"]').val(paistr);
-        $('select[name="zhuangfeng"] option')
-                                .eq(zhuangfeng).attr('selected', 'selected');
-        $('select[name="menfeng"] option')
-                                .eq(menfeng).attr('selected', 'selected');
+        $('select[name="zhuangfeng"]').val(zhuangfeng);
+        $('select[name="menfeng"]').val(menfeng);
         for (let i = 0; i < baopai.length; i++) {
             $('input[name="baopai"]').eq(i).val(baopai[i]);
         }
