@@ -565,6 +565,11 @@ suite('Majiang.Player', function(){
       player.zimo({l:0,p:'z1'})
       assert.equal(player.select_gang(), 'z111=1');
     });
+    test('期待値が変わらなくても暗槓する', function(){
+      let player = init_player({shoupai:'m111333p11789s22*'});
+      player.zimo({l:0,p:'m3'})
+      assert.ok(player.select_gang());
+    });
     test('引継情報域が設定された場合は、槓選択に関する情報を設定する', function(){
       let player = init_player({shoupai:'m234p147s1477z111z1'});
       let info = [];
