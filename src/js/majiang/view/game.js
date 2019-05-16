@@ -100,6 +100,7 @@ constructor(root, model) {
             this._audio[name][l] = audio(name);
         }
     }
+    this._audio.gong = audio('gong');
 }
 
 redraw() {
@@ -248,6 +249,7 @@ hule(hule) {
     this._timer_id = setTimeout(()=>{
         this._view.shoupai[hule.l].redraw(true);
         this._view.dialog.hule(info);
+        if (this.sound_on && hule.damanguan) this._audio.gong.play();
     }, 400);
 }
 
