@@ -93,7 +93,7 @@ constructor(root, model) {
 
     this._timer_id;
 
-    this._audio = _audio;
+    this._audio = get_audio();
 }
 
 redraw() {
@@ -386,8 +386,12 @@ summary(paipu) {
 
 }
 
-let _audio = {};
-$(function(){
+let _audio;
+function get_audio() {
+
+    if (_audio) return _audio;
+
+    _audio = {};
     for (let name of ['dapai','chi','peng','gang','rong','zimo','lizhi']) {
         _audio[name] = [];
         for (let l = 0; l < 4; l++) {
@@ -395,7 +399,8 @@ $(function(){
         }
     }
     _audio.gong = audio('gong');
-});
+    return _audio;
+}
 
 let _tr;
 $(function(){
