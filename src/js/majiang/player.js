@@ -487,7 +487,7 @@ select_dapai(info) {
         let x  = 1 - paijia(p)/100 + ev;
 
         if (info) {
-            if (! info.find(x => x.p == p.substr(0,2) && ! x.gang)) {
+            if (! info.find(x => x.p == p.substr(0,2) && ! x.gang) && ev > 0) {
                 info.push({
                     p: p.substr(0,2), n_xiangting: n_xiangting + 1, ev: ev,
                     tingpai: tingpai, n_tingpai: n_tingpai
