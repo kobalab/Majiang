@@ -437,7 +437,7 @@ select_dapai(info) {
     }
 
     let dapai, max = 0, max_tingpai = 0, backtrack = [];
-    let paishu = this._suanpai.paishu_all();;
+    let paishu = this._suanpai.paishu_all();
     let n_xiangting = Majiang.Util.xiangting(this._shoupai);
     for (let p of this.get_dapai()) {
         if (! dapai) dapai = p;
