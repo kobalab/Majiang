@@ -2,8 +2,7 @@
 HTML5 + JavaScript で動作する麻雀アプリ「電脳麻将」
 
 ## デモ
-http://kobalab.net/majiang/<br>
-(中国朋友抱歉🙏中国政府不让你们看我的网页)
+http://kobalab.net/majiang/
 
 ## ライセンス
 Copyright&copy; 2017 Satoshi Kobayashi<br>
