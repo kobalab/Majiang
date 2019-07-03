@@ -437,7 +437,7 @@ select_dapai(info) {
     }
 
     let dapai, max = 0, max_tingpai = 0, backtrack = [];
-    let paishu = this._suanpai.paishu_all();;
+    let paishu = this._suanpai.paishu_all();
     let n_xiangting = Majiang.Util.xiangting(this._shoupai);
     for (let p of this.get_dapai()) {
         if (! dapai) dapai = p;
@@ -487,7 +487,7 @@ select_dapai(info) {
         let x  = 1 - paijia(p)/100 + ev;
 
         if (info) {
-            if (! info.find(x => x.p == p.substr(0,2) && ! x.gang)) {
+            if (! info.find(x => x.p == p.substr(0,2) && ! x.gang) && ev > 0) {
                 info.push({
                     p: p.substr(0,2), n_xiangting: n_xiangting + 1, ev: ev,
                     tingpai: tingpai, n_tingpai: n_tingpai
