@@ -92,6 +92,16 @@ sound() {
     return false;
 }
 
+shoupai() {
+    const game = this._game;
+    if (game._status == 'hule')   return true;
+    if (game._status == 'pingju') return true;
+    if (game._status == 'jieju')  return true;
+    game._view.open_shoupai = ! game._view.open_shoupai;
+    game._view.redraw();
+    return false;
+}
+
 start() {
     const game = this._game;
     $('.download a', this._root).addClass('hide');

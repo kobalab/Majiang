@@ -20,6 +20,7 @@ $(function(){
     let game;
     let speed = 3;
     let sound = true;
+    let open_shoupai = false;
 
     $(window).on('keyup', function(event){
         if (event.key == ' ') {
@@ -27,12 +28,15 @@ $(function(){
             else            gamectl.stop();
             game._jieju_handler = ()=>{ gamectl.stop() };
         }
+        else if (event.key == 's') gamectl.shoupai();
     });
+    $('#game > .shoupai').on('mousedown', '.pai', ()=>gamectl.shoupai());
 
     function start() {
         if (game) {
-           speed = game._speed;
-           sound = game._view.sound_on;
+            speed        = game._speed;
+            sound        = game._view.sound_on;
+            open_shoupai = game._view.open_shoupai;
         }
         game = new Majiang.Game();
         game._player = [
@@ -46,6 +50,7 @@ $(function(){
         gamectl = new Majiang.View.GameCtl($('#game'), game);
         game._speed = speed;
         game._view.sound_on = sound;
+        game._view.open_shoupai = open_shoupai;
         gamectl.update_controler();
         game.kaiju();
     }
