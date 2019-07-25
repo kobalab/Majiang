@@ -23,10 +23,10 @@ $(function(){
 
     $(window).on('keyup', function(event){
         if (event.key == ' ') {
-            if (game._stop) game.start();
-            else            game.stop();
+            if (game._stop) gamectl.start();
+            else            gamectl.stop();
+            game._jieju_handler = ()=>{ gamectl.stop() };
         }
-        gamectl.update_controler();
     });
 
     function start() {

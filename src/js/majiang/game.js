@@ -599,6 +599,8 @@ jieju() {
     this.call_players('jieju', msg, this._delay);
 
     if (this._view) this._view.summary(this._paipu);
+
+    if (this._jieju_handler) this._jieju_handler();
 }
 
 next(force) {

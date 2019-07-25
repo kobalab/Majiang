@@ -1302,6 +1302,14 @@ suite ('Majiang.Game', function(){
       game.jieju();
       assert.deepEqual(game._paipu.point, [-51,93,-34,-8]);
     });
+    test('handlerが呼ばれること', function(done){
+      game = init_game();
+      game._jieju_handler = ()=>{
+        assert.ok(1);
+        done();
+      }
+      game.jieju();
+    });
   });
 
   suite('.reply_zimo()', function(){
