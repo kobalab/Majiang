@@ -22,15 +22,19 @@ $(function(){
     let sound = true;
     let open_shoupai = false;
 
-    $(window).on('keyup', function(event){
-        if (event.key == ' ') {
-            if (game._stop) gamectl.start();
-            else            gamectl.stop();
-            game._jieju_handler = ()=>{ gamectl.stop() };
-        }
-        else if (event.key == 's') gamectl.shoupai();
-    });
-    $('#game > .shoupai').on('mousedown', '.pai', ()=>gamectl.shoupai());
+    function init() {
+        $(window).on('keyup', function(event){
+            if (event.key == ' ') {
+                if (game._stop) gamectl.start();
+                else            gamectl.stop();
+                game._jieju_handler = ()=>{ gamectl.stop() };
+            }
+            else if (event.key == 's') gamectl.shoupai();
+        });
+        $('#game > .shoupai').on('mousedown', '.pai', ()=>gamectl.shoupai());
+
+        start();
+    }
 
     function start() {
         if (game) {
@@ -61,7 +65,7 @@ $(function(){
         $('#title .loading').hide();
         $('#title .start').on('click', function(){
             $('body').attr('class','game');
-            start();
+            init();
         }).show();
     });
     if (loaded) $(window).trigger('load');
