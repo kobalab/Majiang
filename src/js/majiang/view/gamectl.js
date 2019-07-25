@@ -111,6 +111,11 @@ start() {
 stop() {
     const game = this._game;
     game.stop();
+
+    let ua = navigator.userAgent;
+    if (ua.match(/\bMobile\b/) ||
+        ua.match(/\bMSIE\b/)   || ua.match(/\bTrident\b/)) return;
+
     let blob = new Blob([ JSON.stringify(game._paipu) ],
                         { type: 'application/json' });
     $('.download a', this._root)
