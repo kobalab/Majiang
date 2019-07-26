@@ -30,8 +30,10 @@ $(function(){
                 game._jieju_handler = ()=>{ gamectl.stop() };
             }
             else if (event.key == 's') gamectl.shoupai();
+            else if (event.key == 'h') gamectl.he();
         });
         $('#game > .shoupai').on('mousedown', '.pai', ()=>gamectl.shoupai());
+        $('#game > .he'     ).on('mousedown', '.pai', ()=>gamectl.he());
 
         start();
     }

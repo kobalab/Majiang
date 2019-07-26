@@ -102,6 +102,16 @@ shoupai() {
     return false;
 }
 
+he() {
+    const game = this._game;
+    if (game._status == 'hule')   return true;
+    if (game._status == 'pingju') return true;
+    if (game._status == 'jieju')  return true;
+    game._view.open_he = ! game._view.open_he;
+    game._view.redraw();
+    return false;
+}
+
 start() {
     const game = this._game;
     $('.download a', this._root).addClass('hide');
