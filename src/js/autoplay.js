@@ -21,6 +21,7 @@ $(function(){
     let speed = 3;
     let sound = true;
     let open_shoupai = false;
+    let open_he      = false;
 
     function init() {
         $(window).on('keyup', function(event){
@@ -43,6 +44,7 @@ $(function(){
             speed        = game._speed;
             sound        = game._view.sound_on;
             open_shoupai = game._view.open_shoupai;
+            open_he      = game._view.open_he;
         }
         game = new Majiang.Game();
         game._player = [
@@ -57,6 +59,7 @@ $(function(){
         game._speed = speed;
         game._view.sound_on = sound;
         game._view.open_shoupai = open_shoupai;
+        game._view.open_he      = open_he;
         gamectl.update_controler();
         game.kaiju();
     }
