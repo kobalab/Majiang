@@ -14,6 +14,8 @@ const view  = {};
 
 function qipai(paistr) {
 
+    if (paistr) history.replaceState('', '', `#${paistr}`);
+
     model.shan = new Majiang.Shan({m:1,p:1,s:1});
 
     if (paistr) {
@@ -188,5 +190,7 @@ $(function(){
     $('form').on('reset', function(){
         $('input[name="paistr"]').focus();
     });
-    qipai();
+
+    let paistr = location.hash.replace(/^#/,'');
+    qipai(paistr);
 });
