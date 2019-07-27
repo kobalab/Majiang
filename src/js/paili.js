@@ -185,5 +185,8 @@ $(function(){
         qipai($('form input[name="paistr"]').val());
         return false;
     })
+    $('form').on('reset', function(){
+        $('input[name="paistr"]').focus();
+    });
     qipai();
 });
