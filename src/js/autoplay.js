@@ -20,19 +20,31 @@ $(function(){
     let game;
     let speed = 3;
     let sound = true;
+    let open_shoupai = false;
+    let open_he      = false;
 
-    $(window).on('keyup', function(event){
-        if (event.key == ' ') {
-            if (game._stop) game.start();
-            else            game.stop();
-        }
-        gamectl.update_controler();
-    });
+    function init() {
+        $(window).on('keyup', function(event){
+            if (event.key == ' ') {
+                if (game._stop) gamectl.start();
+                else            gamectl.stop();
+                game._jieju_handler = ()=>{ gamectl.stop() };
+            }
+            else if (event.key == 's') gamectl.shoupai();
+            else if (event.key == 'h') gamectl.he();
+        });
+        $('#game > .shoupai').on('mousedown', '.pai', ()=>gamectl.shoupai());
+        $('#game > .he'     ).on('mousedown', '.pai', ()=>gamectl.he());
+
+        start();
+    }
 
     function start() {
         if (game) {
-           speed = game._speed;
-           sound = game._view.sound_on;
+            speed        = game._speed;
+            sound        = game._view.sound_on;
+            open_shoupai = game._view.open_shoupai;
+            open_he      = game._view.open_he;
         }
         game = new Majiang.Game();
         game._player = [
@@ -46,6 +58,8 @@ $(function(){
         gamectl = new Majiang.View.GameCtl($('#game'), game);
         game._speed = speed;
         game._view.sound_on = sound;
+        game._view.open_shoupai = open_shoupai;
+        game._view.open_he      = open_he;
         gamectl.update_controler();
         game.kaiju();
     }
@@ -56,7 +70,7 @@ $(function(){
         $('#title .loading').hide();
         $('#title .start').on('click', function(){
             $('body').attr('class','game');
-            start();
+            init();
         }).show();
     });
     if (loaded) $(window).trigger('load');

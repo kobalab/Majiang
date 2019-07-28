@@ -82,6 +82,22 @@ $(function(){
 
         new Majiang.View.HuleDialog($('.huledialog'), chang).hule(info);
 
+        let fragment = '#' + [
+                        shoupai.toString(),
+                        baopai.join(','),
+                        fubaopai.join(','),
+                        $('input[name="zimo"]:checked').val(),
+                        $('select[name="zhuangfeng"]').val(),
+                        $('select[name="menfeng"]').val(),
+                        $('input[name="lizhi"]:checked').val(),
+                        + $('input[name="yifa"]').prop('checked'),
+                        + $('input[name="haidi"]').prop('checked'),
+                        + $('input[name="lingshang"]').prop('checked'),
+                        + $('input[name="qianggang"]').prop('checked'),
+                        + $('input[name="tianhu"]:checked').val() || 0
+                     ].join('/');
+        history.replaceState('', '', fragment);
+
         return false;
     });
     $('form').on('reset', function(){
@@ -168,7 +184,37 @@ $(function(){
         }
     });
 
-    $('form input[name="paistr"]').focus();
-    $('form input[name="paistr"]').val('m123p123z1z1,s1-23,z222=');
-    $('form input[name="baopai"]').eq(0).val('z1');
+    let fragment = location.hash.replace(/^#/,'');
+    if (fragment) {
+
+        let [paistr, baopai, fubaopai, zimo, zhuangfeng, menfeng,
+             lizhi, yifa, haidi, lingshang, qianggang, tianhu]
+                = fragment.split(/\//);
+        baopai   = (baopai   || '').split(/,/);
+        fubaopai = (fubaopai || '').split(/,/);
+
+        $('form input[name="paistr"]').val(paistr);
+        for (let i = 0; i < baopai.length; i++) {
+            $('input[name="baopai"]').eq(i).val(baopai[i]);
+        }
+        for (let i = 0; i < fubaopai.length; i++) {
+            $('input[name="fubaopai"]').eq(i).val(fubaopai[i]);
+        }
+        $(`input[name="zimo"][value="${zimo}"]`).click();
+        $('select[name="zhuangfeng"]').val(zhuangfeng || 0);
+        $('select[name="menfeng"]').val(menfeng || 0);
+        $(`input[name="lizhi"][value="${lizhi}"]`).click();
+        if (+yifa)      $('input[name="yifa"]').click();
+        if (+haidi)     $('input[name="haidi"]').click();
+        if (+lingshang) $('input[name="lingshang"]').click();
+        if (+qianggang) $('input[name="qianggang"]').click();
+        if (+tianhu)    $('input[name="tianhu"]').click();
+
+        $('form').submit();
+    }
+    else {
+        $('form input[name="paistr"]').focus();
+        $('form input[name="paistr"]').val('m123p123z1z1,s1-23,z222=');
+        $('form input[name="baopai"]').eq(0).val('z1');
+    }
 });

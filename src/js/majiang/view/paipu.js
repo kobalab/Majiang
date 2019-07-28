@@ -274,6 +274,8 @@ next() {
         if (this._redo && this._speed > 0) delay = Math.max(delay, 500);
         this._timer_id = setTimeout(()=>this.next(), delay);
     }
+
+    this.set_fragment();
 }
 
 exit() {
@@ -490,6 +492,7 @@ viewpoint(d) {
     this._view.redraw();
     let data = this._paipu.log[this._log_idx][this._idx - 1];
     if (data.hule || data.pingju) this._view.update(data);
+    this.set_fragment();
     return false;
 }
 
@@ -625,7 +628,21 @@ seek(log_idx, idx) {
         this._log = data;
     }
 
+    this.set_fragment();
+
     this._view.redraw();
+}
+
+set_fragment() {
+
+    if (! this._fragment) return;
+
+    let fragment = this._fragment + [
+                        this._view.viewpoint,
+                        this._log_idx,
+                        this._idx -1,
+                   ].join('/');
+    history.replaceState('', '', fragment);
 }
 
 }

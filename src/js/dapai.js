@@ -9,8 +9,6 @@
 
 "use strict";
 
-const $ = require('jquery');
-
 let _row;
 
 class Shan {

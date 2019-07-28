@@ -92,6 +92,26 @@ sound() {
     return false;
 }
 
+shoupai() {
+    const game = this._game;
+    if (game._status == 'hule')   return true;
+    if (game._status == 'pingju') return true;
+    if (game._status == 'jieju')  return true;
+    game._view.open_shoupai = ! game._view.open_shoupai;
+    game._view.redraw();
+    return false;
+}
+
+he() {
+    const game = this._game;
+    if (game._status == 'hule')   return true;
+    if (game._status == 'pingju') return true;
+    if (game._status == 'jieju')  return true;
+    game._view.open_he = ! game._view.open_he;
+    game._view.redraw();
+    return false;
+}
+
 start() {
     const game = this._game;
     $('.download a', this._root).addClass('hide');
@@ -101,6 +121,11 @@ start() {
 stop() {
     const game = this._game;
     game.stop();
+
+    let ua = navigator.userAgent;
+    if (ua.match(/\bMobile\b/) ||
+        ua.match(/\bMSIE\b/)   || ua.match(/\bTrident\b/)) return;
+
     let blob = new Blob([ JSON.stringify(game._paipu) ],
                         { type: 'application/json' });
     $('.download a', this._root)
