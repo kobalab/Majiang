@@ -5,7 +5,7 @@
   "main": "src/js/majiang.js",
   "private": true,
   "scripts": {
-    "build:html": "pug -o www -P src/html/{index,autoplay,paipu}.pug",
+    "build:html": "pug -o www -P src/html/{index,autoplay,paipu,paili}.pug",
     "build:js": "webpack --mode development --devtool inline-source-map",
     "build:css": "stylus src/css/index.styl -o www/css/majiang.css",
     "build": "npm run build:css && npm run build:js",
