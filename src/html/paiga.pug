@@ -1,5 +1,4 @@
 - var page = 'paiga'
-- var text = 'このような記述ができます。\n{s067z1 z1}(ツモ) {p2-13} {z66=6-6} {_z77_} {  }(ドラ){m1}\n'
 
 doctype html
 html(lang="ja")
@@ -18,7 +17,10 @@ html(lang="ja")
     include inc/navi.pug
     
     form
-      textarea.paiga(rows="10") #{text}
+      textarea.paiga(rows="10")
+        | このような記述ができます。
+        | {s067z1 z1}(ツモ) {p2-13} {z66=6-6} {_z77_} {  }(ドラ){m1}
+        |
       br
       input(name="size" type="radio" value="24x34" checked)
       | 大(24x34) 
