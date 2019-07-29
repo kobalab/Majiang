@@ -29,6 +29,7 @@
     "babel-preset-env": "^1.6.0",
     "istanbul": "^0.4.5",
     "mocha": "^6.1.4",
+    "pug-cli": "^1.0.0-alpha6",
     "stylus": "^0.54.5",
     "webpack": "^4.30.0",
     "webpack-cli": "^3.3.1"
