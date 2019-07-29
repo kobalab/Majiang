@@ -6,7 +6,8 @@ mixin player(lunban)
   .shoupai(class=lunban)
     .bingpai
     .fulou
-  .player(class=lunban)
+  if page != 'autoplay'
+    .player(class=lunban)
   .say(class=lunban)
 
 +player('xiajia')
