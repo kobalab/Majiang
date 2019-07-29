@@ -1,0 +1,23 @@
+- var page = 'index'
+
+doctype html
+html(lang="ja")
+
+  head
+    include inc/meta.pug
+
+    title 電脳麻将
+    meta(name="description" content="HTML5 + Javascriptで動作する麻雀アプリ")
+
+    include inc/style.pug
+
+    script(src="js/majiang.js" defer)
+    script(src="js/game.js" defer)
+
+  body.title
+    include inc/navi.pug
+    include inc/title.pug
+    include inc/loaddata.pug
+    
+    include inc/file.pug
+    include inc/game.pug
