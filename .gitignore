@@ -1,10 +1,4 @@
 node_modules/
 www/js/
-www/index.html
-www/autoplay.html
-www/paipu.html
-www/paili.html
-www/hule.html
-www/dapai.html
-www/paiga.html
+www/*.html
 coverage/
