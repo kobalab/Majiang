@@ -19,6 +19,7 @@ https://github.com/kobalab/Majiang/blob/master/LICENSE
 | ``build``       | デバッグ用にビルドする。                       |
 | ``build:js``    | JavaScriptのみデバッグ用にビルドする。          |
 | ``build:css``   | CSSのみビルドする。                           |
+| ``build:html``  | HTMLのみビルドする。                          |
 | ``test``        | ユニットテストを実施する。                      |
 | ``test:cover``  | カバレッジ・レポートつきでユニットテストを実施する。|
 
