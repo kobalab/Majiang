@@ -166,6 +166,7 @@ load_paipu(url, fragment) {
 
 redraw() {
 
+    this._node.removeClass('hide');
     let list = $('.list', this._node).empty();
     for (let i = 0; i < this._paipu.length(); i++) {
         let paipu  = this._paipu.get(i);

@@ -48,7 +48,7 @@ $(function(){
 
     $('.version').text('ver. ' + Majiang.VERSION);
 
-    paipu = new Majiang.View.PaipuFile($('#file'), 'Majiang.game');
+    paipu = new Majiang.View.PaipuFile($('#file .file'), 'Majiang.game');
     $('#file .next').on('click', start);
 
     $(window).on('load', function(){
