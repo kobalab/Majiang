@@ -1,0 +1,60 @@
+#file
+  h1
+    img(src="img/logo.png" alt="電脳麻将")
+  .version
+    
+  .file
+
+    if page == 'index'
+      a.next 対局開始
+      .button
+        a.download
+          img(src="img/icon-download-alt.png")
+          | 牌譜保存
+
+    .list
+      .row
+        .button
+          // if page == 'paipu'
+            a.edit
+              img(src="img/icon-edit.png")
+              | 編集
+            |
+            |
+          a.replay
+            img(src="img/icon-play.png")
+            | 再生
+          |
+          |
+          a.download
+            img(src="img/icon-download-alt.png")
+            | 保存
+          |
+          |
+          a.delete
+            img(src="img/icon-trash.png")
+            | 削除
+          |
+          |
+          if page == 'paipu'
+            span.move
+              img(src="img/icon-resize-vertical.png")
+        .content
+          .title
+          .player
+
+    if page == 'paipu'
+      .error
+      label.upload
+        img(src="img/icon-upload-alt.png")
+        | 牌譜追加
+        input(type="file" multiple)
+      .button
+        //a.edit
+          img(src="img/icon-edit.png")
+          | 新規編集
+        //|
+        //|
+        a.download
+          img(src="img/icon-download-alt.png")
+          | 牌譜保存
