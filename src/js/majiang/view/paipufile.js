@@ -266,7 +266,7 @@ set_handler() {
     let title = this._paipu.get(0).title.replace(/[\ \\\/\:\n]/g, '_');
     let blob  = new Blob([ this._paipu.stringify() ],
                          { type: 'application/json' });
-    $('.file > .button .download', this._node)
+    $('> .button .download', this._node)
                 .attr('href', URL.createObjectURL(blob))
                 .attr('download', `牌譜(${title}).json`);
 }
