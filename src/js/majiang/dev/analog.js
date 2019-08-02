@@ -226,14 +226,46 @@ static analyze(filename, n_try) {
 
 static analyze_player(filename, player_name) {
 
+    function round(n, r) {
+        n = '' + n;
+        if (! n.match(/\./)) return n;
+        if (r == 0) return n.replace(/\..*$/,'');
+        for (let i = 0; i < r; i++) { n += '0' }
+        const regex = new RegExp(`(\\\.\\d{${r}}).*$`);
+        return n.replace(/^0\./,'.').replace(regex, '$1');
+    }
+
     const analog = new AnaLog();
+    analog._result.n_rank = [0,0,0,0];
     for (let paipu of JSON.parse(fs.readFileSync(filename))) {
         let id = paipu.title.replace(/^.*\n/,'');
         const r = new RegExp(`^${player_name}\n`);
         let player_id = [0,1,2,3].find(i=>paipu.player[i].match(r));
         if (player_id == null) continue;
         analog.analyze(id, paipu, player_id);
+        analog._result.n_rank[paipu.rank[player_id]-1]++;
     }
+
+    let r = analog._result;
+
+    console.log(player_name);
+    console.log('対局数: ' + r.n_game + ' (' + r.n_rank.join(' + ') + ')');
+    console.log(
+        '平均順位: '   + round([1,2,3,4].map(x=>r.n_rank[x-1]*x)
+                                      .reduce((x,y)=>x + y)
+                                / r.n_game, 2) + '、'
+        + 'トップ率: ' + round(r.n_rank[0] / r.n_game, 3) + '、'
+        + '連対率: '   + round((r.n_rank[0] + r.n_rank[1]) / r.n_game, 3) + '、'
+        + 'ラス率: '   + round(r.n_rank[3] / r.n_game, 3)
+    );
+    console.log(
+          '和了率: '   + round(r.n_hule / r.n_ju, 3) + '、'
+        + '放銃率: '   + round(r.n_beirong / r.n_ju, 3) + '、'
+        + '立直率: '   + round(r.n_lizhi / r.n_ju, 3) + '、'
+        + '副露率: '   + round(r.n_fulou / r.n_ju, 3) + '、'
+        + '平均打点: ' + round(r.sum_defen / r.n_hule, 0)
+    );
+
     return analog._result;
 }
 
