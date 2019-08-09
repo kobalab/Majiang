@@ -49,6 +49,7 @@ update_controler() {
 
     $('.exit',     controler).addClass('hide');
     $('.summary',  controler).addClass('hide');
+    $('.analyzer', controler).addClass('hide');
     $('.first',    controler).addClass('hide');
     $('.prev',     controler).addClass('hide');
     $('.autoplay', controler).addClass('hide');

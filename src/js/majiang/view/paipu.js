@@ -97,6 +97,7 @@ set_handler() {
     $('.exit',     controler).on('mousedown', ()=>this.exit());
     $('.summary',  controler).on('mousedown', ()=>this.summary());
     $('.sound',    controler).on('mousedown', ()=>this.sound());
+    $('.analyzer', controler).on('mousedown', ()=>this.analyzer());
     $('.first',    controler).on('mousedown', ()=>this.top(this._log_idx - 1));
     $('.autoplay', controler).on('mousedown', ()=>this.autoplay());
     $('.last',     controler).on('mousedown', ()=>this.top(this._log_idx + 1));
@@ -124,6 +125,7 @@ set_handler() {
         else if (event.key == 's')  this.shoupai();
         else if (event.key == 'h')  this.he();
         else if (event.key == '?')  this.summary();
+        else if (event.key == 'i')  this.analyzer();
         else if (event.key == 'q' || event.key == 'Escape')
                                     this.exit();
     });
@@ -279,6 +281,7 @@ next() {
 }
 
 exit() {
+    if (this._analyzer) this.analyzer();
     this._timer_id = clearTimeout(this._timer_id);
     this.clear_handler();
     if (this._callback) this._callback();
@@ -531,6 +534,18 @@ summary() {
     }
     this._summary = ! this._summary;
     if (! this._summary && this._autoplay) this.next();
+    return false;
+}
+
+analyzer() {
+    if (this._analyzer) {
+        this._analyzer = null;
+        $('body').removeClass('analyzer').addClass('game');
+    }
+    else {
+        this._analyzer = 1;
+        $('body').removeClass('game').addClass('analyzer');
+    }
     return false;
 }
 
