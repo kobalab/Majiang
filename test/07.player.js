@@ -97,13 +97,29 @@ suite('Majiang.Player', function(){
     test('第一ツモでなくなること', function(){
       assert.ok(! player._diyizimo);
     });
+    test('応答を返すこと', function(){
+      assert.ok(player._reply);
+    });
+
     test('手番以外の場合、牌数を減らす処理のみ行うこと', function(){
       player = init_player();
       player.zimo({l:1,p:''});
       assert.equal(player._paishu, 69);
       assert.equal(player._shoupai._zimo, null);
       assert.ok(player._diyizimo);
+      assert.deepEqual(player._reply, {});
     })
+
+    test('callbackがなくても動作すること', function(){
+      player = init_player();
+      player._callback = null;
+      player.zimo({l:0,p:'z2'});
+      assert.ifError(player._reply);
+      player = init_player();
+      player._callback = null;
+      player.zimo({l:1,p:''});
+      assert.ifError(player._reply);
+    });
   });
 
   suite('.dapai(dapai)', function(){
@@ -125,6 +141,9 @@ suite('Majiang.Player', function(){
     test('打牌によってフリテンが解除されること', function(){
       assert.ok(player._neng_rong);
     });
+    test('応答を返すこと', function(){
+      assert.deepEqual(player._reply, {});
+    });
     test('リーチ後はフリテンが解除されないこと', function(){
       player._neng_rong = false;
       player.zimo({l:0,p:'z3'});
@@ -142,6 +161,17 @@ suite('Majiang.Player', function(){
       player._he = {};
       player.dapai({l:1,p:'z2'});
       assert.ok(! player._neng_rong);
+      assert.ok(player._reply);
+    });
+
+    test('callbackがなくても動作すること', function(){
+      player = init_player();
+      player._callback = null;
+      player.zimo({l:0,p:'z2'});
+      player.dapai({l:0,p:'z2_'});
+      assert.ifError(player._reply);
+      player.dapai({l:1,p:'z3'});
+      assert.ifError(player._reply);
     });
   });
 
@@ -156,6 +186,10 @@ suite('Majiang.Player', function(){
     test('手牌が副露されること', function(){
       assert.equal(player._shoupai._fulou[0], 'm1-23');
     });
+    test('応答を返すこと', function(){
+      assert.ok(player._reply);
+    });
+
     test('大明槓の場合、打牌を選択しないこと', function(){
       player = init_player({shoupai:'m123p055s789z1122'});
       player.fulou({l:0,m:'p5505+'});
@@ -166,6 +200,22 @@ suite('Majiang.Player', function(){
       player.fulou({l:1,m:'m1-23'});
       assert.ok(! player._diyizimo);
       assert.equal(player._shoupai.toString(), 'm23p456s789z11234');
+      assert.deepEqual(player._reply, {});
+    });
+
+    test('callbackがなくても動作すること', function(){
+      player = init_player({shoupai:'m23p456s789z11234'});
+      player._callback = null;
+      player.fulou({l:0,m:'m1-23'});
+      assert.ifError(player._reply);
+      player = init_player({shoupai:'m123p055s789z1122'});
+      player._callback = null;
+      player.fulou({l:0,m:'p5505+'});
+      assert.ifError(player._reply);
+      player = init_player({shoupai:'m23p456s789z11234'});
+      player._callback = null;
+      player.fulou({l:1,m:'m1-23'});
+      assert.ifError(player._reply);
     });
   });
 
@@ -180,11 +230,16 @@ suite('Majiang.Player', function(){
     test('暗槓が副露されること', function(){
       assert.equal(player._shoupai._fulou[0], 'm1111');
     });
+    test('応答を返すこと', function(){
+      assert.deepEqual(player._reply, {});
+    });
+
     test('加槓が副露されること', function(){
       player = init_player({shoupai:'m123p456s0z1123,s505='});
       player.gang({l:0,m:'s505=0'});
       assert.ok(! player._diyizimo);
       assert.equal(player._shoupai._fulou[0], 's505=0');
+      assert.deepEqual(player._reply, {});
     });
     test('和了牌の加槓を見逃した場合、フリテンになること', function(){
       player = init_player({shoupai:'m23p456s789z11122'});
@@ -203,6 +258,22 @@ suite('Majiang.Player', function(){
       player.gang({l:2,m:'m1111'});
       assert.ok(! player._diyizimo);
       assert.ok(player._neng_rong);
+      assert.deepEqual(player._reply, {});
+    });
+
+    test('callbackがなくても動作すること', function(){
+      player = init_player({shoupai:'m1111p456s789z1123'});
+      player._callback = null;
+      player.gang({l:0,m:'m1111'})
+      assert.ifError(player._reply);
+      player = init_player({shoupai:'m23p456s789z11122'});
+      player._callback = null;
+      player.gang({l:2,m:'m111=1'});
+      assert.ifError(player._reply);
+      player = init_player({shoupai:'m23p456s789z11122'});
+      player._callback = null;
+      player.gang({l:2,m:'m1111'});
+      assert.ifError(player._reply);
     });
   });
 
@@ -222,6 +293,13 @@ suite('Majiang.Player', function(){
     test('応答を返すこと', function(){
       assert.deepEqual(player._reply, {});
     });
+
+    test('callbackがなくても動作すること', function(){
+      player = init_player();
+      player._callback = null;
+      player.hule();
+      assert.ifError(player._reply);
+    });
   });
 
   suite('.pingju(pingju)', function(){
@@ -230,6 +308,13 @@ suite('Majiang.Player', function(){
     test('応答を返すこと', function(){
       assert.deepEqual(player._reply, {});
     });
+
+    test('callbackがなくても動作すること', function(){
+      player = init_player();
+      player._callback = null;
+      player.pingju();
+      assert.ifError(player._reply);
+    });
   });
 
   suite('.jieju(jieju)', function(){
@@ -237,6 +322,13 @@ suite('Majiang.Player', function(){
     player.jieju();
     test('応答を返すこと', function(){
       assert.deepEqual(player._reply, {});
+    });
+
+    test('callbackがなくても動作すること', function(){
+      player = init_player();
+      player._callback = null;
+      player.jieju();
+      assert.ifError(player._reply);
     });
   });
 

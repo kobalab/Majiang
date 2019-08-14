@@ -83,14 +83,18 @@ zimo(zimo, option) {
 
     this._paishu--;
 
-    if (zimo.l != model.menfeng) { this._callback(); return }
+    if (zimo.l != model.menfeng) {
+        if (this._callback) this._callback();
+    }
+    else {
 
-    this._shoupai.zimo(zimo.p);
+        this._shoupai.zimo(zimo.p);
 
-    this._eval_cache = {};
-    this.action_zimo(zimo, option);
+        this._eval_cache = {};
+        if (this._callback) this.action_zimo(zimo, option);
 
-    this._diyizimo = false;
+        this._diyizimo = false;
+    }
 }
 
 dapai(dapai) {
@@ -113,10 +117,11 @@ dapai(dapai) {
             this._neng_rong = false;
         }
 
-        this._callback();
+        if (this._callback) this._callback();
     }
     else {
-        this.action_dapai(dapai);
+
+        if (this._callback) this.action_dapai(dapai);
 
         let shoupai = this._shoupai.clone().zimo(dapai.p);
         if (Majiang.Util.xiangting(shoupai) == -1) this._neng_rong = false;
@@ -135,13 +140,20 @@ fulou(fulou) {
 
     this._diyizimo = false;
 
-    if (fulou.l != model.menfeng) { this._callback(); return }
+    if (fulou.l != model.menfeng) {
+        if (this._callback) this._callback();
+    }
+    else {
 
-    this._shoupai.fulou(fulou.m);
+        this._shoupai.fulou(fulou.m);
 
-    if (fulou.m.match(/^[mpsz]\d{4}/)) { this._callback(); return }
-
-    this.action_fulou(fulou);
+        if (fulou.m.match(/^[mpsz]\d{4}/)) {
+            if (this._callback) this._callback();
+        }
+        else {
+            if (this._callback) this.action_fulou(fulou);
+        }
+    }
 }
 
 gang(gang) {
@@ -159,18 +171,21 @@ gang(gang) {
                     : gang.m[0] + gang.m.substr(-1)
         this._shoupai.gang(p);
 
-        this._callback();
-        return;
+        if (this._callback) this._callback();
     }
+    else {
 
-    if (! gang.m.match(/^[mpsz]\d{4}/)) {
+        if (! gang.m.match(/^[mpsz]\d{4}/)) {
 
-        this.action_gang(gang);
+            if (this._callback) this.action_gang(gang);
 
-        let shoupai = this._shoupai.clone().zimo(gang.m.substr(0,2));
-        if(Majiang.Util.xiangting(shoupai) == -1) this._neng_rong = false;
+            let shoupai = this._shoupai.clone().zimo(gang.m.substr(0,2));
+            if(Majiang.Util.xiangting(shoupai) == -1) this._neng_rong = false;
+        }
+        else {
+            if (this._callback) this._callback();
+        }
     }
-    else this._callback();
 }
 
 kaigang(kaigang) {
@@ -185,7 +200,7 @@ pingju(pingju) { this.wait(); }
 
 jieju(jieju)   { this.wait(); }
 
-wait() { this._callback() }
+wait() { if (this._callback) this._callback() }
 
 action_zimo(zimo, option) {
     let mianzi;
