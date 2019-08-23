@@ -117,6 +117,7 @@ constructor(node, storage) {
                 }
                 try {
                     self._paipu.add(paipu);
+                    delete self._url;
                 }
                 catch(e) {
                     self.error('ローカルストレージ容量オーバー');
@@ -141,6 +142,7 @@ load_paipu(url, fragment) {
     const success = data => {
         try {
             this._paipu.add(data);
+            this._url = url;
             this.redraw();
         }
         catch(e) {
@@ -202,6 +204,7 @@ redraw() {
             let sort = $.makeArray($(this).children().map(
                             function(){return $(this).data('idx')}));
             self._paipu.sort(sort);
+            delete self._url;
             self.redraw();
         }
     });
@@ -229,7 +232,7 @@ open_player(paipu_idx, viewpoint, log_idx, idx) {
         history.replaceState('', '', location.href.replace(/#.*$/,''));
         $('body').removeClass('game').addClass('file').hide().fadeIn();
     };
-    if (location.search) this._viewer._fragment = '#' + (paipu_idx || '') + '/';
+    if (this._url) this._viewer._fragment = '#' + (paipu_idx || '') + '/';
     if (viewpoint == null) this._viewer.kaiju();
     else                   this._viewer.start(viewpoint, log_idx, idx);
     $('body').removeClass('file').addClass('game').hide().fadeIn();
@@ -252,6 +255,7 @@ set_handler() {
 
         $('.delete', row.eq(i)).on('click', i, function(event){
             self._paipu.del(event.data);
+            delete self._url;
             row.eq(event.data).slideUp(200, ()=>self.redraw());
         });
 
