@@ -142,7 +142,7 @@ suite('Majiang.SuanPai', function(){
       assert.ok(suanpai._lizhi[1]);
     });
     test('打牌が「現物」となること', function(){
-      assert.equal(suanpai._dapai[1]['m4']);
+      assert.ok(suanpai._dapai[1]['m1']);
     });
     test('リーチ後は他者の打牌も「現物」となること', function(){
       suanpai.dapai({l:2,p:'s0_'});
