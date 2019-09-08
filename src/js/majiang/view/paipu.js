@@ -151,6 +151,7 @@ clear_handler() {
     $('.exit',     controler).off('mousedown');
     $('.summary',  controler).off('mousedown');
     $('.sound',    controler).off('mousedown');
+    $('.analyzer', controler).off('mousedown');
     $('.first',    controler).off('mousedown');
     $('.prev',     controler).off('mousedown touchstart');
     $('.autoplay', controler).off('mousedown');
