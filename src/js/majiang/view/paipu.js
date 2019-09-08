@@ -6,6 +6,7 @@
 const $ = require('jquery');
 
 const View = require('./game');
+const Analyzer = require('./analyzer');
 
 const view_class = ['main','xiajia','duimian','shangjia'];
 
@@ -244,6 +245,8 @@ next() {
     let data = this._paipu.log[this._log_idx][this._idx];
 
     this._lizhi(data);
+
+    if (this._analyzer && ! this._redo) this._analyzer.action(data);
 
     if      (data.qipai)    this.qipai   (data.qipai);
     else if (data.zimo)     this.zimo    (data.zimo);
@@ -491,8 +494,13 @@ sound() {
 }
 
 viewpoint(d) {
-    if (this._summary) return true;
+    if (this._summary || ! d) return true;
     this._view.viewpoint = (this._view.viewpoint + d) % 4;
+    if (this._analyzer) {
+        this._analyzer.id(this._view.viewpoint);
+        this.seek(this._log_idx, this._idx - 1);
+        this.update_controler();
+    }
     this._view.redraw();
     let data = this._paipu.log[this._log_idx][this._idx - 1];
     if (data.hule || data.pingju) this._view.update(data);
@@ -544,7 +552,19 @@ analyzer() {
         $('body').removeClass('analyzer').addClass('game');
     }
     else {
-        this._analyzer = 1;
+        this._analyzer = new Analyzer(this._view.viewpoint);
+        let kaiju = {
+            kaiju: {
+                player:  this._model.player,
+                qijia:   this._model.qijia,
+                hongpai: {m:1,p:1,s:1}
+            }
+        };
+        this._analyzer.next(kaiju);
+        this.seek(this._log_idx, this._idx - 1);
+        let data = this._paipu.log[this._log_idx][this._idx - 1];
+        if (data.hule || data.pingju) this._view.update(data);
+        this.update_controler();
         $('body').removeClass('game').addClass('analyzer');
     }
     return false;
@@ -629,6 +649,8 @@ seek(log_idx, idx) {
         let data = this._paipu.log[this._log_idx][this._idx];
 
         this._lizhi(data);
+
+        if (this._analyzer) this._analyzer.next(data);
 
         if      (data.qipai)    this._qipai   (data.qipai);
         else if (data.zimo)     this._zimo    (data.zimo);
