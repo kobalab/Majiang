@@ -552,7 +552,7 @@ analyzer() {
         $('body').removeClass('analyzer').addClass('game');
     }
     else {
-        this._analyzer = new Analyzer(this._view.viewpoint);
+        this._analyzer = new Analyzer(this._view.viewpoint, $('#analyzer'));
         let kaiju = {
             kaiju: {
                 player:  this._model.player,
