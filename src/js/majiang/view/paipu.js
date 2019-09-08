@@ -246,8 +246,6 @@ next() {
 
     this._lizhi(data);
 
-    if (this._analyzer && ! this._redo) this._analyzer.action(data);
-
     if      (data.qipai)    this.qipai   (data.qipai);
     else if (data.zimo)     this.zimo    (data.zimo);
     else if (data.dapai)    this.dapai   (data.dapai);
@@ -257,6 +255,8 @@ next() {
     else if (data.kaigang)  this.kaigang (data.kaigang);
     else if (data.hule)     this.hule    (data.hule);
     else if (data.pingju)   this.pingju  (data.pingju);
+
+    if (this._analyzer && ! this._redo) this._analyzer.action(data);
 
     if (! this._redo) {
         if (this._log && this._log.dapai
@@ -650,8 +650,6 @@ seek(log_idx, idx) {
 
         this._lizhi(data);
 
-        if (this._analyzer) this._analyzer.next(data);
-
         if      (data.qipai)    this._qipai   (data.qipai);
         else if (data.zimo)     this._zimo    (data.zimo);
         else if (data.dapai)    this._dapai   (data.dapai);
@@ -661,6 +659,8 @@ seek(log_idx, idx) {
         else if (data.kaigang)  this._kaigang (data.kaigang);
         else if (data.hule)     this._hule    (data.hule);
         else if (data.pingju)   this._pingju  (data.pingju);
+
+        if (this._analyzer) this._analyzer.next(data);
 
         this._idx++;
         this._log = data;
