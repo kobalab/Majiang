@@ -660,7 +660,10 @@ seek(log_idx, idx) {
         else if (data.hule)     this._hule    (data.hule);
         else if (data.pingju)   this._pingju  (data.pingju);
 
-        if (this._analyzer) this._analyzer.next(data);
+        if (this._analyzer) {
+            if (this._idx == idx) this._analyzer.action(data);
+            else                  this._analyzer.next(data);
+        }
 
         this._idx++;
         this._log = data;

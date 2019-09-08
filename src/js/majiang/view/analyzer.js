@@ -30,8 +30,11 @@ next(data) {
 }
 
 action(data) {
-    if (data.qipai || data.zimo || data.gangzimo || data.fulou)
-                                            $('.dapai', this._root).empty();
+    if (data.qipai || data.zimo || data.gangzimo || data.fulou
+        || data.hule || data.pingju)
+    {
+        $('.dapai', this._root).empty();
+    }
     const callback = data.dapai || data.gang
                         ? x => { if (x) console.log(x) }
                         : x => {};
