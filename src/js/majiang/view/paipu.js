@@ -193,6 +193,11 @@ update_controler() {
         $('.speed',        controler).addClass('hide');
     }
 
+    let ua = navigator.userAgent;
+    if (ua.match(/\bMSIE\b/) || ua.match(/\bTrident\b/)) {
+        $('.analyzer', controler).addClass('hide');
+    }
+
     $('.speed span', controler).each((i, n)=>{
         $(n).css('visibility', i + 1 > this._speed ? 'hidden' : 'visible');
     });
@@ -546,6 +551,8 @@ summary() {
 }
 
 analyzer() {
+    let ua = navigator.userAgent;
+    if (ua.match(/\bMSIE\b/) || ua.match(/\bTrident\b/)) return true;
     if (this._summary) return true;
     if (this._analyzer) {
         this._analyzer = null;
