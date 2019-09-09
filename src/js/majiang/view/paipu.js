@@ -285,7 +285,6 @@ next() {
 }
 
 exit() {
-    if (this._analyzer) this.analyzer();
     this._timer_id = clearTimeout(this._timer_id);
     this.clear_handler();
     if (this._callback) this._callback();
@@ -547,6 +546,7 @@ summary() {
 }
 
 analyzer() {
+    if (this._summary) return true;
     if (this._analyzer) {
         this._analyzer = null;
         $('body').removeClass('analyzer').addClass('game');

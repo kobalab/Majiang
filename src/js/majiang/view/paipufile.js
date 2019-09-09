@@ -227,7 +227,9 @@ open_player(paipu_idx, viewpoint, log_idx, idx) {
     this._viewer = new Paipu($('#game'), this._paipu.get(paipu_idx));
     this._viewer._callback = ()=>{
         history.replaceState('', '', location.href.replace(/#.*$/,''));
-        $('body').removeClass('game').addClass('file').hide().fadeIn();
+        $('body').removeClass('game')
+                 .removeClass('analyzer')
+                 .addClass('file').hide().fadeIn();
     };
     if (location.search) this._viewer._fragment = '#' + (paipu_idx || '') + '/';
     if (viewpoint == null) this._viewer.kaiju();
