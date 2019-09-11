@@ -358,7 +358,7 @@ select_gang(info) {
                     n_tingpai += this._suanpai._paishu[tp[0]][tp[1]];
                 }
                 info.push({
-                    p: p, gang: true, n_xiangting: n_xiangting, ev: ev,
+                    p: p, m: m , n_xiangting: n_xiangting, ev: ev,
                     tingpai: tingpai, n_tingpai: n_tingpai
                 });
             }
@@ -388,7 +388,7 @@ select_gang(info) {
                         n_tingpai += this._suanpai._paishu[tp[0]][tp[1]];
                     }
                     info.push({
-                        p: p, gang: true, n_xiangting: n_xiangting, ev: ev,
+                        p: p, m: m, n_xiangting: n_xiangting, ev: ev,
                         tingpai: tingpai, n_tingpai: n_tingpai
                     });
                 }
@@ -472,7 +472,7 @@ select_dapai(info) {
         }
 
         if (info) {
-            if (! info.find(x => x.p == p.substr(0,2) && ! x.gang)) {
+            if (! info.find(x => x.p == p.substr(0,2) && ! x.m)) {
                 info.push({
                     p: p.substr(0,2), n_xiangting: n_xiangting, ev: ev,
                     tingpai: tingpai, n_tingpai: n_tingpai
@@ -502,7 +502,7 @@ select_dapai(info) {
         let x  = 1 - paijia(p)/100 + ev;
 
         if (info) {
-            if (! info.find(x => x.p == p.substr(0,2) && ! x.gang) && ev > 0) {
+            if (! info.find(x => x.p == p.substr(0,2) && ! x.m) && ev > 0) {
                 info.push({
                     p: p.substr(0,2), n_xiangting: n_xiangting + 1, ev: ev,
                     tingpai: tingpai, n_tingpai: n_tingpai

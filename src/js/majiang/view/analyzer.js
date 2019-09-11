@@ -41,16 +41,27 @@ action(data) {
     super.action(data, callback);
 }
 
-action_zimo() {
+dapai(dapai) {
+    if (dapai.l == this._model.menfeng) {
+        this.update_dapai(dapai.p.substr(0,2));
+    }
+    super.dapai(dapai);
+}
+
+gang(gang) {
+    if (gang.l == this._model.menfeng) {
+        this.update_dapai(gang.m);
+    }
+    super.gang(gang);
+}
+
+action_zimo(zimo, option) {
     let info  = [];
     let gang  = this.select_gang(info);
     let dapai = this.select_dapai(info);
     if (gang) {
-        let p = gang.match(/^[mpsz]\d{4}$/)
-                    ? gang.replace(/0/,'5').substr(0,2)
-                    : gang[0] + gang.substr(-1);
         for (let i of info) {
-            if (i.p == p && i.gang) {
+            if (i.m == gang) {
                 i.selected = true;
             }
         }
@@ -58,7 +69,7 @@ action_zimo() {
     else if (dapai) {
         let p = dapai.substr(0,2);
         for (let i of info) {
-            if (i.p == p && ! i.gang) {
+            if (i.p == p && ! i.m) {
                 i.selected = true;
             }
         }
@@ -66,12 +77,12 @@ action_zimo() {
     this.redraw_dapai(info);
 }
 
-action_fulou() {
+action_fulou(fulou) {
     let info  = [];
     let dapai = this.select_dapai(info);
     let p = dapai.substr(0,2);
     for (let i of info) {
-        if (i.p == p && ! i.gang) {
+        if (i.p == p && ! i.m) {
             i.selected = true;
         }
     }
@@ -81,10 +92,14 @@ action_fulou() {
 redraw_dapai(info) {
 
     $('.dapai', this._root).empty();
-    for (let i of info.sort((a,b) => a.selected ? -1 : b.ev - a.ev)) {
+    for (let i of info.sort((a,b) => a.selected ? -1
+                                   : b.selected ?  1
+                                   : b.ev - a.ev))
+    {
         let row = _dapai.clone();
+        row.attr('data-dapai', i.m || i.p);
         $('.p', row).append(Majiang.View.pai(i.p));
-        if (i.gang) $('.p', row).append($('<span>').text('カン'));
+        if (i.m) $('.p', row).append($('<span>').text('カン'));
         $('.xiangting', row).text(
                     i.n_xiangting == 0 ? '聴牌' : `${i.n_xiangting}向聴`);
         if (i.n_xiangting < 3) {
@@ -107,6 +122,10 @@ redraw_dapai(info) {
         }
         $('.dapai', this._root).append(row);
     }
+}
+
+update_dapai(dapai) {
+    $(`.dapai tr[data-dapai="${dapai}"]`).addClass('selected');
 }
 
 }

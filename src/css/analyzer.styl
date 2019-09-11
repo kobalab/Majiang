@@ -32,24 +32,23 @@
 
 table.dapai {
     margin: 4px;
+    border-collapse: collapse;
     img {
         vertical-align: middle;
     }
     span {
         padding-left: 0.5em;
     }
-    .xiangting {
-        padding: 0 0.5em;
-        text-align: center;
+    td {
         white-space: nowrap;
+    }
+    .xiangting {
+        padding: 0 1em;
+        text-align: center;
     }
     .eval {
         text-align: right;
-        padding-right: 0.5em;
-        white-space: nowrap;
-    }
-    .tingpai {
-        white-space: nowrap;
+        padding-right: 1em;
     }
 }
 
@@ -59,4 +58,10 @@ table.dapai {
     font-family: sans-serif;
     font-size: 12px;
     overflow: scroll;
+    .selected {
+        background: #999;
+    }
+    .tingpai {
+        width: 100%;
+    }
 }
