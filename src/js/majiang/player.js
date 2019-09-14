@@ -287,7 +287,7 @@ allow_pingju() {
     return Majiang.Game.allow_pingju(this._shoupai, this._diyizimo);
 }
 
-select_fulou(dapai) {
+select_fulou(dapai, info) {
 
     let n_xiangting = Majiang.Util.xiangting(this._shoupai);
 
@@ -298,16 +298,30 @@ select_fulou(dapai) {
         let mianzi = this.get_gang_mianzi(dapai)
                         .concat(this.get_peng_mianzi(dapai))
                         .concat(this.get_chi_mianzi(dapai));
-        if (! mianzi.length) return;
+        if (! mianzi.length && ! info) return;
 
         let fulou;
         let paishu = this._suanpai.paishu_all();
         let max    = this.eval_shoupai(this._shoupai, paishu);
+        if (info) {
+            info.push({
+                m: '', n_xiangting: n_xiangting,
+                ev: max, shoupai: this._shoupai.toString()
+            });
+        }
         for (let m of mianzi) {
             let shoupai = this._shoupai.clone().fulou(m);
             if (Majiang.Util.xiangting(shoupai) >= 3) continue;
+            let x = Majiang.Util.xiangting(shoupai);
 
             let ev = this.eval_shoupai(shoupai, paishu);
+
+            if (info && ev > 0) {
+                info.push({
+                    m: m, n_xiangting: x,
+                    ev: ev, shoupai: shoupai.toString()
+                });
+            }
 
             if (ev > max) {
                 max = ev;
@@ -318,13 +332,35 @@ select_fulou(dapai) {
     }
     else {
 
-        n_xiangting = this.xiangting(this._shoupai);
+        let mianzi = this.get_peng_mianzi(dapai)
+                        .concat(this.get_chi_mianzi(dapai));
+        if (! mianzi.length && ! info) return;
 
-        for (let m of this.get_peng_mianzi(dapai)
-                            .concat(this.get_chi_mianzi(dapai)))
-        {
+        n_xiangting = this.xiangting(this._shoupai);
+        if (info) {
+            let n_tingpai = 0;
+            for (let tp of Majiang.Util.tingpai(this._shoupai)) {
+                n_tingpai += this._suanpai._paishu[tp[0]][tp[1]];
+            }
+            let paishu = this._suanpai.paishu_all();
+            info.push({
+                m: '', n_xiangting: n_xiangting,
+                ev: this.eval_shoupai(this._shoupai, paishu),
+                n_tingpai: n_tingpai,
+                shoupai: this._shoupai.toString()
+            });
+        }
+
+        for (let m of mianzi) {
             let shoupai = this._shoupai.clone().fulou(m);
-            if (this.xiangting(shoupai) < n_xiangting) return m;
+            let x = this.xiangting(shoupai);
+            if (info && x < n_xiangting) {
+                info.push({
+                    m: m, n_xiangting: x,
+                    shoupai: shoupai.toString()
+                });
+            }
+            if (x < n_xiangting) return m;
         }
     }
 }
