@@ -44,8 +44,17 @@ action(data) {
     super.action(data, ()=>{});
 }
 
+zimo(zimo, option) {
+    super.zimo(zimo, option);
+    if (! this._callback) return;
+    if (zimo.l != this._model.menfeng) {
+        this.redraw_status(this.get_status());
+    }
+}
+
 dapai(dapai) {
     super.dapai(dapai);
+    if (! this._callback) return;
     if (dapai.l == this._model.menfeng) {
         this.redraw_status(this.get_status());
         this.update_dapai(dapai.p.substr(0,2));
@@ -53,10 +62,11 @@ dapai(dapai) {
 }
 
 gang(gang) {
+    super.gang(gang);
+    if (! this._callback) return;
     if (gang.l == this._model.menfeng) {
         this.update_dapai(gang.m);
     }
-    super.gang(gang);
 }
 
 action_zimo(zimo, option) {
