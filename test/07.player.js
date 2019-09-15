@@ -625,6 +625,33 @@ suite('Majiang.Player', function(){
       player.dapai({l:2,p:'m1*'})
       assert.equal(player.select_fulou({l:3,p:'s5'}), 's345-');
     });
+    test('副露可能なメンツなし', function(){
+      let player = init_player({shoupai:'m123p456s58z12345'});
+      assert.ok(! player.select_fulou({l:2,p:'z1'}));
+    });
+    test('引継情報域が設定された場合は、副露選択に関する情報を設定する', function(){
+      let player = init_player({shoupai:'m123p456s58z11234'});
+      let info = [];
+      player.select_fulou({l:2,p:'z1'}, info);
+      assert.equal(info.length, 2);
+
+      player = init_player({shoupai:'m123p456s58z11234'});
+      player.dapai({l:2,p:'m1*'})
+      info = [];
+      player.select_fulou({l:2,p:'z1'}, info);
+      assert.equal(info.length, 1);
+
+      player = init_player({shoupai:'m123p456s56z11234'});
+      info = [];
+      player.select_fulou({l:2,p:'z1'}, info);
+      assert.equal(info.length, 2);
+
+      player = init_player({shoupai:'m123p456s56z11234'});
+      player.dapai({l:2,p:'m1*'})
+      info = [];
+      player.select_fulou({l:2,p:'z1'}, info);
+      assert.equal(info.length, 1);
+    });
   });
 
   suite('.select_gang()', function(){
@@ -747,8 +774,16 @@ suite('Majiang.Player', function(){
       let info = [];
       player.select_dapai(info);
       assert.ok(info.length);
+
       player = init_player({shoupai:'m123p456s789z1122m1',baopai:'z3'});
       info = [];
+      player.select_dapai(info);
+      assert.ok(info.length);
+
+      player = init_player({shoupai:'m24589p1146s67z13'});
+      player.dapai({l:3,p:'p1*'});
+      info = [];
+      player.zimo({l:0,p:'m1'});
       player.select_dapai(info);
       assert.ok(info.length);
     });
@@ -765,6 +800,22 @@ suite('Majiang.Player', function(){
     test('和了可能なら和了する', function(){
       let player = init_player({shoupai:'m123p456s789z1122'});
       assert.ok(player.select_hule({l:2,p:'z1'}));
+    });
+    test('引継情報域が設定された場合は、和了に関する情報を設定する', function(){
+      let player = init_player({shoupai:'m123p456s789z1122'});
+      info = [];
+      player.select_hule({l:2,p:'z1'}, null, info);
+      assert.ok(info.length);
+
+      player = init_player({shoupai:'m12p456s789z11122'});
+      info = [];
+      player.select_hule({l:2,m:'m333-3'}, 'qianggang', info);
+      assert.ok(info.length);
+
+      player = init_player({shoupai:'m12p456s789z11122m3'});
+      info = [];
+      player.select_hule(null, null, info);
+      assert.ok(info.length);
     });
   });
 
