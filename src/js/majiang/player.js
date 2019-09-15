@@ -565,8 +565,18 @@ select_lizhi(p) {
     return this.allow_lizhi(p);
 }
 
-select_hule(data, option) {
-    return this.allow_hule(data, option);
+select_hule(data, option, info) {
+    let hule = this.allow_hule(data, option);
+    if (hule && info) {
+        let shoupai = this._shoupai.clone();
+        if (data) shoupai.zimo(data.p ? data.p : data.m[0] + data.m.substr(-1));
+        info.push({
+            m: '', n_xiangting: -1,
+            ev: this.get_defen(shoupai),
+            shoupai: shoupai.toString()
+        });
+    }
+    return hule;
 }
 
 select_pingju() {

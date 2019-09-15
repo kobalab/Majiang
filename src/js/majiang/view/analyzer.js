@@ -71,9 +71,14 @@ gang(gang) {
 
 action_zimo(zimo, option) {
 
+    let info  = [];
+    if (this.select_hule(null, option, info)) {
+        this.redraw_status(info);
+        return;
+    }
+
     this.redraw_status(this.get_status());
 
-    let info  = [];
     let gang  = this.select_gang(info);
     let dapai = this.select_dapai(info);
     if (gang) {
@@ -95,7 +100,13 @@ action_zimo(zimo, option) {
 }
 
 action_dapai(dapai) {
+
     let info = [];
+    if (this.select_hule(dapai, null, info)) {
+        this.redraw_status(info);
+        return;
+    }
+
     let fulou = this.select_fulou(dapai, info);
     if (fulou) {
         for (let i of info) {
@@ -120,6 +131,14 @@ action_fulou(fulou) {
         }
     }
     this.redraw_dapai(info);
+}
+
+action_gang(gang) {
+
+    let info = [];
+    if (this.select_hule(gang, 'qianggang', info)) {
+        this.redraw_status(info);
+    }
 }
 
 get_status() {
@@ -175,7 +194,8 @@ redraw_status(info) {
                         Majiang.Shoupai.fromString(i.shoupai)).redraw(true);
         let m = i.m.replace(/0/,'5');
         $('.action', row).text(
-              m.match(/^[mpsz](\d)\1\1\1/) ? 'カン'
+              ! m && i.n_xiangting == -1   ? '和了'
+            : m.match(/^[mpsz](\d)\1\1\1/) ? 'カン'
             : m.match(/^[mpsz](\d)\1\1/)   ? 'ポン'
             : m.match(/^[mps]/)            ? 'チー'
             :                                ''
