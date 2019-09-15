@@ -99,6 +99,8 @@ dapai(dapai) {
 
     this._suanpai.dapai(dapai);
 
+    this._eval_cache = {};
+
     if (dapai.l == model.menfeng) {
 
         if (! this._shoupai.lizhi()) this._neng_rong = true;
@@ -177,6 +179,7 @@ kaigang(kaigang) {
     this._suanpai.kaigang(kaigang);
     this._baopai.push(kaigang.baopai);
     this._defen_cache = {};
+    this._eval_cache = {};
 }
 
 hule(hule)     { this.wait(); }
