@@ -291,7 +291,7 @@ select_fulou(dapai, info) {
 
     let n_xiangting = Majiang.Util.xiangting(this._shoupai);
 
-    if (this._suanpai._lizhi.find(l=>l) && n_xiangting > 1) return;
+    if (this._suanpai._lizhi.find(l=>l) && n_xiangting > 1 && ! info) return;
 
     if (n_xiangting < 3) {
 
@@ -309,6 +309,8 @@ select_fulou(dapai, info) {
                 ev: max, shoupai: this._shoupai.toString()
             });
         }
+        if (this._suanpai._lizhi.find(l=>l) && n_xiangting > 1) return;
+
         for (let m of mianzi) {
             let shoupai = this._shoupai.clone().fulou(m);
             if (Majiang.Util.xiangting(shoupai) >= 3) continue;
@@ -350,6 +352,7 @@ select_fulou(dapai, info) {
                 shoupai: this._shoupai.toString()
             });
         }
+        if (this._suanpai._lizhi.find(l=>l) && n_xiangting > 1) return;
 
         for (let m of mianzi) {
             let shoupai = this._shoupai.clone().fulou(m);
