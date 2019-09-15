@@ -305,7 +305,7 @@ select_fulou(dapai, info) {
 
         let fulou;
         let paishu = this._suanpai.paishu_all();
-        let max    = this.eval_shoupai(this._shoupai, paishu);
+        let max    = this.eval_shoupai(this._shoupai, paishu, '');
         if (info) {
             info.push({
                 m: '', n_xiangting: n_xiangting,

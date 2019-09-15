@@ -290,7 +290,7 @@ select_fulou(dapai) {
 
         let fulou;
         let paishu = this._suanpai.paishu_all();
-        let max    = this.eval_shoupai(this._shoupai, paishu);
+        let max    = this.eval_shoupai(this._shoupai, paishu, '');
         for (let m of mianzi) {
             let shoupai = this._shoupai.clone().fulou(m);
             let x = Majiang.Util.xiangting(shoupai);
