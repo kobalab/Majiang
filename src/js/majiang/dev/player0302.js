@@ -370,7 +370,7 @@ select_dapai() {
         if (n_tingpai < max_tingpai * 6) continue;
 
         let x = 1 - this._suanpai.paijia(p)/100
-              + this.eval_backtrack(shoupai, paishu, tmp_max, p);
+              + this.eval_backtrack(shoupai, paishu, tmp_max, p.substr(0,2));
 
         if (x >= max) {
             max = x;
