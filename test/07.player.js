@@ -616,6 +616,9 @@ suite('Majiang.Player', function(){
       let player = init_player({shoupai:'m23456p468s34,s06-7'});
       player.dapai({l:2,p:'m1*'})
       assert.ok(! player.select_fulou({l:3,p:'s5'}));
+      player = init_player({shoupai:'m3579p1235s345z66',baopai:'s5',jushu:1});
+      player.dapai({l:0,p:'m1*'})
+      assert.ok(! player.select_fulou({l:1,p:'p3'}));
     });
     test('リーチ者がいても、ポンテン・チーテンはとる', function(){
       let player = init_player({shoupai:'m22345p468s34,s06-7'});

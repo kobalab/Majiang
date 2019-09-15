@@ -313,8 +313,8 @@ select_fulou(dapai, info) {
 
         for (let m of mianzi) {
             let shoupai = this._shoupai.clone().fulou(m);
-            if (Majiang.Util.xiangting(shoupai) >= 3) continue;
             let x = Majiang.Util.xiangting(shoupai);
+            if (x >= 3 || this._suanpai._lizhi.find(l=>l) && x > 0) continue;
 
             let ev = this.eval_shoupai(shoupai, paishu);
 
