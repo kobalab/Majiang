@@ -149,7 +149,7 @@ load_paipu(url, fragment) {
             this.error(`不正なファイル: ${decodeURI(url)}`);
         }
         if (fragment) {
-            this.open_player(...fragment.split('/').map(x=>(x=='')?0:x));
+            this.open_player(...fragment.split('/').map(x=>(x=='')?0:+x));
         }
     }
     const error = e => {
