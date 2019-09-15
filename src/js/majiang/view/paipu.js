@@ -6,6 +6,7 @@
 const $ = require('jquery');
 
 const View = require('./game');
+const Analyzer = require('./analyzer');
 
 const view_class = ['main','xiajia','duimian','shangjia'];
 
@@ -97,6 +98,7 @@ set_handler() {
     $('.exit',     controler).on('mousedown', ()=>this.exit());
     $('.summary',  controler).on('mousedown', ()=>this.summary());
     $('.sound',    controler).on('mousedown', ()=>this.sound());
+    $('.analyzer', controler).on('mousedown', ()=>this.analyzer());
     $('.first',    controler).on('mousedown', ()=>this.top(this._log_idx - 1));
     $('.autoplay', controler).on('mousedown', ()=>this.autoplay());
     $('.last',     controler).on('mousedown', ()=>this.top(this._log_idx + 1));
@@ -124,6 +126,7 @@ set_handler() {
         else if (event.key == 's')  this.shoupai();
         else if (event.key == 'h')  this.he();
         else if (event.key == '?')  this.summary();
+        else if (event.key == 'i')  this.analyzer();
         else if (event.key == 'q' || event.key == 'Escape')
                                     this.exit();
     });
@@ -149,6 +152,7 @@ clear_handler() {
     $('.exit',     controler).off('mousedown');
     $('.summary',  controler).off('mousedown');
     $('.sound',    controler).off('mousedown');
+    $('.analyzer', controler).off('mousedown');
     $('.first',    controler).off('mousedown');
     $('.prev',     controler).off('mousedown touchstart');
     $('.autoplay', controler).off('mousedown');
@@ -187,6 +191,11 @@ update_controler() {
         $('.autoplay.off', controler).addClass('hide');
         $('.autoplay.on',  controler).removeClass('hide');
         $('.speed',        controler).addClass('hide');
+    }
+
+    let ua = navigator.userAgent;
+    if (ua.match(/\bMSIE\b/) || ua.match(/\bTrident\b/)) {
+        $('.analyzer', controler).addClass('hide');
     }
 
     $('.speed span', controler).each((i, n)=>{
@@ -251,6 +260,8 @@ next() {
     else if (data.kaigang)  this.kaigang (data.kaigang);
     else if (data.hule)     this.hule    (data.hule);
     else if (data.pingju)   this.pingju  (data.pingju);
+
+    if (this._analyzer && ! this._redo) this._analyzer.action(data);
 
     if (! this._redo) {
         if (this._log && this._log.dapai
@@ -487,8 +498,13 @@ sound() {
 }
 
 viewpoint(d) {
-    if (this._summary) return true;
+    if (this._summary || ! d) return true;
     this._view.viewpoint = (this._view.viewpoint + d) % 4;
+    if (this._analyzer) {
+        this._analyzer.id(this._view.viewpoint);
+        this.seek(this._log_idx, this._idx - 1);
+        this.update_controler();
+    }
     this._view.redraw();
     let data = this._paipu.log[this._log_idx][this._idx - 1];
     if (data.hule || data.pingju) this._view.update(data);
@@ -531,6 +547,33 @@ summary() {
     }
     this._summary = ! this._summary;
     if (! this._summary && this._autoplay) this.next();
+    return false;
+}
+
+analyzer() {
+    let ua = navigator.userAgent;
+    if (ua.match(/\bMSIE\b/) || ua.match(/\bTrident\b/)) return true;
+    if (this._summary) return true;
+    if (this._analyzer) {
+        this._analyzer = null;
+        $('body').removeClass('analyzer').addClass('game');
+    }
+    else {
+        this._analyzer = new Analyzer(this._view.viewpoint, $('#analyzer'));
+        let kaiju = {
+            kaiju: {
+                player:  this._model.player,
+                qijia:   this._model.qijia,
+                hongpai: {m:1,p:1,s:1}
+            }
+        };
+        this._analyzer.next(kaiju);
+        this.seek(this._log_idx, this._idx - 1);
+        let data = this._paipu.log[this._log_idx][this._idx - 1];
+        if (data.hule || data.pingju) this._view.update(data);
+        this.update_controler();
+        $('body').removeClass('game').addClass('analyzer');
+    }
     return false;
 }
 
@@ -623,6 +666,11 @@ seek(log_idx, idx) {
         else if (data.kaigang)  this._kaigang (data.kaigang);
         else if (data.hule)     this._hule    (data.hule);
         else if (data.pingju)   this._pingju  (data.pingju);
+
+        if (this._analyzer) {
+            if (this._idx == idx) this._analyzer.action(data);
+            else                  this._analyzer.next(data);
+        }
 
         this._idx++;
         this._log = data;

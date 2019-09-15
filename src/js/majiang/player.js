@@ -83,14 +83,18 @@ zimo(zimo, option) {
 
     this._paishu--;
 
-    if (zimo.l != model.menfeng) { this._callback(); return }
+    if (zimo.l != model.menfeng) {
+        if (this._callback) this._callback();
+    }
+    else {
 
-    this._shoupai.zimo(zimo.p);
+        this._shoupai.zimo(zimo.p);
 
-    this._eval_cache = {};
-    this.action_zimo(zimo, option);
+        this._eval_cache = {};
+        if (this._callback) this.action_zimo(zimo, option);
 
-    this._diyizimo = false;
+        this._diyizimo = false;
+    }
 }
 
 dapai(dapai) {
@@ -113,10 +117,11 @@ dapai(dapai) {
             this._neng_rong = false;
         }
 
-        this._callback();
+        if (this._callback) this._callback();
     }
     else {
-        this.action_dapai(dapai);
+
+        if (this._callback) this.action_dapai(dapai);
 
         let shoupai = this._shoupai.clone().zimo(dapai.p);
         if (Majiang.Util.xiangting(shoupai) == -1) this._neng_rong = false;
@@ -135,13 +140,20 @@ fulou(fulou) {
 
     this._diyizimo = false;
 
-    if (fulou.l != model.menfeng) { this._callback(); return }
+    if (fulou.l != model.menfeng) {
+        if (this._callback) this._callback();
+    }
+    else {
 
-    this._shoupai.fulou(fulou.m);
+        this._shoupai.fulou(fulou.m);
 
-    if (fulou.m.match(/^[mpsz]\d{4}/)) { this._callback(); return }
-
-    this.action_fulou(fulou);
+        if (fulou.m.match(/^[mpsz]\d{4}/)) {
+            if (this._callback) this._callback();
+        }
+        else {
+            if (this._callback) this.action_fulou(fulou);
+        }
+    }
 }
 
 gang(gang) {
@@ -159,18 +171,21 @@ gang(gang) {
                     : gang.m[0] + gang.m.substr(-1)
         this._shoupai.gang(p);
 
-        this._callback();
-        return;
+        if (this._callback) this._callback();
     }
+    else {
 
-    if (! gang.m.match(/^[mpsz]\d{4}/)) {
+        if (! gang.m.match(/^[mpsz]\d{4}/)) {
 
-        this.action_gang(gang);
+            if (this._callback) this.action_gang(gang);
 
-        let shoupai = this._shoupai.clone().zimo(gang.m.substr(0,2));
-        if(Majiang.Util.xiangting(shoupai) == -1) this._neng_rong = false;
+            let shoupai = this._shoupai.clone().zimo(gang.m.substr(0,2));
+            if(Majiang.Util.xiangting(shoupai) == -1) this._neng_rong = false;
+        }
+        else {
+            if (this._callback) this._callback();
+        }
     }
-    else this._callback();
 }
 
 kaigang(kaigang) {
@@ -185,7 +200,7 @@ pingju(pingju) { this.wait(); }
 
 jieju(jieju)   { this.wait(); }
 
-wait() { this._callback() }
+wait() { if (this._callback) this._callback() }
 
 action_zimo(zimo, option) {
     let mianzi;
@@ -272,27 +287,43 @@ allow_pingju() {
     return Majiang.Game.allow_pingju(this._shoupai, this._diyizimo);
 }
 
-select_fulou(dapai) {
+select_fulou(dapai, info) {
 
     let n_xiangting = Majiang.Util.xiangting(this._shoupai);
 
-    if (this._suanpai._lizhi.find(l=>l) && n_xiangting > 1) return;
+    if (this._suanpai._lizhi.find(l=>l) && n_xiangting > 1 && ! info) return;
 
     if (n_xiangting < 3) {
 
         let mianzi = this.get_gang_mianzi(dapai)
                         .concat(this.get_peng_mianzi(dapai))
                         .concat(this.get_chi_mianzi(dapai));
-        if (! mianzi.length) return;
+        if (! mianzi.length && ! info) return;
 
         let fulou;
         let paishu = this._suanpai.paishu_all();
         let max    = this.eval_shoupai(this._shoupai, paishu);
+        if (info) {
+            info.push({
+                m: '', n_xiangting: n_xiangting,
+                ev: max, shoupai: this._shoupai.toString()
+            });
+        }
+        if (this._suanpai._lizhi.find(l=>l) && n_xiangting > 1) return;
+
         for (let m of mianzi) {
             let shoupai = this._shoupai.clone().fulou(m);
             if (Majiang.Util.xiangting(shoupai) >= 3) continue;
+            let x = Majiang.Util.xiangting(shoupai);
 
             let ev = this.eval_shoupai(shoupai, paishu);
+
+            if (info && ev > 0) {
+                info.push({
+                    m: m, n_xiangting: x,
+                    ev: ev, shoupai: shoupai.toString()
+                });
+            }
 
             if (ev > max) {
                 max = ev;
@@ -303,13 +334,36 @@ select_fulou(dapai) {
     }
     else {
 
-        n_xiangting = this.xiangting(this._shoupai);
+        let mianzi = this.get_peng_mianzi(dapai)
+                        .concat(this.get_chi_mianzi(dapai));
+        if (! mianzi.length && ! info) return;
 
-        for (let m of this.get_peng_mianzi(dapai)
-                            .concat(this.get_chi_mianzi(dapai)))
-        {
+        n_xiangting = this.xiangting(this._shoupai);
+        if (info) {
+            let n_tingpai = 0;
+            for (let tp of Majiang.Util.tingpai(this._shoupai)) {
+                n_tingpai += this._suanpai._paishu[tp[0]][tp[1]];
+            }
+            let paishu = this._suanpai.paishu_all();
+            info.push({
+                m: '', n_xiangting: n_xiangting,
+                ev: this.eval_shoupai(this._shoupai, paishu),
+                n_tingpai: n_tingpai,
+                shoupai: this._shoupai.toString()
+            });
+        }
+        if (this._suanpai._lizhi.find(l=>l) && n_xiangting > 1) return;
+
+        for (let m of mianzi) {
             let shoupai = this._shoupai.clone().fulou(m);
-            if (this.xiangting(shoupai) < n_xiangting) return m;
+            let x = this.xiangting(shoupai);
+            if (info && x < n_xiangting) {
+                info.push({
+                    m: m, n_xiangting: x,
+                    shoupai: shoupai.toString()
+                });
+            }
+            if (x < n_xiangting) return m;
         }
     }
 }
@@ -343,7 +397,7 @@ select_gang(info) {
                     n_tingpai += this._suanpai._paishu[tp[0]][tp[1]];
                 }
                 info.push({
-                    p: p, gang: true, n_xiangting: n_xiangting, ev: ev,
+                    p: p, m: m , n_xiangting: n_xiangting, ev: ev,
                     tingpai: tingpai, n_tingpai: n_tingpai
                 });
             }
@@ -373,7 +427,7 @@ select_gang(info) {
                         n_tingpai += this._suanpai._paishu[tp[0]][tp[1]];
                     }
                     info.push({
-                        p: p, gang: true, n_xiangting: n_xiangting, ev: ev,
+                        p: p, m: m, n_xiangting: n_xiangting, ev: ev,
                         tingpai: tingpai, n_tingpai: n_tingpai
                     });
                 }
@@ -457,7 +511,7 @@ select_dapai(info) {
         }
 
         if (info) {
-            if (! info.find(x => x.p == p.substr(0,2) && ! x.gang)) {
+            if (! info.find(x => x.p == p.substr(0,2) && ! x.m)) {
                 info.push({
                     p: p.substr(0,2), n_xiangting: n_xiangting, ev: ev,
                     tingpai: tingpai, n_tingpai: n_tingpai
@@ -487,7 +541,7 @@ select_dapai(info) {
         let x  = 1 - paijia(p)/100 + ev;
 
         if (info) {
-            if (! info.find(x => x.p == p.substr(0,2) && ! x.gang) && ev > 0) {
+            if (! info.find(x => x.p == p.substr(0,2) && ! x.m) && ev > 0) {
                 info.push({
                     p: p.substr(0,2), n_xiangting: n_xiangting + 1, ev: ev,
                     tingpai: tingpai, n_tingpai: n_tingpai
@@ -504,6 +558,16 @@ select_dapai(info) {
     if (anquan) {
         if      (n_xiangting > 1)                             dapai = anquan;
         else if (n_xiangting == 1 && suan_weixian(dapai) > 5) dapai = anquan;
+
+        if (info && dapai == anquan
+            && ! info.find(i => i.p == anquan.substr(0,2)))
+        {
+            info.push({
+                p: anquan.substr(0,2),
+                n_xiangting: Majiang.Util.xiangting(
+                                        this._shoupai.clone().dapai(anquan))
+            });
+        }
     }
 
     if (this.select_lizhi(dapai)) dapai += '*';
@@ -514,8 +578,18 @@ select_lizhi(p) {
     return this.allow_lizhi(p);
 }
 
-select_hule(data, option) {
-    return this.allow_hule(data, option);
+select_hule(data, option, info) {
+    let hule = this.allow_hule(data, option);
+    if (hule && info) {
+        let shoupai = this._shoupai.clone();
+        if (data) shoupai.zimo(data.p ? data.p : data.m[0] + data.m.substr(-1));
+        info.push({
+            m: '', n_xiangting: -1,
+            ev: this.get_defen(shoupai),
+            shoupai: shoupai.toString()
+        });
+    }
+    return hule;
 }
 
 select_pingju() {

@@ -21,16 +21,16 @@ class Shan {
     paishu()   { return 0 }
 }
 
-function init_player(paistr, zhuangfeng, menfeng, baopai, hongpai) {
+function init_analyzer(paistr, zhuangfeng, menfeng, baopai, hongpai) {
 
-    const player = new Majiang.Player(0);
+    const analyzer = new Majiang.View.Analyzer(0, $('#dapai'));
 
     let kaiju = {
         player:  [],
         qijia:   0,
         hongpai: hongpai
     };
-    player.kaiju(kaiju);
+    analyzer.kaiju(kaiju);
 
     let qipai = {
         zhuangfeng: zhuangfeng,
@@ -43,38 +43,13 @@ function init_player(paistr, zhuangfeng, menfeng, baopai, hongpai) {
         shoupai:    [ '', '', '', '' ]
     };
     qipai.shoupai[menfeng] = paistr;
-    player.qipai(qipai);
+    analyzer.qipai(qipai);
 
     for (let i = 1; i < baopai.length; i++) {
-        player.kaigang({ baopai: baopai[i] });
+        analyzer.kaigang({ baopai: baopai[i] });
     }
 
-    return player;
-}
-
-function report(info) {
-
-    $('.report').empty();
-
-    for (let r of info.sort((a, b)=> a.selected ? -1 : b.ev - a.ev)) {
-        let row = _row.clone();
-        $('.dapai', row).append(Majiang.View.pai(r.p));
-        if (r.gang) $('.dapai', row).append($('<span>').text('カン'));
-        $('.xiangting', row).text(
-                    r.n_xiangting ==  0 ? '聴牌' : `${r.n_xiangting}向聴`);
-        if (r.n_xiangting < 3) {
-            let ev = Math.floor(r.ev * 100);
-            ev = ev < 100 ? ('00' + ev).substr(-3) : '' + ev;
-            ev = ev.replace(/(\d{2})$/, '.$1');
-            $('.eval', row).text(ev);
-        }
-        for (let p of r.tingpai) {
-            $('.tingpai', row).append(Majiang.View.pai(p));
-        }
-        $('.tingpai', row).append($('<span>').text(`(${r.n_tingpai}枚)`));
-        $('.report').append(row);
-    }
-    $('#dapai').hide().fadeIn();
+    return analyzer;
 }
 
 function submit() {
@@ -88,39 +63,19 @@ function submit() {
                                     .map(p=>$(p).val()).filter(p=>p);
     let hongpai    = $('input[name="hongpai"]').prop('checked');
 
-    const player = init_player(paistr, zhuangfeng, menfeng, baopai, hongpai
+    const analyzer = init_analyzer(paistr, zhuangfeng, menfeng, baopai, hongpai
                         ? { m: 1, p: 1, s: 1 }
                         : { m: 0, p: 0, s: 0 });
 
-    new Majiang.View.Shan('.shan', new Shan(player._baopai)).redraw();
-    new Majiang.View.Shoupai('.shoupai', player._shoupai).redraw(true);
+    new Majiang.View.Shan('.shan', new Shan(analyzer._baopai)).redraw();
+    new Majiang.View.Shoupai('.shoupai', analyzer._shoupai).redraw(true);
 
-    let info = [];
-    let gang  = player.select_gang(info);
-    let dapai = player.select_dapai(info);
-    if (gang) {
-        let p = gang.match(/^[mpsz]\d{4}$/)
-                    ? gang.replace(/0/,'5').substr(0,2)
-                    : gang[0] + gang.substr(-1);
-        for (let i = 0; i < info.length; i++) {
-            if (info[i].p == p && info[i].gang) {
-                info[i].selected = true;
-            }
-        }
-    }
-    else if (dapai) {
-        let p = dapai.substr(0,2);
-        for (let i = 0; i < info.length; i++) {
-            if (info[i].p == p && ! info[i].gang) {
-                info[i].selected = true;
-            }
-        }
-    }
-    report(info);
+    analyzer.action_zimo();
+    $('#dapai').hide().fadeIn();
 
-    paistr = player._shoupai.toString();
+    paistr = analyzer._shoupai.toString();
     $('input[name="paistr"]').val(paistr);
-    baopai = player._baopai;
+    baopai = analyzer._baopai;
     for (let i = 0; i < baopai.length; i++) {
         $('input[name="baopai"]').eq(i).val(baopai[i]);
     }
