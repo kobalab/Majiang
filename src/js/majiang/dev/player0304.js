@@ -564,7 +564,7 @@ get_defen(shoupai) {
 
 eval_shoupai(shoupai, paishu, dapai) {
 
-    let paistr = shoupai.toString();
+    let paistr = shoupai.toString() + (dapai != null ? `:${dapai}`: '');
     if (this._eval_cache[paistr] != null) return this._eval_cache[paistr];
 
     let rv;
