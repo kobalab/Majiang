@@ -56,7 +56,6 @@ dapai(dapai) {
     super.dapai(dapai);
     if (! this._callback) return;
     if (dapai.l == this._model.menfeng) {
-        this.redraw_status(this.get_status());
         this.update_dapai(dapai.p.substr(0,2));
     }
 }
