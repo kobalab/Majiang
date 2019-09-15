@@ -216,7 +216,10 @@ redraw_dapai(info) {
         if (i.m) $('.p', row).append($('<span>').text('カン'));
         $('.xiangting', row).text(
                     i.n_xiangting == 0 ? '聴牌' : `${i.n_xiangting}向聴`);
-        if (i.n_xiangting < 3) {
+        if (i.ev == null) {
+            $('.eval', row).text('オリ');
+        }
+        else if (i.n_xiangting < 3) {
             let ev = Math.floor(i.ev * 100);
             ev = ev < 100 ? ('00' + ev).substr(-3) : '' + ev;
             ev = ev.replace(/(\d{2})$/, '.$1');
@@ -228,11 +231,13 @@ redraw_dapai(info) {
                    + '枚';
             $('.eval', row).text(ev);
         }
-        for (let p of i.tingpai) {
-            $('.tingpai', row).append(Majiang.View.pai(p));
-        }
-        if (i.n_xiangting < 3) {
-            $('.tingpai', row).append($('<span>').text(`(${i.n_tingpai}枚)`));
+        if (i.tingpai) {
+            for (let p of i.tingpai) {
+                $('.tingpai', row).append(Majiang.View.pai(p));
+            }
+            if (i.n_xiangting < 3) {
+                $('.tingpai', row).append($('<span>').text(`(${i.n_tingpai}枚)`));
+            }
         }
         $('.dapai', this._root).append(row);
     }

@@ -558,6 +558,16 @@ select_dapai(info) {
     if (anquan) {
         if      (n_xiangting > 1)                             dapai = anquan;
         else if (n_xiangting == 1 && suan_weixian(dapai) > 5) dapai = anquan;
+
+        if (info && dapai == anquan
+            && ! info.find(i => i.p == anquan.substr(0,2)))
+        {
+            info.push({
+                p: anquan.substr(0,2),
+                n_xiangting: Majiang.Util.xiangting(
+                                        this._shoupai.clone().dapai(anquan))
+            });
+        }
     }
 
     if (this.select_lizhi(dapai)) dapai += '*';
