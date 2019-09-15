@@ -335,7 +335,7 @@ select_gang() {
             let shoupai = this._shoupai.clone().gang(p);
             if (Majiang.Util.xiangting(shoupai) >= 3) continue;
 
-            if (this.eval_shoupai(shoupai, paishu) > ev) return m;
+            if (this.eval_shoupai(shoupai, paishu) >= ev) return m;
         }
     }
     else {
