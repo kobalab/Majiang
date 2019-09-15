@@ -550,11 +550,8 @@ eval_shoupai(shoupai, paishu, dapai) {
             paishu[p]--;
             let ev = this.eval_shoupai(new_shoupai, paishu, dapai);
             if (! dapai) {
-                if (n_xiangting > 1)
-                    ev += this.eval_fulou(shoupai, p, paishu,
-                                          (s)=>this.xiangting(s));
-                else if (n_xiangting > 0)
-                    ev += this.eval_fulou(shoupai, p, paishu);
+                if (n_xiangting > 0)
+                    ev += this.eval_fulou(shoupai, p, paishu, dapai);
             }
             paishu[p]++;
             r += ev * paishu[p];
@@ -596,22 +593,24 @@ eval_backtrack(shoupai, paishu, min, dapai) {
     return r / width[n_xiangting];
 }
 
-eval_fulou(shoupai, p, paishu, xiangting = Majiang.Util.xiangting) {
+eval_fulou(shoupai, p, paishu, dapai) {
 
-    let n_xiangting = xiangting(shoupai);
+    let n_xiangting = Majiang.Util.xiangting(shoupai);
 
     let peng_max = 0;
     for (let m of shoupai.get_peng_mianzi(p+'+')) {
         let new_shoupai = shoupai.clone().fulou(m);
-        if (xiangting(new_shoupai) >= n_xiangting) continue;
-        peng_max = Math.max(this.eval_shoupai(new_shoupai, paishu), peng_max);
+        if (Majiang.Util.xiangting(new_shoupai) >= n_xiangting) continue;
+        peng_max = Math.max(this.eval_shoupai(new_shoupai, paishu, dapai),
+                            peng_max);
     }
 
     let chi_max = 0;
     for (let m of shoupai.get_chi_mianzi(p+'-')) {
         let new_shoupai = shoupai.clone().fulou(m);
-        if (xiangting(new_shoupai) >= n_xiangting) continue;
-        chi_max = Math.max(this.eval_shoupai(new_shoupai, paishu), chi_max);
+        if (Majiang.Util.xiangting(new_shoupai) >= n_xiangting) continue;
+        chi_max  = Math.max(this.eval_shoupai(new_shoupai, paishu, dapai),
+                            chi_max);
     }
 
     return (peng_max > chi_max) ? peng_max * 3 : peng_max * 2 + chi_max;
