@@ -60,6 +60,12 @@ dapai(dapai) {
     }
 }
 
+fulou(fulou) {
+    super.fulou(fulou);
+    if (! this._callback) return;
+    this.redraw_status(this.get_status());
+}
+
 gang(gang) {
     super.gang(gang);
     if (! this._callback) return;
