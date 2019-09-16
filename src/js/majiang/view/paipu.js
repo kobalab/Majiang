@@ -498,7 +498,7 @@ sound() {
 }
 
 viewpoint(d) {
-    if (this._summary || ! d) return true;
+    if (this._summary) return true;
     this._view.viewpoint = (this._view.viewpoint + d) % 4;
     if (this._analyzer) {
         this._analyzer.id(this._view.viewpoint);
