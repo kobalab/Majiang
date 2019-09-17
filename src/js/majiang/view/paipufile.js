@@ -137,7 +137,7 @@ constructor(node, storage) {
     this.redraw();
 }
 
-load_paipu(url, fragment) {
+load_paipu(url, hash) {
 
     const success = data => {
         try {
@@ -148,8 +148,14 @@ load_paipu(url, fragment) {
         catch(e) {
             this.error(`不正なファイル: ${decodeURI(url)}`);
         }
-        if (fragment) {
+        if (hash) {
+            let [fragment, opt] = hash.split(':');
+
             this.open_player(...fragment.split('/').map(x=>(x=='')?0:+x));
+
+            if (opt.match(/s/)) this._viewer.shoupai();
+            if (opt.match(/h/)) this._viewer.he();
+            if (opt.match(/i/)) this._viewer.analyzer();
         }
     }
     const error = e => {

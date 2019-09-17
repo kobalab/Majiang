@@ -534,6 +534,7 @@ shoupai() {
     this._view.redraw();
     let data = this._paipu.log[this._log_idx][this._idx - 1];
     if (data.hule || data.pingju) this._view.update(data);
+    this.set_fragment();
     return false;
 }
 
@@ -543,6 +544,7 @@ he() {
     this._view.redraw();
     let data = this._paipu.log[this._log_idx][this._idx - 1];
     if (data.hule || data.pingju) this._view.update(data);
+    this.set_fragment();
     return false;
 }
 
@@ -569,6 +571,7 @@ summary() {
 analyzer() {
     let ua = navigator.userAgent;
     if (ua.match(/\bMSIE\b/) || ua.match(/\bTrident\b/)) return true;
+    if (ua.match(/\bMobile\b/)) return true;
     if (this._summary) return true;
     if (this._analyzer) {
         this._analyzer = null;
@@ -591,6 +594,7 @@ analyzer() {
         this.update_controler();
         $('body').removeClass('game').addClass('analyzer');
     }
+    this.set_fragment();
     return false;
 }
 
@@ -704,6 +708,12 @@ set_fragment() {
                         this._log_idx,
                         this._idx -1,
                    ].join('/');
+
+    let opt = (this._view.open_shoupai ? ''  : 's')
+            + (this._view.open_he      ? ''  : 'h')
+            + (this._analyzer          ? 'i' : '' );
+    if (opt) fragment += `:${opt}`;
+
     history.replaceState('', '', fragment);
 }
 
