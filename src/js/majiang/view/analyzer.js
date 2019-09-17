@@ -29,7 +29,7 @@ id(id) { this._id = id }
 next(data) {
     $('.status', this._root).empty();
     $('.dapai',  this._root).empty();
-    super.action(data);
+    if (data) super.action(data);
 }
 
 action(data) {
@@ -47,12 +47,13 @@ action(data) {
 zimo(zimo, option) {
     super.zimo(zimo, option);
     if (! this._callback) return;
-    if (zimo.l != this._model.menfeng) {
-        this.redraw_status(this.get_status());
-    }
+    this.redraw_status(this.get_status());
 }
 
 dapai(dapai) {
+    if (dapai.l == this._model.menfeng) {
+        this.redraw_status(this.get_status());
+    }
     super.dapai(dapai);
     if (! this._callback) return;
     if (dapai.l == this._model.menfeng) {

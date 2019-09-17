@@ -76,7 +76,8 @@ set_handler() {
         this._repeat_timer = clearInterval(this._repeat_timer);
         if (this._repeat) {
             this._repeat = false;
-            this.seek(this._log_idx, this._idx - 1);
+            if (! this._deny_repeat) this.seek(this._log_idx, this._idx - 1);
+            else                     this._analyzer.next();
         }
     });
     this._root.on('mousedown', ()=>this.next());
@@ -123,7 +124,8 @@ set_handler() {
 
         if (this._repeat) {
             this._repeat = false;
-            this.seek(this._log_idx, this._idx - 1);
+            if (! this._deny_repeat) this.seek(this._log_idx, this._idx - 1);
+            else                     this._analyzer.next();
         }
 
         if      (event.key == ' ')  this.autoplay();
