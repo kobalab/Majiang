@@ -704,6 +704,7 @@ seek(log_idx, idx) {
 set_fragment() {
 
     if (! this._fragment) return;
+    if (this._repeat)     return;
 
     let fragment = this._fragment + [
                         this._view.viewpoint,
