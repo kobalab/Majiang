@@ -562,7 +562,10 @@ summary() {
         $('.controler', this._root).addClass('hide');
         this._view.summary(this._paipu);
         $('.summary tbody tr').each((i, tr) => {
-            $(tr).on('mousedown', ()=>this.top(i));
+            $(tr).on('mousedown', ()=>{
+                if (this._summary) this.summary();
+                return this.top(i);
+            });
         });
     }
     this._summary = ! this._summary;
@@ -614,13 +617,10 @@ prev() {
 }
 
 top(log_idx) {
-    if (log_idx < 0 || this._paipu.log.length <= log_idx) return false;
+    if (this._summary) return true;
     if (this._autoplay) this.autoplay();
+    if (log_idx < 0 || this._paipu.log.length <= log_idx) return false;
     this._jieju = false;
-    if (this._summary) {
-        if (log_idx == this._log_idx) return true;
-        else                          this.summary();
-    }
     this.seek(log_idx, 0);
     this.update_controler();
     return false;
