@@ -35,13 +35,23 @@ body.file {
             margin: 2px 0px;
             border-radius: 4px;
             padding: 8px;
+            display: flex;
+            flex-direction: row-reverse;
             .content {
-                margin-right: 240px;
+                flex-grow: 1;
+                margin-right: 10px;
                 .title {
                     font-size: 16px;
                 }
                 .player {
                     font-size: 14px;
+                }
+            }
+            .button {
+                display: inline-flex;
+                align-items: flex-start;
+                a, span {
+                    margin: 2px;
                 }
             }
         }
@@ -84,7 +94,7 @@ body.file {
                 height: 14px;
             }
         }
-        .button {
+        > .button {
             float: right;
             text-align: right;
         }

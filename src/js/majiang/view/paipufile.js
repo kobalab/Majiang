@@ -117,6 +117,7 @@ constructor(node, storage) {
                 }
                 try {
                     self._paipu.add(paipu);
+                    delete self._url;
                 }
                 catch(e) {
                     self.error('ローカルストレージ容量オーバー');
@@ -136,18 +137,25 @@ constructor(node, storage) {
     this.redraw();
 }
 
-load_paipu(url, fragment) {
+load_paipu(url, hash) {
 
     const success = data => {
         try {
             this._paipu.add(data);
+            this._url = url;
             this.redraw();
         }
         catch(e) {
             this.error(`不正なファイル: ${decodeURI(url)}`);
         }
-        if (fragment) {
-            this.open_player(...fragment.split('/').map(x=>(x=='')?0:x));
+        if (hash) {
+            let [fragment, opt] = hash.split(':');
+
+            this.open_player(...fragment.split('/').map(x=>(x=='')?0:+x));
+
+            if (opt.match(/s/)) this._viewer.shoupai();
+            if (opt.match(/h/)) this._viewer.he();
+            if (opt.match(/i/)) this._viewer.analyzer();
         }
     }
     const error = e => {
@@ -166,6 +174,7 @@ load_paipu(url, fragment) {
 
 redraw() {
 
+    this._node.removeClass('hide');
     let list = $('.list', this._node).empty();
     for (let i = 0; i < this._paipu.length(); i++) {
         let paipu  = this._paipu.get(i);
@@ -201,6 +210,7 @@ redraw() {
             let sort = $.makeArray($(this).children().map(
                             function(){return $(this).data('idx')}));
             self._paipu.sort(sort);
+            delete self._url;
             self.redraw();
         }
     });
@@ -226,9 +236,11 @@ open_player(paipu_idx, viewpoint, log_idx, idx) {
     this._viewer = new Paipu($('#game'), this._paipu.get(paipu_idx));
     this._viewer._callback = ()=>{
         history.replaceState('', '', location.href.replace(/#.*$/,''));
-        $('body').removeClass('game').addClass('file').hide().fadeIn();
+        $('body').removeClass('game')
+                 .removeClass('analyzer')
+                 .addClass('file').hide().fadeIn();
     };
-    if (location.search) this._viewer._fragment = '#' + (paipu_idx || '') + '/';
+    if (this._url) this._viewer._fragment = '#' + (paipu_idx || '') + '/';
     if (viewpoint == null) this._viewer.kaiju();
     else                   this._viewer.start(viewpoint, log_idx, idx);
     $('body').removeClass('file').addClass('game').hide().fadeIn();
@@ -251,6 +263,7 @@ set_handler() {
 
         $('.delete', row.eq(i)).on('click', i, function(event){
             self._paipu.del(event.data);
+            delete self._url;
             row.eq(event.data).slideUp(200, ()=>self.redraw());
         });
 
@@ -265,7 +278,7 @@ set_handler() {
     let title = this._paipu.get(0).title.replace(/[\ \\\/\:\n]/g, '_');
     let blob  = new Blob([ this._paipu.stringify() ],
                          { type: 'application/json' });
-    $('.file > .button .download', this._node)
+    $('> .button .download', this._node)
                 .attr('href', URL.createObjectURL(blob))
                 .attr('download', `牌譜(${title}).json`);
 }

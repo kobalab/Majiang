@@ -1,0 +1,85 @@
+@media screen and (min-width: 820px) and (min-height: 720px) {
+
+    body.analyzer {
+        width: 1400px;
+        margin: 0 auto;
+        #navi {
+            width: 1400px;
+        }
+        #game {
+            float: left;
+        }
+        #analyzer {
+            display: block;
+            width: 590px;
+            height: 680px;
+            float: right;
+            border: solid 1px white;
+            border-radius: 6px;
+        }
+    }
+}
+
+@media screen and (max-width: 820px) {
+    #game {
+        .controler {
+            img.analyzer {
+                display: none;
+            }
+        }
+    }
+}
+
+table.status
+table.dapai {
+    td {
+        white-space: nowrap;
+    }
+    .xiangting {
+        padding: 0 1em;
+        text-align: center;
+    }
+    .eval {
+        text-align: right;
+        padding-right: 1em;
+    }
+    .action {
+        padding-left: 0.5em;
+    }
+    .p
+    .tingpai {
+        img {
+            vertical-align: middle;
+        }
+        span {
+            padding-left: 0.5em;
+        }
+    }
+}
+
+#analyzer {
+    display: none;
+    pai-size: 35px;
+    font-family: sans-serif;
+    font-size: 12px;
+    overflow: auto;
+    table {
+        margin: 4px;
+        &.status {
+            margin-top: 15px;
+        }
+        &.dapai {
+            margin-top: 10px;
+        }
+        border-collapse: collapse;
+        .shoupai {
+            shoupai-size: 380px 40px 35px 28px;
+        }
+    }
+    .selected {
+        background: #999;
+    }
+    .tingpai {
+        width: 100%;
+    }
+}

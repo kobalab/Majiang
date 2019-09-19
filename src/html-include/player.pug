@@ -1,0 +1,16 @@
+mixin player(lunban)
+  .he(class=lunban)
+    .lizhi
+      img.choma(src="img/1000.gif")
+    .dapai
+  .shoupai(class=lunban)
+    .bingpai
+    .fulou
+  if page != 'autoplay'
+    .player(class=lunban)
+  .say(class=lunban)
+
++player('xiajia')
++player('duimian')
++player('shangjia')
++player('main')

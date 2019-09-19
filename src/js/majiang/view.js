@@ -15,4 +15,5 @@ module.exports = {
     Game:       require('./view/game'),
     GameCtl:    require('./view/gamectl'),
     Player:     require('./view/player'),
+    Analyzer:   require('./view/analyzer'),
 };

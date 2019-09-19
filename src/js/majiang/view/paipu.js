@@ -6,6 +6,7 @@
 const $ = require('jquery');
 
 const View = require('./game');
+const Analyzer = require('./analyzer');
 
 const view_class = ['main','xiajia','duimian','shangjia'];
 
@@ -55,6 +56,7 @@ constructor(root, paipu) {
     this._timer_id;
 
     this._repeat_timer;
+    this._repeat = false;;
 
     this._summary     = false;
     this._deny_repeat = false;
@@ -72,6 +74,15 @@ set_handler() {
 
     this._root.on('mouseup mousemove touchend', event => {
         this._repeat_timer = clearInterval(this._repeat_timer);
+        if (this._repeat) {
+            this._repeat = false;
+            if (this._analyzer) {
+                if (! this._deny_repeat)
+                                    this.seek(this._log_idx, this._idx - 1);
+                else                this._analyzer.next();
+            }
+            this.set_fragment();
+        }
     });
     this._root.on('mousedown', ()=>this.next());
     $('.next', controler).on('mousedown touchstart', event => {
@@ -79,6 +90,7 @@ set_handler() {
         if (this._repeat_timer) return false;
         this.next();
         this._repeat_timer = setTimeout(()=>{
+            this._repeat = true;
             this._repeat_timer = setInterval(()=>{
                 if (! this._deny_repeat) this.next();
             }, 80);
@@ -90,6 +102,7 @@ set_handler() {
         if (this._repeat_timer) return false;
         this.prev();
         this._repeat_timer = setTimeout(()=>{
+            this._repeat = true;
             this._repeat_timer = setInterval(()=>this.prev(), 80);
         }, 200);
         return false;
@@ -97,6 +110,7 @@ set_handler() {
     $('.exit',     controler).on('mousedown', ()=>this.exit());
     $('.summary',  controler).on('mousedown', ()=>this.summary());
     $('.sound',    controler).on('mousedown', ()=>this.sound());
+    $('.analyzer', controler).on('mousedown', ()=>this.analyzer());
     $('.first',    controler).on('mousedown', ()=>this.top(this._log_idx - 1));
     $('.autoplay', controler).on('mousedown', ()=>this.autoplay());
     $('.last',     controler).on('mousedown', ()=>this.top(this._log_idx + 1));
@@ -112,6 +126,16 @@ set_handler() {
 
     $(window).on('keyup', event => {
 
+        if (this._repeat) {
+            this._repeat = false;
+            if (this._analyzer) {
+                if (! this._deny_repeat)
+                                    this.seek(this._log_idx, this._idx - 1);
+                else                this._analyzer.next();
+            }
+            this.set_fragment();
+        }
+
         if      (event.key == ' ')  this.autoplay();
         else if (event.key == '+')  this.speed(this._speed + 1);
         else if (event.key == '-')  this.speed(this._speed - 1);
@@ -119,11 +143,16 @@ set_handler() {
                                     this.top(this._log_idx);
         else if (event.key == 'ArrowDown' && event.shiftKey)
                                     this.last();
+        else if (event.key == 'ArrowRight')
+                                    this.top(this._log_idx + 1);
+        else if (event.key == 'ArrowLeft')
+                                    this.top(this._log_idx - 1);
         else if (event.key == 'v')  this.viewpoint(1);
         else if (event.key == 'a')  this.sound();
         else if (event.key == 's')  this.shoupai();
         else if (event.key == 'h')  this.he();
         else if (event.key == '?')  this.summary();
+        else if (event.key == 'i')  this.analyzer();
         else if (event.key == 'q' || event.key == 'Escape')
                                     this.exit();
     });
@@ -131,15 +160,13 @@ set_handler() {
 
         if (this._deny_repeat && event.originalEvent.repeat) return;
 
+        if (! this._repeat && event.originalEvent.repeat) this._repeat = true;
+
         if      (event.key == 'ArrowDown' && ! event.shiftKey
               || event.key == 'Enter')
                                     this.next();
         else if (event.key == 'ArrowUp'   && ! event.shiftKey)
                                     this.prev();
-        else if (event.key == 'ArrowRight')
-                                    this.top(this._log_idx + 1);
-        else if (event.key == 'ArrowLeft')
-                                    this.top(this._log_idx - 1);
     });
 }
 
@@ -149,6 +176,7 @@ clear_handler() {
     $('.exit',     controler).off('mousedown');
     $('.summary',  controler).off('mousedown');
     $('.sound',    controler).off('mousedown');
+    $('.analyzer', controler).off('mousedown');
     $('.first',    controler).off('mousedown');
     $('.prev',     controler).off('mousedown touchstart');
     $('.autoplay', controler).off('mousedown');
@@ -187,6 +215,11 @@ update_controler() {
         $('.autoplay.off', controler).addClass('hide');
         $('.autoplay.on',  controler).removeClass('hide');
         $('.speed',        controler).addClass('hide');
+    }
+
+    let ua = navigator.userAgent;
+    if (ua.match(/\bMSIE\b/) || ua.match(/\bTrident\b/)) {
+        $('.analyzer', controler).addClass('hide');
     }
 
     $('.speed span', controler).each((i, n)=>{
@@ -251,6 +284,9 @@ next() {
     else if (data.kaigang)  this.kaigang (data.kaigang);
     else if (data.hule)     this.hule    (data.hule);
     else if (data.pingju)   this.pingju  (data.pingju);
+
+    if (this._analyzer && ! this._redo && ! this._repeat)
+                                            this._analyzer.action(data);
 
     if (! this._redo) {
         if (this._log && this._log.dapai
@@ -488,7 +524,13 @@ sound() {
 
 viewpoint(d) {
     if (this._summary) return true;
+    if (this._autoplay) this.autoplay();
     this._view.viewpoint = (this._view.viewpoint + d) % 4;
+    if (this._analyzer) {
+        this._analyzer.id(this._view.viewpoint);
+        this.seek(this._log_idx, this._idx - 1);
+        this.update_controler();
+    }
     this._view.redraw();
     let data = this._paipu.log[this._log_idx][this._idx - 1];
     if (data.hule || data.pingju) this._view.update(data);
@@ -502,6 +544,7 @@ shoupai() {
     this._view.redraw();
     let data = this._paipu.log[this._log_idx][this._idx - 1];
     if (data.hule || data.pingju) this._view.update(data);
+    this.set_fragment();
     return false;
 }
 
@@ -511,6 +554,7 @@ he() {
     this._view.redraw();
     let data = this._paipu.log[this._log_idx][this._idx - 1];
     if (data.hule || data.pingju) this._view.update(data);
+    this.set_fragment();
     return false;
 }
 
@@ -526,7 +570,10 @@ summary() {
         $('.controler', this._root).addClass('hide');
         this._view.summary(this._paipu);
         $('.summary tbody tr').each((i, tr) => {
-            $(tr).on('mousedown', ()=>this.top(i));
+            $(tr).on('mousedown', ()=>{
+                if (this._summary) this.summary();
+                return this.top(i);
+            });
         });
     }
     this._summary = ! this._summary;
@@ -534,11 +581,42 @@ summary() {
     return false;
 }
 
+analyzer() {
+    let ua = navigator.userAgent;
+    if (ua.match(/\bMSIE\b/) || ua.match(/\bTrident\b/)) return true;
+    if (ua.match(/\bMobile\b/)) return true;
+    if (this._summary) return true;
+    if (this._analyzer) {
+        this._analyzer = null;
+        $('body').removeClass('analyzer').addClass('game');
+    }
+    else {
+        if (this._autoplay) this.autoplay();
+        this._analyzer = new Analyzer(this._view.viewpoint, $('#analyzer'));
+        let kaiju = {
+            kaiju: {
+                player:  this._model.player,
+                qijia:   this._model.qijia,
+                hongpai: {m:1,p:1,s:1}
+            }
+        };
+        this._analyzer.next(kaiju);
+        this.seek(this._log_idx, this._idx - 1);
+        let data = this._paipu.log[this._log_idx][this._idx - 1];
+        if (data.hule || data.pingju) this._view.update(data);
+        this.update_controler();
+        $('body').removeClass('game').addClass('analyzer');
+    }
+    this.set_fragment();
+    return false;
+}
+
 prev() {
     if (this._summary) return true;
+    if (this._autoplay) this.autoplay();
     let idx  = (this._idx > 1) ? this._idx - 2 : 0;
     let data = this._paipu.log[this._log_idx][idx];
-    while (idx > 0 && ! (data.zimo || data.fulou)) {
+    while (idx > 0 && ! (data.zimo || data.gangzimo || data.fulou)) {
         data = this._paipu.log[this._log_idx][--idx];
     }
     this.seek(this._log_idx, idx);
@@ -547,13 +625,10 @@ prev() {
 }
 
 top(log_idx) {
+    if (this._summary) return true;
+    if (this._autoplay) this.autoplay();
     if (log_idx < 0 || this._paipu.log.length <= log_idx) return false;
-    this._autoplay = false;
     this._jieju = false;
-    if (this._summary) {
-        if (log_idx == this._log_idx) return true;
-        else                          this.summary();
-    }
     this.seek(log_idx, 0);
     this.update_controler();
     return false;
@@ -561,6 +636,7 @@ top(log_idx) {
 
 last() {
     if (this._summary) return true;
+    if (this._autoplay) this.autoplay();
     let idx  = this._paipu.log[this._log_idx].length - 1;
     let data = this._paipu.log[this._log_idx][idx];
     while (idx > 0 && (data.hule || data.pingju)) {
@@ -588,11 +664,6 @@ last() {
 seek(log_idx, idx) {
 
     this._deny_repeat = false;
-
-    if (this._autoplay) {
-        this._autoplay = false;
-        this._timer_id = clearTimeout(this._timer_id);
-    }
 
     log_idx = log_idx < 0   ? 0
             : this._paipu.log.length - 1 < log_idx
@@ -624,6 +695,11 @@ seek(log_idx, idx) {
         else if (data.hule)     this._hule    (data.hule);
         else if (data.pingju)   this._pingju  (data.pingju);
 
+        if (this._analyzer && ! this._repeat) {
+            if (this._idx == idx) this._analyzer.action(data);
+            else                  this._analyzer.next(data);
+        }
+
         this._idx++;
         this._log = data;
     }
@@ -636,12 +712,19 @@ seek(log_idx, idx) {
 set_fragment() {
 
     if (! this._fragment) return;
+    if (this._repeat)     return;
 
     let fragment = this._fragment + [
                         this._view.viewpoint,
                         this._log_idx,
                         this._idx -1,
                    ].join('/');
+
+    let opt = (this._view.open_shoupai ? ''  : 's')
+            + (this._view.open_he      ? ''  : 'h')
+            + (this._analyzer          ? 'i' : '' );
+    if (opt) fragment += `:${opt}`;
+
     history.replaceState('', '', fragment);
 }
 

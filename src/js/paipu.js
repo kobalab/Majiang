@@ -12,11 +12,11 @@
 $(function(){
     $('.version').text('ver. ' + Majiang.VERSION);
     if (location.search) {
-        new Majiang.View.PaipuFile($('#file'))
+        new Majiang.View.PaipuFile($('#file .file'))
             .load_paipu(location.search.replace(/^\?/,''),
                         location.hash.replace(/^#/,''));
     }
     else {
-        new Majiang.View.PaipuFile($('#file'), 'Majiang.paipu');
+        new Majiang.View.PaipuFile($('#file .file'), 'Majiang.paipu');
     }
 });

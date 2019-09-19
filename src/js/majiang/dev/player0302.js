@@ -99,6 +99,8 @@ dapai(dapai) {
 
     this._suanpai.dapai(dapai);
 
+    this._eval_cache = {};
+
     if (dapai.l == model.menfeng) {
 
         if (! this._shoupai.lizhi()) this._neng_rong = true;
@@ -177,6 +179,7 @@ kaigang(kaigang) {
     this._suanpai.kaigang(kaigang);
     this._baopai.push(kaigang.baopai);
     this._defen_cache = {};
+    this._eval_cache = {};
 }
 
 hule(hule)     { this.wait(); }
@@ -367,7 +370,7 @@ select_dapai() {
         if (n_tingpai < max_tingpai * 6) continue;
 
         let x = 1 - this._suanpai.paijia(p)/100
-              + this.eval_backtrack(shoupai, paishu, tmp_max, p);
+              + this.eval_backtrack(shoupai, paishu, tmp_max, p.substr(0,2));
 
         if (x >= max) {
             max = x;
@@ -519,7 +522,7 @@ get_defen(shoupai) {
 
 eval_shoupai(shoupai, paishu, dapai) {
 
-    let paistr = shoupai.toString();
+    let paistr = shoupai.toString() + (dapai != null ? `:${dapai}`: '');
     if (this._eval_cache[paistr] != null) return this._eval_cache[paistr];
 
     let rv;

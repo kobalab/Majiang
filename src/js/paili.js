@@ -12,6 +12,17 @@
 const model = {};
 const view  = {};
 
+function make_shan(shan, paistr) {
+    for (let suitstr of paistr.match(/([mpsz][\d\+\=\-]+)/g)) {
+        let s = suitstr[0];
+        for (let n of suitstr.match(/\d/g)) {
+            let i = shan._pai.indexOf(s+n);
+            if (i < 0) continue;
+            shan._pai.splice(i, 1);
+        }
+    }
+}
+
 function qipai(paistr) {
 
     if (paistr) history.replaceState('', '', `#${paistr}`);
@@ -20,6 +31,7 @@ function qipai(paistr) {
 
     if (paistr) {
         model.shoupai = Majiang.Shoupai.fromString(paistr);
+        make_shan(model.shan, model.shoupai.toString());
     } else {
         let pai = [];
         while (pai.length < 13) { pai.push(model.shan.zimo()) }

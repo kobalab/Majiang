@@ -1,0 +1,28 @@
+- var page = 'index'
+
+doctype html
+html(lang="ja")
+
+  head
+    include ../html-include/meta.pug
+
+    title 電脳麻将
+    meta(name="description" content="HTML5 + Javascriptで動作する麻雀アプリ")
+
+    meta(property="og:title" content="電脳麻将")
+    meta(property="og:description" content="HTML5 + JavaScript で動作する麻雀アプリ")
+    meta(property="og:image" content="http://kobalab.net/majiang/img/game.png")
+
+    include ../html-include/style.pug
+
+    script(src="js/majiang.js" defer)
+    script(src="js/game.js" defer)
+
+  body.title
+    include ../html-include/navi.pug
+    include ../html-include/title.pug
+    include ../html-include/loaddata.pug
+    
+    include ../html-include/file.pug
+    include ../html-include/game.pug
+    include ../html-include/analyzer.pug
