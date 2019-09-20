@@ -285,9 +285,6 @@ next() {
     else if (data.hule)     this.hule    (data.hule);
     else if (data.pingju)   this.pingju  (data.pingju);
 
-    if (this._analyzer && ! this._redo && ! this._repeat)
-                                            this._analyzer.action(data);
-
     if (! this._redo) {
         if (this._log && this._log.dapai
             && this._log.dapai.p.substr(-1) == '*') this._view.update();
@@ -310,6 +307,9 @@ next() {
         if (this._redo && this._speed > 0) delay = Math.max(delay, 500);
         this._timer_id = setTimeout(()=>this.next(), delay);
     }
+
+    if (this._analyzer && ! this._redo && ! this._repeat)
+                                            this._analyzer.action(data);
 
     this.set_fragment();
 }
