@@ -616,7 +616,9 @@ prev() {
     if (this._autoplay) this.autoplay();
     let idx  = (this._idx > 1) ? this._idx - 2 : 0;
     let data = this._paipu.log[this._log_idx][idx];
-    while (idx > 0 && ! (data.zimo || data.gangzimo || data.fulou)) {
+    while (idx > 0 && ! (data.zimo || data.gangzimo
+                        || data.fulou && ! data.fulou.m.match(/\d{4}/)))
+    {
         data = this._paipu.log[this._log_idx][--idx];
     }
     this.seek(this._log_idx, idx);
