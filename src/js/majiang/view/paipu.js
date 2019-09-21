@@ -571,7 +571,8 @@ summary() {
         this._view.summary(this._paipu);
         $('.summary tbody tr').each((i, tr) => {
             $(tr).on('mousedown', ()=>{
-                if (this._summary) this.summary();
+                if (this._autoplay) this._autoplay = false;
+                if (this._summary)  this.summary();
                 return this.top(i);
             });
         });
