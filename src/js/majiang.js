@@ -10,7 +10,7 @@
 "use strict";
 
 module.exports = {
-    VERSION: '1.3.0',
+    VERSION: '1.3.1',
     Shoupai: require('./majiang/shoupai'),
     Shan:    require('./majiang/shan'),
     He:      require('./majiang/he'),
