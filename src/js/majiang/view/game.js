@@ -213,7 +213,10 @@ update(data = {}) {
 }
 
 say(name, l) {
-    if (this.sound_on) this._audio[name][l].play();
+    if (this.sound_on) {
+        this._audio[name][l].currentTime = 0;
+        this._audio[name][l].play();
+    }
     this._view.say[l].text(say_text[name])
                         .removeClass('fadeout').removeClass('hide');
     this._say[l] = name;
