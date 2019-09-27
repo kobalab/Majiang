@@ -31,6 +31,12 @@ defen-font = "Georgia", serif;
 body {
     margin-top: 0;
     -webkit-text-size-adjust: 100%;
+    > .version {
+        display: none;
+        font-size: 12px;
+        font-family: serif;
+        text-align: right;
+    }
 }
 
 body.title {
@@ -299,6 +305,10 @@ body.demo {
     background: #036;
     font-family: sans-serif;
     font-size: 12px;
+    > .version {
+        display: block;
+        float: right;
+    }
     a {
         color: white;
     }

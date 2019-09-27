@@ -12,6 +12,8 @@ const $ = require('jquery');
 
 $(function(){
 
+    $('.version').text('ver. ' + Majiang.VERSION);
+
     let w = 24, h = 34;
 
     let imgbase = 'http://www.yk.rim.or.jp/~koba/paiga/';

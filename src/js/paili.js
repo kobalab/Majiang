@@ -191,6 +191,9 @@ function paili() {
 }
 
 $(function(){
+
+    $('.version').text('ver. ' + Majiang.VERSION);
+
     $('form input[type="button"]').on('click', function(event){
         qipai();
         return false;
