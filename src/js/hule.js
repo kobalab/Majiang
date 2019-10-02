@@ -10,6 +10,8 @@
 
 $(function(){
 
+    $('.version').text('ver. ' + Majiang.VERSION);
+
     $('form').on('submit', function(){
 
         let paistr = $('form input[name="paistr"]').val();

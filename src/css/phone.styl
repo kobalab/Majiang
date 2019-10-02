@@ -4,6 +4,14 @@
     margin-top: 80px;
 }
 
+body.game
+body.analyzer {
+    > .version {
+        margin-top: 1em;
+        display: none;
+    }
+}
+
 #game {
     height: 450px;
     .chang {
@@ -134,9 +142,14 @@
     }
     .controler {
         width:   40px;
-        padding-top: 32px;
+        padding: 0;
+        margin-top: 32px;
         transform: translate(760px, 0px);
         text-align: center;
+        border: none;
+        &:hover {
+            background: inherit;
+        }
         img {
             width:  24px;
             height: 24px;

@@ -127,7 +127,23 @@
         }
     }
     .controler {
-        transform: translate(120px, 120px);
+        transform: translate(110px, 110px);
+        padding: 6px;
+        border: solid 4px transparent;
+        border-radius: 6px;
+        &:hover {
+            border-color: #333;
+            background: black;
+            img {
+                opacity: 0.5;
+                &:hover {
+                    opacity: 1;
+                }
+            }
+            .speed span {
+                opacity: 0.3;
+            }
+        }
         img {
             width:  20px;
             height: 20px;

@@ -97,6 +97,8 @@ function submit() {
 
 $(function(){
 
+    $('.version').text('ver. ' + Majiang.VERSION);
+
     $('form').on('submit', submit);
 
     $('form').on('reset', ()=>{

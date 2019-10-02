@@ -82,8 +82,7 @@ action_zimo(zimo, option) {
         this.redraw_status(info);
         return;
     }
-
-    this.redraw_status(this.get_status());
+    this.redraw_status(info);
 
     let gang  = this.select_gang(info);
     let dapai = this.select_dapai(info);

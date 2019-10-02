@@ -156,6 +156,10 @@ load_paipu(url, hash) {
             if (opt.match(/s/)) this._viewer.shoupai();
             if (opt.match(/h/)) this._viewer.he();
             if (opt.match(/i/)) this._viewer.analyzer();
+            for (let x of opt.match(/\+/g)||[]) {
+                if (this._viewer._deny_repeat) break;
+                this._viewer.next();
+            }
         }
     }
     const error = e => {

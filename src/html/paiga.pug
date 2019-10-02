@@ -11,10 +11,12 @@ html(lang="ja")
 
     include ../html-include/style.pug
 
+    script(src="js/majiang.js" defer)
     script(src="js/paiga.js" defer)
 
   body.demo
     include ../html-include/navi.pug
+    .version
     
     form
       textarea.paiga(rows="10")
