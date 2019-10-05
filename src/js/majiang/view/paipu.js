@@ -572,6 +572,7 @@ summary() {
         $('.summary tbody tr').each((i, tr) => {
             $(tr).on('mousedown', ()=>{
                 if (this._autoplay) this._autoplay = false;
+                if (this._jieju)    this._jieju    = false;
                 if (this._summary)  this.summary();
                 return this.top(i);
             });
