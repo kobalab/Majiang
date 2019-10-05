@@ -142,7 +142,7 @@ $(function(){
 
     $('input[type="reset"]').on('click', function(event){
 
-        $('form textarea').val('');
+        $('form textarea').val('').select();
         $('#paiga div').empty();
         $('#paiga textarea').val('');
 
