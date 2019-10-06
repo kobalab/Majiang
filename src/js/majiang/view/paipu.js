@@ -168,6 +168,8 @@ set_handler() {
         else if (event.key == 'ArrowUp'   && ! event.shiftKey)
                                     this.prev();
     });
+
+    $('.summary', this._root).addClass('paipu');
 }
 
 clear_handler() {
@@ -190,6 +192,7 @@ clear_handler() {
     $('.player',  this._root).off('mousedown');
     $('.kaiju .player *', this._root).off('mousedown');
     $(window).off('keydown keyup');
+    $('.summary', this._root).removeClass('paipu');
 }
 
 update_controler() {
@@ -572,6 +575,7 @@ summary() {
         $('.summary tbody tr').each((i, tr) => {
             $(tr).on('mousedown', ()=>{
                 if (this._autoplay) this._autoplay = false;
+                if (this._jieju)    this._jieju    = false;
                 if (this._summary)  this.summary();
                 return this.top(i);
             });
