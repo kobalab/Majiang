@@ -168,6 +168,8 @@ set_handler() {
         else if (event.key == 'ArrowUp'   && ! event.shiftKey)
                                     this.prev();
     });
+
+    $('.summary', this._root).addClass('paipu');
 }
 
 clear_handler() {
@@ -190,6 +192,7 @@ clear_handler() {
     $('.player',  this._root).off('mousedown');
     $('.kaiju .player *', this._root).off('mousedown');
     $(window).off('keydown keyup');
+    $('.summary', this._root).removeClass('paipu');
 }
 
 update_controler() {
