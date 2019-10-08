@@ -16,7 +16,7 @@ $(function(){
 
     let w = 24, h = 34;
 
-    let imgbase = 'http://www.yk.rim.or.jp/~koba/paiga/';
+    let imgbase = '//kobalab.github.io/paiga/';
     let img = {
         _:  'ura.gif',
 
