@@ -132,10 +132,12 @@ $(function(){
 
         set_size($('form input[name="size"]:checked').val());
         let html = parse($('form textarea').val());
+        $('#paiga textarea').val(html).select();
+        if (location.protocol == 'file:')
+                html = html.replace(/ src=\"\/\//g, ' src="http://');
         $('#paiga div')
             .empty()
-            .append($('<p><br>'+html.replace(/\n/g,'<br>')+'<br></p>'));
-        $('#paiga textarea').val(html).select();
+            .append($('<p style="white-space:pre-line"><br>'+html+'<br></p>'));
 
         return false;
     });
