@@ -7,7 +7,7 @@ const Majiang = {
     Shoupai: require('../shoupai'),
     Game:    require('../game'),
     Util:    require('../util'),
-    SuanPai: require('../suanpai'),
+    SuanPai: require('./suanpai0301'),
 };
 
 module.exports = class Player {

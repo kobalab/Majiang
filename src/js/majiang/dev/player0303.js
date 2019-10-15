@@ -7,7 +7,7 @@ const Majiang = {
     Shoupai: require('../shoupai'),
     Game:    require('../game'),
     Util:    require('../util'),
-    SuanPai: require('../suanpai'),
+    SuanPai: require('./suanpai0301'),
 };
 
 const width = [12, 12*6, 12*6*3];
