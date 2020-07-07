@@ -18,7 +18,7 @@ sub type {
 
     return  ($type{sanma}    ? '三' : '四')
           . ('般','上','特','鳳')[$type{level}]
-          . ($type{dongfang} ? '東' : '南')
+          . ($type{dongfeng} ? '東' : '南')
           . ($type{ariari}   ? '喰' : '')
           . ($type{hongpai}  ? '赤' : '')
           . ($type{soku}     ? '速' : '');
