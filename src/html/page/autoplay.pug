@@ -4,21 +4,21 @@ doctype html
 html(lang="ja")
 
   head
-    include ../html-include/meta.pug
+    include ../inc/meta.pug
 
     title 電脳麻将: 自動対戦
     meta(name="description" content="AIプレーヤーの無限麻雀地獄")
 
-    include ../html-include/style.pug
+    include ../inc/style.pug
 
     script(src="js/majiang.js" defer)
     script(src="js/autoplay.js" defer)
 
   body.title
-    include ../html-include/navi.pug
-    include ../html-include/title.pug
-    include ../html-include/loaddata.pug
+    include ../inc/navi.pug
+    include ../inc/title.pug
+    include ../inc/loaddata.pug
     
-    include ../html-include/game.pug
+    include ../inc/game.pug
 
     .version
