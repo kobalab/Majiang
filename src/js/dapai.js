@@ -52,9 +52,6 @@ function init_analyzer(paistr, zhuangfeng, menfeng, baopai, hongpai) {
     return analyzer;
 }
 
-let ua = navigator.userAgent;
-let confirmed = ! (ua.match(/\bMSIE\b/) || ua.match(/\bTrident\b/));
-
 function submit() {
 
     let paistr     = $('input[name="paistr"]').val();
@@ -65,10 +62,6 @@ function submit() {
     let baopai     = $.makeArray($('input[name="baopai"]'))
                                     .map(p=>$(p).val()).filter(p=>p);
     let hongpai    = $('input[name="hongpai"]').prop('checked');
-
-    if (! confirmed && ! confirm('IEでは時間がかかりすぎる場合があります'))
-            return false;
-    else    confirmed = true;
 
     const analyzer = init_analyzer(paistr, zhuangfeng, menfeng, baopai, hongpai
                         ? { m: 1, p: 1, s: 1 }
