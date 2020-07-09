@@ -25,9 +25,6 @@
   },
   "homepage": "https://github.com/kobalab/Majiang#readme",
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.5",
-    "babel-preset-env": "^1.7.0",
     "istanbul": "^0.4.5",
     "mocha": "^8.0.1",
     "pug-cli": "^1.0.0-alpha6",
@@ -36,7 +33,6 @@
     "webpack-cli": "^3.3.9"
   },
   "dependencies": {
-    "babel-polyfill": "^6.26.0",
     "jquery": "^3.5.1",
     "jquery-ui": "^1.12.1"
   }
