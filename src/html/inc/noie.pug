@@ -1,0 +1,22 @@
+#noie(style="display: none")
+
+style.
+  #noie {
+    background: #ddd;
+    color: black;
+    border: #666 solid 2px;
+    border-radius: 8px;
+    padding: 4px 1.5em;
+    font-family: "Georgia", serif;
+    font-size: 16px;
+  }
+script.
+  var ua = navigator.userAgent;
+  if (ua.match(/\bMSIE\b/) || ua.match(/\bTrident\b/)) {
+    var text = document.createTextNode(
+                   'お使いのブラウザー(Internet Explorer)には対応していません。'
+                 + 'Google Chromeなどをご利用ください。');
+    var elem = document.getElementById('noie');
+    elem.appendChild(text);
+    elem.removeAttribute('style');
+  }
