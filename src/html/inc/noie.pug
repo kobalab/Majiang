@@ -11,12 +11,15 @@ style.
     font-size: 16px;
   }
 script.
-  var ua = navigator.userAgent;
-  if (ua.match(/\bMSIE\b/) || ua.match(/\bTrident\b/)) {
-    var text = document.createTextNode(
-                   'お使いのブラウザー(Internet Explorer)には対応していません。'
-                 + 'Google Chromeなどをご利用ください。');
-    var elem = document.getElementById('noie');
-    elem.appendChild(text);
-    elem.removeAttribute('style');
+  window.onload = function(){
+    if (typeof Majiang === 'undefined') {
+      var text = document.createTextNode(
+                      'プログラムのロードでエラーが発生しました。'
+                    + 'お使いのブラウザでは実行できない可能性があります。'
+                    + 'リロードして問題が解決しない場合は、'
+                    + 'Google Chromeなど最新のブラウザでアクセスしてみてください。');
+      var elem = document.getElementById('noie');
+      elem.appendChild(text);
+      elem.removeAttribute('style');
+    }    
   }
