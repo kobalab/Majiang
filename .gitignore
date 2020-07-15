@@ -3,3 +3,4 @@ www/js/
 www/css/
 www/*.html
 coverage/
+.nyc_output/

@@ -11,7 +11,7 @@
     "build": "npm run build:html && npm run build:css && npm run build:js",
     "release": "npm run build:html && npm run build:css && webpack --mode production",
     "test": "mocha -u tdd",
-    "test:cover": "istanbul cover -x \"**/dev/**\" node_modules/mocha/bin/_mocha -- -u tdd --no-timeouts"
+    "test:cover": "nyc --exclude=src/js/majiang/dev --exclude=test --reporter=lcov --reporter=text npm run test -- --no-timeouts"
   },
   "repository": {
     "type": "git",
@@ -25,8 +25,8 @@
   },
   "homepage": "https://github.com/kobalab/Majiang#readme",
   "devDependencies": {
-    "istanbul": "^0.4.5",
     "mocha": "^8.0.1",
+    "nyc": "^15.1.0",
     "pug-cli": "^1.0.0-alpha6",
     "stylus": "^0.54.7",
     "webpack": "^4.40.2",
