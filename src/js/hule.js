@@ -19,7 +19,7 @@ $(function(){
             $('.huledialog').addClass('hide').addClass('fadeout');
             return false;
         }
-        let shoupai = new Majiang.Shoupai.fromString(paistr);
+        let shoupai = Majiang.Shoupai.fromString(paistr);
         $('input[name="paistr"]').val(shoupai.toString());
 
         let rongpai;
