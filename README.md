@@ -24,6 +24,8 @@ https://github.com/kobalab/Majiang/blob/master/LICENSE
 | ``test:cover``  | カバレッジ・レポートつきでユニットテストを実施する。|
 
 ## ドキュメント
+- プログラム構成
+  - [電脳麻将のプログラム構成(0) ～ 全体編](https://blog.kobalab.net/entry/2020/07/19/212824)
 - 手牌などのデータ構造
   - [麻雀の手牌のJavascript表現](https://blog.kobalab.net/entry/20151211/1449838875)
   - [麻雀の手牌の文字列表現](https://blog.kobalab.net/entry/20151218/1450441130)
