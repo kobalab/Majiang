@@ -1,298 +1,112 @@
 body.game
-body.analyzer {
-    color:      white;
-    a {
-        color:  white;
-    }
-    background: black;
+body.analyzer
+    color:      white
+    a
+        color:  white
+    background: black
     #navi
-    > .version {
-        margin: 0 auto;
-        width:  800px;
-        display: block;
-    }
-    #game {
-        display: block;
-    }
-}
+    > .version
+        display: block
+        margin: 0 auto
+    #game
+        display: block
 
-#game {
-    display: none;
-    width:  800px;
-    background: #036;
-    margin: 0 auto;
-    overflow: hidden;
-    user-select: none;
-    -webkit-user-select: none;
-    cursor: default;
-    > * {
-        position: absolute;
-        transform-origin: 0% 0%;
-    }
-    .chang {
-        background: #111;
-        font-family: defen-font;
-        border-radius: 4px;
-        .xiaoxi {
-            float: left;
-            .jushu {
-                font-family: title-font;
-            }
-        }
-        .shan {
-            float: right;
-            text-align: right;
-        }
-        .defen {
-            clear: both;
-            span {
-                display: block;
-                position: absolute;
-                &.lunban {
-                    color: #0ff;
-                }
-                &.main {
-                    text-align: center;
-                }
-                &.xiajia {
-                    text-align: right;
-                }
-                &.duimian {
-                    text-align: center;
-                }
-                &.shangjia {
-                    text-align: left;
-                }
-            }
-        }
-    }
-    > .player {
-        font-family: defen-font;
-        white-space:   nowrap;
-        overflow:      hidden;
-        text-overflow: ellipsis;
-        background: #111;
-        &:hover {
-            background: #999;
-        }
-    }
-    .say {
-        font-family: serif;
-        color: white;
+#game
+    display: none
+    background: #036
+    margin: 0 auto
+    overflow: hidden
+    user-select: none
+    -webkit-user-select: none
+    cursor: default
+    > *
+        position: absolute
+        transform-origin: 0% 0%
+    .chang
+        background: #111
+        font-family: defen-font
+        border-radius: 4px
+        .xiaoxi
+            float: left
+            .jushu
+                font-family: title-font
+        .shan
+            float: right
+            text-align: right
+        .defen
+            clear: both
+            span
+                display: block
+                position: absolute
+                &.lunban
+                    color: #0ff
+                &.main
+                    text-align: center
+                &.xiajia
+                    text-align: right
+                &.duimian
+                    text-align: center
+                &.shangjia
+                    text-align: left
+    > .player
+        font-family: text-font
+        white-space:   nowrap
+        overflow:      hidden
+        text-overflow: ellipsis
+        background: #111
+        &:hover
+            background: #999
+            cursor: pointer
+    .say
+        font-family: text-font
+        color: white
         text-shadow: 3px  3px 6px #333,
                     -3px  3px 6px #333,
                     -3px -3px 6px #333,
-                     3px -3px 6px #333;
-        transition: opacity 0.4s ease-out;
-        &.main {
-            text-align: center;
-        }
-        &.xiajia {
-            text-align: left;
-        }
-        &.duimian {
-            text-align: center;
-        }
-        &.shangjia {
-            text-align: right;
-        }
-    }
-    .UI {
-        font-family: sans-serif;
-        text-align: right;
-        white-space: nowrap;
-        span {
-            display: inline-block;
-            background: black;
-            cursor: pointer;
-        }
-    }
-    .controler {
-        img {
-            opacity: 0.2;
-        }
-        .speed {
-            span {
-                display: inline-block;
-                border-radius: 4px;
-                background: white;
-                opacity: 0.1;
-            }
-        }
-    }
-    .kaiju {
-        position: relative;
-        margin: auto;
-        width: 580px;
-        border: solid 1px #666;
-        background: #111;
-        .title {
-            margin: 40px 20px;
-            text-align: center;
-            font-family: title-font;
-            font-size: 32px;
-            line-height: 1;
-        }
-        .player {
-            margin: 40px 20px;
-            height: 132px;
-            text-align: center;
-            font-family: defen-font;
-            font-size: 24px;
-            > div {
-                position: absolute;
-                width: 240px;
-                height: 38px;
-                padding: 0px 10px;
-                border-radius: 4px;
-                background: #333;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                &.main {
-                    transform: translate(140px, 96px);
-                }
-                &.xiajia {
-                    transform: translate(280px, 48px);
-                }
-                &.duimian {
-                    transform: translate(140px, 0px);
-                }
-                &.shangjia {
-                    transform: translate(0px, 48px);
-                }
-                &:hover {
-                    background: #999;
-                }
-            }
-        }
-    }
-    .huledialog {
-        width: 800px;
-        overflow: auto;
-        display: flex;
-        align-items: center;
-        > div {
-            margin: auto 0px;
-            > div {
-                display: table;
-                background: rgba(0,0,0,0.8);
-                margin: auto;
-                .hule {
-                    .shan {
-                        &.baopai {
-                            float: left;
-                        }
-                        &.fubaopai {
-                            float: right;
-                        }
-                    }
-                    .shoupai {
-                        clear: both;
-                    }
-                    .hupai {
-                        .r_defen {
-                            text-align: right;
-                        }
-                    }
-                    .jicun {
-                        text-align: center;
-                    }
-                }
-                .pingju {
-                    text-align: center;
-                }
-                .fenpei {
-                    > * {
-                        position: absolute;
-                        transform-origin: 0% 0%;
-                        .player {
-                            display: none;
-                        }
-                        .defen {
-                            float: right;
-                        }
-                        .diff {
-                            float: right;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    > .summary {
-        width: 800px;
-        overflow: auto;
-        display: flex;
-        align-items: center;
-        transition: opacity 0.4s ease-out;
-        > div {
-            margin: auto 0px;
-            > div {
-                margin: auto;
-                background: rgba(0,0,0,0.8);
-                table {
-                    margin: auto;
-                    font-family: defen-font;
-                    border-collapse: collapse;
-                    line-height: 1.5;
-                    thead {
-                        border-bottom: solid 2px;
-                    }
-                    tfoot {
-                        border-top: solid 2px;
-                    }
-                    .zhuangjia {
-                        background: rgba(128,128,128,0.4);
-                    }
-                    .baojia
-                    .minus {
-                        color: red;
-                    }
-                    .hule
-                    .guanjun
-                    .plus {
-                        color: #0ff;
-                    }
-                    .diff
-                    .defen {
-                        padding: 0px 1.2em;
-                        text-align: right;
-                    }
-                    .point {
-                        border-top: solid 1px;
-                        text-align: center;
-                        font-size: 24px;
-                    }
-                }
-            }
-        }
-        &.paipu tbody tr:hover {
-            background: rgba(256,256,256,0.4);
-        }
-    }
-    .download {
-        a {
-            opacity: 0.5;
-            display: inline-block;
-            font-family: sans-serif;
-            font-size: 18px;
-            padding: 6px 10px;
-            border-radius: 6px;
-            background: #000;
-            cursor: pointer;
-            color: white;
-            text-decoration: none;
-            margin: 10px;
-            img {
-                width:  24px;
-                height: 24px;
-                margin-right: 8px;
-                vertical-align: middle;
-            }
-            &:hover {
-                opacity: 1;
-            }
-        }
-    }
-}
+                     3px -3px 6px #333
+        transition: opacity 0.4s ease-out
+        &.main
+            text-align: center
+        &.xiajia
+            text-align: left
+        &.duimian
+            text-align: center
+        &.shangjia
+            text-align: right
+    .UI
+        font-family: menu-font
+        text-align: right
+        white-space: nowrap
+        span
+            display: inline-block
+            background: black
+            cursor: pointer
+    .controler
+        img
+            opacity: 0.2
+        .speed
+            span
+                display: inline-block
+                border-radius: 4px
+                background: white
+                opacity: 0.1
+    .download
+        a
+            opacity: 0.5
+            display: inline-block
+            font-family: menu-font
+            font-size: 18px
+            padding: 6px 10px
+            border-radius: 6px
+            background: #000
+            cursor: pointer
+            color: white
+            text-decoration: none
+            margin: 10px
+            img
+                width:  24px
+                height: 24px
+                margin-right: 8px
+                vertical-align: middle
+            &:hover
+                opacity: 1

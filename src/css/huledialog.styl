@@ -1,0 +1,73 @@
+.huledialog
+    transition: opacity 0.2s ease-out
+    .hule
+        .shan
+            font-family: title-font
+            img
+                vertical-align: bottom
+        .hupai
+            font-family: title-font
+            line-height: 1
+            .fanshu
+                text-align: right
+                padding-left: 2em
+        .jicun
+            font-family: defen-font
+    .pingju
+        font-family: title-font
+    .fenpei
+        font-family: defen-font
+        .player
+            white-space: nowrap
+            display: inline-block
+            vertical-align: bottom
+            overflow: hidden
+            text-overflow: ellipsis
+        .feng
+        .defen
+        .diff
+            display: inline-block
+            vertical-align: bottom
+            text-align: right
+        .plus
+            color: #0ff
+        .muinus
+            color: #f00
+
+#game
+    .huledialog
+        width: 800px
+        overflow: auto
+        display: flex
+        align-items: center
+        > div
+            margin: auto 0px
+            > div
+                display: table
+                background: rgba(0,0,0,0.8)
+                margin: auto
+                .hule
+                    .shan
+                        &.baopai
+                            float: left
+                        &.fubaopai
+                            float: right
+                    .shoupai
+                        clear: both
+                    .hupai
+                        .r_defen
+                            text-align: right
+                    .jicun
+                        text-align: center
+                .pingju
+                    text-align: center
+                .fenpei
+                    > *
+                        position: absolute
+                        transform-origin: 0% 0%
+                        .player
+                            display: none
+                        .defen
+                            float: right
+                        .diff
+                            float: right
