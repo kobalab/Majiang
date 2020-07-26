@@ -589,7 +589,7 @@ jieju() {
 
     this._paipu.defen = defen.concat();
     this._paipu.rank  = rank.concat();
-    this._paipu.point = point.concat();
+    this._paipu.point = point.map(p=>''+p);
 
     let paipu = { jieju: { defen: defen, rank: rank, point: point } };
     let msg = [];
