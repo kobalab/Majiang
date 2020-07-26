@@ -139,7 +139,7 @@ fenpei(fenpei) {
 
         $('.feng', node).text(feng_hanzi[l]);
 
-        $('.player', node).text(this._chang.player[id]);
+        $('.player', node).text(this._chang.player[id].replace(/\n.*$/,''));
 
         let defen = (''+this._chang.defen[id]).replace(/(\d)(\d{3})$/,'$1,$2');
         $('.defen', node).text(defen);
