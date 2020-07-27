@@ -76,7 +76,7 @@ $(function(){
             player:     ['私','下家','対面','上家'],
             qijia:      0,
             zhuangfeng: param.zhuangfeng,
-            jishu:      (4 - param.menfeng) % 4,
+            jushu:      (4 - param.menfeng) % 4,
             changbang:  param.jicun.changbang,
             lizhibang:  param.jicun.lizhibang,
             defen:      [ 25000, 25000, 25000, 25000 ]
