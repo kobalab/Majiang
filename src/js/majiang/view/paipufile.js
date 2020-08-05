@@ -144,6 +144,8 @@ load_paipu(url, hash) {
             this._paipu.add(data);
             this._url = url;
             this.redraw();
+
+            $('#navi a[href="stat.html"]').attr('href', 'stat.html?' + url);
         }
         catch(e) {
             this.error(`不正なファイル: ${decodeURI(url)}`);
