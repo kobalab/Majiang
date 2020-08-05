@@ -42,6 +42,8 @@ $(function(){
             open_he      = game._view.open_he;
         }
         game = new Majiang.Game();
+        game._model.title
+            = game._model.title.replace(/^.*?(?=\n)/, $('title').text());
         game._player = [
             new Majiang.Player(0),
             new Majiang.Player(1),
