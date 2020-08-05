@@ -15,7 +15,7 @@ module.exports = class Game {
 constructor() {
 
     this._model = {
-        title:      new Date().toLocaleString(),
+        title:      '電脳麻将\n' + new Date().toLocaleString(),
         player:     ['私','下家','対面','上家'],
         qijia:      Math.floor(Math.random() * 4),
         zhuangfeng: 0,

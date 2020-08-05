@@ -1,0 +1,20 @@
+- var page = 'stat'
+
+doctype html
+html(lang="ja")
+
+  head
+    include ../inc/meta.pug
+
+    title 電脳麻将: 牌譜集計
+
+    include ../inc/style.pug
+
+    script(src="js/majiang.js" defer)
+    script(src="js/stat.js" defer)
+
+  body.stat
+    include ../inc/loaderr.pug
+    include ../inc/navi.pug
+
+    include ../inc/stat.pug
