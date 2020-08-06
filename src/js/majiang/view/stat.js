@@ -9,7 +9,7 @@ function make_stat(paipu_all) {
     let title = paipu_all[0].title.replace(/\n.*$/,'');
     let player = {};
     for (let paipu of paipu_all) {
-        if (paipu.title.replace(/\n.*$/,'') != title) title = undefined;
+        if (paipu.title.replace(/\n.*$/,'') != title) title = '';
         for (let id = 0; id < 4; id++) {
             let name = paipu.player[id].replace(/\n.*$/,'');
             player[name] = player_stat(player[name], paipu, id);
@@ -103,7 +103,7 @@ function show(paipu_all, callback) {
     $('#stat tbody').empty();
 
     let { title, player } = make_stat(paipu_all);
-    if (title) $('#stat .title').text(title);
+    $('#stat .title').text(title);
     let max;
     for (let stat of make_table(player)) {
         if (! max) max = stat[1];
