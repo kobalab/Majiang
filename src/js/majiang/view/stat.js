@@ -1,13 +1,9 @@
-/*!
- *
+/*
  *  stat.js
- *
- *  Copyright(C) 2020 Satoshi Kobayashi
- *  Released under the MIT license
- *  https://github.com/kobalab/Majiang/blob/master/LICENSE
  */
-
 "use strict";
+
+const $ = require('jquery');
 
 function make_stat(paipu_all) {
     let title = paipu_all[0].title.replace(/\n.*$/,'');
@@ -102,7 +98,9 @@ function nfmt(n, r, f) {
            :                   s;
 }
 
-function show_stat(paipu_all) {
+function show(paipu_all, callback) {
+
+    $('#stat tbody').empty();
 
     let { title, player } = make_stat(paipu_all);
     if (title) $('#stat .title').text(title);
@@ -117,50 +115,14 @@ function show_stat(paipu_all) {
         $('#stat tbody').append(tr);
     }
 
-    $('#stat h2, #stat table').fadeIn();
-}
-
-function error(msg) {
-    $('#stat .error').text(msg).fadeIn();
+    $('#stat .file').on('click', callback);
 }
 
 let _tr;
 
 $(function(){
-    $('.version').text('ver. ' + Majiang.VERSION);
-
     _tr = $('#stat tbody tr');
     $('#stat tbody').empty();
-
-    if (location.search) {
-        const url = location.search.replace(/^\?/,'');
-        $.ajax({
-            url:         url,
-            contentType: 'application/json',
-            success:     (data)=>{
-                try {
-                    show_stat(data);
-                    $('#navi a[href="paipu.html"]')
-                        .attr('href', 'paipu.html' + location.search);
-                }
-                catch(e) {
-                    error(`不正なファイル: ${decodeURI(url)}`);
-                }
-            },
-            error:       (e)=>{
-                error(`${decodeURI(url)}: ${e.status} ${e.statusText}`)
-            }
-        });
-    }
-    else if (localStorage){
-        for (let storage of ['paipu', 'game']) {
-            let paipu = JSON.parse(
-                            localStorage.getItem(`Majiang.${storage}`) || '[]');
-            if (paipu.length) {
-                show_stat(paipu);
-                return;
-            }
-        }
-        error('集計する牌譜がありません。');
-    }
 });
+
+module.exports = show;

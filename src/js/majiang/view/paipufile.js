@@ -7,6 +7,7 @@ const $ = require('jquery');
 require('jquery-ui/ui/widgets/sortable');
 
 const Paipu = require('./paipu');
+const stat  = require('./stat');
 
 function fix_paipu(paipu) {
 
@@ -74,6 +75,7 @@ class PaipuStorage {
     }
 
     get(idx) {
+        if (idx == null) return this._paipu;
         return this._paipu[idx];
     }
 
@@ -144,13 +146,14 @@ load_paipu(url, hash) {
             this._paipu.add(data);
             this._url = url;
             this.redraw();
-
-            $('#navi a[href="stat.html"]').attr('href', 'stat.html?' + url);
         }
         catch(e) {
             this.error(`不正なファイル: ${decodeURI(url)}`);
         }
-        if (hash) {
+        if (hash == 'stat') {
+            this.open_stat();
+        }
+        else if (hash) {
             let [fragment, opt] = hash.split(':');
 
             this.open_player(...fragment.split('/').map(x=>(x=='')?0:+x));
@@ -199,8 +202,9 @@ redraw() {
     }
     this._max_idx = this._paipu.length();
 
-    if (this._paipu.length()) $('.download', this._node).show();
-    else                      $('.download', this._node).hide();
+    if (this._paipu.length())
+            $('.download, .stat', this._node).show();
+    else    $('.download, .stat', this._node).hide();
 
     this.set_handler();
 
@@ -251,6 +255,15 @@ open_player(paipu_idx, viewpoint, log_idx, idx) {
     return this;
 }
 
+open_stat() {
+    $('body').removeClass('file').addClass('stat').hide().fadeIn();
+    if (this._url) history.replaceState('', '', '#stat');
+    stat(this._paipu.get(), ()=>{
+        $('body').removeClass('stat').addClass('file').hide().fadeIn();
+        history.replaceState('', '', location.href.replace(/#.*$/,''));
+    });
+}
+
 set_handler() {
 
     const self = this;
@@ -284,6 +297,10 @@ set_handler() {
     $('> .button .download', this._node)
                 .attr('href', URL.createObjectURL(blob))
                 .attr('download', `牌譜(${title}).json`);
+
+    $('> .button .stat', this._node)
+                .off('click')
+                .on('click', ()=>this.open_stat());
 }
 
 error(msg) {

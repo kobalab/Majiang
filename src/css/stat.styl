@@ -3,8 +3,11 @@ body.stat
     a
         color:  black
     background: white
+    #stat
+        display: block
 
 #stat
+    display: none
     h1
         margin-top: 0
         border-bottom: solid 2px black
@@ -19,14 +22,40 @@ body.stat
         font-family: text-font
         text-align: right
 
+    .stat
+        margin-top: 20px
+        overflow: auto
+        > div
+            display: table
+
+        a.file
+            float: right
+            display: inline-block
+            font-size: 14px
+            padding: 6px 10px
+            background: #999
+            border-radius: 5px
+            white-space: nowrap
+            cursor: pointer
+            color: white
+            line-height: 1em
+            text-decoration: none
+            img
+                width: 14px
+                height: 14px
+                margin-right: 4px
+                vertical-align: bottom
+            &:hover
+                background: #ccc
+
     h2
-        display: none
+        margin-top: 0px
         font-size: 18pt
         font-family: title-font
     table
-        display: none
         border-collapse: collapse
         font-size: 16px
+        white-space: nowrap
         thead
         tbody
             border-bottom: solid 2px black
@@ -50,10 +79,3 @@ body.stat
         padding: 4px 1em
         font-size: 12px
         font-family: menu-font
-
-@media screen and (max-width: 880px)
-    #stat
-        h2
-            font-size: 16px
-        table
-            font-size: 13px
