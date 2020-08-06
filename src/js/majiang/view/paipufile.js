@@ -132,6 +132,15 @@ constructor(node, storage) {
         $(this).val(null);
     });
 
+    $('input[name="storage"]').prop('checked', storage != null)
+        .on('change', function(){
+            if ($(this).prop('checked'))
+                    location = location.pathname;
+            else    location = location.pathname + '?/';                    
+        });
+
+    $('> .button .stat', this._node).on('click', ()=>this.open_stat());
+
     $('.error', node).on('click', function(){
         $(this).fadeOut(500, ()=>$(this).empty());
     });
@@ -173,12 +182,20 @@ load_paipu(url, hash) {
         this.error(`${decodeURI(url)}: ${e.status} ${e.statusText}`);
     }
 
-    $.ajax({
-        url:         url,
-        contentType: 'application/json',
-        success:     success,
-        error:       error
-    });
+    if (url == '/') {
+        this._url = url;
+        this.redraw();
+    }
+    else {
+        $.ajax({
+            url:         url,
+            contentType: 'application/json',
+            success:     success,
+            error:       error
+        });
+    }
+
+    $('input[name="storage"]').prop('checked', false);
 }
 
 redraw() {
@@ -297,10 +314,6 @@ set_handler() {
     $('> .button .download', this._node)
                 .attr('href', URL.createObjectURL(blob))
                 .attr('download', `牌譜(${title}).json`);
-
-    $('> .button .stat', this._node)
-                .off('click')
-                .on('click', ()=>this.open_stat());
 }
 
 error(msg) {
