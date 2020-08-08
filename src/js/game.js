@@ -9,11 +9,6 @@
 
 "use strict";
 
-let ua = navigator.userAgent;
-if (ua.match(/\bMSIE\b/) || ua.match(/\bTrident\b/)) {
-    Majiang.Player = require('./majiang/dev/player0202');
-}
-
 let loaded;
 
 $(function(){
@@ -48,7 +43,7 @@ $(function(){
 
     $('.version').text('ver. ' + Majiang.VERSION);
 
-    paipu = new Majiang.View.PaipuFile($('#file .file'), 'Majiang.game');
+    paipu = new Majiang.View.PaipuFile($('#file'), 'Majiang.game');
     $('#file .next').on('click', start);
 
     $(window).on('load', function(){

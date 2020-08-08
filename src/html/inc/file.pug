@@ -10,6 +10,11 @@
     if page == 'index'
       a.next 対局開始
       .button
+        a.stat
+          img(src="img/icon-dotlist.png")
+          | 牌譜集計
+        |
+        |
         a.download
           img(src="img/icon-download-alt.png")
           | 牌譜保存
@@ -51,7 +56,15 @@
         img(src="img/icon-upload-alt.png")
         | 牌譜追加
         input(type="file" multiple)
+      input(name="storage" type="checkbox")
+      | ローカルストレージ
+      
       .button
+        a.stat
+          img(src="img/icon-dotlist.png")
+          | 牌譜集計
+        |
+        |
         //-a.edit
           img(src="img/icon-edit.png")
           | 新規編集

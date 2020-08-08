@@ -4,18 +4,19 @@ doctype html
 html(lang="ja")
 
   head
-    include ../html-include/meta.pug
+    include ../inc/meta.pug
 
     title 電脳麻将: 牌理
 
-    include ../html-include/style.pug
+    include ../inc/style.pug
 
     script(src="js/majiang.js" defer)
     script(src="js/paili.js" defer)
 
   body.demo
-    include ../html-include/navi.pug
-    include ../html-include/loaddata.pug
+    include ../inc/loaderr.pug
+    include ../inc/navi.pug
+    include ../inc/loaddata.pug
     .version
 
     form

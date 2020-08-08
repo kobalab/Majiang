@@ -126,7 +126,8 @@ hule(hule) {
         if (! this._result.hupai[hupai.name])
             this._result.hupai[hupai.name] = { n: 0, fanshu: 0 };
         this._result.hupai[hupai.name].n++;
-        this._result.hupai[hupai.name].fanshu += hupai.fanshu;
+        this._result.hupai[hupai.name].fanshu
+            += hule.damanguan ? hupai.fanshu.length * 13 : hupai.fanshu;
     }
 }
 

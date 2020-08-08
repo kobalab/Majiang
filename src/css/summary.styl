@@ -1,0 +1,44 @@
+#game
+    > .summary
+        width: 800px
+        overflow: auto
+        display: flex
+        align-items: center
+        transition: opacity 0.4s ease-out
+        > div
+            margin: auto 0px
+            > div
+                margin: auto
+                background: rgba(0,0,0,0.8)
+                table
+                    margin: auto
+                    font-family: text-font
+                    border-collapse: collapse
+                    line-height: 1.5
+                    thead
+                        font-family: text-font
+                        border-bottom: solid 2px
+                    tfoot
+                        border-top: solid 2px
+                    .zhuangjia
+                        background: rgba(128,128,128,0.4)
+                    .baojia
+                    .minus
+                        color: red
+                    .hule
+                    .guanjun
+                    .plus
+                        color: #0ff
+                    .diff
+                    .defen
+                        font-family: defen-font
+                        padding: 0px 1.2em
+                        text-align: right
+                    .point
+                        font-family: defen-font
+                        border-top: solid 1px
+                        text-align: center
+                        font-size: 24px
+        &.paipu tbody tr:hover
+            background: rgba(256,256,256,0.4)
+            cursor: pointer

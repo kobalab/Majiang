@@ -1,0 +1,15 @@
+#loaderr(style="display: none")
+
+script.
+  window.onload = function(){
+    if (typeof Majiang === 'undefined') {
+      var text = document.createTextNode(
+                      'プログラムのロードでエラーが発生しました。'
+                    + 'お使いのブラウザでは実行できない可能性があります。'
+                    + 'リロードして問題が解決しない場合は、'
+                    + 'Google Chromeなど最新のブラウザでアクセスしてみてください。');
+      var elem = document.getElementById('loaderr');
+      elem.appendChild(text);
+      elem.removeAttribute('style');
+    }    
+  }

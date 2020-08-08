@@ -1,0 +1,40 @@
+#game
+    .kaiju
+        position: relative
+        margin: auto
+        width: 580px
+        border: solid 1px #666
+        background: #111
+        .title
+            margin: 40px 20px
+            text-align: center
+            font-family: title-font
+            font-size: 32px
+            line-height: 1
+        .player
+            margin: 40px 20px
+            height: 132px
+            text-align: center
+            font-family: text-font
+            font-size: 24px
+            > div
+                position: absolute
+                width: 240px
+                height: 38px
+                padding: 0px 10px
+                border-radius: 4px
+                background: #333
+                white-space: nowrap
+                overflow: hidden
+                text-overflow: ellipsis
+                cursor: pointer
+                &.main
+                    transform: translate(140px, 96px)
+                &.xiajia
+                    transform: translate(280px, 48px)
+                &.duimian
+                    transform: translate(140px, 0px)
+                &.shangjia
+                    transform: translate(0px, 48px)
+                &:hover
+                    background: #999

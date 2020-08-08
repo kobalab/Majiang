@@ -15,7 +15,7 @@ module.exports = class Game {
 constructor() {
 
     this._model = {
-        title:      new Date().toLocaleString(),
+        title:      '電脳麻将\n' + new Date().toLocaleString(),
         player:     ['私','下家','対面','上家'],
         qijia:      Math.floor(Math.random() * 4),
         zhuangfeng: 0,
@@ -589,7 +589,7 @@ jieju() {
 
     this._paipu.defen = defen.concat();
     this._paipu.rank  = rank.concat();
-    this._paipu.point = point.concat();
+    this._paipu.point = point.map(p=>''+p);
 
     let paipu = { jieju: { defen: defen, rank: rank, point: point } };
     let msg = [];

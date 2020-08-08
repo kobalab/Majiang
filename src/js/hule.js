@@ -19,7 +19,7 @@ $(function(){
             $('.huledialog').addClass('hide').addClass('fadeout');
             return false;
         }
-        let shoupai = new Majiang.Shoupai.fromString(paistr);
+        let shoupai = Majiang.Shoupai.fromString(paistr);
         $('input[name="paistr"]').val(shoupai.toString());
 
         let rongpai;
@@ -76,7 +76,7 @@ $(function(){
             player:     ['私','下家','対面','上家'],
             qijia:      0,
             zhuangfeng: param.zhuangfeng,
-            jishu:      (4 - param.menfeng) % 4,
+            jushu:      (4 - param.menfeng) % 4,
             changbang:  param.jicun.changbang,
             lizhibang:  param.jicun.lizhibang,
             defen:      [ 25000, 25000, 25000, 25000 ]
