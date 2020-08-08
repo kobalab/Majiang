@@ -14,14 +14,26 @@
             width: 590px
             height: 680px
             float: right
-            border: solid 1px white
-            border-radius: 6px
 
-@media screen and (max-width: 820px)
-    #game
-        .controler
-            img.analyzer
-                display: none
+@media screen and (max-width: 820px) and (min-height: 720px)
+
+    body.analyzer
+        #analyzer
+            box-sizing: border-box
+            margin-top: 5px
+            width: 800px
+            height: 360px
+
+@media screen and (max-height: 720px)
+
+    body.analyzer
+        #analyzer
+            position: absolute
+            box-sizing: border-box
+            width: 760px
+            height: 360px
+            top: 30px
+            left: 10px
 
 table.status
 table.dapai
@@ -42,8 +54,15 @@ table.dapai
         span
             padding-left: 0.5em
 
+body.analyzer
+    #analyzer
+        display: block
+
 #analyzer
     display: none
+    background: black
+    border: solid 1px white
+    border-radius: 6px
     pai-size: 35px
     font-family: menu-font
     font-size: 12px

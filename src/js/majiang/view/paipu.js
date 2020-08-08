@@ -118,6 +118,9 @@ set_handler() {
     $('.plus',     controler).on('mousedown', ()=>this.speed(this._speed + 1));
     $('.minus',    controler).on('mousedown', ()=>this.speed(this._speed - 1));
     $('> .shoupai', this._root).on('mousedown', '.pai', ()=>this.shoupai());
+    $('> .shoupai.main', this._root)
+                            .off('mousedown', '.pai')
+                            .on('mousedown', '.pai', ()=>this.analyzer());
     $('.he',        this._root).on('mousedown', '.pai', ()=>this.he()     );
     for (let i = 0; i < 4; i++) {
         $(`.player.${view_class[i]}`, this._root)
@@ -582,8 +585,6 @@ summary() {
 }
 
 analyzer() {
-    let ua = navigator.userAgent;
-    if (ua.match(/\bMobile\b/)) return true;
     if (this._summary) return true;
     if (this._analyzer) {
         this._analyzer = null;
