@@ -111,9 +111,9 @@ set_handler() {
     $('.summary',  controler).on('mousedown', ()=>this.summary());
     $('.sound',    controler).on('mousedown', ()=>this.sound());
     $('.analyzer', controler).on('mousedown', ()=>this.analyzer());
-    $('.first',    controler).on('mousedown', ()=>this.top(this._log_idx - 1));
+    $('.first',    controler).on('mousedown', ()=>this.backward());
     $('.autoplay', controler).on('mousedown', ()=>this.autoplay());
-    $('.last',     controler).on('mousedown', ()=>this.top(this._log_idx + 1));
+    $('.last',     controler).on('mousedown', ()=>this.forward());
     $('.speed',    controler).on('mousedown', ()=>false);
     $('.plus',     controler).on('mousedown', ()=>this.speed(this._speed + 1));
     $('.minus',    controler).on('mousedown', ()=>this.speed(this._speed - 1));
@@ -142,14 +142,10 @@ set_handler() {
         if      (event.key == ' ')  this.autoplay();
         else if (event.key == '+')  this.speed(this._speed + 1);
         else if (event.key == '-')  this.speed(this._speed - 1);
-        else if (event.key == 'ArrowUp' && event.shiftKey)
-                                    this.top(this._log_idx);
-        else if (event.key == 'ArrowDown' && event.shiftKey)
-                                    this.last();
         else if (event.key == 'ArrowRight')
-                                    this.top(this._log_idx + 1);
+                                    this.forward();
         else if (event.key == 'ArrowLeft')
-                                    this.top(this._log_idx - 1);
+                                    this.backward();
         else if (event.key == 'v')  this.viewpoint(1);
         else if (event.key == 'a')  this.sound();
         else if (event.key == 's')  this.shoupai();
@@ -709,6 +705,19 @@ seek(log_idx, idx) {
     this.set_fragment();
 
     this._view.redraw();
+}
+
+forward() {
+    if (this._idx < this._paipu.log[this._log_idx].length
+        && ! this._log.hule)
+            return this.last();
+    else    return this.top(this._log_idx + 1);
+}
+
+backward() {
+    if (this._idx > 1)
+            return this.top(this._log_idx);
+    else    return this.top(this._log_idx - 1);
 }
 
 set_fragment() {
