@@ -1,3 +1,4 @@
+include ../version.pug
 - var page = 'paili'
 
 doctype html
@@ -9,9 +10,7 @@ html(lang="ja")
     title 電脳麻将: 牌理
 
     include ../inc/style.pug
-
-    script(src="js/majiang.js" defer)
-    script(src="js/paili.js" defer)
+    include ../inc/script.pug
 
   body.demo
     include ../inc/loaderr.pug

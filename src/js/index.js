@@ -1,6 +1,6 @@
 /*!
  *
- *  game.js
+ *  index.js
  *
  *  Copyright(C) 2017 Satoshi Kobayashi
  *  Released under the MIT license

@@ -1,7 +1,9 @@
+const version = require('./package.json').version;
+
 module.exports = {
     entry:  {
         majiang:   './src/js/entry.js',
-        game:      './src/js/game.js',
+        index:     './src/js/index.js',
         autoplay:  './src/js/autoplay.js',
         paipu:     './src/js/paipu.js',
         paili:     './src/js/paili.js',
@@ -11,6 +13,6 @@ module.exports = {
     },
     output: {
         path:     __dirname + '/www/js/',
-        filename: '[name].js'
+        filename: `[name]-${version}.js`
     },
 };
