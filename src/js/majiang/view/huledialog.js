@@ -156,8 +156,11 @@ fenpei(fenpei) {
 }
 
 show() {
-    this._node.root.removeClass('hide').scrollTop(0);
-    setTimeout(() => this._node.root.removeClass('fadeout'), 10);
+    this._node.root.addClass('hide').addClass('fadeout');
+    setTimeout(()=>{
+        this._node.root.removeClass('hide').scrollTop(0);
+        setTimeout(() => this._node.root.removeClass('fadeout'), 0);
+    }, 100);
     return this;
 }
 
