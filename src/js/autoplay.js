@@ -64,11 +64,11 @@ $(function(){
     $('.version').text('ver. ' + Majiang.VERSION);
 
     $(window).on('load', function(){
-        $('#title .loading').hide();
+        $('#title .loading').addClass('hide');
         $('#title .start').on('click', function(){
             $('body').attr('class','game');
             init();
-        }).show();
+        }).removeClass('hide');
     });
     if (loaded) $(window).trigger('load');
 });
