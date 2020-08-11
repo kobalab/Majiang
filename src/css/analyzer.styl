@@ -1,4 +1,4 @@
-@media screen and (min-width: 820px) and (min-height: 720px)
+@media screen and (min-width: 821px) and (min-height: 721px)
 
     body.analyzer
         width: 1400px
@@ -15,7 +15,7 @@
             height: 680px
             float: right
 
-@media screen and (max-width: 820px) and (min-height: 720px)
+@media screen and (max-width: 820px) and (min-height: 721px)
 
     body.analyzer
         #analyzer
@@ -27,13 +27,21 @@
 @media screen and (max-height: 720px)
 
     body.analyzer
+        margin: 0 auto
+        width: 800px
+        position: relative
         #analyzer
             position: absolute
             box-sizing: border-box
-            width: 760px
+            background: rgba(0,0,0,0.4)
+            width: 740px
             height: 360px
             top: 30px
             left: 10px
+            .selected
+                background: rgba(192,192,192,0.6)
+            img
+                opacity: 0.8
 
 table.status
 table.dapai
