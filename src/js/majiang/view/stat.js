@@ -1,5 +1,5 @@
 /*
- *  stat.js
+ *  Majiang.View.PaipuStat
  */
 "use strict";
 
@@ -60,8 +60,10 @@ function player_stat(stat, paipu, id) {
 
 function make_table(hash) {
     let table = [];
+    let max_game = 0;
     for (let name of sort(hash)) {
         let r = hash[name];
+        if (r.n_game > max_game) max_game = r.n_game;
         table.push([
             name,
             r.n_game,
@@ -81,7 +83,7 @@ function make_table(hash) {
             nfmt(r.n_hule ? r.sum_defen / r.n_hule : 0, 0),
         ]);
     }
-    return table;
+    return table.filter(r=>r[1] >= max_game / 5);
 }
 
 function sort(hash) {
@@ -98,31 +100,38 @@ function nfmt(n, r, f) {
            :                   s;
 }
 
-function show(paipu_all, callback) {
+let _tr;
 
-    $('#stat tbody').empty();
+module.exports = class PaipuStat {
+
+constructor(node, paipu_all, callback) {
+
+    if (! _tr) _tr = $('tbody tr', node)
+
+    this._node = node;
+    this._tr   = _tr;
+
+    $('tbody', this._node).empty();
 
     let { title, player } = make_stat(paipu_all);
-    $('#stat .title').text(title);
-    let max;
-    for (let stat of make_table(player)) {
-        if (! max) max = stat[1];
-        if (stat[1] < max / 5) continue;
-        let tr = _tr.clone();
+    this._table = make_table(player);
+
+    $('.title', this._node).text(title);
+    $('.file', this._node).on('click', callback);
+}
+
+show() {
+    const tbody = $('tbody', this._node);
+    tbody.empty();
+    for (let stat of this._table) {
+        let tr = this._tr.clone();
         for (let i = 0; i < stat.length; i++) {
             $('td', tr).eq(i).text(stat[i]);
         }
-        $('#stat tbody').append(tr);
+        tbody.append(tr);
     }
-
-    $('#stat .file').on('click', callback);
+    $(window).scrollTop(0)
+    $('.stat', this._node).scrollLeft(0);
 }
 
-let _tr;
-
-$(function(){
-    _tr = $('#stat tbody tr');
-    $('#stat tbody').empty();
-});
-
-module.exports = show;
+}
