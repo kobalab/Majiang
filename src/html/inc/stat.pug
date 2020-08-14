@@ -6,9 +6,15 @@
     
   .stat
     div
-      a.file
-        img(src="img/icon-arrow-left.png")
-        | 牌譜一覧
+      .button
+        input(name="cut-off" type="checkbox")
+        | 対戦数
+        input(name="n_game")
+        | 以下は表示しない
+        |
+        a.file
+          img(src="img/icon-arrow-left.png")
+          | 牌譜一覧
 
       h2.title
   

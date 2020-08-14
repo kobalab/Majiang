@@ -60,10 +60,8 @@ function player_stat(stat, paipu, id) {
 
 function make_table(hash) {
     let table = [];
-    let max_game = 0;
     for (let name of Object.keys(hash)) {
         let r = hash[name];
-        if (r.n_game > max_game) max_game = r.n_game;
         table.push([
             0,
             name,
@@ -84,7 +82,7 @@ function make_table(hash) {
             nfmt(r.n_hule ? r.sum_defen / r.n_hule : 0, 0),
         ]);
     }
-    return table.filter(r=>r[2] >= max_game / 5);
+    return table;
 }
 
 function nfmt(n, r, f) {
@@ -109,6 +107,12 @@ constructor(node, paipu_all, callback) {
 
     let { title, player } = make_stat(paipu_all);
     this._table = make_table(player);
+
+    $('input[name="cut-off"]', this._node).prop('checked', true);
+    let cut_off = (this._table.map(x=>x[2])
+                              .reduce((x,y)=> x > y ? x : y) / 5) | 0;
+    $('input[name="n_game"]', this._node).val(cut_off || '');
+    $('.button input', this._node).on('change', ()=>this.show());
 
     $('.title', this._node).text(title);
     $('.file', this._node).on('click', callback);
@@ -135,9 +139,11 @@ sort(i) {
 }
 
 show() {
+    let cut_off = $('input[name="cut-off"]', this._node).prop('checked')
+                    ? + $('input[name="n_game"]', this._node).val() || 0 : 0;
     const tbody = $('tbody', this._node);
     tbody.empty();
-    for (let stat of this._table) {
+    for (let stat of this._table.filter(r=>r[2] > cut_off)) {
         let tr = this._tr.clone();
         for (let i = 1; i < stat.length; i++) {
             $('td', tr).eq(i-1).text(stat[i]);
