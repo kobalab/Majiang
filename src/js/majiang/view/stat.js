@@ -61,10 +61,11 @@ function player_stat(stat, paipu, id) {
 function make_table(hash) {
     let table = [];
     let max_game = 0;
-    for (let name of sort(hash)) {
+    for (let name of Object.keys(hash)) {
         let r = hash[name];
         if (r.n_game > max_game) max_game = r.n_game;
         table.push([
+            0,
             name,
             r.n_game,
             nfmt(r.sum_point, 1, 2),
@@ -83,14 +84,7 @@ function make_table(hash) {
             nfmt(r.n_hule ? r.sum_defen / r.n_hule : 0, 0),
         ]);
     }
-    return table.filter(r=>r[1] >= max_game / 5);
-}
-
-function sort(hash) {
-    return Object.keys(hash).sort((a,b)=>
-        hash[b].n_game - hash[a].n_game
-                || hash[b].sum_point - hash[a].sum_point
-    );
+    return table.filter(r=>r[2] >= max_game / 5);
 }
 
 function nfmt(n, r, f) {
@@ -118,6 +112,26 @@ constructor(node, paipu_all, callback) {
 
     $('.title', this._node).text(title);
     $('.file', this._node).on('click', callback);
+
+    $('th', this._node).attr('class','');
+    for (let i = 1; i < this._table.length; i++) {
+        $('th', this._node).eq(i).on('click', ()=>this.sort(i).show());
+    }
+    this.sort(2).sort(1);
+}
+
+sort(i) {
+    this._order = Math.abs(this._order) == i ? -this._order : -i;
+    $('th', this._node).attr('class','');
+    $('th', this._node).eq(i).attr('class', this._order > 0 ? 'asc' : 'desc');
+
+    this._table = this._table.sort((x, y)=>
+        (this._order > 0 ? x[i+1] - y[i+1] : y[i+1] - x[i+1]) || x[0] - y[0]);
+
+    for (let i = 0; i < this._table.length; i++) {
+        this._table[i][0] = i;
+    }
+    return this;
 }
 
 show() {
@@ -125,13 +139,15 @@ show() {
     tbody.empty();
     for (let stat of this._table) {
         let tr = this._tr.clone();
-        for (let i = 0; i < stat.length; i++) {
-            $('td', tr).eq(i).text(stat[i]);
+        for (let i = 1; i < stat.length; i++) {
+            $('td', tr).eq(i-1).text(stat[i]);
         }
         tbody.append(tr);
     }
     $(window).scrollTop(0)
     $('.stat', this._node).scrollLeft(0);
+
+    return this;
 }
 
 }
