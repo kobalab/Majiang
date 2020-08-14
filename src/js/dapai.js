@@ -71,7 +71,12 @@ function submit() {
     new Majiang.View.Shoupai('.shoupai', analyzer._shoupai).redraw(true);
 
     analyzer.action_zimo();
-    $('#dapai').hide().fadeIn();
+
+    $('#dapai').addClass('hide fadeout');
+    setTimeout(()=>{
+        $('#dapai').removeClass('hide');
+        setTimeout(()=>$('#dapai').removeClass('fadeout'), 0);
+    }, 100);
 
     paistr = analyzer._shoupai.toString();
     $('input[name="paistr"]').val(paistr);
@@ -96,10 +101,9 @@ $(function(){
 
     $('form').on('reset', ()=>{
         $('input[name="paistr"]').focus();
-        $('#dapai').hide();
+        $('#dapai').addClass('hide');
     });
 
-    $('#dapai').hide();
     _row = $('.report .row');
     $('.report').empty();
 
