@@ -114,7 +114,7 @@ constructor(node, paipu_all, callback) {
     $('.file', this._node).on('click', callback);
 
     $('th', this._node).attr('class','');
-    for (let i = 1; i < this._table.length; i++) {
+    for (let i = 1; i < this._table[0].length; i++) {
         $('th', this._node).eq(i).on('click', ()=>this.sort(i).show());
     }
     this.sort(2).sort(1);
