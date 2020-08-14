@@ -47,11 +47,11 @@ $(function(){
     $('#file .next').on('click', start);
 
     $(window).on('load', function(){
-        $('#title .loading').hide();
+        $('#title .loading').addClass('hide');
         $('#title .start').on('click', function(){
             if (paipu._paipu.length()) end();
             else                       start();
-        }).show();
+        }).removeClass('hide');
     });
     if (loaded) $(window).trigger('load');
 });
