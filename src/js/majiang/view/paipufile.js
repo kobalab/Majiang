@@ -281,7 +281,12 @@ open_viewer(paipu_idx, viewpoint, log_idx, idx) {
 }
 
 open_stat() {
-    $('body').removeClass('file').addClass('stat').hide().fadeIn();
+    $('body').attr('class', 'stat');
+    $('#stat').addClass('hide fadeout');
+    setTimeout(()=>{
+        $('#stat').removeClass('hide');
+        setTimeout(()=>$('#stat').removeClass('fadeout'), 0);
+    }, 100);
     if (this._url) history.replaceState('', '', '#stat');
     new PaipuStat($('#stat'), this._paipu.get(), ()=>{
         $('body').removeClass('stat').addClass('file').hide().fadeIn();
