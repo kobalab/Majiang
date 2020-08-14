@@ -68,8 +68,16 @@ body.stat
             tr
                 border-bottom: solid 1px #ccc
         th
-            padding: 2px 0.5em
+            padding: 2px 10px 2px 8px
             font-family: menu-font
+            &.asc
+                background: no-repeat right center url(../img/icon-chevron-up.png)
+                background-size: 8px
+            &.desc
+                background: no-repeat right center url(../img/icon-chevron-down.png)
+                background-size: 8px
+            a
+                cursor: pointer
         td
             padding: 2px 1em
             font-family: text-font

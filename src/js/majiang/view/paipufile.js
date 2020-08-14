@@ -7,7 +7,7 @@ const $ = require('jquery');
 require('jquery-ui/ui/widgets/sortable');
 
 const Paipu = require('./paipu');
-const stat  = require('./stat');
+const PaipuStat = require('./stat');
 
 function fix_paipu(paipu) {
 
@@ -283,10 +283,10 @@ open_viewer(paipu_idx, viewpoint, log_idx, idx) {
 open_stat() {
     $('body').removeClass('file').addClass('stat').hide().fadeIn();
     if (this._url) history.replaceState('', '', '#stat');
-    stat(this._paipu.get(), ()=>{
+    new PaipuStat($('#stat'), this._paipu.get(), ()=>{
         $('body').removeClass('stat').addClass('file').hide().fadeIn();
         history.replaceState('', '', location.href.replace(/#.*$/,''));
-    });
+    }).show();
 }
 
 set_handler() {
