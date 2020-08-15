@@ -9,6 +9,8 @@
 
 "use strict";
 
+const { hide, show } = require('./majiang/view/fadein');
+
 let loaded;
 
 $(function(){
@@ -47,11 +49,12 @@ $(function(){
     $('#file .next').on('click', start);
 
     $(window).on('load', function(){
-        $('#title .loading').addClass('hide');
+        hide($('#title .loading'));
         $('#title .start').on('click', function(){
             if (paipu._paipu.length()) end();
             else                       start();
-        }).removeClass('hide');
+        });
+        show($('#title .start'));
     });
     if (loaded) $(window).trigger('load');
 });

@@ -8,6 +8,7 @@ require('jquery-ui/ui/widgets/sortable');
 
 const Paipu = require('./paipu');
 const PaipuStat = require('./stat');
+const { hide, fadeIn } = require('./fadein');
 
 function fix_paipu(paipu) {
 
@@ -282,16 +283,12 @@ open_viewer(paipu_idx, viewpoint, log_idx, idx) {
 
 open_stat() {
     $('body').attr('class', 'stat');
-    $('#stat').addClass('hide fadeout');
-    setTimeout(()=>{
-        $('#stat').removeClass('hide');
-        setTimeout(()=>$('#stat').removeClass('fadeout'), 0);
-    }, 100);
     if (this._url) history.replaceState('', '', '#stat');
     new PaipuStat($('#stat'), this._paipu.get(), ()=>{
         $('body').removeClass('stat').addClass('file').hide().fadeIn();
         history.replaceState('', '', location.href.replace(/#.*$/,''));
     }).show();
+    fadeIn($('#stat'));
 }
 
 set_handler() {
