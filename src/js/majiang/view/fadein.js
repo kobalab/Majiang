@@ -17,12 +17,12 @@ module.exports = {
                     node.off('transitionend')
                         .removeClass('fadeout'), 0)
         }, 100);
+        return node;
     },
 
-    fadeOut: node =>{
+    fadeOut: node =>
         node.on('transitionend', ()=>
                     node.off('transitionend')
                         .addClass('hide'))
-            .addClass('fadeout');
-    }
+            .addClass('fadeout'),
 }
