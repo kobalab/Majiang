@@ -9,7 +9,7 @@
 
 "use strict";
 
-const { hide, show } = require('./majiang/view/fadein');
+const { hide, show, fadeIn } = require('./majiang/view/fadein');
 
 let loaded;
 
@@ -32,7 +32,7 @@ $(function(){
     }
 
     function end() {
-        $('body').attr('class','file').hide().fadeIn();
+        fadeIn($('body').attr('class','file'));
         $('#game > .player').show();
         if (game) {
             paipu._paipu.add(game._paipu);
