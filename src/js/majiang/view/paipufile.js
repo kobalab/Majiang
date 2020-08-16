@@ -8,7 +8,7 @@ require('jquery-ui/ui/widgets/sortable');
 
 const Paipu = require('./paipu');
 const PaipuStat = require('./stat');
-const { hide, fadeIn } = require('./fadein');
+const { hide, fadeIn, fadeOut } = require('./fadein');
 
 function fix_paipu(paipu) {
 
@@ -121,7 +121,7 @@ constructor(node, storage, url, hash) {
     $('.button .stat', this._node).on('click', ()=>this.open_stat());
 
     $('.error', node).on('click', (event)=>{
-        $(event.target).fadeOut(500, ()=>$(event.target).empty());
+        fadeOut($('.error', node));
     });
 }
 
@@ -327,7 +327,8 @@ set_handler() {
 }
 
 error(msg) {
-    let error = $('.error', this._node).append($('<div>').text(msg)).fadeIn();
+    let error = $('.error', this._node).text(msg);
+    fadeIn(error);
     setTimeout(()=>error.trigger('click'), 5000);
 }
 
