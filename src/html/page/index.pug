@@ -1,3 +1,4 @@
+include ../version.pug
 - var page = 'index'
 
 doctype html
@@ -14,9 +15,7 @@ html(lang="ja")
     meta(property="og:image" content="http://kobalab.net/majiang/img/game.png")
 
     include ../inc/style.pug
-
-    script(src="js/majiang.js" defer)
-    script(src="js/game.js" defer)
+    include ../inc/script.pug
 
   body.title
     include ../inc/loaderr.pug

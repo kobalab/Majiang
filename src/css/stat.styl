@@ -28,8 +28,15 @@ body.stat
         > div
             display: table
 
-        a.file
+        .button
             float: right
+            font-family: menu-font
+            font-size: 12px
+            input[name="n_game"]
+                width: 2em
+
+        a.file
+            margin-left: 10px
             display: inline-block
             font-family: menu-font
             font-size: 14px
@@ -68,8 +75,16 @@ body.stat
             tr
                 border-bottom: solid 1px #ccc
         th
-            padding: 2px 0.5em
+            padding: 2px 10px 2px 8px
             font-family: menu-font
+            &.asc
+                background: no-repeat right center url(../img/icon-chevron-up.png)
+                background-size: 8px
+            &.desc
+                background: no-repeat right center url(../img/icon-chevron-down.png)
+                background-size: 8px
+            a
+                cursor: pointer
         td
             padding: 2px 1em
             font-family: text-font

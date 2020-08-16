@@ -66,6 +66,8 @@ https://github.com/kobalab/Majiang/blob/master/LICENSE
   - [麻雀の打牌選択アルゴリズム(8)](https://blog.kobalab.net/entry/20170819/1503150574)
   - [麻雀の副露判断アルゴリズム(5)](https://blog.kobalab.net/entry/20170822/1503401216)
   - [麻雀の打牌選択アルゴリズム(9)](https://blog.kobalab.net/entry/20170826/1503705167)
+- 表示処理
+  - [麻雀の手牌を表示するプログラム](https://blog.kobalab.net/entry/2020/08/14/234729)
 - その他
   - [電脳麻将のプログラム中の中国語一覧](https://blog.kobalab.net/entry/20170722/1500688645)
   - [天鳳の牌譜形式を解析する(1)](https://blog.kobalab.net/entry/20170225/1488036549)

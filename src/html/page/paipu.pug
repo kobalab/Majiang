@@ -1,3 +1,4 @@
+include ../version.pug
 - var page = 'paipu'
 
 doctype html
@@ -9,9 +10,7 @@ html(lang="ja")
     title 電脳麻将: 牌譜ビューア
 
     include ../inc/style.pug
-
-    script(src="js/majiang.js" defer)
-    script(src="js/paipu.js" defer)
+    include ../inc/script.pug
 
   body.file
     include ../inc/loaderr.pug

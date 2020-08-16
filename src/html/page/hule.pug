@@ -1,3 +1,4 @@
+include ../version.pug
 - var page = 'hule'
 
 doctype html
@@ -10,9 +11,7 @@ html(lang="ja")
     meta(name="description" content="Javascriptで和了点を計算")
 
     include ../inc/style.pug
-
-    script(src="js/majiang.js" defer)
-    script(src="js/hule.js" defer)
+    include ../inc/script.pug
 
   body.demo
     include ../inc/loaderr.pug

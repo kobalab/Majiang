@@ -1,3 +1,4 @@
+include ../version.pug
 - var page = 'paiga'
 
 doctype html
@@ -10,9 +11,7 @@ html(lang="ja")
     meta(name="description" content="簡単な記法で牌画を入力")
 
     include ../inc/style.pug
-
-    script(src="js/majiang.js" defer)
-    script(src="js/paiga.js" defer)
+    include ../inc/script.pug
 
   body.demo
     include ../inc/loaderr.pug

@@ -1,3 +1,4 @@
+include ../version.pug
 - var page = 'dapai'
 
 doctype html
@@ -9,9 +10,7 @@ html(lang="ja")
     title 電脳麻将: 何切る解答機
 
     include ../inc/style.pug
-
-    script(src="js/majiang.js" defer)
-    script(src="js/dapai.js" defer)
+    include ../inc/script.pug
 
   body.demo
     include ../inc/loaderr.pug
@@ -46,7 +45,7 @@ html(lang="ja")
           |  赤牌あり
     hr
 
-    #dapai
+    #dapai.hide
       .shan.baopai ドラ
         span.baopai
       .shoupai

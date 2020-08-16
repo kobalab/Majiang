@@ -9,6 +9,8 @@
 
 "use strict";
 
+const { hide, fadeIn } = require('./majiang/view/fadein');
+
 let _row;
 
 class Shan {
@@ -71,7 +73,8 @@ function submit() {
     new Majiang.View.Shoupai('.shoupai', analyzer._shoupai).redraw(true);
 
     analyzer.action_zimo();
-    $('#dapai').hide().fadeIn();
+
+    fadeIn($('#dapai'));
 
     paistr = analyzer._shoupai.toString();
     $('input[name="paistr"]').val(paistr);
@@ -96,10 +99,9 @@ $(function(){
 
     $('form').on('reset', ()=>{
         $('input[name="paistr"]').focus();
-        $('#dapai').hide();
+        hide($('#dapai'));
     });
 
-    $('#dapai').hide();
     _row = $('.report .row');
     $('.report').empty();
 

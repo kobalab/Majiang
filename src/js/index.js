@@ -1,6 +1,6 @@
 /*!
  *
- *  game.js
+ *  index.js
  *
  *  Copyright(C) 2017 Satoshi Kobayashi
  *  Released under the MIT license
@@ -8,6 +8,8 @@
  */
 
 "use strict";
+
+const { hide, show, fadeIn } = require('./majiang/view/fadein');
 
 let loaded;
 
@@ -30,7 +32,7 @@ $(function(){
     }
 
     function end() {
-        $('body').attr('class','file').hide().fadeIn();
+        fadeIn($('body').attr('class','file'));
         $('#game > .player').show();
         if (game) {
             paipu._paipu.add(game._paipu);
@@ -47,11 +49,12 @@ $(function(){
     $('#file .next').on('click', start);
 
     $(window).on('load', function(){
-        $('#title .loading').hide();
+        hide($('#title .loading'));
         $('#title .start').on('click', function(){
             if (paipu._paipu.length()) end();
             else                       start();
-        }).show();
+        });
+        show($('#title .start'));
     });
     if (loaded) $(window).trigger('load');
 });

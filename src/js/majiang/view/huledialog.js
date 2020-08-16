@@ -11,6 +11,7 @@ const Majiang = {
         Shan:    require('./shan')
     }
 };
+const { hide, fadeIn } = require('./fadein');
 
 let _hupai;
 let _defen;
@@ -156,13 +157,13 @@ fenpei(fenpei) {
 }
 
 show() {
-    this._node.root.removeClass('hide').scrollTop(0);
-    setTimeout(() => this._node.root.removeClass('fadeout'), 10);
+    fadeIn(this._node.root);
     return this;
 }
 
 hide() {
-    this._node.root.addClass('hide').addClass('fadeout');
+    this._node.root.scrollTop(0);
+    hide(this._node.root);
     return this;
 }
 

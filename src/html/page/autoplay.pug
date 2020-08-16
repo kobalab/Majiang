@@ -1,3 +1,4 @@
+include ../version.pug
 - var page = 'autoplay'
 
 doctype html
@@ -10,9 +11,7 @@ html(lang="ja")
     meta(name="description" content="AIプレーヤーの無限麻雀地獄")
 
     include ../inc/style.pug
-
-    script(src="js/majiang.js" defer)
-    script(src="js/autoplay.js" defer)
+    include ../inc/script.pug
 
   body.title
     include ../inc/loaderr.pug

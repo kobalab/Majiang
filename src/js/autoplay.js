@@ -9,6 +9,8 @@
 
 "use strict";
 
+const { hide, show } = require('./majiang/view/fadein');
+
 let loaded, gamectl;
 
 $(function(){
@@ -64,11 +66,12 @@ $(function(){
     $('.version').text('ver. ' + Majiang.VERSION);
 
     $(window).on('load', function(){
-        $('#title .loading').hide();
+        hide($('#title .loading'));
         $('#title .start').on('click', function(){
             $('body').attr('class','game');
             init();
-        }).show();
+        });
+        show($('#title .start'));
     });
     if (loaded) $(window).trigger('load');
 });

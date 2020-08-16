@@ -7,7 +7,8 @@ const $ = require('jquery');
 require('jquery-ui/ui/widgets/sortable');
 
 const Paipu = require('./paipu');
-const stat  = require('./stat');
+const PaipuStat = require('./stat');
+const { hide, fadeIn, fadeOut } = require('./fadein');
 
 function fix_paipu(paipu) {
 
@@ -120,7 +121,7 @@ constructor(node, storage, url, hash) {
     $('.button .stat', this._node).on('click', ()=>this.open_stat());
 
     $('.error', node).on('click', (event)=>{
-        $(event.target).fadeOut(500, ()=>$(event.target).empty());
+        fadeOut($('.error', node));
     });
 }
 
@@ -270,23 +271,21 @@ open_viewer(paipu_idx, viewpoint, log_idx, idx) {
     this._viewer = new Paipu($('#game'), this._paipu.get(paipu_idx));
     this._viewer._callback = ()=>{
         history.replaceState('', '', location.href.replace(/#.*$/,''));
-        $('body').removeClass('game')
-                 .removeClass('analyzer')
-                 .addClass('file').hide().fadeIn();
+        fadeIn($('body').attr('class', 'file'));
     };
     if (this._url) this._viewer._fragment = '#' + (paipu_idx || '') + '/';
     if (viewpoint == null) this._viewer.kaiju();
     else                   this._viewer.start(viewpoint, log_idx, idx);
-    $('body').removeClass('file').addClass('game').hide().fadeIn();
+    $('body').attr('class', 'game');
 }
 
 open_stat() {
-    $('body').removeClass('file').addClass('stat').hide().fadeIn();
     if (this._url) history.replaceState('', '', '#stat');
-    stat(this._paipu.get(), ()=>{
-        $('body').removeClass('stat').addClass('file').hide().fadeIn();
+    new PaipuStat($('#stat'), this._paipu.get(), ()=>{
+        fadeIn($('body').attr('class', 'file'));
         history.replaceState('', '', location.href.replace(/#.*$/,''));
-    });
+    }).show();
+    fadeIn($('body').attr('class', 'stat'));
 }
 
 set_handler() {
@@ -325,7 +324,8 @@ set_handler() {
 }
 
 error(msg) {
-    let error = $('.error', this._node).append($('<div>').text(msg)).fadeIn();
+    let error = $('.error', this._node).text(msg);
+    fadeIn(error);
     setTimeout(()=>error.trigger('click'), 5000);
 }
 
