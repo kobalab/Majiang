@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/kobalab/Majiang#readme",
   "devDependencies": {
-    "mocha": "^8.0.1",
+    "mocha": "^8.1.1",
     "nyc": "^15.1.0",
     "pug-cli": "^1.0.0-alpha6",
     "stylus": "^0.54.7",
