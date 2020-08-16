@@ -271,24 +271,21 @@ open_viewer(paipu_idx, viewpoint, log_idx, idx) {
     this._viewer = new Paipu($('#game'), this._paipu.get(paipu_idx));
     this._viewer._callback = ()=>{
         history.replaceState('', '', location.href.replace(/#.*$/,''));
-        $('body').removeClass('game')
-                 .removeClass('analyzer')
-                 .addClass('file').hide().fadeIn();
+        fadeIn($('body').attr('class', 'file'));
     };
     if (this._url) this._viewer._fragment = '#' + (paipu_idx || '') + '/';
     if (viewpoint == null) this._viewer.kaiju();
     else                   this._viewer.start(viewpoint, log_idx, idx);
-    $('body').removeClass('file').addClass('game').hide().fadeIn();
+    $('body').attr('class', 'game');
 }
 
 open_stat() {
-    $('body').attr('class', 'stat');
     if (this._url) history.replaceState('', '', '#stat');
     new PaipuStat($('#stat'), this._paipu.get(), ()=>{
-        $('body').removeClass('stat').addClass('file').hide().fadeIn();
+        fadeIn($('body').attr('class', 'file'));
         history.replaceState('', '', location.href.replace(/#.*$/,''));
     }).show();
-    fadeIn($('#stat'));
+    fadeIn($('body').attr('class', 'stat'));
 }
 
 set_handler() {
