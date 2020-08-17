@@ -282,6 +282,8 @@ open_viewer(paipu_idx, viewpoint, log_idx, idx) {
 open_stat() {
     if (this._url) history.replaceState('', '', '#stat');
     new PaipuStat($('#stat'), this._paipu.get(), ()=>{
+        $(window).scrollTop(0);
+        $('#stat .stat').scrollLeft(0);
         fadeIn($('body').attr('class', 'file'));
         history.replaceState('', '', location.href.replace(/#.*$/,''));
     }).show();

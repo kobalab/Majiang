@@ -150,8 +150,6 @@ show() {
         }
         tbody.append(tr);
     }
-    $(window).scrollTop(0)
-    $('.stat', this._node).scrollLeft(0);
 
     return this;
 }
