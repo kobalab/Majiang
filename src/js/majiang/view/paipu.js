@@ -584,7 +584,7 @@ analyzer() {
     if (this._summary) return true;
     if (this._analyzer) {
         this._analyzer = null;
-        $('body').removeClass('analyzer').addClass('game');
+        $('body').attr('class','game');
     }
     else {
         if (this._autoplay) this.autoplay();
@@ -601,7 +601,8 @@ analyzer() {
         let data = this._paipu.log[this._log_idx][this._idx - 1];
         if (data.hule || data.pingju) this._view.update(data);
         this.update_controler();
-        $('body').removeClass('game').addClass('analyzer');
+        $('body').attr('class','analyzer');
+        $('#analyzer').addClass('active');
     }
     this.set_fragment();
     return false;
