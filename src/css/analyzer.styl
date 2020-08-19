@@ -19,6 +19,7 @@
 
     body.analyzer
         #analyzer
+            display: block
             box-sizing: border-box
             margin-top: 5px
             width: 800px
@@ -31,6 +32,9 @@
         width: 800px
         position: relative
         #analyzer
+            display: none
+            &.active
+                display: block
             position: absolute
             box-sizing: border-box
             background: rgba(0,0,0,0.4)
@@ -61,10 +65,6 @@ table.dapai
             vertical-align: middle
         span
             padding-left: 0.5em
-
-body.analyzer
-    #analyzer
-        display: block
 
 #analyzer
     display: none
