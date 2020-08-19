@@ -297,6 +297,7 @@ next() {
         && ! this._redo)
     {
         this._deny_repeat = true;
+        $('#analyzer').removeClass('active');
     }
 
     if (this._autoplay && ! this._deny_repeat) {
@@ -340,6 +341,7 @@ qipai(qipai) {
     this._qipai(qipai);
     this._view.redraw();
     this._deny_repeat = false;
+    $('#analyzer').addClass('active');
 }
 
 _zimo(zimo) {
@@ -706,6 +708,7 @@ seek(log_idx, idx) {
     this.set_fragment();
 
     this._view.redraw();
+    $('#analyzer').addClass('active');
 }
 
 forward() {
