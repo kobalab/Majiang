@@ -22,6 +22,7 @@ constructor(id, root) {
     if (! _dapai)  _dapai  = $('.dapai .row', root);
     $('.status', root).empty();
     $('.dapai',  root).empty();
+    this.active(true);
 }
 
 id(id) { this._id = id }
@@ -251,6 +252,11 @@ redraw_dapai(info) {
 
 update_dapai(dapai) {
     $(`.dapai tr[data-dapai="${dapai}"]`).addClass('selected');
+}
+
+active(on) {
+    if (on) this._root.addClass('active');
+    else    this._root.removeClass('active');
 }
 
 }

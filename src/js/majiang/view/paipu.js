@@ -297,7 +297,7 @@ next() {
         && ! this._redo)
     {
         this._deny_repeat = true;
-        $('#analyzer').removeClass('active');
+        if (this._analyzer) this._analyzer.active(false);
     }
 
     if (this._autoplay && ! this._deny_repeat) {
@@ -341,7 +341,7 @@ qipai(qipai) {
     this._qipai(qipai);
     this._view.redraw();
     this._deny_repeat = false;
-    $('#analyzer').addClass('active');
+    if (this._analyzer) this._analyzer.active(true);
 }
 
 _zimo(zimo) {
@@ -604,7 +604,6 @@ analyzer() {
         if (data.hule || data.pingju) this._view.update(data);
         this.update_controler();
         $('body').attr('class','analyzer');
-        $('#analyzer').addClass('active');
     }
     this.set_fragment();
     return false;
@@ -708,7 +707,7 @@ seek(log_idx, idx) {
     this.set_fragment();
 
     this._view.redraw();
-    $('#analyzer').addClass('active');
+    if (this._analyzer) this._analyzer.active(true);
 }
 
 forward() {
