@@ -116,6 +116,11 @@ action_zimo(zimo, option) {
 
 action_dapai(dapai) {
 
+    if (this.allow_hule(dapai)
+        || this.get_chi_mianzi(dapai).length
+        || this.get_peng_mianzi(dapai).length
+        || this.get_gang_mianzi(dapai).length)  this.active(true);
+
     let info = [];
     if (this.select_hule(dapai, null, info)) {
         this.redraw_status(info);
@@ -149,6 +154,8 @@ action_fulou(fulou) {
 }
 
 action_gang(gang) {
+
+    if (this.allow_hule(gang, 'qianggang')) this.active(true);
 
     let info = [];
     if (this.select_hule(gang, 'qianggang', info)) {
