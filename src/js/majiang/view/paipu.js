@@ -340,6 +340,8 @@ _qipai(qipai) {
     }
 
     this._model.lunban = -1;
+
+    if (this._analyzer) this._analyzer.active(false);
 }
 qipai(qipai) {
     this._qipai(qipai);
