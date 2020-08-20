@@ -46,8 +46,13 @@ action(data) {
 }
 
 zimo(zimo, option) {
+    if (zimo.l != this._model.menfeng) this.active(false);
+
     super.zimo(zimo, option);
     if (! this._callback) return;
+
+    if (zimo.l == this._model.menfeng
+        && ! this._shoupai.lizhi())     this.active(true);
     this.redraw_status(this.get_status());
 }
 
@@ -63,8 +68,12 @@ dapai(dapai) {
 }
 
 fulou(fulou) {
+    if (fulou.l != this._model.menfeng) this.active(false);
+
     super.fulou(fulou);
     if (! this._callback) return;
+
+    if (fulou.l == this._model.menfeng) this.active(true);
     this.redraw_status(this.get_status());
 }
 

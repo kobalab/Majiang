@@ -709,7 +709,6 @@ seek(log_idx, idx) {
     this.set_fragment();
 
     this._view.redraw();
-    if (this._analyzer) this._analyzer.active(true);
 }
 
 forward() {
