@@ -89,13 +89,17 @@ class PaipuStorage {
     }
 }
 
+let _row;
+
 module.exports = class PaipuFile {
 
 constructor(node, storage, url, hash) {
 
+    if (! _row) _row = $('.row', node);
+
     this._node    = node;
     this._storage = storage;
-    this._row     = $('.row', node).hide();
+    this._row     = _row;
     this._max_idx = 0;
 
     this.storage(! url);
@@ -205,8 +209,8 @@ redraw() {
         row.attr('data-idx', i);
         $('.title', row).text(paipu.title);
         $('.player', row).text(player.join(' '));
-        list.append(row.hide());
-        if (i < this._max_idx) row.show();
+        list.append(hide(row));
+        if (i < this._max_idx) show(row);
     }
     this._max_idx = this._paipu.length();
 
@@ -239,7 +243,7 @@ redraw() {
     }
 
     show($('.file', this._node));
-    $('.row', this._node).fadeIn();
+    fadeIn($('.row.hide', this._node));
 }
 
 open(hash) {
