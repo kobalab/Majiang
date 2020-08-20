@@ -605,6 +605,7 @@ analyzer() {
         if (data.hule || data.pingju) this._view.update(data);
         this.update_controler();
         $('body').attr('class','analyzer');
+        this._analyzer.active(true);
     }
     this.set_fragment();
     return false;

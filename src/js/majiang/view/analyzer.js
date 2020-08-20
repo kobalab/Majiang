@@ -22,7 +22,6 @@ constructor(id, root) {
     if (! _dapai)  _dapai  = $('.dapai .row', root);
     $('.status', root).empty();
     $('.dapai',  root).empty();
-    this.active(true);
 }
 
 id(id) { this._id = id }
@@ -120,6 +119,7 @@ action_dapai(dapai) {
         || this.get_chi_mianzi(dapai).length
         || this.get_peng_mianzi(dapai).length
         || this.get_gang_mianzi(dapai).length)  this.active(true);
+    else if (dapai.l != this._model.menfeng)    this.active(false);
 
     let info = [];
     if (this.select_hule(dapai, null, info)) {
