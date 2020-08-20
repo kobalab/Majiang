@@ -94,6 +94,7 @@ set_handler() {
             this._repeat_timer = setInterval(()=>{
                 if (! this._deny_repeat) this.next();
             }, 80);
+            if (this._analyzer) this._analyzer.active(false);
         }, 200);
         return false;
     });
@@ -159,7 +160,10 @@ set_handler() {
 
         if (this._deny_repeat && event.originalEvent.repeat) return;
 
-        if (! this._repeat && event.originalEvent.repeat) this._repeat = true;
+        if (! this._repeat && event.originalEvent.repeat) {
+            this._repeat = true;
+            if (this._analyzer) this._analyzer.active(false);
+        }
 
         if      (event.key == 'ArrowDown' && ! event.shiftKey
               || event.key == 'Enter')
