@@ -296,21 +296,20 @@ open_stat() {
 
 set_handler() {
 
-    const self = this;
-
     if (! this._paipu.length()) return;
 
     let row = $('.row', this._node);
     for (let i = 0; i < this._paipu.length(); i++) {
 
-        $('.replay', row.eq(i)).on('click', i, function(event){
-            self.open_viewer(event.data);
+        $('.replay', row.eq(i)).on('click', (event)=>{
+            this.open_viewer(i);
         });
 
-        $('.delete', row.eq(i)).on('click', i, function(event){
-            self._paipu.del(event.data);
-            delete self._url;
-            row.eq(event.data).slideUp(200, ()=>self.redraw());
+        $('.delete', row.eq(i)).on('click', (event)=>{
+            this._paipu.del(i);
+            delete this._url;
+            fadeOut(row.eq(i));
+            setTimeout(()=>this.redraw(), 200);
         });
 
         let title = this._paipu.get(i).title.replace(/[\ \\\/\:\n]/g, '_');
