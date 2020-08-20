@@ -8,7 +8,7 @@ require('jquery-ui/ui/widgets/sortable');
 
 const Paipu = require('./paipu');
 const PaipuStat = require('./stat');
-const { hide, fadeIn, fadeOut } = require('./fadein');
+const { show, hide, fadeIn, fadeOut } = require('./fadein');
 
 function fix_paipu(paipu) {
 
@@ -115,7 +115,7 @@ constructor(node, storage, url, hash) {
     $('input[name="storage"]').on('change', (event)=>{
         this.storage($(event.target).prop('checked'));
         history.replaceState('', '', location.pathname);
-        this._node.hide().fadeIn();
+        fadeIn($('body'));
     });
 
     $('.button .stat', this._node).on('click', ()=>this.open_stat());
@@ -211,8 +211,8 @@ redraw() {
     this._max_idx = this._paipu.length();
 
     if (this._paipu.length())
-            $('.download, .stat', this._node).show();
-    else    $('.download, .stat', this._node).hide();
+            show($('.download, .stat', this._node));
+    else    hide($('.download, .stat', this._node));
 
     this.set_handler();
 
@@ -234,11 +234,11 @@ redraw() {
 
     let ua = navigator.userAgent;
     if (ua.match(/\bMobile\b/)) {
-        $('.download', this._node).hide();
-        $('.move',     this._node).hide();
+        hide($('.download', this._node));
+        hide($('.move',     this._node));
     }
 
-    $('.file', this._node).removeClass('hide');
+    show($('.file', this._node));
     $('.row', this._node).fadeIn();
 }
 
