@@ -563,7 +563,7 @@ summary() {
     if (this._summary) {
         this._view.summary();
         $('.controler', this._root).removeClass('hide');
-        if (this._analyzer) this._analyzer.active(true);
+        if (this._analyzer) this._analyzer.active();
     }
     else {
         if (this._analyzer) this._analyzer.active(false);

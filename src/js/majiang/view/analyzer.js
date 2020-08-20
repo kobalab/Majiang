@@ -18,6 +18,7 @@ module.exports = class Analyzer extends Majiang.Player {
 constructor(id, root) {
     super(id);
     this._root = root;
+    this._active = false;
     if (! _status) _status = $('.status .row', root);
     if (! _dapai)  _dapai  = $('.dapai .row', root);
     $('.status', root).empty();
@@ -271,6 +272,10 @@ update_dapai(dapai) {
 }
 
 active(on) {
+
+    if (on == null) return this.active(this._active);
+    if (! on) this._active = this._root.attr('class') == 'active';
+
     if (on) this._root.addClass('active');
     else    this._root.removeClass('active');
 }
