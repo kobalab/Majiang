@@ -341,7 +341,6 @@ qipai(qipai) {
     this._qipai(qipai);
     this._view.redraw();
     this._deny_repeat = false;
-    if (this._analyzer) this._analyzer.active(true);
 }
 
 _zimo(zimo) {
