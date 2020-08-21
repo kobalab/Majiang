@@ -8,7 +8,7 @@ require('jquery-ui/ui/widgets/sortable');
 
 const Paipu = require('./paipu');
 const PaipuStat = require('./stat');
-const { hide, fadeIn, fadeOut } = require('./fadein');
+const { show, hide, fadeIn, fadeOut } = require('./fadein');
 
 function fix_paipu(paipu) {
 
@@ -89,13 +89,17 @@ class PaipuStorage {
     }
 }
 
+let _row;
+
 module.exports = class PaipuFile {
 
 constructor(node, storage, url, hash) {
 
+    if (! _row) _row = $('.row', node);
+
     this._node    = node;
     this._storage = storage;
-    this._row     = $('.row', node).hide();
+    this._row     = _row;
     this._max_idx = 0;
 
     this.storage(! url);
@@ -115,7 +119,7 @@ constructor(node, storage, url, hash) {
     $('input[name="storage"]').on('change', (event)=>{
         this.storage($(event.target).prop('checked'));
         history.replaceState('', '', location.pathname);
-        this._node.hide().fadeIn();
+        fadeIn($('body'));
     });
 
     $('.button .stat', this._node).on('click', ()=>this.open_stat());
@@ -205,14 +209,14 @@ redraw() {
         row.attr('data-idx', i);
         $('.title', row).text(paipu.title);
         $('.player', row).text(player.join(' '));
-        list.append(row.hide());
-        if (i < this._max_idx) row.show();
+        list.append(hide(row));
+        if (i < this._max_idx) show(row);
     }
     this._max_idx = this._paipu.length();
 
     if (this._paipu.length())
-            $('.download, .stat', this._node).show();
-    else    $('.download, .stat', this._node).hide();
+            show($('.download, .stat', this._node));
+    else    hide($('.download, .stat', this._node));
 
     this.set_handler();
 
@@ -234,12 +238,12 @@ redraw() {
 
     let ua = navigator.userAgent;
     if (ua.match(/\bMobile\b/)) {
-        $('.download', this._node).hide();
-        $('.move',     this._node).hide();
+        hide($('.download', this._node));
+        hide($('.move',     this._node));
     }
 
-    $('.file', this._node).removeClass('hide');
-    $('.row', this._node).fadeIn();
+    show($('.file', this._node));
+    fadeIn($('.row.hide', this._node));
 }
 
 open(hash) {
@@ -282,6 +286,8 @@ open_viewer(paipu_idx, viewpoint, log_idx, idx) {
 open_stat() {
     if (this._url) history.replaceState('', '', '#stat');
     new PaipuStat($('#stat'), this._paipu.get(), ()=>{
+        $(window).scrollTop(0);
+        $('#stat .stat').scrollLeft(0);
         fadeIn($('body').attr('class', 'file'));
         history.replaceState('', '', location.href.replace(/#.*$/,''));
     }).show();
@@ -290,21 +296,20 @@ open_stat() {
 
 set_handler() {
 
-    const self = this;
-
     if (! this._paipu.length()) return;
 
     let row = $('.row', this._node);
     for (let i = 0; i < this._paipu.length(); i++) {
 
-        $('.replay', row.eq(i)).on('click', i, function(event){
-            self.open_viewer(event.data);
+        $('.replay', row.eq(i)).on('click', (event)=>{
+            this.open_viewer(i);
         });
 
-        $('.delete', row.eq(i)).on('click', i, function(event){
-            self._paipu.del(event.data);
-            delete self._url;
-            row.eq(event.data).slideUp(200, ()=>self.redraw());
+        $('.delete', row.eq(i)).on('click', (event)=>{
+            this._paipu.del(i);
+            delete this._url;
+            fadeOut(row.eq(i));
+            setTimeout(()=>this.redraw(), 200);
         });
 
         let title = this._paipu.get(i).title.replace(/[\ \\\/\:\n]/g, '_');

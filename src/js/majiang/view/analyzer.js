@@ -18,6 +18,7 @@ module.exports = class Analyzer extends Majiang.Player {
 constructor(id, root) {
     super(id);
     this._root = root;
+    this._active = false;
     if (! _status) _status = $('.status .row', root);
     if (! _dapai)  _dapai  = $('.dapai .row', root);
     $('.status', root).empty();
@@ -45,8 +46,13 @@ action(data) {
 }
 
 zimo(zimo, option) {
+    if (zimo.l != this._model.menfeng) this.active(false);
+
     super.zimo(zimo, option);
     if (! this._callback) return;
+
+    if (zimo.l == this._model.menfeng
+        && ! this._shoupai.lizhi())     this.active(true);
     this.redraw_status(this.get_status());
 }
 
@@ -62,8 +68,12 @@ dapai(dapai) {
 }
 
 fulou(fulou) {
+    if (fulou.l != this._model.menfeng) this.active(false);
+
     super.fulou(fulou);
     if (! this._callback) return;
+
+    if (fulou.l == this._model.menfeng) this.active(true);
     this.redraw_status(this.get_status());
 }
 
@@ -106,6 +116,12 @@ action_zimo(zimo, option) {
 
 action_dapai(dapai) {
 
+    if (this.allow_hule(dapai)
+        || this.get_chi_mianzi(dapai).length
+        || this.get_peng_mianzi(dapai).length
+        || this.get_gang_mianzi(dapai).length)  this.active(true);
+    else if (dapai.l != this._model.menfeng)    this.active(false);
+
     let info = [];
     if (this.select_hule(dapai, null, info)) {
         this.redraw_status(info);
@@ -139,6 +155,8 @@ action_fulou(fulou) {
 }
 
 action_gang(gang) {
+
+    if (this.allow_hule(gang, 'qianggang')) this.active(true);
 
     let info = [];
     if (this.select_hule(gang, 'qianggang', info)) {
@@ -251,6 +269,15 @@ redraw_dapai(info) {
 
 update_dapai(dapai) {
     $(`.dapai tr[data-dapai="${dapai}"]`).addClass('selected');
+}
+
+active(on) {
+
+    if (on == null) return this.active(this._active);
+    if (! on) this._active = this._root.attr('class') == 'active';
+
+    if (on) this._root.addClass('active');
+    else    this._root.removeClass('active');
 }
 
 }

@@ -94,6 +94,7 @@ set_handler() {
             this._repeat_timer = setInterval(()=>{
                 if (! this._deny_repeat) this.next();
             }, 80);
+            if (this._analyzer) this._analyzer.active(false);
         }, 200);
         return false;
     });
@@ -159,7 +160,10 @@ set_handler() {
 
         if (this._deny_repeat && event.originalEvent.repeat) return;
 
-        if (! this._repeat && event.originalEvent.repeat) this._repeat = true;
+        if (! this._repeat && event.originalEvent.repeat) {
+            this._repeat = true;
+            if (this._analyzer) this._analyzer.active(false);
+        }
 
         if      (event.key == 'ArrowDown' && ! event.shiftKey
               || event.key == 'Enter')
@@ -297,6 +301,7 @@ next() {
         && ! this._redo)
     {
         this._deny_repeat = true;
+        if (this._analyzer) this._analyzer.active(false);
     }
 
     if (this._autoplay && ! this._deny_repeat) {
@@ -335,6 +340,8 @@ _qipai(qipai) {
     }
 
     this._model.lunban = -1;
+
+    if (this._analyzer) this._analyzer.active(false);
 }
 qipai(qipai) {
     this._qipai(qipai);
@@ -562,8 +569,10 @@ summary() {
     if (this._summary) {
         this._view.summary();
         $('.controler', this._root).removeClass('hide');
+        if (this._analyzer) this._analyzer.active();
     }
     else {
+        if (this._analyzer) this._analyzer.active(false);
         $('.controler', this._root).addClass('hide');
         this._view.summary(this._paipu);
         $('.summary tbody tr').each((i, tr) => {
@@ -584,7 +593,7 @@ analyzer() {
     if (this._summary) return true;
     if (this._analyzer) {
         this._analyzer = null;
-        $('body').removeClass('analyzer').addClass('game');
+        $('body').attr('class','game');
     }
     else {
         if (this._autoplay) this.autoplay();
@@ -601,7 +610,8 @@ analyzer() {
         let data = this._paipu.log[this._log_idx][this._idx - 1];
         if (data.hule || data.pingju) this._view.update(data);
         this.update_controler();
-        $('body').removeClass('game').addClass('analyzer');
+        $('body').attr('class','analyzer');
+        this._analyzer.active(true);
     }
     this.set_fragment();
     return false;
