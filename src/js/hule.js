@@ -35,7 +35,9 @@ $(function(){
                                    .prop('disabled', true);
             $('input[name="tianhu"]').prop('checked', false);
         }
-        if (! shoupai._fulou.find(m=>m.match(/^[mpsz](\d)\1\1.*\1.*$/))) {
+        if (! shoupai._fulou
+                .find(m=>m.replace(/0/g,'5').match(/^[mpsz](\d)\1\1.*\1.*$/)))
+        {
             $('input[name="lingshang"]').prop('checked', false);
         }
 
