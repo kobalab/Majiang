@@ -1,4 +1,4 @@
-# Majiang
+<h1><img src="www/img/logo.png" alt="電脳麻将" height=72></h1>
 HTML5 + JavaScript で動作する麻雀アプリ「電脳麻将」
 
 ## デモ
