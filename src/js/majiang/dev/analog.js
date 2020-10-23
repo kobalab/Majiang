@@ -123,6 +123,7 @@ hule(hule) {
 
     for (let hupai of hule.hupai) {
         if (hupai.fanshu == 0) continue;
+        if (hupai.name.match(/^(?:場風|自風|役牌|翻牌)/)) hupai.name = '翻牌';
         if (! this._result.hupai[hupai.name])
             this._result.hupai[hupai.name] = { n: 0, fanshu: 0 };
         this._result.hupai[hupai.name].n++;
