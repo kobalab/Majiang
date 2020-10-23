@@ -68,14 +68,14 @@ module.exports = class AnaLogBase {
 
         let id, paipu;
         if (filename.match(/\.json\.gz$/)) {
-            id = filename.replace(/^.*\//,'').replace(/\.json\.gz$/,'');
+            id = path.basename(filename, '.json.gz');
             paipu = JSON.parse(
                             zlib.gunzipSync(
                                 fs.readFileSync(filename)
                             ).toString());
         }
         else if (filename.match(/\.json$/)) {
-            id = filename.replace(/^.*\//,'').replace(/\.json$/,'');
+            id = path.basename(filename, '.json');
             paipu = JSON.parse(fs.readFileSync(filename));
         }
         else return;
