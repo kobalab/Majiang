@@ -71,11 +71,13 @@ zimo(zimo) {
 }
 
 dapai(dapai) {
-    if (dapai.l != this._menfeng) this.diaopai(dapai.p);
+    if (dapai.l != this._menfeng) {
+        this.diaopai(dapai.p);
+        if (dapai.p.substr(-1) == '*') this._lizhi[dapai.l] = true;
+    }
 
     let p = dapai.p.substr(0,2).replace(/0/,'5');
     this._dapai[dapai.l][p] = true;
-    if (dapai.p.substr(-1) == '*') this._lizhi[dapai.l] = true;
     for (let l = 0; l < 4; l++) {
         if (this._lizhi[l]) this._dapai[l][p] = true;
     }
