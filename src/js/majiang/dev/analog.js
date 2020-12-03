@@ -61,6 +61,7 @@ qipai(qipai) {
         baopai:     [qipai.baopai],
         paishu:     136 - 13 * 4 -14,
         lunban:     0,
+        lizhi:      [0,0,0,0],
         player_id:  [0,1,2,3].map(l=>(this._qijia + qipai.jushu + l) % 4),
     };
     for (let l = 0; l < 4; l++) {
@@ -72,12 +73,15 @@ qipai(qipai) {
 zimo(zimo) {
     this._game.paishu--;
     this._game.shoupai[zimo.l].zimo(zimo.p);
+    if (this._game.lizhi[this._game.lunban] == -1)
+                                    this._game.lizhi[this._game.lunban] = 1;
     this._game.lunban = zimo.l;
 }
 
 dapai(dapai) {
     this._game.shoupai[dapai.l].dapai(dapai.p);
     this._game.he[dapai.l].dapai(dapai.p);
+    if (dapai.p.substr(-1) == '*') this._game.lizhi[dapai.l] = -1;
     if (this._player_id != null
         && this._game.player_id[dapai.l] != this._player_id) return;
     if (dapai.p.substr(-1) == '*') this._result.n_lizhi++;
@@ -87,6 +91,8 @@ fulou(fulou) {
     let d = fulou.m.match(/[\+\=\-]/)[0];
     this._game.shoupai[fulou.l].fulou(fulou.m);
     this._game.he[this._game.lunban].fulou(d);
+    if (this._game.lizhi[this._game.lunban] == -1)
+                                    this._game.lizhi[this._game.lunban] = 1;
     this._game.lunban = fulou.l;
     if (this._player_id != null
         && this._game.player_id[fulou.l] != this._player_id) return;
