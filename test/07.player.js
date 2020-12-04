@@ -751,6 +751,12 @@ suite('Majiang.Player', function(){
       player.zimo({l:0,p:'z4'});
       assert.equal(player.select_dapai(), 'p5');
     });
+    test('リーチ者がいて自身が2シャンテンでも安全牌がない場合は押す', function(){
+      let player = init_player({shoupai:'m1134p224688s789'});
+      player.dapai({l:3,p:'s1*'});
+      player.zimo({l:0,p:'s5'});
+      assert.equal(player.select_dapai(), 's5_');
+    });
     test('リーチ者がいて自身が1シャンテンの場合は無スジ以外は押す', function(){
       let player = init_player({shoupai:'m123p456s578z1122'});
       player.dapai({l:3,p:'p5*'});
@@ -762,6 +768,18 @@ suite('Majiang.Player', function(){
       player.dapai({l:3,p:'p5*'});
       player.zimo({l:0,p:'m1'});
       assert.equal(player.select_dapai(), 'p5');
+    });
+    test('リーチ者がいて自身が1シャンテンならスジで回し打ちする', function(){
+      let player = init_player({shoupai:'m11345p340788s67'});
+      player.dapai({l:3,p:'p5*'});
+      player.zimo({l:0,p:'s3'});
+      assert.equal(player.select_dapai(), 'p8');
+    });
+    test('リーチ者がいる場合はシャンテン戻しを選択しない', function(){
+      let player = init_player({shoupai:'m123p1234789s388',baopai:'p0'});
+      player.dapai({l:3,p:'s6*'});
+      player.zimo({l:0,p:'s3'});
+      assert.equal(player.select_dapai(), 'p1*');
     });
     test('リーチ者がいても自身もテンパイした場合はリーチする', function(){
       let player = init_player({shoupai:'m123p456s578z1122'});
