@@ -7,6 +7,8 @@ const fs   = require('fs');
 const path = require('path');
 const zlib = require('zlib');
 
+const getlogs = require('./getlogs');
+
 const Majiang = require('../../majiang');
 
 module.exports = class AnaLog extends require('./analogbase') {
@@ -160,13 +162,12 @@ static analyze_player(filename, player_name) {
 
     const analog = new this();
     analog._result.n_rank = [0,0,0,0];
-    for (let paipu of JSON.parse(fs.readFileSync(filename))) {
-        let id = paipu.title.replace(/^.*\n/,'');
-        const r = new RegExp(`^${player_name}\n`);
-        let player_id = [0,1,2,3].find(i=>paipu.player[i].match(r));
+    for (let log of getlogs(filename)) {
+        const r = new RegExp(`^${player_name}(\n.*)?$`);
+        let player_id = [0,1,2,3].find(i=>log.paipu.player[i].match(r));
         if (player_id == null) continue;
-        analog.analyze(id, paipu, player_id);
-        analog._result.n_rank[paipu.rank[player_id]-1]++;
+        analog.analyze(log.basename, log.paipu, player_id);
+        analog._result.n_rank[log.paipu.rank[player_id]-1]++;
     }
 
     let r = analog._result;
