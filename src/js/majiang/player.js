@@ -293,8 +293,7 @@ allow_pingju() {
 select_fulou(dapai, info) {
 
     let n_xiangting = Majiang.Util.xiangting(this._shoupai);
-
-    if (this._suanpai._lizhi.find(l=>l) && n_xiangting > 1 && ! info) return;
+    let bei_lizhi   = this._suanpai._lizhi.find(l=>l);
 
     if (n_xiangting < 3) {
 
@@ -312,21 +311,22 @@ select_fulou(dapai, info) {
                 ev: max, shoupai: this._shoupai.toString()
             });
         }
-        if (this._suanpai._lizhi.find(l=>l) && n_xiangting > 1) return;
 
         for (let m of mianzi) {
             let shoupai = this._shoupai.clone().fulou(m);
             let x = Majiang.Util.xiangting(shoupai);
-            if (x >= 3 || this._suanpai._lizhi.find(l=>l) && x > 0) continue;
+            if (x >= 3) continue;
 
             let ev = this.eval_shoupai(shoupai, paishu);
 
-            if (info && ev > 0) {
+            if (info) {
                 info.push({
                     m: m, n_xiangting: x,
                     ev: ev, shoupai: shoupai.toString()
                 });
             }
+
+            if (bei_lizhi && x > 0) continue;
 
             if (ev > max) {
                 max = ev;
@@ -355,7 +355,6 @@ select_fulou(dapai, info) {
                 shoupai: this._shoupai.toString()
             });
         }
-        if (this._suanpai._lizhi.find(l=>l) && n_xiangting > 1) return;
 
         for (let m of mianzi) {
             let shoupai = this._shoupai.clone().fulou(m);
@@ -366,6 +365,7 @@ select_fulou(dapai, info) {
                     shoupai: shoupai.toString()
                 });
             }
+            if (bei_lizhi) continue;
             if (x < n_xiangting) return m;
         }
     }
