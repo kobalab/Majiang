@@ -76,6 +76,7 @@ http://kobalab.net/majiang/
   - [天鳳の牌譜形式を解析する(4)](https://blog.kobalab.net/entry/20170720/1500479235)
   - [牌画入力ツール](https://blog.kobalab.net/entry/20161218/1482078427)
   - [電脳麻将で天鳳の牌譜を検討する](https://blog.kobalab.net/entry/2020/07/08/080228)
+  - [デュプリケート麻雀の実装](https://blog.kobalab.net/entry/2020/12/19/075529)
 
 ## 謝辞
 ゲームで使用している牌画像は [麻雀の画像・素材](http://www.civillink.net/fsozai/majan.html)、
