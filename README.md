@@ -66,6 +66,7 @@ http://kobalab.net/majiang/
   - [麻雀の副露判断アルゴリズム(5)](https://blog.kobalab.net/entry/20170822/1503401216)
   - [麻雀の打牌選択アルゴリズム(9)](https://blog.kobalab.net/entry/20170826/1503705167)
   - [押し引き表の牌姿は評価値何点？](https://blog.kobalab.net/entry/2020/12/09/002002)
+  - [押し引きアルゴリズムの改善(1)](https://blog.kobalab.net/entry/2020/12/21/202933)
 - 表示処理
   - [麻雀の手牌を表示するプログラム](https://blog.kobalab.net/entry/2020/08/14/234729)
 - その他
