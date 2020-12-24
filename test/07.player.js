@@ -639,7 +639,7 @@ suite('Majiang.Player', function(){
       player.dapai({l:2,p:'m1*'})
       info = [];
       player.select_fulou({l:2,p:'z1'}, info);
-      assert.equal(info.length, 1);
+      assert.equal(info.length, 2);
 
       player = init_player({shoupai:'m123p456s56z11234'});
       info = [];
@@ -650,7 +650,7 @@ suite('Majiang.Player', function(){
       player.dapai({l:2,p:'m1*'})
       info = [];
       player.select_fulou({l:2,p:'z1'}, info);
-      assert.equal(info.length, 1);
+      assert.equal(info.length, 2);
     });
   });
 
@@ -757,23 +757,19 @@ suite('Majiang.Player', function(){
       player.zimo({l:0,p:'s5'});
       assert.equal(player.select_dapai(), 's5_');
     });
-    test('リーチ者がいて自身が1シャンテンの場合は無スジ以外は押す', function(){
-      let player = init_player({shoupai:'m123p456s578z1122'});
-      player.dapai({l:3,p:'p5*'});
-      player.zimo({l:0,p:'z4'});
-      assert.equal(player.select_dapai(), 'z4_');
+    test('リーチ者がいて自身がドラ1超好形1シャンテンの場合は無スジでも押す', function(){
+      let player = init_player({shoupai:'m11234p3456s3789',jushu:2,
+                                                           baopai:'p2'});
+      player.dapai({l:0,p:'p6*'});
+      player.zimo({l:1,p:'m8'});
+      assert.equal(player.select_dapai(), 'm8_');
     });
-    test('リーチ者がいて自身が1シャンテンの場合でも無スジは押さない', function(){
-      let player = init_player({shoupai:'m123p456s578z1122'});
-      player.dapai({l:3,p:'p5*'});
-      player.zimo({l:0,p:'m1'});
-      assert.equal(player.select_dapai(), 'p5');
-    });
-    test('リーチ者がいて自身が1シャンテンならスジで回し打ちする', function(){
-      let player = init_player({shoupai:'m11345p340788s67'});
-      player.dapai({l:3,p:'p5*'});
-      player.zimo({l:0,p:'s3'});
-      assert.equal(player.select_dapai(), 'p8');
+    test('リーチ者がいて自身がドラ1好形1シャンテンならスジは押す', function(){
+      let player = init_player({shoupai:'m11345p234788s78',jushu:2,
+                                                           baopai:'p2'});
+      player.dapai({l:0,p:'s6*'});
+      player.zimo({l:1,p:'s3'});
+      assert.equal(player.select_dapai(), 's3_');
     });
     test('リーチ者がいる場合はシャンテン戻しを選択しない', function(){
       let player = init_player({shoupai:'m123p1234789s388',baopai:'p0'});
