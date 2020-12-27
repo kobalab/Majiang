@@ -612,18 +612,21 @@ suite('Majiang.Player', function(){
       let player = init_player({shoupai:'m123p456s78z11333'});
       assert.ok(! player.select_fulou({l:2,p:'z3'}));
     });
-    test('リーチ者がいる場合、テンパイとならない副露はしない', function(){
-      let player = init_player({shoupai:'m23456p468s34,s06-7'});
-      player.dapai({l:2,p:'m1*'})
-      assert.ok(! player.select_fulou({l:3,p:'s5'}));
-      player = init_player({shoupai:'m3579p1235s345z66',baopai:'s5',jushu:1});
-      player.dapai({l:0,p:'m1*'})
-      assert.ok(! player.select_fulou({l:1,p:'p3'}));
+    test('リーチ者がいる場合、シャンテン数を進めるだけの副露はしない', function(){
+      let player = init_player({shoupai:'m123p456s58z11234'});
+      player.dapai({l:2,p:'z1*'})
+      assert.ok(! player.select_fulou({l:2,p:'z1*'}));
     });
-    test('リーチ者がいても、ポンテン・チーテンはとる', function(){
-      let player = init_player({shoupai:'m22345p468s34,s06-7'});
-      player.dapai({l:2,p:'m1*'})
-      assert.equal(player.select_fulou({l:3,p:'s5'}), 's345-');
+    test('リーチ者がいる2シャンテンでも超好形確定のポン・チーはする', function(){
+      let player = init_player({shoupai:'m11p235s788z22277',jushu:2});
+      player.dapai({l:0,p:'z7*'})
+      assert.equal(player.select_fulou({l:0,p:'z7*'}), 'z777-');
+    });
+    test('リーチ者がいる場合、超好形とならないポンテン・チーテンはとらない', function(){
+      let player = init_player({shoupai:'m1135p678s788,z777=',jushu:2,
+                                                              baopai:'z2'});
+      player.dapai({l:0,p:'m4*'})
+      assert.ok(! player.select_fulou({l:0,p:'m4*'}));
     });
     test('副露可能なメンツなし', function(){
       let player = init_player({shoupai:'m123p456s58z12345'});
