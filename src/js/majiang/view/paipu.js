@@ -158,6 +158,8 @@ set_handler() {
     });
     $(window).on('keydown', event => {
 
+        if (event.key.match(/^Arrow/)) event.preventDefault();
+
         if (this._deny_repeat && event.originalEvent.repeat) return;
 
         if (! this._repeat && event.originalEvent.repeat) {
