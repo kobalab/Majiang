@@ -612,18 +612,21 @@ suite('Majiang.Player', function(){
       let player = init_player({shoupai:'m123p456s78z11333'});
       assert.ok(! player.select_fulou({l:2,p:'z3'}));
     });
-    test('リーチ者がいる場合、テンパイとならない副露はしない', function(){
-      let player = init_player({shoupai:'m23456p468s34,s06-7'});
-      player.dapai({l:2,p:'m1*'})
-      assert.ok(! player.select_fulou({l:3,p:'s5'}));
-      player = init_player({shoupai:'m3579p1235s345z66',baopai:'s5',jushu:1});
-      player.dapai({l:0,p:'m1*'})
-      assert.ok(! player.select_fulou({l:1,p:'p3'}));
+    test('リーチ者がいる場合、シャンテン数を進めるだけの副露はしない', function(){
+      let player = init_player({shoupai:'m123p456s58z11234'});
+      player.dapai({l:2,p:'z1*'})
+      assert.ok(! player.select_fulou({l:2,p:'z1*'}));
     });
-    test('リーチ者がいても、ポンテン・チーテンはとる', function(){
-      let player = init_player({shoupai:'m22345p468s34,s06-7'});
-      player.dapai({l:2,p:'m1*'})
-      assert.equal(player.select_fulou({l:3,p:'s5'}), 's345-');
+    test('リーチ者がいる2シャンテンでも超好形確定のポン・チーはする', function(){
+      let player = init_player({shoupai:'m11p235s788z22277',jushu:2});
+      player.dapai({l:0,p:'z7*'})
+      assert.equal(player.select_fulou({l:0,p:'z7*'}), 'z777-');
+    });
+    test('リーチ者がいる場合、超好形とならないポンテン・チーテンはとらない', function(){
+      let player = init_player({shoupai:'m1135p678s788,z777=',jushu:2,
+                                                              baopai:'z2'});
+      player.dapai({l:0,p:'m4*'})
+      assert.ok(! player.select_fulou({l:0,p:'m4*'}));
     });
     test('副露可能なメンツなし', function(){
       let player = init_player({shoupai:'m123p456s58z12345'});
@@ -639,7 +642,7 @@ suite('Majiang.Player', function(){
       player.dapai({l:2,p:'m1*'})
       info = [];
       player.select_fulou({l:2,p:'z1'}, info);
-      assert.equal(info.length, 1);
+      assert.equal(info.length, 2);
 
       player = init_player({shoupai:'m123p456s56z11234'});
       info = [];
@@ -650,7 +653,7 @@ suite('Majiang.Player', function(){
       player.dapai({l:2,p:'m1*'})
       info = [];
       player.select_fulou({l:2,p:'z1'}, info);
-      assert.equal(info.length, 1);
+      assert.equal(info.length, 2);
     });
   });
 
@@ -751,17 +754,38 @@ suite('Majiang.Player', function(){
       player.zimo({l:0,p:'z4'});
       assert.equal(player.select_dapai(), 'p5');
     });
-    test('リーチ者がいて自身が1シャンテンの場合は無スジ以外は押す', function(){
-      let player = init_player({shoupai:'m123p456s578z1122'});
-      player.dapai({l:3,p:'p5*'});
-      player.zimo({l:0,p:'z4'});
-      assert.equal(player.select_dapai(), 'z4_');
+    test('リーチ者がいて自身が2シャンテンでも安全牌がない場合は押す', function(){
+      let player = init_player({shoupai:'m1134p224688s789'});
+      player.dapai({l:3,p:'s1*'});
+      player.zimo({l:0,p:'s5'});
+      assert.equal(player.select_dapai(), 's5_');
     });
-    test('リーチ者がいて自身が1シャンテンの場合でも無スジは押さない', function(){
-      let player = init_player({shoupai:'m123p456s578z1122'});
-      player.dapai({l:3,p:'p5*'});
-      player.zimo({l:0,p:'m1'});
-      assert.equal(player.select_dapai(), 'p5');
+    test('リーチ者がいて自身が超好形1シャンテンの場合は無スジでも押す', function(){
+      let player = init_player({shoupai:'m11234p3456s3789',jushu:2,
+                                                           baopai:'p2'});
+      player.dapai({l:0,p:'p6*'});
+      player.zimo({l:1,p:'m8'});
+      assert.equal(player.select_dapai(), 'm8_');
+    });
+    test('リーチ者がいて自身が好形1シャンテンならスジは押す', function(){
+      let player = init_player({shoupai:'m11345p234788s78',jushu:2,
+                                                           baopai:'p2'});
+      player.dapai({l:0,p:'s6*'});
+      player.zimo({l:1,p:'s3'});
+      assert.equal(player.select_dapai(), 's3_');
+    });
+    test('リーチ者がいて自身が愚形1シャンテンならオリる', function(){
+      let player = init_player({shoupai:'m11222p23478s579',jushu:2});
+      player.dapai({l:0,p:'s5*'});
+      player.zimo({l:1,p:'s2'});
+      assert.equal(player.select_dapai(), 's5');
+    });
+    test('リーチ者がいる場合はシャンテン戻しを選択しない', function(){
+      let player = init_player({shoupai:'m123p1234789s388',baopai:'p0'});
+      player.dapai({l:3,p:'p1'});
+      player.dapai({l:3,p:'s6*'});
+      player.zimo({l:0,p:'s3'});
+      assert.equal(player.select_dapai(), 'p1*');
     });
     test('リーチ者がいても自身もテンパイした場合はリーチする', function(){
       let player = init_player({shoupai:'m123p456s578z1122'});

@@ -4,10 +4,10 @@
 "use strict";
 
 const Majiang = {
-    Shoupai: require('./shoupai'),
-    Game:    require('./game'),
-    Util:    require('./util'),
-    SuanPai: require('./suanpai'),
+    Shoupai: require('../shoupai'),
+    Game:    require('../game'),
+    Util:    require('../util'),
+    SuanPai: require('./suanpai0401'),
 };
 
 const width = [12, 12*6, 12*6*3];
@@ -326,7 +326,7 @@ select_fulou(dapai, info) {
                 });
             }
 
-            if (bei_lizhi && ev < 1200) continue;
+            if (bei_lizhi && x > 0) continue;
 
             if (ev > max) {
                 max = ev;

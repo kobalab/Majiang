@@ -1,13 +1,11 @@
-# Majiang
+<h1><img src="www/img/logo.png" alt="電脳麻将" height=72></h1>
 HTML5 + JavaScript で動作する麻雀アプリ「電脳麻将」
 
 ## デモ
 http://kobalab.net/majiang/
 
 ## ライセンス
-Copyright&copy; 2017 Satoshi Kobayashi<br>
-Released under the MIT license<br>
-https://github.com/kobalab/Majiang/blob/master/LICENSE
+[MIT](https://github.com/kobalab/Majiang/blob/master/LICENSE)
 
 ## 作者
 [Satoshi Kobayashi](https://github.com/kobalab)
@@ -31,6 +29,7 @@ https://github.com/kobalab/Majiang/blob/master/LICENSE
 - 手牌などのデータ構造
   - [麻雀の手牌のJavascript表現](https://blog.kobalab.net/entry/20151211/1449838875)
   - [麻雀の手牌の文字列表現](https://blog.kobalab.net/entry/20151218/1450441130)
+  - [牌山と河のデータ構造](https://blog.kobalab.net/entry/2020/09/23/201841)
   - [電脳麻将の牌譜形式](https://blog.kobalab.net/entry/20151228/1451228689)
 - シャンテン数計算
   - [向聴数を求めるプログラム(七対子・国士無双編)](https://blog.kobalab.net/entry/20151215/1450112281)
@@ -66,6 +65,10 @@ https://github.com/kobalab/Majiang/blob/master/LICENSE
   - [麻雀の打牌選択アルゴリズム(8)](https://blog.kobalab.net/entry/20170819/1503150574)
   - [麻雀の副露判断アルゴリズム(5)](https://blog.kobalab.net/entry/20170822/1503401216)
   - [麻雀の打牌選択アルゴリズム(9)](https://blog.kobalab.net/entry/20170826/1503705167)
+  - [押し引き表の牌姿は評価値何点？](https://blog.kobalab.net/entry/2020/12/09/002002)
+  - [押し引きアルゴリズムの改善(1)](https://blog.kobalab.net/entry/2020/12/21/202933)
+  - [押し引きアルゴリズムの改善(2)](https://blog.kobalab.net/entry/2020/12/25/205627)
+  - [押し引きアルゴリズムの改善(3)](https://blog.kobalab.net/entry/2021/01/02/163535)
 - 表示処理
   - [麻雀の手牌を表示するプログラム](https://blog.kobalab.net/entry/2020/08/14/234729)
 - その他
@@ -76,6 +79,7 @@ https://github.com/kobalab/Majiang/blob/master/LICENSE
   - [天鳳の牌譜形式を解析する(4)](https://blog.kobalab.net/entry/20170720/1500479235)
   - [牌画入力ツール](https://blog.kobalab.net/entry/20161218/1482078427)
   - [電脳麻将で天鳳の牌譜を検討する](https://blog.kobalab.net/entry/2020/07/08/080228)
+  - [デュプリケート麻雀の実装](https://blog.kobalab.net/entry/2020/12/19/075529)
 
 ## 謝辞
 ゲームで使用している牌画像は [麻雀の画像・素材](http://www.civillink.net/fsozai/majan.html)、

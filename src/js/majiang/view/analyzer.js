@@ -128,12 +128,10 @@ action_dapai(dapai) {
         return;
     }
 
-    let fulou = this.select_fulou(dapai, info);
-    if (fulou) {
-        for (let i of info) {
-            if (i.m == fulou) {
-                i.selected = true;
-            }
+    let fulou = this.select_fulou(dapai, info) || '';
+    for (let i of info) {
+        if (i.m == fulou) {
+            i.selected = true;
         }
     }
     this.redraw_status(info);

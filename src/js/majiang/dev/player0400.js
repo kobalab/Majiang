@@ -4,10 +4,10 @@
 "use strict";
 
 const Majiang = {
-    Shoupai: require('./shoupai'),
-    Game:    require('./game'),
-    Util:    require('./util'),
-    SuanPai: require('./suanpai'),
+    Shoupai: require('../shoupai'),
+    Game:    require('../game'),
+    Util:    require('../util'),
+    SuanPai: require('./suanpai0301'),
 };
 
 const width = [12, 12*6, 12*6*3];
@@ -293,7 +293,8 @@ allow_pingju() {
 select_fulou(dapai, info) {
 
     let n_xiangting = Majiang.Util.xiangting(this._shoupai);
-    let bei_lizhi   = this._suanpai._lizhi.find(l=>l);
+
+    if (this._suanpai._lizhi.find(l=>l) && n_xiangting > 1 && ! info) return;
 
     if (n_xiangting < 3) {
 
@@ -311,22 +312,21 @@ select_fulou(dapai, info) {
                 ev: max, shoupai: this._shoupai.toString()
             });
         }
+        if (this._suanpai._lizhi.find(l=>l) && n_xiangting > 1) return;
 
         for (let m of mianzi) {
             let shoupai = this._shoupai.clone().fulou(m);
             let x = Majiang.Util.xiangting(shoupai);
-            if (x >= 3) continue;
+            if (x >= 3 || this._suanpai._lizhi.find(l=>l) && x > 0) continue;
 
             let ev = this.eval_shoupai(shoupai, paishu);
 
-            if (info) {
+            if (info && ev > 0) {
                 info.push({
                     m: m, n_xiangting: x,
                     ev: ev, shoupai: shoupai.toString()
                 });
             }
-
-            if (bei_lizhi && ev < 1200) continue;
 
             if (ev > max) {
                 max = ev;
@@ -355,6 +355,7 @@ select_fulou(dapai, info) {
                 shoupai: this._shoupai.toString()
             });
         }
+        if (this._suanpai._lizhi.find(l=>l) && n_xiangting > 1) return;
 
         for (let m of mianzi) {
             let shoupai = this._shoupai.clone().fulou(m);
@@ -365,7 +366,6 @@ select_fulou(dapai, info) {
                     shoupai: shoupai.toString()
                 });
             }
-            if (bei_lizhi) continue;
             if (x < n_xiangting) return m;
         }
     }
@@ -453,13 +453,11 @@ select_dapai(info) {
     }
 
     let anquan, min = Infinity;
-    let weixian;
     if (this._suanpai._lizhi.find(l=>l)) {
-        weixian = {};
         for (let p of this.get_dapai()) {
-            weixian[p] = suan_weixian(p);
-            if (weixian[p] < min) {
-                min = weixian[p];
+            let weixian = suan_weixian(p);
+            if (weixian < min) {
+                min = weixian;
                 anquan = p;
             }
         }
@@ -495,14 +493,13 @@ select_dapai(info) {
                    :                                          1 );
     }
 
-    let dapai = anquan, max = 0, max_tingpai = 0, backtrack = [];
+    let dapai, max = 0, max_tingpai = 0, backtrack = [];
     let paishu = this._suanpai.paishu_all();
     let n_xiangting = Majiang.Util.xiangting(this._shoupai);
     for (let p of this.get_dapai()) {
         if (! dapai) dapai = p;
         let shoupai = this._shoupai.clone().dapai(p);
         if (Majiang.Util.xiangting(shoupai) > n_xiangting) {
-            if (anquan) continue;
             if (n_xiangting < 2) backtrack.push(p);
             continue;
         }
@@ -523,12 +520,6 @@ select_dapai(info) {
                     tingpai: tingpai, n_tingpai: n_tingpai
                 });
             }
-        }
-
-        if (min < 6) {
-            if (n_xiangting > 2              && weixian[p] > min) continue;
-            if (n_xiangting > 0 && ev <  400 && weixian[p] > min) continue;
-            if (n_xiangting > 0 && ev < 1200 && weixian[p] >   5) continue;
         }
 
         if (x >= max) {
@@ -568,6 +559,8 @@ select_dapai(info) {
     }
 
     if (anquan) {
+        if      (n_xiangting > 1)                             dapai = anquan;
+        else if (n_xiangting == 1 && suan_weixian(dapai) > 5) dapai = anquan;
 
         if (info && dapai == anquan
             && ! info.find(i => i.p == anquan.substr(0,2)))

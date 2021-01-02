@@ -5,6 +5,8 @@
 
 const Majiang = require('../../majiang');
 
+const Shan = require('./shan');
+
 const assert = require('assert');
 
 function make_shan(log) {
@@ -76,22 +78,41 @@ class Player {
 }
 
 module.exports = class Game extends Majiang.Game {
-    constructor(paipu) {
+    constructor(script) {
         super();
-        if (paipu) {
-            this._model.title = paipu.title;
-            this._model.qijia = paipu.qijia;
-            this._model.player = paipu.player;
-            this._script = paipu;
-            for (let id = 0; id < 4; id++) { this._player[id] = new Player(id) }
+        if (! script) {
+            this._player = [0,1,2,3].map(id=>new Majiang.Player(id));
+        }
+        else if (script.shan) {
+            this._model.qijia = script.qijia;
+            this._shan = [];
+            for (let i = 0; i < script.shan.length; i++) {
+                let j = i % 4;
+                if (! this._shan[j]) this._shan[j] = [];
+                this._shan[j].push(script.shan[i]);
+            }
+            this._player = [0,1,2,3].map(id=>new Majiang.Player(id));
         }
         else {
-            this._player = [0,1,2,3].map(id=>new Majiang.Player(id));
+            this._model.title = script.title;
+            this._model.qijia = script.qijia;
+            this._model.player = script.player;
+            this._script = script;
+            for (let id = 0; id < 4; id++) { this._player[id] = new Player(id) }
         }
         this._speed = 0;
     }
     qipai() {
-        if (this._script) {
+        if (this._shan) {
+            let pai;
+            if (this._model.zhuangfeng % 2 == 0)
+                    pai = this._shan[this._model.jushu].shift();
+            else    pai = this._shan[this._model.jushu].pop();
+            if (! pai) console.log('***',
+                                   this._model.zhuangfeng, this._model.jushu);
+            super.qipai(pai ? new Shan(pai) : new Majiang.Shan(this._hongpai));
+        }
+        else if (this._script) {
             const log = this._script.log.shift();
             for (let l = 0; l < 4; l++) {
                 let id = (this._model.qijia + this._model.jushu + l) % 4;
@@ -102,6 +123,11 @@ module.exports = class Game extends Majiang.Game {
         else {
             super.qipai();
         }
+    }
+    zimo() {
+        if (this._model.shan.lunban)
+                        this._model.shan.lunban(this._model.lunban);
+        super.zimo();
     }
     do_test() {
         this._stop = false;
