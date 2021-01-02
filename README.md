@@ -68,6 +68,7 @@ http://kobalab.net/majiang/
   - [押し引き表の牌姿は評価値何点？](https://blog.kobalab.net/entry/2020/12/09/002002)
   - [押し引きアルゴリズムの改善(1)](https://blog.kobalab.net/entry/2020/12/21/202933)
   - [押し引きアルゴリズムの改善(2)](https://blog.kobalab.net/entry/2020/12/25/205627)
+  - [押し引きアルゴリズムの改善(3)](https://blog.kobalab.net/entry/2021/01/02/163535)
 - 表示処理
   - [麻雀の手牌を表示するプログラム](https://blog.kobalab.net/entry/2020/08/14/234729)
 - その他
