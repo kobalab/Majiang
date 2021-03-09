@@ -1,3 +1,8 @@
+### 2021-03-09 v1.5.3
+
+ - 脆弱性警告に対処(elliptic 6.5.3 → 6.5.4)
+ - npm-force-resolutions で pug のバージョンを固定
+
 ### 2021-03-08 v1.5.2
 
  - package-lock.json の誤りを修正
