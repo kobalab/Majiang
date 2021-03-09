@@ -5,6 +5,7 @@
   "main": "src/js/majiang.js",
   "private": true,
   "scripts": {
+    "preinstall": "npx npm-force-resolutions",
     "build:html": "pug -o www -P src/html/page/",
     "build:js": "webpack --mode development --devtool inline-source-map",
     "build:css": "stylus src/css/index.styl -o www/css/majiang-1.5.2.css",
@@ -24,6 +25,9 @@
     "url": "https://github.com/kobalab/Majiang/issues"
   },
   "homepage": "https://github.com/kobalab/Majiang#readme",
+  "resolutions": {
+    "pug": "^3.0.1"
+  },
   "devDependencies": {
     "mocha": "^8.1.1",
     "nyc": "^15.1.0",
