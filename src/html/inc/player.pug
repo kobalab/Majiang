@@ -1,9 +1,9 @@
 mixin player(lunban)
-  .he(class=lunban)
+  .he(class=lunban role="region" aria-label="捨て牌")
     .lizhi
       img.choma(src="img/1000.gif")
     .dapai
-  .shoupai(class=lunban)
+  .shoupai(class=lunban role="region" aria-label="手牌")
     .bingpai
     .fulou
   if page != 'autoplay'
