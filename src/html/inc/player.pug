@@ -3,9 +3,9 @@ mixin player(lunban)
     .lizhi
       img.choma(src="img/1000.gif")
     .dapai
-  .shoupai(class=lunban role="region" aria-label="手牌")
-    .bingpai
-    .fulou
+  .shoupai(class=lunban)
+    .bingpai(role="region" aria-label="手牌")
+    .fulou(role="region" aria-label="フーロ牌")
   if page != 'autoplay'
     .player(class=lunban)
   .say(class=lunban)
