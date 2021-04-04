@@ -82,7 +82,6 @@ redraw(open) {
         }
         this._node.fulou.append(mianzi);
     }
-    $('.pai[data-pai!="_"]', this._node.bingpai).attr('tabindex', '0');
 
     return this;
 }

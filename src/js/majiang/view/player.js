@@ -108,7 +108,7 @@ action_zimo(zimo, option) {
         $(selector, this._root).on('click', (e)=>{
             $(e.target).addClass('dapai');
             return this.callback({dapai: p});
-        });
+        }).attr('tabindex', '0');
     }
 
     this.show_button();
@@ -197,7 +197,7 @@ action_fulou(fulou) {
         $(selector, this._root).on('click', e =>{
             $(e.target).addClass('dapai');
             return this.callback({dapai: p});
-        });
+        }).attr('tabindex', '0');
     }
 }
 
