@@ -1,6 +1,6 @@
 /*!
  *
- *  Majiang v1.5.5
+ *  Majiang v1.5.6
  *
  *  Copyright(C) 2017 Satoshi Kobayashi
  *  Released under the MIT license
@@ -10,7 +10,7 @@
 "use strict";
 
 module.exports = {
-    VERSION: '1.5.5',
+    VERSION: '1.5.6',
     Shoupai: require('./majiang/shoupai'),
     Shan:    require('./majiang/shan'),
     He:      require('./majiang/he'),
