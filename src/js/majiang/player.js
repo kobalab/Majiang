@@ -446,7 +446,7 @@ select_dapai(info) {
         let weixian = 0;
         for (let l = 0; l < 4; l++) {
             if (! this._suanpai._lizhi[l]) continue;
-            let w = this._suanpai.suan_weixian(p, l);
+            let w = this._suanpai.suan_weixian(p, l, 1);
             if (w > weixian) weixian = w;
         }
         return weixian;

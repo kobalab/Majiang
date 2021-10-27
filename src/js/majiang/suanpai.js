@@ -175,7 +175,7 @@ paijia_all() {
     return paijia;
 }
 
-suan_weixian(p, l) {
+suan_weixian(p, l, c) {
 
     let [s, n] = p; n = +n || 5;
 
@@ -184,9 +184,10 @@ suan_weixian(p, l) {
 
     const paishu = this._paishu[s];
 
-    r += paishu[n] >= 2 ? 3
-       : paishu[n] == 1 ? 1
-       :                  0;
+    r += paishu[n] - (c ? 0 : 1) == 3 ? (s == 'z' ? 8 : 3)
+       : paishu[n] - (c ? 0 : 1) == 2 ?             3
+       : paishu[n] - (c ? 0 : 1) == 1 ?             1
+       :                                            0;
     if (s == 'z') return r;
 
     r += n - 2 <  1                              ?  0
@@ -204,6 +205,28 @@ suan_weixian(p, l) {
        : this._dapai[l][s+(n+3)]                 ?  0
        :                                           10;
     return r;
+}
+
+suan_weixian_all(bingpai) {
+
+    let weixian_all;
+    for (let l = 0; l < 4; l++) {
+        if (! this._lizhi[l]) continue;
+        if (! weixian_all) weixian_all = {};
+        let weixian = {}, sum = 0;
+        for (let s of ['m','p','s','z']) {
+            for (let n = 1; n < this._paishu[s].length; n++) {
+                weixian[s+n] = this.suan_weixian(s+n, l, bingpai[s][n]);
+                sum += weixian[s+n];
+            }
+        }
+        for (let p of Object.keys(weixian)) {
+            weixian[p] = weixian[p] / sum * 100;
+            if (! weixian_all[p]) weixian_all[p] = 0;
+            weixian_all[p] = Math.max(weixian_all[p], weixian[p]);
+        }
+    }
+    if (weixian_all) return (p)=>weixian_all[p.substr(0,2).replace(/0/,'5')];
 }
 
 }
