@@ -71,6 +71,7 @@ http://kobalab.net/majiang/
   - [押し引きアルゴリズムの改善(3)](https://blog.kobalab.net/entry/2021/01/02/163535)
   - [天鳳鳳凰卓の牌の危険度表](https://blog.kobalab.net/entry/2021/01/16/130716)
   - [牌の危険度計算アルゴリズム(1)](https://blog.kobalab.net/entry/2021/01/22/204805)
+  - [牌の危険度計算アルゴリズム(2)](https://blog.kobalab.net/entry/2021/10/28/232300)
 - 表示処理
   - [麻雀の手牌を表示するプログラム](https://blog.kobalab.net/entry/2020/08/14/234729)
 - その他
