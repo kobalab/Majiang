@@ -31,6 +31,12 @@ function init_player(param = {}) {
     return player;
 }
 
+function set_suanpai(player, l, dapai) {
+    for (let p of dapai) {
+        player._suanpai.dapai({l:l,p:p});
+    }
+}
+
 suite('Majiang.Player', function(){
 
   test('クラスが存在すること', function(){assert.ok(Majiang.Player)});
@@ -748,38 +754,6 @@ suite('Majiang.Player', function(){
       let player = init_player({shoupai:'m125p2469s1z66z7,z555='});
       assert.notEqual(player.select_dapai(), 'z7_');
     });
-    test('リーチ者がいて自身が2シャンテン以上の場合はオリる', function(){
-      let player = init_player({shoupai:'m23p456s578z11223'});
-      player.dapai({l:3,p:'p5*'});
-      player.zimo({l:0,p:'z4'});
-      assert.equal(player.select_dapai(), 'p5');
-    });
-    test('リーチ者がいて自身が2シャンテンでも安全牌がない場合は押す', function(){
-      let player = init_player({shoupai:'m1134p224688s789'});
-      player.dapai({l:3,p:'s1*'});
-      player.zimo({l:0,p:'s5'});
-      assert.equal(player.select_dapai(), 's5_');
-    });
-    test('リーチ者がいて自身が超好形1シャンテンの場合は無スジでも押す', function(){
-      let player = init_player({shoupai:'m11234p3456s3789',jushu:2,
-                                                           baopai:'p2'});
-      player.dapai({l:0,p:'p6*'});
-      player.zimo({l:1,p:'m8'});
-      assert.equal(player.select_dapai(), 'm8_');
-    });
-    test('リーチ者がいて自身が好形1シャンテンならスジは押す', function(){
-      let player = init_player({shoupai:'m11345p234788s78',jushu:2,
-                                                           baopai:'p2'});
-      player.dapai({l:0,p:'s6*'});
-      player.zimo({l:1,p:'s3'});
-      assert.equal(player.select_dapai(), 's3_');
-    });
-    test('リーチ者がいて自身が愚形1シャンテンならオリる', function(){
-      let player = init_player({shoupai:'m11222p23478s579',jushu:2});
-      player.dapai({l:0,p:'s5*'});
-      player.zimo({l:1,p:'s2'});
-      assert.equal(player.select_dapai(), 's5');
-    });
     test('リーチ者がいる場合はシャンテン戻しを選択しない', function(){
       let player = init_player({shoupai:'m123p1234789s388',baopai:'p0'});
       player.dapai({l:3,p:'p1'});
@@ -792,6 +766,44 @@ suite('Majiang.Player', function(){
       player.dapai({l:3,p:'p5*'});
       player.zimo({l:0,p:'s9'});
       assert.equal(player.select_dapai(), 's5*');
+    });
+    test('3シャンテン、安全牌あり → ベタオリ', function(){
+      let player = init_player({shoupai:'m2367p3566s33588s7'});
+      set_suanpai(player, 2, ['s8*']);
+      assert.equal(player.select_dapai(), 's8');
+    });
+    test('愚形1シャンテン、安全牌なし → 押し', function(){
+      let player = init_player({shoupai:'s2357s8,z777=,m123-,p456-'});
+      set_suanpai(player, 2, ['m4','m5','m6','p4','p5','p6*']);
+      assert.equal(player.select_dapai(), 's8_');
+    });
+    test('好形2シャンテン、安全牌あり → 回し打ち', function(){
+      let player = init_player({shoupai:'m23344p2346s2355p8'});
+      set_suanpai(player, 2, ['s8*']);
+      assert.equal(player.select_dapai(), 'p8_');
+    });
+    test('好形1シャンテン、安全牌なし → 押し', function(){
+      let player = init_player({shoupai:'s2357s8,z777=,m123-,p406-'});
+      set_suanpai(player, 2, ['m4','m5','m6','p4','p5','p6*']);
+      assert.equal(player.select_dapai(), 's8_');
+    });
+    test('超好形1シャンテン → 全押し', function(){
+      let player = init_player({shoupai:'s2357s8,z777=,m123-,p456-',
+                                baopai:'z6'});
+      set_suanpai(player, 2, ['m4','m5','m6','p4','p5','p6','s4','s6*']);
+      assert.equal(player.select_dapai(), 's8_');
+    });
+    test('テンパイ → 全押し', function(){
+      let player = init_player({shoupai:'s1234s6,z777=,m123-,p456-'});
+      set_suanpai(player, 2, ['m4','m5','m6','p4','p5','p6','s7','s8',
+                              'z1','z2','z3','z4*']);
+      assert.equal(player.select_dapai(), 's1');
+    });
+    test('形式テンパイ → 全押し', function(){
+      let player = init_player({shoupai:'s2345s6,z444=,m123-,p456-'});
+      set_suanpai(player, 2, ['m4','m5','m6','p4','p5','p6','s7','s8',
+                              'z1','z2','z3','z4*']);
+      assert.equal(player.select_dapai(), 's2');
     });
     test('引継情報域が設定された場合は、打牌選択に関する情報を設定する', function(){
       let player = init_player({shoupai:'m123p1234789s3388',baopai:'p0'});
