@@ -344,7 +344,7 @@ suite('Majiang.SuanPai', function(){
     test('2人リーチ', ()=>{
       suanpai.dapai({ l: 0, p: 'p3*' });
       const weixian = suanpai.suan_weixian_all(shoupai._bingpai);
-      assert.equal(weixian('m0'), Math.max(26 / 515 * 100, 26 / 544 * 100));
+      assert.equal(weixian('m0'), Math.max(26 / 515 *100, 26 / 544 *100 *1.45));
     });
   });
 });

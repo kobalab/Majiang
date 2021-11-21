@@ -4,7 +4,7 @@
 "use strict";
 
 const Majiang = {
-    Shan:   require('./shan'),
+    Shan:   require('../shan'),
 };
 
 module.exports = class SuanPai {
