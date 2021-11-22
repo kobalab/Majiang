@@ -33,7 +33,7 @@
     "nyc": "^15.1.0",
     "pug-cli": "^1.0.0-alpha6",
     "stylus": "^0.54.8",
-    "webpack": "^4.40.2",
+    "webpack": "^5.64.2",
     "webpack-cli": "^3.3.9"
   },
   "dependencies": {
