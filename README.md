@@ -1,4 +1,4 @@
-<h1><img src="www/img/logo.png" alt="電脳麻将" height=72></h1>
+<h1><a href="https://kobalab.net/majiang/"><img src="www/img/logo.png" alt="電脳麻将" height=72></a></h1>
 HTML5 + JavaScript で動作する麻雀アプリ「電脳麻将」
 
 ## デモ
@@ -69,6 +69,11 @@ http://kobalab.net/majiang/
   - [押し引きアルゴリズムの改善(1)](https://blog.kobalab.net/entry/2020/12/21/202933)
   - [押し引きアルゴリズムの改善(2)](https://blog.kobalab.net/entry/2020/12/25/205627)
   - [押し引きアルゴリズムの改善(3)](https://blog.kobalab.net/entry/2021/01/02/163535)
+  - [天鳳鳳凰卓の牌の危険度表](https://blog.kobalab.net/entry/2021/01/16/130716)
+  - [牌の危険度計算アルゴリズム(1)](https://blog.kobalab.net/entry/2021/01/22/204805)
+  - [牌の危険度計算アルゴリズム(2)](https://blog.kobalab.net/entry/2021/10/28/232300)
+  - [牌の危険度計算アルゴリズム(3)](https://blog.kobalab.net/entry/2021/11/15/080258)
+  - [牌の危険度計算アルゴリズム(4)](https://blog.kobalab.net/entry/2021/11/22/071442)
 - 表示処理
   - [麻雀の手牌を表示するプログラム](https://blog.kobalab.net/entry/2020/08/14/234729)
 - その他

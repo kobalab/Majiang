@@ -4,10 +4,10 @@
 "use strict";
 
 const Majiang = {
-    Shoupai: require('./shoupai'),
-    Game:    require('./game'),
-    Util:    require('./util'),
-    SuanPai: require('./suanpai'),
+    Shoupai: require('../shoupai'),
+    Game:    require('../game'),
+    Util:    require('../util'),
+    SuanPai: require('./suanpai0502'),
 };
 
 const width = [12, 12*6, 12*6*3];
@@ -442,12 +442,24 @@ select_gang(info) {
 
 select_dapai(info) {
 
+    const suan_weixian = (p) => {
+        let weixian = 0;
+        for (let l = 0; l < 4; l++) {
+            if (! this._suanpai._lizhi[l]) continue;
+            let w = this._suanpai.suan_weixian(p, l, 1);
+            if (w > weixian) weixian = w;
+        }
+        return weixian;
+    }
+
     let anquan, min = Infinity;
-    let weixian = this._suanpai.suan_weixian_all(this._shoupai._bingpai);
-    if (weixian) {
+    let weixian;
+    if (this._suanpai._lizhi.find(l=>l)) {
+        weixian = {};
         for (let p of this.get_dapai()) {
-            if (weixian(p) < min) {
-                min = weixian(p);
+            weixian[p] = suan_weixian(p);
+            if (weixian[p] < min) {
+                min = weixian[p];
                 anquan = p;
             }
         }
@@ -513,16 +525,10 @@ select_dapai(info) {
             }
         }
 
-        if (anquan && weixian(p) > min) {
-            if (12.0 <= weixian(p)) continue;
-            if (n_xiangting > 2 || n_xiangting > 0 && ev < 400) {
-                if (8.0 <= weixian(p)) continue;
-                if (min < 3.0)  continue;
-            }
-            else if (n_xiangting > 0 && ev < 1200) {
-                if (8.0 <= weixian(p)) continue;
-                if (min < 3.0 && 3.0 <= weixian(p)) continue;
-            }
+        if (min < 10) {
+            if (n_xiangting > 2              && weixian[p] >  min) continue;
+            if (n_xiangting > 0 && ev <  400 && weixian[p] >  min) continue;
+            if (n_xiangting > 0 && ev < 1200 && weixian[p] >=  10) continue;
         }
 
         if (x >= max) {

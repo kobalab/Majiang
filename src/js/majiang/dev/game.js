@@ -7,8 +7,6 @@ const Majiang = require('../../majiang');
 
 const Shan = require('./shan');
 
-const assert = require('assert');
-
 function make_shan(log) {
 
     function set_qipai(paistr) {
