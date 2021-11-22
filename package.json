@@ -34,7 +34,7 @@
     "pug-cli": "^1.0.0-alpha6",
     "stylus": "^0.54.8",
     "webpack": "^5.64.2",
-    "webpack-cli": "^3.3.9"
+    "webpack-cli": "^4.9.1"
   },
   "dependencies": {
     "jquery": "^3.5.1",
