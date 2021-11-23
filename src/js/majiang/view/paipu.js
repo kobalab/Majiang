@@ -652,16 +652,7 @@ last() {
     while (idx > 0 && (data.hule || data.pingju)) {
         data = this._paipu.log[this._log_idx][--idx];
     }
-    if (this._paipu.log[this._log_idx][idx+1].pingju
-        && this._paipu.log[this._log_idx][idx + 1].pingju.name.match(/^三家和/))
-    {
-        this.seek(this._log_idx, idx - 1);
-        this._view.update(data);
-        this._idx++;
-    }
-    else {
-        this.seek(this._log_idx, idx);
-    }
+    this.seek(this._log_idx, idx);
     data = this._paipu.log[this._log_idx][this._idx];
     if (data.hule || data.pingju) {
         this.next();
