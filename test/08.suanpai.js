@@ -346,5 +346,15 @@ suite('Majiang.SuanPai', function(){
       const weixian = suanpai.suan_weixian_all(shoupai._bingpai);
       assert.equal(weixian('m0'), Math.max(26 / 515 *100, 26 / 544 *100 *1.45));
     });
+    test('全ての牌が安全', ()=>{
+      let i = 0;
+      for (let s of ['m','p','s','z']) {
+        for (let n = 1; n <= (s == 'z' ? 7 : 9); n++) {
+          suanpai.dapai({ l: i++ % 4, p: s+n });
+        }
+      }
+      const weixian = suanpai.suan_weixian_all(shoupai._bingpai);
+      assert.equal(weixian('m0'), 0);
+    });
   });
 });
