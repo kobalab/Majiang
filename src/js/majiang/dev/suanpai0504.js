@@ -221,7 +221,7 @@ suan_weixian_all(bingpai) {
             }
         }
         for (let p of Object.keys(weixian)) {
-            weixian[p] = weixian[p] / sum * 100 * (l == 0 ? 1.45 : 1);
+            weixian[p] = weixian[p] / (sum || 1) * 100 * (l == 0 ? 1.45 : 1);
             if (! weixian_all[p]) weixian_all[p] = 0;
             weixian_all[p] = Math.max(weixian_all[p], weixian[p]);
         }
