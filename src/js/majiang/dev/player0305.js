@@ -606,6 +606,7 @@ eval_shoupai(shoupai, paishu, dapai) {
     else if (shoupai._zimo) {
         let max = 0;
         for (let p of shoupai.get_dapai()) {
+            if (shoupai._lizhi && p != shoupai._zimo) continue;
             let new_shoupai = shoupai.clone().dapai(p);
             if (Majiang.Util.xiangting(new_shoupai) > n_xiangting) continue;
             let r = this.eval_shoupai(new_shoupai, paishu, dapai);
