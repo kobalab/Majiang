@@ -684,6 +684,11 @@ suite('Majiang.Player', function(){
       let player = init_player({shoupai:'m111123p456s789z12'});
       assert.ok(! player.select_gang());
     });
+    test('リーチ後も可能であれば暗槓する', function(){
+        let player = init_player({shoupai:'m44468s23488899m4*',baopai:'z2',
+                                  hongpai:{m:1,p:1,s:1}});
+        assert.equal(player.select_gang(), 'm4444');
+    });
     test('リーチ者がいる場合、テンパイする前は槓しない', function(){
       let player = init_player({shoupai:'m123p456s579z2,z111='});
       player.dapai({l:3,p:'m1*'});
