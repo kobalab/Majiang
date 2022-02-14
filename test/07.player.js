@@ -743,6 +743,10 @@ suite('Majiang.Player', function(){
       let player = init_player({shoupai:'m12p19s19z1234567m1',baopai:'s3'});
       assert.equal(player.select_dapai(), 'm2*');
     });
+    test('評価値0のシャンテン戻しは選択しない', function(){
+      let player = init_player({shoupai:'m456p56s066z44s7,p777+',baopai:'m7'});
+      assert.equal(player.select_dapai(), 's6');
+    });
     test('副露を考慮した期待値で打牌を選択する', function(){
       let player = init_player({shoupai:'m66678p34s3077z77m9',baopai:'m1'});
       assert.equal(player.select_dapai(), 's3');

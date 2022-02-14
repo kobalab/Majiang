@@ -413,6 +413,7 @@ select_dapai() {
 
         let x = 1 - this._suanpai.paijia(p)/100
               + this.eval_backtrack(shoupai, paishu, tmp_max, p.substr(0,2));
+        if (x <= 1) continue;
 
         if (x >= max) {
             max = x;
