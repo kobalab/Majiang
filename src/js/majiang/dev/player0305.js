@@ -421,7 +421,7 @@ select_dapai() {
 
         let n_tingpai = 0;
         for (let tp of Majiang.Util.tingpai(shoupai)) {
-            n_tingpai += paishu[tp];
+            n_tingpai += this._suanpai._paishu[tp[0]][tp[1]];
         }
 
         if (x >= max) {
@@ -437,12 +437,13 @@ select_dapai() {
 
         let n_tingpai = 0;
         for (let tp of Majiang.Util.tingpai(shoupai)) {
-            n_tingpai += paishu[tp];
+            n_tingpai += this._suanpai._paishu[tp[0]][tp[1]];
         }
         if (n_tingpai < max_tingpai * 6) continue;
 
         let x = 1 - paijia(p)/100
               + this.eval_backtrack(shoupai, paishu, tmp_max, p.substr(0,2));
+        if (x <= 1) continue;
 
         if (x >= max) {
             max = x;
