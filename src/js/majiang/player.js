@@ -508,7 +508,8 @@ select_dapai(info) {
             if (! info.find(x => x.p == p.substr(0,2) && ! x.m)) {
                 info.push({
                     p: p.substr(0,2), n_xiangting: n_xiangting, ev: ev,
-                    tingpai: tingpai, n_tingpai: n_tingpai
+                    tingpai: tingpai, n_tingpai: n_tingpai,
+                    weixian: weixian && weixian(p)
                 });
             }
         }
