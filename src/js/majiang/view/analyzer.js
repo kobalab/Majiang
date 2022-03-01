@@ -246,13 +246,6 @@ redraw_dapai(info) {
             ev = ev < 100 ? ('00' + ev).substr(-3) : '' + ev;
             ev = ev.replace(/(\d{2})$/, '.$1');
             $('.eval', row).text(ev);
-
-            let weixian = ! i.weixian       ? ''
-                        : i.weixian >= 12.0 ? 'high'
-                        : i.weixian >=  8.0 ? 'middle'
-                        : i.weixian >=  3.0 ? 'low'
-                        :                     '';
-            if (weixian) $('.eval', row).addClass(weixian);
         }
         else {
             let ev = i.n_tingpai
@@ -268,6 +261,14 @@ redraw_dapai(info) {
                 $('.tingpai', row).append($('<span>').text(`(${i.n_tingpai}枚)`));
             }
         }
+
+        let weixian = ! i.weixian       ? ''
+                      : i.weixian >= 12.0 ? 'high'
+                      : i.weixian >=  8.0 ? 'middle'
+                      : i.weixian >=  3.0 ? 'low'
+                      :                     '';
+        if (weixian) $('.eval', row).addClass(weixian);
+
         $('.dapai', this._root).append(row);
     }
 }
