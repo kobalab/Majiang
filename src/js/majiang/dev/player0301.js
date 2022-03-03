@@ -327,7 +327,8 @@ select_dapai() {
     for (let p of this.get_dapai()) {
         if (! dapai) dapai = p;
         let shoupai = this._shoupai.clone().dapai(p);
-        if (Majiang.Util.xiangting(shoupai) > n_xiangting) continue;
+        if (n_xiangting > 2 && this.xiangting(shoupai) > n_xiangting ||
+            Majiang.Util.xiangting(shoupai) > n_xiangting) continue;
 
         let x = 1 - this._suanpai.paijia(p)/100
               + this.eval_shoupai(shoupai, paishu);
