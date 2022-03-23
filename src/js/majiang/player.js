@@ -573,7 +573,8 @@ select_dapai(info) {
             info.push({
                 p: anquan.substr(0,2),
                 n_xiangting: Majiang.Util.xiangting(
-                                        this._shoupai.clone().dapai(anquan))
+                                        this._shoupai.clone().dapai(anquan)),
+                weixian: weixian(anquan)
             });
         }
     }
