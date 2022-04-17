@@ -889,8 +889,8 @@ suite('Majiang.Player', function(){
       assert.equal(player.xiangting(player._shoupai), 0);
     });
     test('役牌バックのシャンテン数', function(){
-      let player = init_player({shoupai:'p456s789z11333,m123-'});
-      assert.equal(player.xiangting(player._shoupai), 0);
+      let player = init_player({shoupai:'m123p456s789z77,z333-'});
+      assert.equal(player.xiangting(player._shoupai), 1);
     });
     test('喰いタンのシャンテン数', function(){
       let player = init_player({shoupai:'m123p456m66777,s6-78'});
@@ -916,8 +916,8 @@ suite('Majiang.Player', function(){
       assert.deepEqual(player.tingpai(player._shoupai), []);
     });
     test('役牌バックの有効牌', function(){
-      let player = init_player({shoupai:'p456s789z1133,m123-'});
-      assert.deepEqual(player.tingpai(player._shoupai), ['z1']);
+      let player = init_player({shoupai:'m12p456s789z77,z333-'});
+      assert.deepEqual(player.tingpai(player._shoupai), ['m1','m2','z7+']);
     });
     test('喰いタンの有効牌', function(){
       let player = init_player({shoupai:'m23p456m66777,s6-78'});
