@@ -19,6 +19,46 @@ http://kobalab.net/majiang/
 | ``build:css``   | CSSのみビルドする。
 | ``build:html``  | HTMLのみビルドする。
 
+## サブパッケージ
+以下のサブパッケージを使って構成しています。
+
+### majiang-core
+ - GitHub: https://github.com/kobalab/majiang-core
+ - npm: @kobalab/majiang-core
+
+手牌の操作、シャンテン数・和了点計算、局進行・卓情報の管理、思考ルーチンの雛形を含む基本クラス群です。
+
+### majiang-ai
+ - GitHub: https://github.com/kobalab/majiang-ai
+ - npm: @kobalab/majiang-ai
+
+麻雀AIとその 開発ツール です。
+AIは majiang-core のクラス Majiang.Player の具体的な実装になっています。
+
+### majiang-ui
+ - GitHub: https://github.com/kobalab/majiang-ui
+ - npm: @kobalab/majiang-ui
+
+手牌表示、盤面表示、牌譜再生 など画面表示やユーザとのインタラクションを実現するクラス群です。
+
+## 関連パッケージ
+そのほかに以下の関連パッケージがあります。
+
+### majiang-analog
+ - GitHub: https://github.com/kobalab/majiang-analog
+ - npm: @kobalab/majiang-analog
+
+牌譜解析ツールです。
+電脳麻将形式の牌譜を解析する基底クラスを提供します。
+本クラスのサブクラスを作成し、解析のためのプログラムを書くことができます。
+
+### tenhou-log
+ - GitHub: https://github.com/kobalab/tenhou-log
+ - npm: @kobalab/tenhou-log
+
+ネット麻雀 [天鳳](https://tenhou.net) の牌譜を電脳麻将形式に変換します。
+本パッケージを利用することで天鳳の牌譜を解析したり、再生したりすることが可能になります。
+
 ## (旧)ブログ記事
 
 過去のブログ記事。
