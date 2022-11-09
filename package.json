@@ -5,8 +5,7 @@
   "main": "src/js/majiang.js",
   "private": true,
   "scripts": {
-    "build:html": "pug -o www -P src/html/page/",
-    "build:css": "stylus src/css/index.styl -o www/css/majiang-1.6.10.css"
+    "build:html": "pug -o www -P src/html/page/"
   },
   "repository": {
     "type": "git",
