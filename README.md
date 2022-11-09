@@ -18,8 +18,6 @@ http://kobalab.net/majiang/
 | ``build:js``    | JavaScriptのみデバッグ用にビルドする。          |
 | ``build:css``   | CSSのみビルドする。                           |
 | ``build:html``  | HTMLのみビルドする。                          |
-| ``test``        | ユニットテストを実施する。                      |
-| ``test:cover``  | カバレッジ・レポートつきでユニットテストを実施する。|
 
 ## (旧)ブログ記事
 
