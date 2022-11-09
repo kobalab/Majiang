@@ -7,9 +7,7 @@
   "scripts": {
     "build:html": "pug -o www -P src/html/page/",
     "build:js": "webpack --mode development --devtool inline-source-map",
-    "build:css": "stylus src/css/index.styl -o www/css/majiang-1.6.10.css",
-    "build": "npm run build:html && npm run build:css && npm run build:js",
-    "release": "npm run build:html && npm run build:css && webpack --mode production"
+    "build:css": "stylus src/css/index.styl -o www/css/majiang-1.6.10.css"
   },
   "repository": {
     "type": "git",
