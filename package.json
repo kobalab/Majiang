@@ -6,7 +6,6 @@
   "private": true,
   "scripts": {
     "build:html": "pug -o www -P src/html/page/",
-    "build:js": "webpack --mode development --devtool inline-source-map",
     "build:css": "stylus src/css/index.styl -o www/css/majiang-1.6.10.css"
   },
   "repository": {
