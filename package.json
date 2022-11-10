@@ -4,7 +4,8 @@
   "description": "HTML5 + JavaScript で動作する麻雀アプリ「電脳麻将」",
   "private": true,
   "scripts": {
-    "build:html": "pug -o dist -P src/html/page/"
+    "build:html": "pug -o dist -P src/html/page/",
+    "build:css": "stylus src/css/index.styl -o dist/css/majiang-2.0.0.css"
   },
   "repository": {
     "type": "git",
