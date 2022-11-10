@@ -1,0 +1,44 @@
+.hide
+    display: none !important
+.fadeout
+    opacity: 0 !important
+
+input
+    font-size: 100%
+    font-family: fixed-font
+
+input[type="submit"]
+input[type="reset"]
+input[type="button"]
+    font-family: menu-font
+    padding: 1px 1em
+    border: solid 1px
+    border-radius: 4px
+    background: #ddd
+    color: black
+    -webkit-appearance: none
+
+select
+    border: solid 1px
+    border-radius: 4px
+    font-size: 100%
+    padding: 1px
+    background: #ddd
+    color: black
+
+@keyframes blink
+    100%
+        opacity: 0.7
+@keyframes blink-text
+    100%
+        opacity: 0.2
+
+body
+    -webkit-text-size-adjust: 100%
+    margin-top: 0
+
+#loaddata
+    display: none
+
+[role="button"] *
+    pointer-events: none

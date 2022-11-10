@@ -1,0 +1,77 @@
+#board > .analyzer
+    display: none
+    box-sizing: border-box
+    border: solid 1px white
+    border-radius: 6px
+    padding: 10px
+    overflow: auto
+    font-family: menu-font
+    font-size: 12px
+    table
+        border-collapse: collapse
+        .row
+            white-space: nowrap
+            line-height: 1
+            pai-size: 35px
+            img
+                vertical-align: middle
+            .p
+                span
+                    margin-left: 0.5em
+            .xiangting
+                padding: 0 1em
+                text-align: center
+            .eval
+                padding-right: 1em
+                text-align: right
+                &.high
+                    color: red
+                &.middle
+                    color: orange
+                &.low
+                    color: yellow
+                &.none
+                    color: gray
+            .tingpai
+                width: 100%
+                span
+                    margin-left: 0.5em
+            .shoupai
+                shoupai-size: 380px 40px 35px 28px
+            .action
+                padding: 0.25em 0.5em
+
+
+@media screen and (min-width: 821px)
+    body.analyzer
+        #navi
+        > .version
+        #board
+            width: 1400px
+            > .analyzer
+                display: block
+                position: relative
+                transform: translate(0px, 0px)
+                float: right
+                width:  590px
+                height: 680px
+                text-shadow: none
+                .selected
+                    background: #999
+                img
+                    opacity: 1
+
+@media screen and (max-width: 820px) and (min-height: 1000px)
+    body.analyzer
+        #board
+            > .analyzer
+                display: block
+                position: relative
+                transform: translate(0px, 680px)
+                width:  800px
+                height: 300px
+                text-shadow: none
+                .selected
+                    background: #999
+                img
+                    opacity: 1
