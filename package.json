@@ -8,6 +8,7 @@
     "build:css": "stylus src/css/index.styl -o dist/css/majiang-2.0.0.css",
     "build:js": "webpack --mode development --devtool inline-source-map",
     "build": "npm run build:html && npm run build:css && npm run build:js",
+    "release": "npm run build:html && npm run build:css && webpack --mode production",
     "clean": "rm -f dist/*.html dist/js/* dist/css/*"
   },
   "repository": {
