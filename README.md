@@ -2,7 +2,7 @@
 HTML5 + JavaScript で動作する麻雀アプリ「電脳麻将」
 
 ## デモ
-http://kobalab.net/majiang/
+https://kobalab.net/majiang/
 
 ## ライセンス
 [MIT](https://github.com/kobalab/Majiang/blob/master/LICENSE)
