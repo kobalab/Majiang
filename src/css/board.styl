@@ -1,0 +1,324 @@
+body.board
+    color: white
+    background: black
+    margin: 0
+    > *
+        width: 800px
+        margin: 0 auto
+    #board
+        display: block
+    > .version
+        display: block
+        font-size: 16px
+        font-family: defen-font
+        text-align: right
+#space
+    display: none
+
+#board
+    display: none
+#board > .board
+    position: absolute
+    width: 800px
+    overflow: hidden
+    user-select: none
+    touch-action: manipulation
+    margin: 0 auto
+    background: #154
+    > *
+        position: absolute
+        transform-origin: 0% 0%
+    .score
+        border-radius: 4px
+        background: #111
+        font-family: defen-font
+        .juchang
+            float: left
+            .jushu
+                font-family: title-font
+                font-size: 32px
+                line-height: 1.2
+        .shan
+            float: right
+            text-align: right
+        .defen
+            clear: both
+            div
+                position: absolute
+                &.lunban
+                    color: #0ff
+                &.main
+                    text-align: center
+                &.xiajia
+                    text-align: right
+                &.duimian
+                    text-align: center
+                &.shangjia
+                    text-align: left
+    .player-button
+        text-align: right
+        white-space: nowrap
+        .button
+            cursor: pointer
+            display: inline-block
+            text-align: center
+            font-family: menu-font
+            color: white
+            background: black;
+            border-radius: 4px;
+            &:focus
+                background: #999
+                outline: none
+    .select-mianzi
+        line-height: 1
+        text-align: right
+        white-space: nowrap
+        .mianzi
+            background: black
+            border-radius: 4px
+            cursor: pointer
+            opacity: 0.8
+            &:focus
+                outline: none
+                opacity: 1.0
+    > .player
+        background: black
+        font-family: text-font
+        opacity: 0.5
+        white-space: nowrap
+        overflow: hidden
+        text-overflow: ellipsis
+        cursor: pointer
+        &:hover
+            opacity: 1
+    .say
+        font-family: text-font
+        color: white
+        text-shadow: 3px  3px 6px #333,
+                    -3px  3px 6px #333,
+                    -3px -3px 6px #333,
+                     3px -3px 6px #333
+        transition: opacity 0.4s ease-out
+        &.main
+            text-align: center
+        &.xiajia
+            text-align: left
+        &.duimian
+            text-align: center
+        &.shangjia
+            text-align: right
+    .hule-dialog
+        display: flex
+        overflow: auto
+        align-items: center
+        transition: opacity 0.2s ease-out
+        &:focus
+            outline: none
+        > div
+            margin: auto 0
+            > div
+                display: table
+                background: rgba(0,0,0,0.8)
+                margin: auto
+                .hule
+                    .shan
+                        font-family: title-font
+                        img
+                            vertical-align: bottom
+                        &.baopai
+                            float: left
+                        &.fubaopai
+                            float: right
+                    .shoupai
+                        clear: both
+                    .hupai
+                        font-family: title-font
+                        line-height: 1
+                        .fanshu
+                            text-align: right
+                        .defen
+                            text-align: right
+                    .jicun
+                        text-align: center
+                        font-family: defen-font
+                .pingju
+                    font-family: title-font
+                    text-align: center
+                .fenpei
+                    font-family: defen-font
+                    > *
+                        position: absolute
+                        transform-origin: 0% 0%
+                        display: inline-block
+                        .player
+                            display: none
+                        .defen
+                            display: inline-block
+                            float: right
+                            text-align: right
+                        .diff
+                            display: inline-block
+                            float: right
+                            text-align: right
+                        .plus
+                            color: #0ff
+                        .minus
+                            color: #f00
+    > .summary
+        display: flex
+        overflow: auto
+        align-items: center
+        transition: opacity 0.2s ease-out
+        &:focus
+            outline: none
+        > div
+            margin: auto 0
+            > div
+                background: rgba(0,0,0,0.8)
+                margin: auto
+                table
+                    margin: auto
+                    font-family: text-font
+                    border-collapse: collapse
+                    line-height: 1.5
+                    .r_player
+                        border-bottom: solid 2px
+                    .r_diff
+                        .back
+                            text-align: right
+                        .zhuangjia
+                            background: rgba(128,128,128,0.4)
+                        .diff
+                            font-family: defen-font
+                        .lizhi
+                            font-family: defen-font
+                            display: inline-block
+                            width: 1.2em
+                            text-align: center
+                    .r_defen
+                        border-top: solid 2px
+                        .defen
+                            font-family: defen-font
+                            text-align: right
+                            padding-right: 1.2em
+                    .r_point
+                        border-top: solid 1px
+                        .point
+                            font-family: defen-font
+                            text-align: center
+                    .baojia
+                    .minus
+                        color: red
+                    .hule
+                    .plus
+                        color: #0ff
+                    a.download
+                        opacity: 0.6
+                        font-family: menu-font
+                        font-size: 18px
+                        text-decoration: none
+                        color: white
+                        &::link
+                            color: white
+                        img
+                            height: 1em
+                            vertical-align: text-bottom
+    > .summary.paipu tbody tr:hover
+        background: rgba(256,256,256,0.4)
+        cursor: pointer
+    .kaiju
+        margin-top: 120px
+        position: relative
+        width: 580px
+        margin: auto
+        background: #111
+        border: solid 1px #111
+        border-radius: 6px
+        .title
+            margin: 40px 20px
+            text-align: center
+            font-family: title-font
+            font-size: 32px
+            line-height: 1
+        .player
+            margin: 40px 20px
+            height: 132px
+            text-align: center
+            font-family: text-font
+            font-size: 24px
+            > div
+                position: absolute
+                width: 240px
+                height: 38px
+                padding: 0px 10px
+                border-radius: 4px
+                background: #333
+                white-space: nowrap
+                overflow: hidden
+                text-overflow: ellipsis
+                cursor: pointer
+                &.main
+                    transform: translate(140px, 96px)
+                &.xiajia
+                    transform: translate(280px, 48px)
+                &.duimian
+                    transform: translate(140px, 0px)
+                &.shangjia
+                    transform: translate(0px, 48px)
+                &:hover
+                    background: #999
+
+#board
+    .controller
+        position: absolute
+        img
+            opacity: 0.2
+            cursor: pointer
+        .speed
+            span
+                display: inline-block
+                background: white
+                opacity: 0.1
+        &:hover
+            border-color: #333
+            background: black
+            img
+                opacity: 0.5
+                &:hover
+                    opacity: 1
+            span
+                opacity: 0.2
+    .download
+        position: absolute
+        a
+            opacity: 0.7
+            display: inline-block
+            color: white
+            background: black
+            text-decoration: none
+            font-size: 18px
+            font-family: menu-font
+            padding: 6px 10px
+            border-radius: 6px
+            cursor: pointer
+            img
+                height: 1.2em
+                margin-right: 0.5em
+                vertical-align: middle
+            &:hover
+                opacity: 1
+
+@media screen and (max-height: 680px)
+    body.board
+        height: 100vh
+        #space
+            display: block
+            background: #666
+            height: 100px
+        #navi, > .version
+            display: none
+
+@media screen and (max-width: 800px)
+    body.board
+        > .version
+            display: none

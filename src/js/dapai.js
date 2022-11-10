@@ -1,115 +1,23 @@
 /*!
+ *  電脳麻将: 何切る解答機 v2.0.0
  *
- *`dapai.js
- *
- *  Copyright(C) 2019 Satoshi Kobayashi
+ *  Copyright(C) 2017 Satoshi Kobayashi
  *  Released under the MIT license
  *  https://github.com/kobalab/Majiang/blob/master/LICENSE
  */
-
 "use strict";
 
-const { hide, fadeIn } = require('./majiang/view/fadein');
+const { hide, show, fadeIn, fadeOut } = Majiang.UI.Util;
 
-let _row;
+let pai;
 
-class Shan {
-    constructor(baopai, fubaopai) {
-        this._baopai   = baopai   || [];
-        this._fubaopai = fubaopai || [];
-    }
-    baopai()   { return this._baopai   }
-    fubaopai() { return this._fubaopai }
-    paishu()   { return 0 }
-}
+function init(fragment) {
 
-function init_analyzer(paistr, zhuangfeng, menfeng, baopai, hongpai) {
-
-    const analyzer = new Majiang.View.Analyzer(0, $('#dapai'));
-
-    let kaiju = {
-        player:  [],
-        qijia:   0,
-        hongpai: hongpai
-    };
-    analyzer.kaiju(kaiju);
-
-    let qipai = {
-        zhuangfeng: zhuangfeng,
-        jushu:      (4 - menfeng) % 4,
-        changbang:  0,
-        lizhibang:  0,
-        defen:      [ 25000, 25000, 25000, 25000 ],
-        baopai:     baopai.length && Majiang.Shoupai.valid_pai(baopai[0])
-                                                            ||'z2',
-        shoupai:    [ '', '', '', '' ]
-    };
-    qipai.shoupai[menfeng] = paistr;
-    analyzer.qipai(qipai);
-
-    for (let i = 1; i < baopai.length; i++) {
-        analyzer.kaigang({ baopai: baopai[i] });
-    }
-
-    return analyzer;
-}
-
-function submit() {
-
-    let paistr     = $('input[name="paistr"]').val();
-    if (! paistr) return false;
-
-    let zhuangfeng = + $('select[name="zhuangfeng"]').val();
-    let menfeng    = + $('select[name="menfeng"]').val();
-    let baopai     = $.makeArray($('input[name="baopai"]'))
-                                    .map(p=>$(p).val()).filter(p=>p);
-    let hongpai    = $('input[name="hongpai"]').prop('checked');
-
-    const analyzer = init_analyzer(paistr, zhuangfeng, menfeng, baopai, hongpai
-                        ? { m: 1, p: 1, s: 1 }
-                        : { m: 0, p: 0, s: 0 });
-
-    new Majiang.View.Shan('.shan', new Shan(analyzer._baopai)).redraw();
-    new Majiang.View.Shoupai('.shoupai', analyzer._shoupai).redraw(true);
-
-    analyzer.action_zimo();
-
-    fadeIn($('#dapai'));
-
-    paistr = analyzer._shoupai.toString();
-    $('input[name="paistr"]').val(paistr);
-    baopai = analyzer._baopai;
-    for (let i = 0; i < baopai.length; i++) {
-        $('input[name="baopai"]').eq(i).val(baopai[i]);
-    }
-
-    let fragment = '#'
-                 + [ paistr, zhuangfeng, menfeng, baopai.join(',')].join('/');
-    if (! hongpai) fragment += '/1';
-    history.replaceState('', '', fragment)
-
-    return false;
-}
-
-$(function(){
-
-    $('.version').text('ver. ' + Majiang.VERSION);
-
-    $('form').on('submit', submit);
-
-    $('form').on('reset', ()=>{
-        $('input[name="paistr"]').focus();
-        hide($('#dapai'));
-    });
-
-    _row = $('.report .row');
-    $('.report').empty();
-
-    let fragment = location.hash.replace(/^#/,'');
     if (fragment) {
-        let [paistr, zhuangfeng, menfeng, baopai, hongpai]
-                                            = fragment.match(/([^\/]+)/g);
-        baopai  = (baopai || '').split(/,/);
+
+        let [ paistr, zhuangfeng, menfeng, baopai, hongpai ]
+                = fragment.split(/\//);
+        baopai  = (baopai   || '').split(/,/);
         hongpai = ! hongpai;
 
         $('input[name="paistr"]').val(paistr);
@@ -126,4 +34,99 @@ $(function(){
         $('input[name="paistr"]').val('m123p1234789s338s8').focus();
         $('input[name="baopai"]').eq(0).val('s3');
     }
+}
+
+function init_analyzer(paistr, zhuangfeng, menfeng, baopai, hongpai) {
+
+    let kaiju = {
+        id:     0,
+        rule:   Majiang.rule({'赤牌':hongpai}),
+        player: [],
+        qijia:  0
+    };
+    const analyzer = new Majiang.UI.Analyzer($('.analyzer'),
+                                                { kaiju: kaiju }, pai);
+    let qipai = {
+        zhuangfeng: zhuangfeng,
+        jushu:      (4 - menfeng) % 4,
+        changbang:  0,
+        lizhibang:  0,
+        defen:      [ 25000, 25000, 25000, 25000 ],
+        baopai:     baopai.length && Majiang.Shoupai.valid_pai(baopai[0])
+                                  || 'z2',
+        shoupai:    ['','','','']
+    };
+    qipai.shoupai[menfeng] = paistr;
+    analyzer.next({ qipai: qipai });
+
+    for (let i = 1; i < baopai.length; i++) {
+        analyzer.next({ kaigang: { baopai: baopai[i] }});
+    }
+
+    return analyzer;
+}
+
+function submit() {
+
+    hide($('.shan, .shoupai, .analyzer'));
+
+    let paistr = $('input[name="paistr"]').val();
+    if (! paistr) return false;
+
+    let shoupai = Majiang.Shoupai.fromString(paistr);
+    let zimo = shoupai._zimo;
+    if (zimo) shoupai.dapai(zimo);
+    paistr = shoupai.toString();
+
+    let zhuangfeng = + $('select[name="zhuangfeng"]').val();
+    let menfeng    = + $('select[name="menfeng"]').val();
+    let baopai     = $.makeArray($('input[name="baopai"]'))
+                                    .map(n => $(n).val()).filter(p => p);
+    let hongpai    = $('input[name="hongpai"]').prop('checked');
+
+    const analyzer = init_analyzer(paistr, zhuangfeng, menfeng, baopai, hongpai
+                        ? { m: 1, p: 1, s: 1 }
+                        : { m: 0, p: 0, s: 0 });
+
+    if (zimo) analyzer.action({ zimo: { l: menfeng, p: zimo }});
+    new Majiang.UI.Shan($('.shan'), pai, analyzer.shan).redraw();
+    new Majiang.UI.Shoupai($('.shoupai'), pai, analyzer.shoupai).redraw(true);
+
+    fadeIn($('.shan, .shoupai, .analyzer'));
+
+    paistr = analyzer.shoupai.toString();
+    baopai = analyzer.shan.baopai;
+    $('input[name="paistr"]').val(paistr);
+    for (let i = 0; i < 5; i++) {
+        $('input[name="baopai"]').eq(i).val(baopai[i] || '');
+    }
+
+    let fragment = '#'
+                 + [ paistr, zhuangfeng, menfeng, baopai.join(',')].join('/');
+    if (! hongpai) fragment += '/1';
+    history.replaceState('', '', fragment)
+
+    return false;
+}
+
+$(function(){
+
+    pai = Majiang.UI.pai('#loaddata');
+
+    $('form').on('submit', submit);
+
+    $('form').on('reset', function(){
+        hide($('.shan, .shoupai, .analyzer'));
+        $('form input[name="paistr"]').focus();
+    });
+
+    $(window).on('keyup', (ev)=>{
+        if (ev.key == 'W') {
+            if ($('body').width() == 780) $('body').width('');
+            else                          $('body').width(780);
+        }
+    });
+
+    let fragment = location.hash.replace(/^#/,'');
+    init(fragment);
 });

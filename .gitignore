@@ -1,8 +1,4 @@
 node_modules/
-www/js/
-www/css/
-www/*.html
-coverage/
-.nyc_output/
-log/
-www/log
+dist/js/
+dist/css/
+dist/*.html

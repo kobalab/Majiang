@@ -5,7 +5,7 @@ set -e
 
 version=`echo $1 | sed 's/^[^0-9]*//'`
 
-npx semver ${version} || (echo "${version}: bad semver"; exit 1)
+[ $version ] && npx semver $version || (echo "${version}: bad semver"; exit 1)
 
 ex package.json <<++
     /"version":/s/: .*$/: "${version}",/
@@ -19,9 +19,17 @@ ex package-lock.json <<++
 ++
 
 ex src/js/majiang.js <<++
-    /Majiang v/s/v.*/v${version}/
-    /VERSION:/s/'.*'/'${version}'/
+    /電脳麻将/s/v.*/v${version}/
+    /VERSION/s/'.*'/'${version}'/
     w!
 ++
 
-echo "- var version = '${version}'" > src/html/version.pug
+for file in src/js/*.js
+do
+ex $file <<++
+    /電脳麻将/s/v.*/v${version}/
+    w!
+++
+done
+
+echo "- var version = '${version}'" > src/html/inc/version.pug

@@ -1,0 +1,25 @@
+he-size($width, $dapai-height, $mode = block)
+    width: $width
+    div.lizhi
+        line-height: 0
+        width:  pai-width($dapai-height) * 6
+        height: ($dapai-height * 2 / 7)
+        text-align: $mode == line ? left : center
+        .chouma
+            width: @width * 0.6
+    .dapai
+        line-height: 0
+        height: $mode == line ? $dapai-height : $dapai-height * 3
+        pai-size: $dapai-height
+        .pai.dapai
+            transform: translate(@height / 28, @height / 56)
+        .lizhi
+            width: $dapai-height
+            display: inline-block
+            text-align: left
+            transform: rotate(270deg)
+            .pai.dapai
+                transform: translate(- @height / 56, @height / 28)
+        .break
+            display: $mode == line ? inline-block : block
+            width: pai-width($dapai-height) * 0.1

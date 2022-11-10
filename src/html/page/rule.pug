@@ -1,0 +1,20 @@
+- var page = 'rule'
+
+doctype html
+html(lang="ja")
+
+  head
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+
+    title 電脳麻将: ルール設定
+
+    include ../inc/style
+    include ../inc/script
+
+  body.rule
+    include ../inc/loaderr
+    include ../inc/navi
+    .version ver. #{version}
+
+    include ../inc/rule

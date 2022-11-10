@@ -1,11 +1,10 @@
-include ../version.pug
 - var page = 'index'
 
 doctype html
 html(lang="ja")
-
+  
   head
-    include ../inc/meta.pug
+    include ../inc/meta
 
     title 電脳麻将
     meta(name="description" content="HTML5 + Javascriptで動作する麻雀アプリ")
@@ -14,18 +13,16 @@ html(lang="ja")
     meta(property="og:description" content="HTML5 + JavaScript で動作する麻雀アプリ")
     meta(property="og:image" content="https://kobalab.net/majiang/img/game.png")
 
-    include ../inc/style.pug
-    include ../inc/script.pug
-
+    include ../inc/style
+    include ../inc/script
+  
   body.title
-    include ../inc/loaderr.pug
-    include ../inc/navi.pug
-    include ../inc/title.pug
-    include ../inc/loaddata.pug
-    
-    include ../inc/file.pug
-    include ../inc/stat.pug
-    include ../inc/game.pug
-    include ../inc/analyzer.pug
+    include ../inc/loaderr
+    include ../inc/navi
+    include ../inc/title
+    include ../inc/loaddata
 
-    .version
+    include ../inc/file
+    include ../inc/stat
+    include ../inc/board
+    .version ver. #{version}

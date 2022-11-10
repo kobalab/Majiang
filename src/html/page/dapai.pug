@@ -1,25 +1,23 @@
-include ../version.pug
 - var page = 'dapai'
-
 doctype html
 html(lang="ja")
-
+  
   head
-    include ../inc/meta.pug
+    include ../inc/meta
 
     title 電脳麻将: 何切る解答機
 
-    include ../inc/style.pug
-    include ../inc/script.pug
+    include ../inc/style
+    include ../inc/script
 
   body.demo
-    include ../inc/loaderr.pug
-    include ../inc/navi.pug
-    include ../inc/loaddata.pug
-    .version
-
+    include ../inc/loaderr
+    include ../inc/navi
+    include ../inc/loaddata
+    .version ver. #{version}
+    
     form
-      div 牌姿: 
+      div 牌姿:
         input(name="paistr" type="text")
         input(type="submit" value="決定")
         input(type="reset" value="クリア")
@@ -27,30 +25,32 @@ html(lang="ja")
         span
           |  場風: 
           select(name="zhuangfeng")
-            option(value="0") 東
+            option(value="0" selected) 東
             option(value="1") 南
             option(value="2") 西
             option(value="3") 北
           |  自風: 
           select(name="menfeng")
             option(value="0") 東
-            option(value="1") 南
+            option(value="1" selected) 南
             option(value="2") 西
             option(value="3") 北
         span.
           ドラ表示牌:
           <input name="baopai" type="text"><input name="baopai" type="text"><input name="baopai" type="text"><input name="baopai" type="text"><input name="baopai" type="text">
         span
-          input(name="hongpai" type="checkbox" checked)
-          |  赤牌あり
+          label
+            input(name="hongpai" type="checkbox" checked)
+            |  赤牌あり
     hr
 
-    #dapai.hide
-      .shan.baopai ドラ
-        span.baopai
-      .shoupai
-        .bingpai
-        .fulou
+    .shan.baopai
+      span.baopai
+    .shoupai
+      .bingpai
+      .fulou
+
+    .analyzer
       table.dapai
         tr.row
           td.p

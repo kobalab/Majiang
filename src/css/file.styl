@@ -1,32 +1,34 @@
 body.file
-    color:      black
-    a
-        color:  black
+    color: black
     background: white
+    margin: 0 10px 15px
+    #navi
+        margin: 0
     #file
         display: block
+    > .version
+        display: none
 
 #file
     display: none
-    font-family: menu-font
     font-size: 14px
+    font-family: menu-font
     h1
+        font-size: 24px
         margin-top: 0
         border-bottom: solid 2px black
-        font-family: menu-font
-        font-size: 24px
         img
             height: 36px
             vertical-align: bottom
-    .version
-        margin-top: -3em
-        font-size: 12px
-        font-family: text-font
+    > .version
+        margin-top: -2.4em
+        font-size: 16px
+        font-family: defen-font
         text-align: right
     .file
-        margin: 15px 0px
+        margin: 10px 0
         .row
-            transition: opacity 0.5s ease-out
+            transition: opacity 0.4s ease-out
             border: solid 1px #ccc
             margin: 2px 0px
             border-radius: 4px
@@ -38,19 +40,18 @@ body.file
                 margin-right: 10px
                 .title
                     font-family: menu-font
-                    font-size: 16px
+                    font-size: 114%
                 .player
                     font-family: text-font
-                    font-size: 15px
+                    font-size: 107%
             .button
                 display: inline-flex
                 align-items: flex-start
                 a, span
                     margin: 2px
         a
-        label
+        label.upload
             display: inline-block
-            font-size: 14px
             padding: 6px 10px
             background: #999
             border-radius: 5px
@@ -60,13 +61,12 @@ body.file
             line-height: 1em
             text-decoration: none
             img
-                width: 14px
-                height: 14px
+                height: 1em
                 margin-right: 4px
                 vertical-align: bottom
             input
                 display: none
-            &.next
+            &.start
                 background: blue
             &:hover
                 background: #ccc
@@ -74,13 +74,17 @@ body.file
                 background: red
         .move
             display: inline-block
+            padding: 3px 0
             cursor: move
             img
-                width: 14px
-                height: 14px
+                height: 1em
+                vertical-align: bottom
         > .button
             float: right
-            text-align: right
+        form
+            float: right
+            input[name="url"]
+                width: 270px
         .error
             transition: opacity 0.5s
             margin: 2px 0px
@@ -89,5 +93,4 @@ body.file
             color: red
             background: #fdd
             padding: 4px 1em
-            font-size: 12px
             font-family: menu-font

@@ -1,0 +1,44 @@
+mixin fenpei(lunban)
+  div(class=lunban)
+    span.feng
+    | : 
+    span.player
+    span.defen
+    span.diff
+
+.hule-dialog.hide
+  div
+    div
+      .hule
+        .shan.baopai
+          span.baopai
+        .shan.fubaopai
+          span.fubaopai
+        
+        .shoupai
+          .bingpai
+          .fulou
+        
+        table.hupai
+          tr.r_hupai
+            td.name
+            td.fanshu
+          tr.r_defen
+            td.defen(colspan="2")
+        
+        .jicun
+          img.chouma(src="img/100.gif" alt="本場")
+          |  : 
+          span.changbang
+          |  
+          img.chouma(src="img/1000.gif" alt="供託")
+          |  : 
+          span.lizhibang
+          
+      .pingju
+
+      .fenpei
+        +fenpei('main')
+        +fenpei('xiajia')
+        +fenpei('duimian')
+        +fenpei('shangjia')        

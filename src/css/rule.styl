@@ -1,0 +1,84 @@
+body.rule
+    font-size: 16px
+    font-family: menu-font
+    color: black
+    background: white
+    margin: 0 5px 32px
+    > *
+        max-width: 800px
+        margin: 0 auto
+    .version
+        display: block
+        font-family: defen-font
+        text-align: right
+    .message
+        color: #090
+        background: #cfc
+        border: solid 1px #090
+        border-radius: 8px
+        padding: 4px 1em
+        transition: opacity 0.2s ease-out
+    form
+        transition: opacity 0.4s ease-out
+        dl
+            margin: 8px 0
+            border-bottom: solid 1px #999
+            &::after
+                display: block
+                content: ""
+                clear: both
+        dt
+            width: 8.5em
+            margin: 2px 0
+            padding: 1px
+            clear: both
+            float: left
+            font-size: 100%
+            font-weight: bold
+            text-align: right
+        dd
+            width: calc(100% - 9.5em)
+            margin-left: 0
+            margin: 2px 0
+            padding: 1px
+            float: right
+            select
+                padding: 1px 1em 1px 0.5em
+            label
+                margin-right: 0.5em
+            label.wrap
+                display: inline-block
+            img
+                height: 2em
+                vertical-align: middle
+                border: solid 0.3px #666
+                border-radius: 0.3em
+            input
+                padding: 1px 0.5em
+            input[name="配給原点"]
+                width: 4em
+                text-align: right
+            input[name="順位点"]
+                width: 3.5em
+                text-align: right
+            input[name="赤牌"]
+                width: 1em
+                text-align: center
+        input[type="submit"]
+            display: block
+            margin: 0.5em auto
+
+@media screen and (max-width: 480px)
+    body.rule
+        form
+            dt
+                width: auto
+                margin-right: 0.5em
+            dd
+                width: calc(100% - 7em)
+
+@media screen and (max-width: 360px)
+    body.rule
+        form
+            dd
+                width: calc(100% - 1em)
