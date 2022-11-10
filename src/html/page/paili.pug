@@ -1,0 +1,37 @@
+- var page = 'paili'
+doctype html
+html(lang="ja")
+  
+  head
+    include ../inc/meta
+
+    title 電脳麻将: 牌理
+
+    include ../inc/style
+    include ../inc/script
+
+  body.demo
+    include ../inc/loaderr
+    include ../inc/navi
+    include ../inc/loaddata
+    .version ver. #{version}
+    
+    form
+      input(type="button" value="新規")
+      | | 手牌
+      input(type="text" name="paistr")
+      input(type="submit" value="選択")
+      input(type="reset" value="クリア")
+    hr
+
+    .he
+      .lizhi
+        img.chouma.hide(src="img/1000.gif")
+      .dapai
+
+    .shoupai
+      .bingpai
+      .fulou
+    
+    .status
+    .paili

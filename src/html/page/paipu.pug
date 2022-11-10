@@ -1,0 +1,22 @@
+- var page = 'paipu'
+
+doctype html
+html(lang="ja")
+  
+  head
+    include ../inc/meta
+
+    title 電脳麻将: 牌譜ビューア
+
+    include ../inc/style
+    include ../inc/script
+  
+  body.file
+    include ../inc/loaderr
+    include ../inc/navi
+    include ../inc/loaddata
+
+    include ../inc/file
+    include ../inc/stat
+    include ../inc/board
+    .version ver. #{version}

@@ -1,0 +1,12 @@
+#loaderr(style="display: none")
+  p
+    | プログラムのロードでエラーが発生しました。
+    | お使いのブラウザでは実行できない可能性があります。
+    | リロードして問題が解決しない場合は、
+    | Google Chromeなど最新のブラウザでアクセスしてみてください。
+  
+  script.
+    window.onload = function(){
+      var elem = document.getElementById('loaderr');
+      if (typeof Majiang === 'undefined') elem.removeAttribute('style');
+    }

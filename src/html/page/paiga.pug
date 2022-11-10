@@ -1,0 +1,37 @@
+- var page = 'paiga'
+doctype html
+html(lang="ja")
+  
+  head
+    include ../inc/meta
+
+    title 電脳麻将: 牌画入力
+    meta(name="description" content="簡単な記法で牌画を入力")
+
+    include ../inc/style
+    include ../inc/script
+
+  body.demo
+    include ../inc/loaderr
+    include ../inc/navi
+    .version ver. #{version}
+
+    form
+      textarea.paiga(name="text" rows="10")
+      br
+      label
+        input(name="size" type="radio" value="24x34" checked)
+        | 大(24x34) 
+      label
+        input(name="size" type="radio" value="19x26")
+        | 中(19x26) 
+      label
+        input(name="size" type="radio" value="16x23")
+        | 小(16x23) 
+      input(type="submit" value="変換")
+      input(type="reset" value="クリア")
+    hr
+    
+    .paiga
+      div
+      textarea.paiga(rows="20")

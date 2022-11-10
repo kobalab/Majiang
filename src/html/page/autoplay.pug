@@ -1,0 +1,22 @@
+- var page = 'autoplay'
+
+doctype html
+html(lang="ja")
+  
+  head
+    include ../inc/meta
+
+    title 電脳麻将: 自動対戦
+    meta(name="description" content="AIプレーヤーの無限麻雀地獄")
+
+    include ../inc/style
+    include ../inc/script
+  
+  body.title
+    include ../inc/loaderr
+    include ../inc/navi
+    include ../inc/title
+    include ../inc/loaddata
+
+    include ../inc/board
+    .version ver. #{version}

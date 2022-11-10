@@ -1,0 +1,59 @@
+- var page = 'dapai'
+doctype html
+html(lang="ja")
+  
+  head
+    include ../inc/meta
+
+    title 電脳麻将: 何切る解答機
+
+    include ../inc/style
+    include ../inc/script
+
+  body.demo
+    include ../inc/loaderr
+    include ../inc/navi
+    include ../inc/loaddata
+    .version ver. #{version}
+    
+    form
+      div 牌姿:
+        input(name="paistr" type="text")
+        input(type="submit" value="決定")
+        input(type="reset" value="クリア")
+      div
+        span
+          |  場風: 
+          select(name="zhuangfeng")
+            option(value="0" selected) 東
+            option(value="1") 南
+            option(value="2") 西
+            option(value="3") 北
+          |  自風: 
+          select(name="menfeng")
+            option(value="0") 東
+            option(value="1" selected) 南
+            option(value="2") 西
+            option(value="3") 北
+        span.
+          ドラ表示牌:
+          <input name="baopai" type="text"><input name="baopai" type="text"><input name="baopai" type="text"><input name="baopai" type="text"><input name="baopai" type="text">
+        span
+          label
+            input(name="hongpai" type="checkbox" checked)
+            |  赤牌あり
+    hr
+
+    .shan.baopai
+      span.baopai
+    .shoupai
+      .bingpai
+      .fulou
+
+    .analyzer
+      table.dapai
+        tr.row
+          td.p
+          td.xiangting
+          td.eval
+          td.tingpai

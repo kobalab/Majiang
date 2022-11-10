@@ -1,0 +1,49 @@
+#stat
+  h1
+    img(src="img/logo.png" alt="電脳麻将")
+    |  牌譜集計
+  .version ver. #{version}
+
+  .stat
+    div
+      .button
+        label.cut-off
+          input(name="cut-off" type="checkbox")
+          | 対戦数 
+          input(name="n_game")
+          |  以下は表示しない
+        a.file
+          img(src="img/icon-arrow-left.png")
+          | 牌譜一覧        
+    
+      h2.title
+    
+      table
+        thead
+          tr
+            th
+            th #[a 対戦]
+            th #[a ポイント]
+            th #[a 順位]
+            th #[a トップ]
+            th #[a 連対]
+            th #[a ラス]
+            th #[a 和了]
+            th #[a 放銃]
+            th #[a 立直]
+            th #[a 副露]
+            th #[a 打点]
+        tbody
+          tr
+            td.name
+            td.num
+            td.num
+            td.num
+            td.num
+            td.num
+            td.num
+            td.num
+            td.num
+            td.num
+            td.num
+            td.num

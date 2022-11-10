@@ -1,0 +1,67 @@
+#file
+  h1
+    img(src="img/logo.png" alt="電脳麻将")
+    if page == 'paipu'
+      |  牌譜ビューア
+  .version ver. #{version}
+  
+  .file.hide
+
+    if page == 'index'
+      a.start 対局開始
+      .button
+        a.stat
+          img(src="img/icon-dotlist.png")
+          | 牌譜集計
+        |
+        |
+        a.download
+          img(src="img/icon-download-alt.png")
+          | 牌譜保存
+
+    .list
+      .row
+        .button
+          a.replay
+            img(src="img/icon-play.png")
+            | 再生
+          |
+          |
+          a.download
+            img(src="img/icon-download-alt.png")
+            | 保存
+          |
+          |
+          a.delete
+            img(src="img/icon-trash.png")
+            | 削除
+          |
+          |
+          if page == 'paipu'
+            span.move
+              img(src="img/icon-resize-vertical.png")
+        .content
+          .title
+          .player
+          
+    if page == 'paipu'
+      .error.hide
+      label.upload
+        img(src="img/icon-upload-alt.png")
+        | 牌譜追加
+        input(type="file" multiple)
+      label.storage
+        input(name="storage" type="checkbox")
+        | ローカルストレージ
+      .button
+        a.stat
+          img(src="img/icon-dotlist.png")
+          | 牌譜集計
+        |
+        |
+        a.download
+          img(src="img/icon-download-alt.png")
+          | 牌譜保存
+      form.hide
+        | 天鳳 牌譜ID: 
+        input(name="url")
