@@ -7,7 +7,8 @@
     "build:html": "pug -o dist -P src/html/page/",
     "build:css": "stylus src/css/index.styl -o dist/css/majiang-2.0.0.css",
     "build:js": "webpack --mode development --devtool inline-source-map",
-    "build": "npm run build:html && npm run build:css && npm run build:js"
+    "build": "npm run build:html && npm run build:css && npm run build:js",
+    "clean": "rm -f dist/*.html dist/js/* dist/css/*"
   },
   "repository": {
     "type": "git",
