@@ -1,0 +1,236 @@
+#board
+    height: 450px
+#board > .board
+    height: 450px
+    .score
+        width:  280px
+        height: 100px
+        transform: translate(240px, 165px)
+        font-size: 14px
+        .juchang
+            height: 48px
+            padding: 4px
+            .jushu
+                float: left
+                font-size: 30px
+            .jicun
+                float: left
+                padding-left: 12px
+                img.chouma
+                    width: 30px
+                    height: 6px
+        .shan
+            padding: 4px
+            pai-size: 28px
+        .defen
+            div
+                width: 90px
+                height: 20px
+                font-size: 16px
+                &.main
+                    transform: translate(95px, 15px)
+                &.xiajia
+                    transform: translate(185px, 0px)
+                &.duimian
+                    transform: translate(95px, -15px)
+                &.shangjia
+                    transform: translate(5px, 0px)
+    .player-button
+        z-index: 1
+        transform: translate(78px, 364px)
+        .button
+            width: 4em
+            height: 24px
+            margin-left: 2px
+            font-size: 16px
+    .select-mianzi
+        z-index: 1
+        transform: translate(78px, 356px)
+        height: pai-width(28px) * 2
+        .mianzi
+            padding: 4px
+            margin-left: 4px
+            mianzi-size: 28px
+    > .player
+        font-size: 16px
+        width: 120px
+        height: 24px
+        border-radius: 4px
+        padding: 2px 0.5em
+        &.main
+            transform: translate(164px, 352px)
+        &.xiajia
+            transform: translate(499px, 295px)
+        &.duimian
+            transform: translate(460px, 50px)
+        &.shangjia
+            transform: translate(125px, 107px)
+    .he
+        he-size: 250px 35px
+        &.main
+            transform: translate(305px, 265px)
+        &.xiajia
+            transform: translate(520px, 290px) rotate(270deg)
+        &.duimian
+            transform: translate(455px, 165px) rotate(180deg)
+        &.shangjia
+            transform: translate(240px, 140px) rotate(90deg)
+    .shoupai
+        &.main
+            shoupai-size: 604px 60px 56px 42px
+            transform: translate(78px, 388px)
+            z-index: 1
+        &.xiajia
+            shoupai-size: 448px 87px 35px 35px
+            transform: translate(652px, 450px) rotate(270deg)
+            .bingpai
+                margin-left: 72px
+        &.duimian
+            shoupai-size: 490px 50px 35px 35px
+            transform: translate(625px, 52px) rotate(180deg)
+        &.shangjia
+            shoupai-size: 448px 87px 35px 35px
+            transform: translate(108px, 0px) rotate(90deg)
+            .bingpai
+                margin-left: 20px
+    .say
+        z-index: 1
+        width:  200px
+        height: 100px
+        font-size: 64px
+        &.main
+            transform: translate(280px, 295px)
+        &.xiajia
+            transform: translate(520px, 165px)
+        &.duimian
+            transform: translate(280px, 35px)
+        &.shangjia
+            transform: translate(40px, 165px)
+    .hule-dialog
+        z-index: 1
+        width: 800px
+        height: 450px
+        > div
+            width: 760px
+            min-height: 340px
+            > div
+                min-width: 420px
+                padding: 12px
+                .hule
+                    .shan
+                        pai-size: 28px
+                        &.baopai
+                            margin-left: 40px
+                        &.fubaopai
+                            margin-right: 40px
+                    .shoupai
+                        shoupai-size: auto 60px 42px 42px
+                    .hupai
+                        margin: 10px auto
+                        min-width: 240px
+                        font-size: 20px
+                    .jicun
+                        font-size: 14px
+                        .chouma
+                            padding-left: 8px
+                            width: 60px
+                            height: 8px
+                .pingju
+                    font-size: 40px
+                    margin-top: 40px
+                    margin-bottom: 60px
+                .fenpei
+                    width: 380px
+                    height: 80px
+                    margin: 15px auto 0px auto
+                    font-size: 16px
+                    line-height: 16px
+                    > *
+                        width: 88px
+                        &.main
+                            transform: translate(146px, 48px)
+                        &.xiajia
+                            transform: translate(292px, 24px)
+                        &.duimian
+                            transform: translate(146px, 0px)
+                        &.shangjia
+                            transform: translate(0px, 24px)
+                        .defen
+                            width: 60px
+                        .diff
+                            width: 88px
+    > .summary
+        z-index: 1
+        width: 800px
+        height: 450px
+        > div
+            width: 800px
+            min-height: 360px
+            padding: 10px 0px
+            > div
+                width: 680px
+                padding: 18px 0px
+                table
+                    width: 640px
+                    font-size: 16px
+                    .r_player
+                        .player
+                            width: 114px
+                    .r_point
+                        .point
+                            font-size: 20px
+    .kaiju
+        margin-top: 60px
+
+#board
+    .controller
+        z-index: 1
+        width: 40px
+        margin-top: 16px
+        transform: translate(760px, 0px)
+        padding: 0
+        border: none
+        background: inherit
+        &:hover
+            background: inherit
+        img
+            opacity: 0.2
+            display: block
+            width:  24px
+            height: 24px
+            margin: 8px auto
+        div
+            display: block
+        .speed
+            margin: 10px 0
+            img
+                display: block
+                width:  24px
+                height: 24px
+                margin: 4px auto
+            span
+                opacity: 0.1
+                display: block
+                width: 24px
+                height: 8px
+                margin: 2px auto
+                border-radius: 4px
+    .download
+        z-index: 1
+        transform: translate(10px, 5px)
+
+body.analyzer
+    #board
+        > .analyzer
+            display: none
+            z-index: 1
+            transform: translate(10px, 10px)
+            width: 740px
+            height: 360px
+            background: rgba(0,0,0,0.4)
+            &.active
+                display: block
+            .selected
+                background: rgba(192,192,192,0.6)
+            img
+                opacity: 0.8

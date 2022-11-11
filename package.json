@@ -1,17 +1,15 @@
 {
   "name": "majiang",
-  "version": "1.6.10",
+  "version": "2.0.0",
   "description": "HTML5 + JavaScript で動作する麻雀アプリ「電脳麻将」",
-  "main": "src/js/majiang.js",
   "private": true,
   "scripts": {
-    "build:html": "pug -o www -P src/html/page/",
+    "build:html": "pug -o dist -P src/html/page/",
+    "build:css": "stylus src/css/index.styl -o dist/css/majiang-2.0.0.css",
     "build:js": "webpack --mode development --devtool inline-source-map",
-    "build:css": "stylus src/css/index.styl -o www/css/majiang-1.6.10.css",
     "build": "npm run build:html && npm run build:css && npm run build:js",
     "release": "npm run build:html && npm run build:css && webpack --mode production",
-    "test": "mocha -u tdd",
-    "test:cover": "nyc --exclude=src/js/majiang/dev --exclude=test --reporter=lcov --reporter=text npm run test -- --no-timeouts"
+    "clean": "rm -f dist/*.html dist/js/* dist/css/*"
   },
   "repository": {
     "type": "git",
@@ -28,16 +26,14 @@
     "pug": "^3.0.2"
   },
   "devDependencies": {
-    "mocha": "^9.2.0",
-    "nyc": "^15.1.0",
     "pug-cli": "^1.0.0-alpha6",
     "stylus": "^0.55.0",
-    "terser-webpack-plugin": "^5.3.1",
-    "webpack": "^5.64.2",
     "webpack-cli": "^4.9.1"
   },
   "dependencies": {
-    "jquery": "^3.6.0",
-    "jquery-ui": "^1.13.2"
+    "@kobalab/majiang-ai": "^1.0.0",
+    "@kobalab/majiang-core": "^1.0.0",
+    "@kobalab/majiang-ui": "^1.0.0",
+    "jquery": "^3.6.0"
   }
 }

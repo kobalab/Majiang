@@ -1,21 +1,14 @@
 /*!
- *
- *  Majiang v1.6.10
+ *  電脳麻将 v2.0.0
  *
  *  Copyright(C) 2017 Satoshi Kobayashi
  *  Released under the MIT license
  *  https://github.com/kobalab/Majiang/blob/master/LICENSE
  */
-
 "use strict";
-
-module.exports = {
-    VERSION: '1.6.10',
-    Shoupai: require('./majiang/shoupai'),
-    Shan:    require('./majiang/shan'),
-    He:      require('./majiang/he'),
-    Util:    require('./majiang/util'),
-    Game:    require('./majiang/game'),
-    Player:  require('./majiang/player'),
-    SuanPai: require('./majiang/suanpai'),
-};
+global.Majiang = require('@kobalab/majiang-core');
+global.Majiang.AI = require('@kobalab/majiang-ai');
+global.Majiang.UI = require('@kobalab/majiang-ui');
+global.Majiang.VERSION = '2.0.0';
+global.jQuery  = require('jquery');
+global.$ = jQuery;

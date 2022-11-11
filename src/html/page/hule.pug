@@ -1,26 +1,24 @@
-include ../version.pug
 - var page = 'hule'
-
 doctype html
 html(lang="ja")
-
+  
   head
-    include ../inc/meta.pug
+    include ../inc/meta
 
     title 電脳麻将: 和了点計算
     meta(name="description" content="Javascriptで和了点を計算")
 
-    include ../inc/style.pug
-    include ../inc/script.pug
+    include ../inc/style
+    include ../inc/script
 
   body.demo
-    include ../inc/loaderr.pug
-    include ../inc/navi.pug
-    include ../inc/loaddata.pug
-    .version
-
+    include ../inc/loaderr
+    include ../inc/navi
+    include ../inc/loaddata
+    .version ver. #{version}
+    
     form
-      div 牌姿: 
+      div 牌姿:
         input(name="paistr" type="text")
         input(type="submit" value="決定")
         input(type="reset" value="クリア")
@@ -33,10 +31,12 @@ html(lang="ja")
           <input name="fubaopai" type="text"><input name="fubaopai" type="text"><input name="fubaopai" type="text"><input name="fubaopai" type="text"><input name="fubaopai" type="text">
       div
         span
-          input(name="zimo" type="radio" value="1")
-          | ツモ
-          input(name="zimo" type="radio" value="0" checked)
-          | ロン
+          label
+            input(name="zimo" type="radio" value="1")
+            | ツモ
+          label
+            input(name="zimo" type="radio" value="0" checked)
+            | ロン
         span
           |  場風: 
           select(name="zhuangfeng")
@@ -52,39 +52,50 @@ html(lang="ja")
             option(value="3") 北
       div
         span
-          input(name="lizhi" type="checkbox" value="1")
-          | 立直 
-          input(name="lizhi" type="checkbox" value="2")
-          | ダブル立直 
+          label
+            input(name="lizhi" type="checkbox" value="1")
+            | 立直
+          label
+            input(name="lizhi" type="checkbox" value="2")
+            | ダブル立直
         span
-          input(name="yifa" type="checkbox" value="1" disabled)
-          | 一発 
+          label
+            input(name="yifa" type="checkbox" value="1" disabled)
+            | 一発
         span
-          input(name="haidi" type="checkbox" value="1")
-          | 海底 
-          input(name="lingshang" type="checkbox" value="1")
-          | 嶺上 
-          input(name="qianggang" type="checkbox" value="1")
-          | 槍槓 
+          label
+            input(name="haidi" type="checkbox" value="1")
+            | 海底
+          label
+            input(name="lingshang" type="checkbox" value="1")
+            | 嶺上
+          label
+            input(name="qianggang" type="checkbox" value="1")
+            | 槍槓
         span
-          input(name="tianhu" type="checkbox" value="2")
-          span 地和
+          label
+            input(name="tianhu" type="checkbox" value="2")
+            span 地和
+      div ルール:
+        select(name="rule")
+          option(value="") 電脳麻将ルール
     hr
     
-    .huledialog.hide
+    .hule-dialog
       .hule
-        .shan.baopai ドラ
+        .shan.baopai
           span.baopai
-        .shan.fubaopai 裏ドラ
+        .shan.fubaopai
           span.fubaopai
-
+        
         .shoupai
           .bingpai
           .fulou
-
+        
         table.hupai
           tr.r_hupai
             td.name
             td.fanshu
           tr.r_defen
             td.defen(colspan="2")
+        

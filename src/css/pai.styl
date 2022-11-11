@@ -1,0 +1,21 @@
+pai-width($height)
+    $height / 7 * 5
+
+pai-size($height)
+    .pai
+        display: inline-block
+        height: $height
+        width: pai-width($height)
+        &:focus
+            transform: translate(0, - $height / 7)
+            outline: none
+        &.blink
+            animation: blink 0.5s infinite
+        &.deleted
+            transition: width 0.3s ease-out 0.1s
+            opacity: 0
+            width: 0px
+        &.mopai
+            opacity: 0.8
+        &.dapai.mopai
+            opacity: 0.6
