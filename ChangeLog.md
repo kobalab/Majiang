@@ -1,3 +1,28 @@
+# v2.0.0 / 2022-11-11
+
+  - プログラムをサブパッケージに分割
+    - [majiang-core](https://github.com/kobalab/majiang-core):
+      基本ライブラリ
+    - [majiang-ai](https://github.com/kobalab/majiang-ai):
+      麻雀AI
+    - [majiang-ui](https://github.com/kobalab/majiang-ui):
+      表示/UIライブラリ
+  - 新機能
+    - majiang-core
+      - ルールをカスタマイズ可能にした
+      - 伏せられた状態の手牌を操作できるようにした
+      - 多牌、少牌などの不正な牌姿も許容できるようにした
+    - majiang-ai
+      - 自動対戦、デュプリケート対戦などのデバッグツールを公開した
+    - majiang-ui
+      - キーボードだけでも操作可能とした
+      - 天鳳の牌譜読み込みのUIを追加した
+      - 横長の画面のスマートフォンに対応した
+      - タッチデバイスでも 選択→確定 の2段階で操作できるようにした
+      - スマートフォンからも牌譜をダウンロードできるようにした
+      - 伏せられた状態の情報からも手牌を表示できるようにした
+      - VoiceOver用に aria-label 属性を追加した
+
 ### 2022-07-20 v1.6.10
 
  - 脆弱性警告に対処(terser-webpack-plugin 5.2.5 → 5.3.1)
