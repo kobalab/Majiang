@@ -74,8 +74,6 @@ function submit() {
     if (! paistr) return false;
 
     let shoupai = Majiang.Shoupai.fromString(paistr);
-    let zimo = shoupai._zimo;
-    if (zimo) shoupai.dapai(zimo);
     paistr = shoupai.toString();
 
     let zhuangfeng = + $('select[name="zhuangfeng"]').val();
@@ -88,7 +86,11 @@ function submit() {
                         ? { m: 1, p: 1, s: 1 }
                         : { m: 0, p: 0, s: 0 });
 
-    if (zimo) analyzer.action({ zimo: { l: menfeng, p: zimo }});
+    if (shoupai._zimo) {
+        if (shoupai._zimo.length == 2)
+                analyzer.action_zimo({ l: menfeng, p: shoupai._zimo });
+        else    analyzer.action_fulou({ l: menfeng, m: shoupai._zimo });
+    }
     new Majiang.UI.Shan($('.shan'), pai, analyzer.shan).redraw();
     new Majiang.UI.Shoupai($('.shoupai'), pai, analyzer.shoupai).redraw(true);
 
