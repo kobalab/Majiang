@@ -1,5 +1,8 @@
 <h1><a href="https://kobalab.net/majiang/"><img src="dist/img/logo.png" alt="電脳麻将" height=72></a></h1>
+
 HTML5 + JavaScript で動作する麻雀アプリ「電脳麻将」
+
+<img src="dist/img/game.png" alt="ゲーム画面" width=480>
 
 ## デモ
 https://kobalab.net/majiang/
