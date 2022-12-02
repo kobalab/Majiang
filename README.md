@@ -1,5 +1,8 @@
 <h1><a href="https://kobalab.net/majiang/"><img src="dist/img/logo.png" alt="電脳麻将" height=72></a></h1>
+
 HTML5 + JavaScript で動作する麻雀アプリ「電脳麻将」
+
+<img src="dist/img/game.png" alt="ゲーム画面" width=480>
 
 ## デモ
 https://kobalab.net/majiang/
@@ -91,6 +94,12 @@ AIは majiang-core のクラス Majiang.Player の具体的な実装になって
   - [麻雀の局進行のプログラム方式](https://blog.kobalab.net/entry/20151229/1451315733) (v0.3)
   - [麻雀の局進行のプログラム実装](https://blog.kobalab.net/entry/20151230/1451403553) (v0.3)
   - [麻雀の局進行の状態遷移](https://blog.kobalab.net/entry/20151231/1451487890) (v0.3)
+  - [麻雀ルールのカスタマイズ(0) ～ ルール一覧](https://blog.kobalab.net/entry/2021/05/01/091041) (v2.0)
+  - [麻雀ルールのカスタマイズ(1) ～ 終局判断とポイント計算](https://blog.kobalab.net/entry/2021/05/05/165116) (v2.0)
+  - [麻雀ルールのカスタマイズ(2) ～ 流局処理と連荘判断](https://blog.kobalab.net/entry/2021/05/11/070443) (v2.0)
+  - [麻雀ルールのカスタマイズ(3) ～ 赤牌とドラ](https://blog.kobalab.net/entry/2021/12/13/213403) (v2.0)
+  - [麻雀ルールのカスタマイズ(4) ～ 和了役と点計算](https://blog.kobalab.net/entry/2021/12/15/064735) (v2.0)
+  - [麻雀ルールのカスタマイズ(5) ～ 打牌制約](https://blog.kobalab.net/entry/2021/12/17/013546) (v2.0)
 - 思考ルーチン
   - [麻雀AIのプログラム構造](https://blog.kobalab.net/entry/20160102/1451703115) (v0.4)
   - [麻雀の打牌選択アルゴリズム(1)](https://blog.kobalab.net/entry/20160103/1451781343) (v0.4)
