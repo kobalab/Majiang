@@ -106,7 +106,7 @@ AIは majiang-core のクラス Majiang.Player の具体的な実装になって
   - [麻雀の打牌選択アルゴリズム(2)](https://blog.kobalab.net/entry/20160104/1451907283) (v0.4)
   - [麻雀の打牌選択アルゴリズム(3)](https://blog.kobalab.net/entry/20160105/1451998413) (v0.4)
   - [ベタオリのアルゴリズム](https://blog.kobalab.net/entry/20161204/1480808089) (v0.5)
-  - [麻雀の副露判断アルゴリズム(1)](https://blog.kobalab.net/entry/20161212/1481471543) (v0.5)
+  - [麻雀の副露判断アルゴリズム(1)](https://blog.kobalab.net/entry/20161212/1481471543) (v0.6)
   - [麻雀の副露判断アルゴリズム(2)](https://blog.kobalab.net/entry/20161213/1481557260) (v0.6)
   - [麻雀の副露判断アルゴリズム(3)](https://blog.kobalab.net/entry/20161214/1481644278) (v0.6)
   - [麻雀の副露判断アルゴリズム(4)](https://blog.kobalab.net/entry/20161215/1481809226) (v0.6)
