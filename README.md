@@ -62,11 +62,21 @@ AIは majiang-core のクラス Majiang.Player の具体的な実装になって
 ネット麻雀 [天鳳](https://tenhou.net) の牌譜を電脳麻将形式に変換します。
 本パッケージを利用することで天鳳の牌譜を解析したり、再生したりすることが可能になります。
 
+## 書籍
+
+<a href="https://www.amazon.co.jp/dp/4798067881"><img src="https://m.media-amazon.com/images/I/51DMflZaBNL._SL500_.jpg" title="対戦型麻雀ゲームAIのアルゴリズムと実装" height=240></a>
+
+電脳麻将のプログラムを解説した書籍を出版しました。
+ - [対戦型麻雀ゲームAIのアルゴリズムと実装](https://www.amazon.co.jp/dp/4798067881)
+
+書籍ではサブパッケージの [majiang-core](#majiang-core) と [majiang-ai](#majiang-ai) を扱っています。
+
 ## (旧)ブログ記事
 
 過去のブログ記事。
 内容はやや古いです。
-カッコ内は執筆時のバージョン。
+ver.2.0.0 のプログラムの情報は [書籍](#書籍) をご覧ください。
+カッコ内は執筆時のバージョンです。
 
 - プログラム構成
   - [電脳麻将のプログラム構成(0) ～ 全体編](https://blog.kobalab.net/entry/2020/07/19/212824) (v1.4)
