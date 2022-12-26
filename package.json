@@ -1,11 +1,11 @@
 {
   "name": "majiang",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "HTML5 + JavaScript で動作する麻雀アプリ「電脳麻将」",
   "private": true,
   "scripts": {
     "build:html": "pug -o dist -P src/html/page/",
-    "build:css": "stylus src/css/index.styl -o dist/css/majiang-2.0.1.css",
+    "build:css": "stylus src/css/index.styl -o dist/css/majiang-2.0.2.css",
     "build:js": "webpack --mode development --devtool inline-source-map",
     "build": "npm run build:html && npm run build:css && npm run build:js",
     "release": "npm run build:html && npm run build:css && webpack --mode production",
@@ -31,9 +31,9 @@
     "webpack-cli": "^4.9.1"
   },
   "dependencies": {
-    "@kobalab/majiang-ai": "^1.0.1",
-    "@kobalab/majiang-core": "^1.0.0",
-    "@kobalab/majiang-ui": "^1.0.1",
+    "@kobalab/majiang-ai": "^1.0.2",
+    "@kobalab/majiang-core": "^1.0.1",
+    "@kobalab/majiang-ui": "^1.0.2",
     "jquery": "^3.6.0"
   }
 }
