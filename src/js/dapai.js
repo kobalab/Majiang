@@ -73,14 +73,15 @@ function submit() {
     let paistr = $('input[name="paistr"]').val();
     if (! paistr) return false;
 
-    let shoupai = Majiang.Shoupai.fromString(paistr);
-    paistr = shoupai.toString();
-
     let zhuangfeng = + $('select[name="zhuangfeng"]').val();
     let menfeng    = + $('select[name="menfeng"]').val();
     let baopai     = $.makeArray($('input[name="baopai"]'))
                                     .map(n => $(n).val()).filter(p => p);
     let hongpai    = $('input[name="hongpai"]').prop('checked');
+
+    let shoupai = Majiang.Shoupai.fromString(paistr);
+    paistr = shoupai.toString();
+    if (! hongpai) paistr = paistr.replace(/0/,'5');
 
     const analyzer = init_analyzer(paistr, zhuangfeng, menfeng, baopai, hongpai
                         ? { m: 1, p: 1, s: 1 }
