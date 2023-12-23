@@ -9,9 +9,12 @@
 
 const { hide, show, fadeIn, fadeOut } = Majiang.UI.Util;
 
+const preset = require('./conf/rule.json');
 const view = {};
 
 const feng_hanzi = ['東','南','西','北'];
+
+let player, next_exam, miss_exams, stat;
 
 class Player extends Majiang.AI {
     select_lizhi(p) {
@@ -19,17 +22,20 @@ class Player extends Majiang.AI {
     }
 }
 
-const player = new Player();
-player.kaiju({ id: 0, qijia: 0, title: '', player: [],
-               rule: Majiang.rule() });
+function init_player() {
 
-let next_exam;
-let miss_exams = [];
+    let player = new Player();
 
-const stat = {
-    total:  0,
-    right:  0,
-};
+    let rule = $('select[name="rule"]').val();
+    rule = ! rule      ? {}
+         : rule == '-' ? JSON.parse(localStorage.getItem('Majiang.rule')||'{}')
+         :               preset[rule];
+    rule = Majiang.rule(rule);
+
+    player.kaiju({ id: 0, qijia: 0, title: '', player: [], rule: rule });
+
+    return player;
+}
 
 function make_exam(player) {
     for (;;) {
@@ -146,6 +152,7 @@ function show_exam(exam) {
                     exam.shoupai,
                     exam.rongpai,
                     Majiang.Util.hule_param({
+                        rule:       player._rule,
                         zhuangfeng: exam.zhuangfeng,
                         menfeng:    exam.menfeng,
                         baopai:     exam.baopai,
@@ -231,9 +238,34 @@ function next() {
     show_exam(next_exam || make_exam(player));
 }
 
+function restart() {
+
+    hide($('.drill'));
+    $('.stat').text('');
+
+    next_exam = null;
+    miss_exams = [];
+    player = init_player();
+    stat = { total:  0, right:  0 };
+
+    if (location.hash)
+            show_exam(parse_fragment(location.hash.replace(/^#/,'')));
+    else    show_exam(make_exam(player));
+}
+
 $(function(){
 
     view.pai = Majiang.UI.pai('#loaddata');
+
+    for (let key of Object.keys(preset)) {
+        $('select[name="rule"]').append($('<option>').val(key).text(key));
+    }
+    if (localStorage.getItem('Majiang.rule')) {
+        $('select[name="rule"]').append($('<option>')
+                                .val('-').text('カスタムルール'));
+    }
+
+    $('select[name="rule"]').on('change', restart);
 
     $('.button button').on('click', ()=>{
         show($('.answer'));
@@ -244,7 +276,5 @@ $(function(){
         next();
     });
 
-    if (location.hash)
-            show_exam(parse_fragment(location.hash.replace(/^#/,'')));
-    else    show_exam(make_exam(player));
+    restart();
 });
