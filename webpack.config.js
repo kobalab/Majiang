@@ -11,6 +11,7 @@ module.exports = {
         paipu:     './src/js/paipu.js',
         paili:     './src/js/paili.js',
         hule:      './src/js/hule.js',
+        drill:     './src/js/drill.js',
         dapai:     './src/js/dapai.js',
         paiga:     './src/js/paiga.js',
     },
