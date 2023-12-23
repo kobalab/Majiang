@@ -23,6 +23,8 @@ const player = new Player();
 player.kaiju({ id: 0, qijia: 0, title: '', player: [],
                rule: Majiang.rule() });
 
+let next_exam;
+
 function make_exam(player) {
     for (;;) {
         let zhuangfeng = (Math.random()*2)|0;
@@ -200,6 +202,11 @@ function show_exam(exam) {
     show($('.button'));
 
     show($('.drill'));
+
+    next_exam = null;
+    setTimeout(()=>{
+        next_exam = make_exam(player);
+    }, 10);
 }
 
 $(function(){
@@ -208,7 +215,7 @@ $(function(){
 
     $('.answer button').on('click', ()=>{
         hide($('.drill'));
-        show_exam(make_exam(player));
+        show_exam(next_exam || make_exam(player));
     });
 
     $('.button button').on('click', ()=>{
