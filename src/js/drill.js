@@ -24,6 +24,7 @@ player.kaiju({ id: 0, qijia: 0, title: '', player: [],
                rule: Majiang.rule() });
 
 let next_exam;
+let miss_exams = [];
 
 function make_exam(player) {
     for (;;) {
@@ -201,27 +202,34 @@ function show_exam(exam) {
     hide($('.answer'));
     show($('.button'));
 
+    $('.answer button.miss').off('click').on('click', ()=>{
+        miss_exams.push(exam);
+        next();
+    });
+
     show($('.drill'));
 
     next_exam = null;
     setTimeout(()=>{
-        next_exam = make_exam(player);
+        next_exam = miss_exams.splice(Math.random() * 5, 1)[0]
+                        || make_exam(player);
     }, 10);
+}
+
+function next() {
+    hide($('.drill'));
+    show_exam(next_exam || make_exam(player));
 }
 
 $(function(){
 
     view.pai = Majiang.UI.pai('#loaddata');
 
-    $('.answer button').on('click', ()=>{
-        hide($('.drill'));
-        show_exam(next_exam || make_exam(player));
-    });
-
     $('.button button').on('click', ()=>{
         show($('.answer'));
         hide($('.button'));
     });
+    $('.answer button.right').on('click', next);
 
     if (location.hash)
             show_exam(parse_fragment(location.hash.replace(/^#/,'')));
