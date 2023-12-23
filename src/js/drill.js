@@ -26,6 +26,11 @@ player.kaiju({ id: 0, qijia: 0, title: '', player: [],
 let next_exam;
 let miss_exams = [];
 
+const stat = {
+    total:  0,
+    right:  0,
+};
+
 function make_exam(player) {
     for (;;) {
         let zhuangfeng = (Math.random()*2)|0;
@@ -199,6 +204,11 @@ function show_exam(exam) {
                 ).join(' / ');
     $('.hupai').text(hupai);
 
+    if (stat.total)
+            $('.stat').text(`正答率: ${(stat.right / stat.total * 100)|0}%`);
+
+    stat.total++;
+
     hide($('.answer'));
     show($('.button'));
 
@@ -229,7 +239,10 @@ $(function(){
         show($('.answer'));
         hide($('.button'));
     });
-    $('.answer button.right').on('click', next);
+    $('.answer button.right').on('click', ()=>{
+        stat.right++;
+        next();
+    });
 
     if (location.hash)
             show_exam(parse_fragment(location.hash.replace(/^#/,'')));
