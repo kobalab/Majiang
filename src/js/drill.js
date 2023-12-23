@@ -13,6 +13,99 @@ const view = {};
 
 const feng_hanzi = ['東','南','西','北'];
 
+class Player extends Majiang.AI {
+    select_lizhi(p) {
+        return this.allow_lizhi(this.shoupai, p) && Math.random() < 0.3;
+    }
+}
+
+const player = new Player();
+player.kaiju({ id: 0, qijia: 0, title: '', player: [],
+               rule: Majiang.rule() });
+
+function make_exam(player) {
+    for (;;) {
+        let zhuangfeng = (Math.random()*2)|0;
+        let menfeng    = (Math.random()*4)|0;
+        let shoupai    = [ '', '', '', '' ];
+        let shan = new Majiang.Shan(player._rule);
+        let qipai = [];
+        for (let i = 0; i < 13; i++) qipai.push(shan.zimo());
+        shoupai[menfeng] = (new Majiang.Shoupai(qipai)).toString();
+        player.qipai({
+            zhuangfeng: zhuangfeng,
+            jushu:      [0,3,2,1][menfeng],
+            changbang:  0,
+            lizhibang:  0,
+            defen:      [ 25000, 25000, 25000, 25000 ],
+            baopai:     shan.baopai[0],
+            shoupai:    shoupai
+        });
+        player.shan.paishu = shan.paishu + 4;
+        let gang = null, lunban = 0;
+        while (shan.paishu) {
+            let p;
+            if (gang) {
+                p = shan.gangzimo();
+                if (shan._weikaigang) shan.kaigang();
+                gang = null;
+            }
+            else {
+                p = shan.zimo();
+            }
+            let msg = { l: lunban, p: p };
+            if (lunban == menfeng) {
+                player.zimo(msg);
+                if (player.select_hule()) {
+                    shan.close();
+                    return {
+                        shoupai:    player.shoupai,
+                        zhuangfeng: zhuangfeng,
+                        menfeng:    menfeng,
+                        baopai:     shan.baopai,
+                        fubaopai:   player.shoupai.lizhi && shan.fubaopai
+                    };
+                }
+                let m = player.select_gang();
+                if (m)  {
+                    player.gang({ l: menfeng, m: m});
+                    gang = m;
+                    continue;
+                }
+                player.dapai({ l: menfeng, p: player.select_dapai()});
+            }
+            else {
+                player.zimo(msg);
+                player.dapai(msg);
+                player._neng_rong = true;
+                if (player.select_hule(msg)) {
+                    shan.close();
+                    let rongpai
+                            = p + ['','+','=','-'][(4 + lunban - menfeng) % 4];
+                    return {
+                        shoupai:    player.shoupai,
+                        rongpai:    rongpai,
+                        zhuangfeng: zhuangfeng,
+                        menfeng:    menfeng,
+                        baopai:     shan.baopai,
+                        fubaopai:   player.shoupai.lizhi && shan.fubaopai
+                    };
+                }
+                let m = player.select_fulou(msg);
+                if (m) {
+                    player.fulou({ l: menfeng, m: m });
+                    if (m.match(/^[mpsz]\d{4}/)) {
+                        gang = m;
+                        continue;
+                    }
+                    player.dapai({ l: menfeng, p: player.select_dapai()});
+                }
+            }
+            lunban = (lunban + 1) % 4;
+        }
+    }
+}
+
 function parse_fragment(hash) {
     let [ paistr, baopai, fubaopai, zimo, zhuangfeng, menfeng, lizhi ]
             = hash.split('/');
@@ -113,11 +206,17 @@ $(function(){
 
     view.pai = Majiang.UI.pai('#loaddata');
 
+    $('.answer button').on('click', ()=>{
+        hide($('.drill'));
+        show_exam(make_exam(player));
+    });
+
     $('.button button').on('click', ()=>{
         show($('.answer'));
-        hide($('.button'))
+        hide($('.button'));
     });
 
     if (location.hash)
-        show_exam(parse_fragment(location.hash.replace(/^#/,'')));
+            show_exam(parse_fragment(location.hash.replace(/^#/,'')));
+    else    show_exam(make_exam(player));
 });
