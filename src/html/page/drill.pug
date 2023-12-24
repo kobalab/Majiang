@@ -1,0 +1,49 @@
+- var page = 'drill'
+doctype html
+html(lang="ja")
+  
+  head
+    include ../inc/meta
+
+    title 電脳麻将: 点数計算ドリル
+    meta(name="description" content="点数計算を練習しましょう。")
+
+    include ../inc/style
+    include ../inc/script
+
+  body.demo
+    include ../inc/loaderr
+    include ../inc/navi
+    include ../inc/loaddata
+    .version ver. #{version}
+
+    div ルール:
+      select(name="rule")
+        option(value="") 電脳麻将ルール
+    hr
+
+    .drill.hide
+      .stat
+      span.zhuangfeng
+      | 場 
+      span.menfeng
+      | 家 
+      img.lizhi.hide(src="img/1000.gif" alt="リーチ")
+
+      .shan.baopai
+        span.baopai
+      .shan.fubaopai
+        span.fubaopai
+    
+      .shoupai
+        .bingpai
+        .fulou
+      
+      hr
+      .button
+        button 回答を表示
+      .answer
+        button.right ○ 正答
+        button.miss  × 誤答
+        .defen
+        .hupai
