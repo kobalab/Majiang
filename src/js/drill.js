@@ -212,7 +212,9 @@ function show_exam(exam) {
     $('.hupai').text(hupai);
 
     if (stat.total)
-            $('.stat').text(`正答率: ${(stat.right / stat.total * 100)|0}%`);
+            $('.stat').text(
+                `回答数: ${stat.total}、`
+                + `正答率: ${(stat.right / stat.total * 100)|0}%`);
 
     stat.total++;
 
