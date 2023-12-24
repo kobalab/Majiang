@@ -34,6 +34,6 @@
     "@kobalab/majiang-ai": "^1.0.7",
     "@kobalab/majiang-core": "^1.1.1",
     "@kobalab/majiang-ui": "^1.0.7",
-    "jquery": "^3.6.0"
+    "jquery": "^3.7.1"
   }
 }
