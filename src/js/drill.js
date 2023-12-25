@@ -124,10 +124,6 @@ function parse_fragment(hash) {
     let [ paistr, baopai, fubaopai, zimo, zhuangfeng, menfeng, lizhi ]
             = hash.split('/');
     let shoupai = Majiang.Shoupai.fromString(paistr);
-    baopai      = (baopai || '').split(',');
-    fubaopai    = fubaopai ? fubaopai.split(',') : null;
-    zhuangfeng  = +(zhuangfeng || 0);
-    menfeng     = +(menfeng || 0);
     let rongpai;
     if (zimo != '1' && shoupai._zimo) {
         rongpai = shoupai._zimo + '=';
@@ -136,6 +132,11 @@ function parse_fragment(hash) {
     if (lizhi == '1') {
         shoupai._lizhi = true;
     }
+    baopai      = baopai ? baopai.split(',') : [];
+    fubaopai    = fubaopai ? fubaopai.split(',')
+                : shoupai.lizhi ? [] : null;
+    zhuangfeng  = +(zhuangfeng || 0);
+    menfeng     = +(menfeng || 0);
     return {
         shoupai:    shoupai,
         rongpai:    rongpai,
