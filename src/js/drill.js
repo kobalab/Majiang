@@ -1,5 +1,5 @@
 /*!
- *  電脳麻将: 点数計算ドリル v2.2.0
+ *  電脳麻将: 点数計算ドリル v2.2.1
  *
  *  Copyright(C) 2017 Satoshi Kobayashi
  *  Released under the MIT license
@@ -124,10 +124,6 @@ function parse_fragment(hash) {
     let [ paistr, baopai, fubaopai, zimo, zhuangfeng, menfeng, lizhi ]
             = hash.split('/');
     let shoupai = Majiang.Shoupai.fromString(paistr);
-    baopai      = (baopai || '').split(',');
-    fubaopai    = fubaopai ? fubaopai.split(',') : null;
-    zhuangfeng  = +(zhuangfeng || 0);
-    menfeng     = +(menfeng || 0);
     let rongpai;
     if (zimo != '1' && shoupai._zimo) {
         rongpai = shoupai._zimo + '=';
@@ -136,6 +132,11 @@ function parse_fragment(hash) {
     if (lizhi == '1') {
         shoupai._lizhi = true;
     }
+    baopai      = baopai ? baopai.split(',') : [];
+    fubaopai    = fubaopai ? fubaopai.split(',')
+                : shoupai.lizhi ? [] : null;
+    zhuangfeng  = +(zhuangfeng || 0);
+    menfeng     = +(menfeng || 0);
     return {
         shoupai:    shoupai,
         rongpai:    rongpai,
