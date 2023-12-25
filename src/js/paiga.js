@@ -1,5 +1,5 @@
 /*!
- *  電脳麻将: 牌画入力 v2.2.0
+ *  電脳麻将: 牌画入力 v2.2.1
  *
  *  Copyright(C) 2017 Satoshi Kobayashi
  *  Released under the MIT license
