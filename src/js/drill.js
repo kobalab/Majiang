@@ -265,7 +265,8 @@ $(function(){
     }
     if (localStorage.getItem('Majiang.rule')) {
         $('select[name="rule"]').append($('<option>')
-                                .val('-').text('カスタムルール'));
+                                .val('-').text('カスタムルール')
+                                .attr('selected',true));
     }
 
     $('select[name="rule"]').on('change', restart);
