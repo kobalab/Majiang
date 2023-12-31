@@ -1,5 +1,5 @@
 /*!
- *  電脳麻将: 牌譜ビューア v2.2.1
+ *  電脳麻将: 牌譜ビューア v2.2.2
  *
  *  Copyright(C) 2017 Satoshi Kobayashi
  *  Released under the MIT license
