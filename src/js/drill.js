@@ -1,5 +1,5 @@
 /*!
- *  電脳麻将: 点数計算ドリル v2.2.1
+ *  電脳麻将: 点数計算ドリル v2.2.2
  *
  *  Copyright(C) 2017 Satoshi Kobayashi
  *  Released under the MIT license
@@ -212,11 +212,6 @@ function show_exam(exam) {
                 ).join(' / ');
     $('.hupai').text(hupai);
 
-    if (stat.total)
-            $('.stat').text(
-                `回答数: ${stat.total}、`
-                + `正答率: ${(stat.right / stat.total * 100)|0}%`);
-
     stat.total++;
 
     hide($('.answer'));
@@ -227,6 +222,8 @@ function show_exam(exam) {
         next();
     });
 
+    show($('.exam'));
+    hide($('.break'));
     show($('.drill'));
 
     next_exam = null;
@@ -238,7 +235,17 @@ function show_exam(exam) {
 
 function next() {
     hide($('.drill'));
-    show_exam(next_exam || make_exam(player));
+    $('.stat').text(
+        `回答数: ${stat.total}、`
+        + `正答率: ${(stat.right / stat.total * 100)|0}%`);
+    if (stat.total % 10 == 0) take_break();
+    else                      show_exam(next_exam || make_exam(player));
+}
+
+function take_break() {
+    hide($('.exam'));
+    show($('.break'));
+    show($('.drill'));
 }
 
 function restart() {
@@ -265,7 +272,8 @@ $(function(){
     }
     if (localStorage.getItem('Majiang.rule')) {
         $('select[name="rule"]').append($('<option>')
-                                .val('-').text('カスタムルール'));
+                                .val('-').text('カスタムルール')
+                                .attr('selected',true));
     }
 
     $('select[name="rule"]').on('change', restart);
@@ -277,6 +285,9 @@ $(function(){
     $('.answer button.right').on('click', ()=>{
         stat.right++;
         next();
+    });
+    $('.break button').on('click', ()=>{
+        show_exam(next_exam || make_exam(player));
     });
 
     restart();
