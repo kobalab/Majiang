@@ -1,0 +1,25 @@
+- var page = 'botplay'
+
+doctype html
+html(lang="ja")
+
+  head
+    include ../inc/meta
+
+    title 電脳麻将: ボット対戦
+
+    include ../inc/style
+    script(src="server/socket.io/socket.io.js" defer)
+    include ../inc/script
+
+  body.title
+    include ../inc/loaderr
+    include ../inc/navi
+    include ../inc/title
+    include ../inc/loaddata
+
+    include ../inc/file
+    include ../inc/stat
+    include ../inc/room
+    include ../inc/board
+    .version ver. #{version}
