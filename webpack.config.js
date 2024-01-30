@@ -7,6 +7,8 @@ module.exports = {
         majiang:   './src/js/majiang.js',
         index:     './src/js/index.js',
         autoplay:  './src/js/autoplay.js',
+        netplay:   './src/js/netplay.js',
+        botplay:   './src/js/botplay.js',
         rule:      './src/js/rule.js',
         paipu:     './src/js/paipu.js',
         paili:     './src/js/paili.js',
