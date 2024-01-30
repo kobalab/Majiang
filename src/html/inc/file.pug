@@ -3,12 +3,28 @@
     img(src="img/logo.png" alt="電脳麻将")
     if page == 'paipu'
       |  牌譜ビューア
+    if page == 'netplay'
+      |  ネット対戦
+    if page == 'botplay'
+      |  ボット対戦
   .version ver. #{version}
   
   .file.hide
 
     if page == 'index'
       a.start 対局開始
+    if page == 'netplay' || page == 'botplay'
+      .error.hide
+      .netplay
+        img(src="img/icon-user.png" title="guest")
+        span.name
+        form
+          input(name="room" placeholder="ルーム")
+          input(type="submit" value="入室")
+        form
+          input(type="submit" value="ルーム作成")
+
+    if page == 'index' || page == 'netplay' || page == 'botplay'
       .button
         a.stat
           img(src="img/icon-dotlist.png")
@@ -62,6 +78,6 @@
         a.download
           img(src="img/icon-download-alt.png")
           | 牌譜保存
-      form.hide
+      form.tenhou.hide
         | 天鳳 牌譜ID: 
         input(name="url")
