@@ -19,7 +19,26 @@ $(function(){
     const pai   = Majiang.UI.pai($('#loaddata'));
     const audio = Majiang.UI.audio($('#loaddata'));
 
-    const file = new Majiang.UI.PaipuFile($('#file'), 'Majiang.netplay');
+    const analyzer = (kaiju)=>{
+        $('body').addClass('analyzer');
+        return new Majiang.UI.Analyzer($('#board > .analyzer'), kaiju, pai,
+                                        ()=>$('body').removeClass('analyzer'));
+    };
+    const viewer = (paipu)=>{
+        $('body').attr('class','board');
+        scale($('#board'), $('#space'));
+        return new Majiang.UI.Paipu(
+                        $('#board'), paipu, pai, audio, 'Majiang.pref',
+                        ()=>fadeIn($('body').attr('class','file')),
+                        analyzer);
+    };
+    const stat = (paipu_list)=>{
+        fadeIn($('body').attr('class','stat'));
+        return new Majiang.UI.PaipuStat($('#stat'), paipu_list,
+                        ()=>fadeIn($('body').attr('class','file')));
+    };
+    const file = new Majiang.UI.PaipuFile($('#file'), 'Majiang.netplay',
+                                            viewer, stat);
 
     const player = new Majiang.UI.Player($('#board'), pai, audio);
     player.view  = new Majiang.UI.Board($('#board .board'), pai, audio,
