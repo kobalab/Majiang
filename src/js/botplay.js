@@ -25,7 +25,7 @@ $(function(){
     player.view  = new Majiang.UI.Board($('#board .board'), pai, audio,
                                         player.model);
 
-    let sock, myid;
+    let sock, myuid;
 
     function init() {
 
@@ -38,7 +38,7 @@ $(function(){
                 show($('#title .login'));
             }
             else {
-                myid = user.id;
+                myuid = user.uid;
                 sock.off('disconnect').on('disconnect', ()=>{
                     hide($('#file .netplay form'));
                 });
@@ -50,7 +50,7 @@ $(function(){
                 fadeIn($('body').attr('class','file'));
                 if (user.icon)
                     $('#file .netplay img').attr('src', user.icon)
-                                           .attr('title', user.id);
+                                           .attr('title', user.uid);
                 $('#file .netplay .name').text(user.name);
                 file.redraw();
             }
@@ -74,15 +74,15 @@ $(function(){
         for (let user of msg.user) {
             let r = row.clone();
             if (user.icon) $('img', r).attr('src', user.icon)
-                                      .attr('title', user.id);
+                                      .attr('title', user.uid);
             else           $('img', r).attr('src', src);
             $('.name', r).text(user.name);
             if (user.offline) r.addClass('offline');
             else              r.removeClass('offline');
             $('#room .room').append(r);
         }
-        if (msg.user[0].id == myid) show($('#room input[type="submit"]'));
-        else                        hide($('#room input[type="submit"]'));
+        if (msg.user[0].uid == myuid) show($('#room input[type="submit"]'));
+        else                          hide($('#room input[type="submit"]'));
         sock.off('BOT');                                            // for DEBUG
         sock.off('START').on('START', start);
     }
