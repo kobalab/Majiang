@@ -69,7 +69,7 @@ $(function(){
             src = $('img', row).attr('src');
         }
         $('body').attr('class','room');
-        $('#room input[name="room"]').val(msg.room_no);
+        $('#room input[name="room_no"]').val(msg.room_no);
         $('#room .room').empty();
         for (let user of msg.user) {
             let r = row.clone();
@@ -120,17 +120,17 @@ $(function(){
         fadeIn($('body').attr('class','file'));
         file.redraw();
         sock.off('ROOM').on('ROOM', room);
-        $('#file input[name="room"]').val('');
+        $('#file input[name="room_no"]').val('');
         sock.on('BOT', (no)=>sock.emit('ROOM', no));                // for DEBUG
     }
 
     $('#file .netplay form').on('submit', (ev)=>{
-        let room = $('input[name="room"]', $(ev.target)).val();
+        let room = $('input[name="room_no"]', $(ev.target)).val();
         sock.emit('ROOM', room);
         return false;
     });
     $('#room form').on('submit', (ev)=>{
-        let room = $('input[name="room"]', $(ev.target)).val();
+        let room = $('input[name="room_no"]', $(ev.target)).val();
         sock.emit('ROOM', room);
         return false;
     });
