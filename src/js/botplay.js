@@ -69,7 +69,7 @@ $(function(){
             src = $('img', row).attr('src');
         }
         $('body').attr('class','room');
-        $('#room input[name="room"]').val(msg.no);
+        $('#room input[name="room"]').val(msg.room_no);
         $('#room .room').empty();
         for (let user of msg.user) {
             let r = row.clone();
