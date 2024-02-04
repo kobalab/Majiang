@@ -52,7 +52,6 @@ $(function(){
     function init() {
 
         sock = io('/', { path: `${base}/server/socket.io/`});
-        sock.onAny(console.log);                                    // for DEBUG
 
         sock.on('HELLO', (user)=>{
             if (! user) {
