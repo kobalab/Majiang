@@ -44,7 +44,8 @@ $(function(){
     player.view  = new Majiang.UI.Board($('#board .board'), pai, audio,
                                         player.model);
 
-    const gameCtl = new Majiang.UI.GameCtl($('#board'), player, 'Majiang.pref');
+    const gameCtl = new Majiang.UI.GameCtl($('#board'), null, 'Majiang.pref',
+                                            player._view);
     gameCtl._view.no_player_name = false;
 
     let sock, myuid;
