@@ -110,11 +110,16 @@ $(function(){
                                                 'Majiang.pref', player._view);
         gameCtl._view.no_player_name = false;
 
+        let players = [];
+
         $('body').attr('class','board');
         scale($('#board'), $('#space'))
         sock.off('ROOM');
         sock.off('GAME').on('GAME', (msg)=>{
-            if (msg.say) {
+            if (msg.players) {
+                players = msg.players;
+            }
+            else if (msg.say) {
                 player._view.say(msg.say.name, msg.say.l);
             }
             else if (msg.seq) {
@@ -134,6 +139,7 @@ $(function(){
                     }
                 }
             }
+            player._view.players(players);
         });
     }
 
