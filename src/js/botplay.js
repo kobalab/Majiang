@@ -39,15 +39,6 @@ $(function(){
     };
     const file = new Majiang.UI.PaipuFile($('#file'), 'Majiang.netplay',
                                             viewer, stat);
-
-    const player = new Majiang.AI();                                // for DEBUG
-    player.view  = new Majiang.UI.Board($('#board .board'), pai, audio,
-                                        player.model);
-
-    const gameCtl = new Majiang.UI.GameCtl($('#board'), null, 'Majiang.pref',
-                                            player._view);
-    gameCtl._view.no_player_name = false;
-
     let sock, myuid;
 
     function init() {
@@ -110,6 +101,15 @@ $(function(){
     }
 
     function start() {
+
+        const player = new Majiang.AI();                            // for DEBUG
+        player.view  = new Majiang.UI.Board($('#board .board'), pai, audio,
+                                                player.model);
+
+        const gameCtl = new Majiang.UI.GameCtl($('#board'), null,
+                                                'Majiang.pref', player._view);
+        gameCtl._view.no_player_name = false;
+
         $('body').attr('class','board');
         scale($('#board'), $('#space'))
         sock.off('ROOM');
