@@ -90,9 +90,10 @@ body.board
         white-space: nowrap
         overflow: hidden
         text-overflow: ellipsis
-        cursor: pointer
-        &:hover
-            opacity: 1
+        &.selectable
+            cursor: pointer
+            &:hover
+                opacity: 1
     .say
         font-family: text-font
         color: white
@@ -263,7 +264,10 @@ body.board
                 white-space: nowrap
                 overflow: hidden
                 text-overflow: ellipsis
-                cursor: pointer
+                &.selectable
+                    cursor: pointer
+                    &:hover
+                        background: #999
                 &.main
                     transform: translate(140px, 96px)
                 &.xiajia
@@ -272,8 +276,6 @@ body.board
                     transform: translate(140px, 0px)
                 &.shangjia
                     transform: translate(0px, 48px)
-                &:hover
-                    background: #999
 
 #board
     .controller
