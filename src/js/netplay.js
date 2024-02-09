@@ -10,6 +10,8 @@
 const { hide, show, fadeIn, scale,
         setSelector, clearSelector  } = Majiang.UI.Util;
 
+const preset = require('./conf/rule.json');
+
 const base = location.pathname.replace(/\/[^\/]*?$/,'');
 
 let loaded;
@@ -147,6 +149,14 @@ $(function(){
         $('#file input[name="room_no"]').val('');
     }
 
+    for (let key of Object.keys(preset)) {
+        $('select[name="rule"]').append($('<option>').val(key).text(key));
+    }
+    if (localStorage.getItem('Majiang.rule')) {
+        $('select[name="rule"]').append($('<option>')
+                                .val('-').text('カスタムルール'));
+    }
+
     $('#file .netplay form').on('submit', (ev)=>{
         let room = $('input[name="room_no"]', $(ev.target)).val();
         sock.emit('ROOM', room);
@@ -154,7 +164,15 @@ $(function(){
     });
     $('#room form').on('submit', (ev)=>{
         let room = $('input[name="room_no"]', $(ev.target)).val();
-        sock.emit('ROOM', room);
+
+        let rule = $('select[name="rule"]').val();
+        rule = ! rule      ? {}
+             : rule == '-' ? JSON.parse(
+                                localStorage.getItem('Majiang.rule')||'{}')
+             :               preset[rule];
+        rule = Majiang.rule(rule);
+
+        sock.emit('START', room, rule);
         return false;
     });
 
