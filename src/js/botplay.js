@@ -96,8 +96,14 @@ $(function(){
             else              r.removeClass('offline');
             $('#room .room').append(r);
         }
-        if (msg.user[0].uid == myuid) show($('#room input[type="submit"]'));
-        else                          hide($('#room input[type="submit"]'));
+        if (msg.user[0].uid == myuid) {
+            show($('#room select[name="rule"]'));
+            show($('#room input[type="submit"]'));
+        }
+        else {
+            hide($('#room select[name="rule"]'));
+            hide($('#room input[type="submit"]'));
+        }
         sock.off('BOT');                                            // for DEBUG
         sock.off('START').on('START', start);
     }
