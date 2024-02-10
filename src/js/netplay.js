@@ -91,6 +91,11 @@ $(function(){
                                       .attr('title', user.uid);
             else           $('img', r).attr('src', src);
             $('.name', r).text(user.name);
+            if (msg.user[0].uid == myuid || user.uid == myuid )
+                show($('input[name="quit"]', r).on('click', ()=> {
+                        sock.emit('ROOM', msg.room_no, user.uid);
+                        return false;
+                    }));
             if (user.offline) r.addClass('offline');
             else              r.removeClass('offline');
             $('#room .room').append(r);
