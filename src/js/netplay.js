@@ -168,7 +168,7 @@ $(function(){
                                 .val('-').text('カスタムルール'));
     }
 
-    $('#file .netplay form').on('submit', (ev)=>{
+    $('#file form.room').on('submit', (ev)=>{
         let room = $('input[name="room_no"]', $(ev.target)).val();
         sock.emit('ROOM', room);
         return false;

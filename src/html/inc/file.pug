@@ -18,11 +18,13 @@
       .netplay
         img(src="img/icon.png" title="guest")
         span.name
-        form
+        form.room
           input(name="room_no" placeholder="ルーム")
           input(type="submit" value="入室")
-        form
+        form.room
           input(type="submit" value="ルーム作成")
+        form.logout(method="POST" action="server/logout")
+          input(type="submit" value="ログアウト")
 
     if page == 'index' || page == 'netplay' || page == 'botplay'
       .button
