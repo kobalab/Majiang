@@ -47,6 +47,13 @@ AIは majiang-core のクラス Majiang.Player の具体的な実装になって
 ## 関連パッケージ
 そのほかに以下の関連パッケージがあります。
 
+### majiang-server
+ - GitHub: https://github.com/kobalab/majiang-server
+ - npm: @kobalab/majiang-server
+
+WebSocketによる麻雀サーバーの実装です。
+電脳麻将のネット対戦は本サーバに接続して実現しています。
+
 ### majiang-analog
  - GitHub: https://github.com/kobalab/majiang-analog
  - npm: @kobalab/majiang-analog
