@@ -1,0 +1,17 @@
+#room
+  h1
+    img(src="img/logo.png" alt="電脳麻将")
+    |  ネット対戦
+  .version ver. #{version}
+  
+  form
+    | ルーム
+    input(name="room_no" value="" disabled)
+    ul.room
+      li.user
+        img(src="img/icon.png")
+        span.name
+        input.hide(type="button" name="quit" value="退室")
+    select(name="rule")
+      option(value="") 電脳麻将ルール
+    input(type="submit" value="対局開始")

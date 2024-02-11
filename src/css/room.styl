@@ -1,0 +1,42 @@
+body.room
+    color: black
+    background: white
+    margin: 0 10px 15px
+    #navi
+        margin: 0
+    #room
+        display: block
+    > .version
+        display: none
+
+#room
+    form
+        border: solid 1px #666
+        border-radius: 8px
+        padding: 16px
+        margin: 20px
+        input[name="room_no"]
+            -webkit-text-fill-color: black
+            opacity: 0.7
+            width: 3em
+        select
+            padding: 1px 1em 1px 0.5em
+        .room
+            .user
+                margin: 10px 0
+                &.offline
+                    img, .name
+                        opacity: 0.3
+                img
+                    width: 2em
+                    vertical-align: middle
+                    border-radius: 50%
+                    margin-right: 0.5em
+                .name
+                    display: inline-block
+                    vertical-align: middle
+                    font-size: 120%
+                    width: 8em
+                    white-space: nowrap
+                    overflow: hidden
+                    text-overflow: ellipsis

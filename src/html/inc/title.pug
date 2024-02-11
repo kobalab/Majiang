@@ -3,6 +3,16 @@
     img(src="img/logo.png" alt="電脳麻将")
   if page == 'autoplay'
     div 自動対戦
+  if page == 'netplay'
+    div ネット対戦
   .version ver. #{version}
   .loading Loading data...
   .start.hide(tabindex="0" role="button") START
+  .login.hide
+    form.local(method="POST" action="server/auth/")
+      input(name="name" placeholder="プレーヤー名")
+      input(name="passwd" value="*" type="hidden")
+      input(type="submit" value="登録")
+    form.hatena(method="POST" action="server/auth/hatena")
+      img(src="https://www.hatena.ne.jp/p/images/favicon.ico")
+      input(type="submit" value="Hatenaで登録")
