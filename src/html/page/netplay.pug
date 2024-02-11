@@ -6,7 +6,8 @@ html(lang="ja")
   head
     include ../inc/meta
 
-    title 電脳麻将: ネット対戦
+    include ../inc/ogp
+    +ogp('電脳麻将: ネット対戦', 'WebSocketで動作する麻雀サーバー', 'https://kobalab.net/majiang/img/netplay.png')
 
     include ../inc/style
     script(src="server/socket.io/socket.io.js" defer)

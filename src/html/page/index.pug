@@ -6,13 +6,8 @@ html(lang="ja")
   head
     include ../inc/meta
 
-    title 電脳麻将
-    meta(name="description" content="HTML5 + Javascriptで動作する麻雀アプリ")
-
-    meta(name="twitter:card" content="summary")
-    meta(property="og:title" content="電脳麻将")
-    meta(property="og:description" content="HTML5 + JavaScript で動作する麻雀アプリ")
-    meta(property="og:image" content="https://kobalab.net/majiang/img/game.png")
+    include ../inc/ogp
+    +ogp('電脳麻将', 'HTML5 + Javascriptで動作する麻雀アプリ', 'https://kobalab.net/majiang/img/game.png')
 
     include ../inc/style
     include ../inc/script
