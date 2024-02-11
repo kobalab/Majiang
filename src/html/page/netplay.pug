@@ -1,4 +1,4 @@
-- var page = 'index'
+- var page = 'netplay'
 
 doctype html
 html(lang="ja")
@@ -7,9 +7,10 @@ html(lang="ja")
     include ../inc/meta
 
     include ../inc/ogp
-    +ogp('電脳麻将', 'HTML5 + Javascriptで動作する麻雀アプリ', 'https://kobalab.net/majiang/img/game.png')
+    +ogp('電脳麻将: ネット対戦', 'WebSocketで動作する麻雀サーバー', 'https://kobalab.net/majiang/img/netplay.png')
 
     include ../inc/style
+    script(src="server/socket.io/socket.io.js" defer)
     include ../inc/script
   
   body.title
@@ -20,5 +21,6 @@ html(lang="ja")
 
     include ../inc/file
     include ../inc/stat
+    include ../inc/room
     include ../inc/board
     .version ver. #{version}

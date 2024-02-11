@@ -1,0 +1,13 @@
+mixin ogp(title, description, image)
+  title #{title}
+  if description != null
+    meta(name="description" content=description)
+
+  meta(name="twitter:card" content="summary")
+  meta(property="og:title" content=title)
+  if description != null
+    meta(property="og:description" content=description)
+  if image == null
+    meta(property="og:image" content="https://kobalab.net/majiang/img/icon.png")
+  if image != null
+    meta(property="og:image" content=image)

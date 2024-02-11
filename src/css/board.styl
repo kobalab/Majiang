@@ -56,6 +56,7 @@ body.board
                 &.shangjia
                     text-align: left
     .player-button
+        z-index: 1
         text-align: right
         white-space: nowrap
         .button
@@ -70,6 +71,7 @@ body.board
                 background: #999
                 outline: none
     .select-mianzi
+        z-index: 1
         line-height: 1
         text-align: right
         white-space: nowrap
@@ -88,9 +90,12 @@ body.board
         white-space: nowrap
         overflow: hidden
         text-overflow: ellipsis
-        cursor: pointer
-        &:hover
-            opacity: 1
+        &.disconnect
+            opacity: 0.1
+        &.selectable
+            cursor: pointer
+            &:hover
+                opacity: 1
     .say
         font-family: text-font
         color: white
@@ -165,6 +170,7 @@ body.board
                         .minus
                             color: #f00
     > .summary
+        z-index: 1
         display: flex
         overflow: auto
         align-items: center
@@ -227,6 +233,10 @@ body.board
         background: rgba(256,256,256,0.4)
         cursor: pointer
     .kaiju
+        &:focus
+            outline: none
+    .kaiju > div
+        z-index: 1
         margin-top: 120px
         position: relative
         width: 580px
@@ -256,7 +266,10 @@ body.board
                 white-space: nowrap
                 overflow: hidden
                 text-overflow: ellipsis
-                cursor: pointer
+                &.selectable
+                    cursor: pointer
+                    &:hover
+                        background: #999
                 &.main
                     transform: translate(140px, 96px)
                 &.xiajia
@@ -265,8 +278,6 @@ body.board
                     transform: translate(140px, 0px)
                 &.shangjia
                     transform: translate(0px, 48px)
-                &:hover
-                    background: #999
 
 #board
     .controller

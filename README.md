@@ -47,6 +47,13 @@ AIは majiang-core のクラス Majiang.Player の具体的な実装になって
 ## 関連パッケージ
 そのほかに以下の関連パッケージがあります。
 
+### majiang-server
+ - GitHub: https://github.com/kobalab/majiang-server
+ - npm: @kobalab/majiang-server
+
+WebSocketによる麻雀サーバーの実装です。
+電脳麻将のネット対戦は本サーバに接続して実現しています。
+
 ### majiang-analog
  - GitHub: https://github.com/kobalab/majiang-analog
  - npm: @kobalab/majiang-analog
@@ -61,6 +68,7 @@ AIは majiang-core のクラス Majiang.Player の具体的な実装になって
 
 ネット麻雀 [天鳳](https://tenhou.net) の牌譜を電脳麻将形式に変換します。
 本パッケージを利用することで天鳳の牌譜を解析したり、再生したりすることが可能になります。
+電脳麻将 牌譜ビューアの天鳳牌譜再生は本サーバに接続して実現しています。
 
 ## 書籍
 
