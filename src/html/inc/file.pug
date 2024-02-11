@@ -5,15 +5,13 @@
       |  牌譜ビューア
     if page == 'netplay'
       |  ネット対戦
-    if page == 'botplay'
-      |  ボット対戦
   .version ver. #{version}
   
   .file.hide
 
     if page == 'index'
       a.start 対局開始
-    if page == 'netplay' || page == 'botplay'
+    if page == 'netplay'
       .error.hide
       .netplay
         img(src="img/icon.png" title="guest")
