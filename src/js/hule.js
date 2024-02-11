@@ -1,5 +1,5 @@
 /*!
- *  電脳麻将: 和了点計算 v2.2.2
+ *  電脳麻将: 和了点計算 v2.3.0
  *
  *  Copyright(C) 2017 Satoshi Kobayashi
  *  Released under the MIT license
