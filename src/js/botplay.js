@@ -59,7 +59,6 @@ $(function(){
                 });
                 sock.off('ERROR').on('ERROR', file.error);
                 sock.off('ROOM').on('ROOM', room);
-                sock.on('BOT', (no)=>sock.emit('ROOM', no));        // for DEBUG
 
                 show($('#file .netplay form'));
                 fadeIn($('body').attr('class','file'));
@@ -109,7 +108,6 @@ $(function(){
             hide($('#room select[name="rule"]'));
             hide($('#room input[type="submit"]'));
         }
-        sock.off('BOT');                                            // for DEBUG
         sock.off('START').on('START', start);
     }
 
@@ -162,7 +160,6 @@ $(function(){
         file.redraw();
         sock.off('ROOM').on('ROOM', room);
         $('#file input[name="room_no"]').val('');
-        sock.on('BOT', (no)=>sock.emit('ROOM', no));                // for DEBUG
     }
 
     for (let key of Object.keys(preset)) {
