@@ -191,5 +191,13 @@ $(function(){
 
     $(window).on('load', ()=>setTimeout(init, 500));
     if (loaded) $(window).trigger('load');
+
+    $('#title .login form').each(function(){
+        let method = $(this).attr('method')
+        let url    = $(this).attr('action');
+        fetch(url, { method: method, redirect: 'manual' }).then(res =>{
+            if (res.status == 404) hide($(this));
+        });
+    });
 });
 $(window).on('load', ()=> loaded = true);
