@@ -1,5 +1,5 @@
 /*!
- *  電脳麻将: ネット対戦 v2.3.0
+ *  電脳麻将: ネット対戦 v2.3.1
  *
  *  Copyright(C) 2017 Satoshi Kobayashi
  *  Released under the MIT license
@@ -191,5 +191,13 @@ $(function(){
 
     $(window).on('load', ()=>setTimeout(init, 500));
     if (loaded) $(window).trigger('load');
+
+    $('#title .login form').each(function(){
+        let method = $(this).attr('method')
+        let url    = $(this).attr('action');
+        fetch(url, { method: method, redirect: 'manual' }).then(res =>{
+            if (res.status == 404) hide($(this));
+        });
+    });
 });
 $(window).on('load', ()=> loaded = true);
