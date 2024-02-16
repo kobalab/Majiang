@@ -33,7 +33,7 @@
   "dependencies": {
     "@kobalab/majiang-ai": "^1.0.9",
     "@kobalab/majiang-core": "^1.2.0",
-    "@kobalab/majiang-ui": "^1.1.0",
+    "@kobalab/majiang-ui": "^1.2.0",
     "jquery": "^3.7.1"
   }
 }
