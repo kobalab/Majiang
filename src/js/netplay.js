@@ -178,7 +178,7 @@ $(function(){
     $('#room form').on('submit', (ev)=>{
         let room = $('input[name="room_no"]', $(ev.target)).val();
 
-        let rule = $('select[name="rule"]').val();
+        let rule = $('select[name="rule"]', $(ev.target)).val();
         rule = ! rule      ? {}
              : rule == '-' ? JSON.parse(
                                 localStorage.getItem('Majiang.rule')||'{}')
