@@ -102,10 +102,12 @@ $(function(){
         }
         if (msg.user[0].uid == myuid) {
             show($('#room select[name="rule"]'));
+            show($('#room input[name="timer"]'));
             show($('#room input[type="submit"]'));
         }
         else {
             hide($('#room select[name="rule"]'));
+            hide($('#room input[name="timer"]'));
             hide($('#room input[type="submit"]'));
         }
         sock.off('START').on('START', start);
@@ -183,7 +185,12 @@ $(function(){
              :               preset[rule];
         rule = Majiang.rule(rule);
 
-        sock.emit('START', room, rule);
+        let timer = $('input[name="timer"]', $(ev.target)).val();
+        timer = timer.match(/(\d+)/g);
+        if (timer) timer = timer.map(t=>+t);
+        console.log('**', timer);
+
+        sock.emit('START', room, rule, timer);
         return false;
     });
 
