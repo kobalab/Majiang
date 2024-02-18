@@ -1,5 +1,5 @@
 /*!
- *  電脳麻将 v2.3.3
+ *  電脳麻将 v2.3.4
  *
  *  Copyright(C) 2017 Satoshi Kobayashi
  *  Released under the MIT license
@@ -53,7 +53,7 @@ $(function(){
         $('body').attr('class','board');
         scale($('#board'), $('#space'));
 
-        new Majiang.UI.GameCtl($('#board'), game, 'Majiang.pref');
+        new Majiang.UI.GameCtl($('#board'), 'Majiang.pref', game, game._view);
         game.kaiju();
     }
 

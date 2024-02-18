@@ -1,5 +1,5 @@
 /*!
- *  電脳麻将: 自動対戦 v2.3.3
+ *  電脳麻将: 自動対戦 v2.3.4
  *
  *  Copyright(C) 2017 Satoshi Kobayashi
  *  Released under the MIT license
@@ -67,8 +67,8 @@ $(function(){
             .off('click', '.pai')
             .on('click', '.pai', ()=>gamectl.he());
 
-        const gamectl = new Majiang.UI.GameCtl(
-                                        $('#board'), game, 'Majiang.pref');
+        const gamectl = new Majiang.UI.GameCtl($('#board'), 'Majiang.pref',
+                                                game, game._view);
         game.kaiju();
     }
 

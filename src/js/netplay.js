@@ -1,5 +1,5 @@
 /*!
- *  電脳麻将: ネット対戦 v2.3.3
+ *  電脳麻将: ネット対戦 v2.3.4
  *
  *  Copyright(C) 2017 Satoshi Kobayashi
  *  Released under the MIT license
@@ -119,8 +119,8 @@ $(function(){
         player.view  = new Majiang.UI.Board($('#board .board'), pai, audio,
                                                 player.model);
 
-        const gameCtl = new Majiang.UI.GameCtl($('#board'), null,
-                                                'Majiang.pref', player._view);
+        const gameCtl = new Majiang.UI.GameCtl($('#board'), 'Majiang.pref',
+                                                null, player, player._view);
         gameCtl._view.no_player_name = false;
 
         let players = [];
