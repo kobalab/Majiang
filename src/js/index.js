@@ -53,7 +53,7 @@ $(function(){
         $('body').attr('class','board');
         scale($('#board'), $('#space'));
 
-        new Majiang.UI.GameCtl($('#board'), game, 'Majiang.pref');
+        new Majiang.UI.GameCtl($('#board'), 'Majiang.pref', game, game._view);
         game.kaiju();
     }
 

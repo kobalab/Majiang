@@ -67,8 +67,8 @@ $(function(){
             .off('click', '.pai')
             .on('click', '.pai', ()=>gamectl.he());
 
-        const gamectl = new Majiang.UI.GameCtl(
-                                        $('#board'), game, 'Majiang.pref');
+        const gamectl = new Majiang.UI.GameCtl($('#board'), 'Majiang.pref',
+                                                game, game._view);
         game.kaiju();
     }
 
