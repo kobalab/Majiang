@@ -188,7 +188,6 @@ $(function(){
         let timer = $('input[name="timer"]', $(ev.target)).val();
         timer = timer.match(/(\d+)/g);
         if (timer) timer = timer.map(t=>+t);
-        console.log('**', timer);
 
         sock.emit('START', room, rule, timer);
         return false;
