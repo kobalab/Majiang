@@ -27,6 +27,7 @@ $(function(){
                                         ()=>$('body').removeClass('analyzer'));
     };
     const viewer = (paipu)=>{
+        $('#board .controller').addClass('paipu')
         $('body').attr('class','board');
         scale($('#board'), $('#space'));
         return new Majiang.UI.Paipu(
@@ -125,6 +126,7 @@ $(function(){
 
         let players = [];
 
+        $('#board .controller').removeClass('paipu')
         $('body').attr('class','board');
         scale($('#board'), $('#space'))
         sock.off('ROOM');

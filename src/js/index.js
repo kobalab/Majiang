@@ -24,6 +24,7 @@ $(function(){
                                         ()=>$('body').removeClass('analyzer'));
     };
     const viewer = (paipu)=>{
+        $('#board .controller').addClass('paipu')
         $('body').attr('class','board');
         scale($('#board'), $('#space'));
         return new Majiang.UI.Paipu(
@@ -50,6 +51,7 @@ $(function(){
         game.view = new Majiang.UI.Board($('#board .board'),
                                         pai, audio, game.model);
 
+        $('#board .controller').removeClass('paipu')
         $('body').attr('class','board');
         scale($('#board'), $('#space'));
 
