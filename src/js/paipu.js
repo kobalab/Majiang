@@ -11,6 +11,8 @@ const { hide, show, fadeIn, scale   } = Majiang.UI.Util;
 
 $(function(){
 
+    const tenhou_log = 'https://kobalab.net/majiang/tenhou-log/';
+
     const pai   = Majiang.UI.pai($('#loaddata'));
     const audio = Majiang.UI.audio($('#loaddata'));
 
@@ -36,14 +38,14 @@ $(function(){
     if (location.search) {
         new Majiang.UI.PaipuFile($('#file'), 'Majiang.paipu',
                                 viewer, stat,
-                                'https://kobalab.net/majiang/tenhou-log/',
+                                tenhou_log,
                                 location.search.replace(/^\?/,''),
                                 location.hash.replace(/^#/,'')).redraw();
     }
     else {
         new Majiang.UI.PaipuFile($('#file'), 'Majiang.paipu',
                                 viewer, stat,
-                                'https://kobalab.net/majiang/tenhou-log/'
+                                tenhou_log
                             ).redraw();
     }
 
