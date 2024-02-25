@@ -108,7 +108,7 @@ function markup(paistr, w, h) {
 
 function parse(text, w, h) {
     return text.replace(/\\.|{(.+?)}/g, (match, mark)=>
-        match[0] == '\\' ? match.substr(1)
+        match[0] == '\\' ? match.slice(1)
                          : markup(mark, w, h)
     );
 }

@@ -61,8 +61,8 @@ function qipai(paistr) {
 function set_handler() {
 
     for (let p of model.shoupai.get_dapai()) {
-        let pai = $(p.substr(-1) == '_'
-                        ? `.zimo .pai[data-pai="${p.substr(0,2)}"]`
+        let pai = $(p.slice(-1) == '_'
+                        ? `.zimo .pai[data-pai="${p.slice(0,2)}"]`
                         : `> .pai[data-pai="${p}"]`,
                     $('.shoupai .bingpai'));
         pai.attr('tabindex', 0).attr('role','button')
