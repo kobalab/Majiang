@@ -1,5 +1,5 @@
 /*!
- *  電脳麻将: ネット対戦 v2.3.4
+ *  電脳麻将: ネット対戦 v2.3.5
  *
  *  Copyright(C) 2017 Satoshi Kobayashi
  *  Released under the MIT license
