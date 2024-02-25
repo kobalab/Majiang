@@ -289,9 +289,17 @@ body.board
     .controller
         position: absolute
         img
+            display: none
             opacity: 0.2
             cursor: pointer
+            &.sound
+                display: inline
+        &.paipu
+            img
+                display: inline
         .speed
+            img
+                display: inline
             span
                 display: inline-block
                 background: white

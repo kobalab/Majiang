@@ -1,5 +1,5 @@
 /*!
- *  電脳麻将: 牌画入力 v2.3.4
+ *  電脳麻将: 牌画入力 v2.3.5
  *
  *  Copyright(C) 2017 Satoshi Kobayashi
  *  Released under the MIT license
@@ -108,7 +108,7 @@ function markup(paistr, w, h) {
 
 function parse(text, w, h) {
     return text.replace(/\\.|{(.+?)}/g, (match, mark)=>
-        match[0] == '\\' ? match.substr(1)
+        match[0] == '\\' ? match.slice(1)
                          : markup(mark, w, h)
     );
 }

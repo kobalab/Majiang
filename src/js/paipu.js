@@ -1,5 +1,5 @@
 /*!
- *  電脳麻将: 牌譜ビューア v2.3.4
+ *  電脳麻将: 牌譜ビューア v2.3.5
  *
  *  Copyright(C) 2017 Satoshi Kobayashi
  *  Released under the MIT license
@@ -11,6 +11,8 @@ const { hide, show, fadeIn, scale   } = Majiang.UI.Util;
 
 $(function(){
 
+    const tenhou_log = 'https://kobalab.net/majiang/tenhou-log/';
+
     const pai   = Majiang.UI.pai($('#loaddata'));
     const audio = Majiang.UI.audio($('#loaddata'));
 
@@ -20,6 +22,7 @@ $(function(){
                                         ()=>$('body').removeClass('analyzer'));
     };
     const viewer = (paipu)=>{
+        $('#board .controller').addClass('paipu')
         $('body').attr('class','board');
         scale($('#board'), $('#space'));
         return new Majiang.UI.Paipu(
@@ -36,14 +39,14 @@ $(function(){
     if (location.search) {
         new Majiang.UI.PaipuFile($('#file'), 'Majiang.paipu',
                                 viewer, stat,
-                                'https://kobalab.net/majiang/tenhou-log/',
+                                tenhou_log,
                                 location.search.replace(/^\?/,''),
                                 location.hash.replace(/^#/,'')).redraw();
     }
     else {
         new Majiang.UI.PaipuFile($('#file'), 'Majiang.paipu',
                                 viewer, stat,
-                                'https://kobalab.net/majiang/tenhou-log/'
+                                tenhou_log
                             ).redraw();
     }
 

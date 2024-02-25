@@ -1,5 +1,5 @@
 /*!
- *  電脳麻将: ネット対戦 v2.3.4
+ *  電脳麻将: ネット対戦 v2.3.5
  *
  *  Copyright(C) 2017 Satoshi Kobayashi
  *  Released under the MIT license
@@ -27,6 +27,7 @@ $(function(){
                                         ()=>$('body').removeClass('analyzer'));
     };
     const viewer = (paipu)=>{
+        $('#board .controller').addClass('paipu')
         $('body').attr('class','board');
         scale($('#board'), $('#space'));
         return new Majiang.UI.Paipu(
@@ -125,6 +126,7 @@ $(function(){
 
         let players = [];
 
+        $('#board .controller').removeClass('paipu')
         $('body').attr('class','board');
         scale($('#board'), $('#space'))
         sock.off('ROOM');
@@ -188,7 +190,6 @@ $(function(){
         let timer = $('input[name="timer"]', $(ev.target)).val();
         timer = timer.match(/(\d+)/g);
         if (timer) timer = timer.map(t=>+t);
-        console.log('**', timer);
 
         sock.emit('START', room, rule, timer);
         return false;
