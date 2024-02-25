@@ -31,7 +31,7 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "@kobalab/majiang-ai": "^1.0.9",
+    "@kobalab/majiang-ai": "^1.0.10",
     "@kobalab/majiang-core": "^1.2.1",
     "@kobalab/majiang-ui": "^1.3.0",
     "jquery": "^3.7.1"
