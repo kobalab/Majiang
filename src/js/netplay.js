@@ -56,7 +56,7 @@ $(function(){
             else {
                 myuid = user.uid;
                 sock.off('disconnect').on('disconnect', ()=>{
-                    hide($('#file .netplay form'));
+                    hide($('#file .netplay form.room'));
                 });
                 sock.off('ERROR').on('ERROR', file.error);
                 sock.off('ROOM').on('ROOM', room);
