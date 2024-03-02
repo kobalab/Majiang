@@ -1,5 +1,5 @@
 /*!
- *  電脳麻将: ネット対戦 v2.3.5
+ *  電脳麻将: ネット対戦 v2.3.6
  *
  *  Copyright(C) 2017 Satoshi Kobayashi
  *  Released under the MIT license
@@ -48,32 +48,30 @@ $(function(){
 
         sock = io('/', { path: `${base}/server/socket.io/`});
 
-        sock.on('HELLO', (user)=>{
-            if (! user) {
-                $('body').attr('class','title');
-                show($('#title .login'));
-            }
-            else {
-                myuid = user.uid;
-                sock.off('disconnect').on('disconnect', ()=>{
-                    hide($('#file .netplay form'));
-                });
-                sock.off('ERROR').on('ERROR', file.error);
-                sock.off('ROOM').on('ROOM', room);
-
-                show($('#file .netplay form'));
-                fadeIn($('body').attr('class','file'));
-                if (user.icon)
-                    $('#file .netplay img').attr('src', user.icon)
-                                           .attr('title', user.uid);
-                $('#file .netplay .name').text(user.name);
-                file.redraw();
-            }
-        });
-
+        sock.on('HELLO', hello);
+        sock.on('ROOM', room);
+        sock.on('START', start);
         sock.on('END', end);
+        sock.on('ERROR', file.error);
+        sock.on('disconnect', ()=>hide($('#file .netplay form.room')));
 
         hide($('#title .loading'));
+    }
+
+    function hello(user) {
+        if (! user) {
+            $('body').attr('class','title');
+            show($('#title .login'));
+            return;
+        }
+        myuid = user.uid;
+        show($('#file .netplay form'));
+        fadeIn($('body').attr('class','file'));
+        if (user.icon)
+            $('#file .netplay img').attr('src', user.icon)
+                                   .attr('title', user.uid);
+        $('#file .netplay .name').text(user.name);
+        file.redraw();
     }
 
     let row, src;
@@ -111,7 +109,6 @@ $(function(){
             hide($('#room input[name="timer"]'));
             hide($('#room input[type="submit"]'));
         }
-        sock.off('START').on('START', start);
     }
 
     function start() {
@@ -128,9 +125,9 @@ $(function(){
 
         $('#board .controller').removeClass('paipu')
         $('body').attr('class','board');
-        scale($('#board'), $('#space'))
+        scale($('#board'), $('#space'));
         sock.off('ROOM');
-        sock.off('GAME').on('GAME', (msg)=>{
+        sock.on('GAME', (msg)=>{
             if (msg.players) {
                 players = msg.players;
             }
@@ -157,10 +154,11 @@ $(function(){
     }
 
     function end(paipu) {
+        sock.removeAllListeners('GAME');
+        sock.on('ROOM', room);
         if (paipu) file.add(paipu, 10);
         fadeIn($('body').attr('class','file'));
         file.redraw();
-        sock.off('ROOM').on('ROOM', room);
         $('#file input[name="room_no"]').val('');
     }
 
