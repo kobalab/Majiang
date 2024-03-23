@@ -9,7 +9,8 @@
     "build:js": "webpack --mode development --devtool inline-source-map",
     "build": "npm run build:html && npm run build:css && npm run build:js",
     "release": "npm run build:html && npm run build:css && webpack --mode production",
-    "clean": "rm -f dist/*.html dist/js/* dist/css/*"
+    "start": "node server.js",
+    "clean": "rm -f docs/*.html docs/js/* docs/css/*"
   },
   "repository": {
     "type": "git",
@@ -34,6 +35,7 @@
     "@kobalab/majiang-ai": "^1.0.10",
     "@kobalab/majiang-core": "^1.2.1",
     "@kobalab/majiang-ui": "^1.3.1",
+    "express": "^4.19.1",
     "jquery": "^3.7.1"
   }
 }
