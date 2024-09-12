@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/kobalab/Majiang#readme",
   "overrides": {
-    "pug": "^3.0.2"
+    "pug": "^3.0.3"
   },
   "devDependencies": {
     "pug-cli": "^1.0.0-alpha6",
