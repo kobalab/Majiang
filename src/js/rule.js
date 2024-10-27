@@ -1,5 +1,5 @@
 /*!
- *  電脳麻将: ルール設定 v2.3.7
+ *  電脳麻将: ルール設定 v2.4.0
  *
  *  Copyright(C) 2017 Satoshi Kobayashi
  *  Released under the MIT license
@@ -133,6 +133,14 @@ function repair_damanguan() {
     }
 }
 
+function unsaved() {
+    $(window).on('beforeunload', (ev)=>{
+        const message = 'ページを離れますがよろしいですか？';
+        ev.returnValue = message;
+        return message;
+    });
+}
+
 $(function(){
 
     for (let key of Object.keys(preset)) {
@@ -167,8 +175,11 @@ $(function(){
         set_form(Majiang.rule(key == '-'
                     ? JSON.parse(localStorage.getItem('Majiang.rule')||'{}')
                     : preset[key] || {}));
+        unsaved();
         return false;
     });
+
+    $('form input').on('change', unsaved);
 
     $('form').on('submit', ()=>{
         if (! localStorage.getItem('Majiang.rule')) {
@@ -176,6 +187,8 @@ $(function(){
                                         .val('-').text('カスタムルール'));
         }
         localStorage.setItem('Majiang.rule', JSON.stringify(get_form()));
+
+        $(window).off('beforeunload');
         $('select[name="プリセット"]').val('-');
         Majiang.UI.Util.fadeIn($('form'));
         Majiang.UI.Util.fadeIn($('.message'));

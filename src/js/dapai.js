@@ -1,5 +1,5 @@
 /*!
- *  電脳麻将: 何切る解答機 v2.3.7
+ *  電脳麻将: 何切る解答機 v2.4.0
  *
  *  Copyright(C) 2017 Satoshi Kobayashi
  *  Released under the MIT license

@@ -1,0 +1,393 @@
+body.editor
+    color: black
+    background: white
+    margin: 5px 15px
+    #navi
+        display: none
+    #editor
+        display: block
+    > .version
+        display: none
+
+#editor
+    display: none
+    transition: opacity 0.4s ease-out
+    .menu
+        width: 200px
+        float: left
+        font-family: menu-font
+        text-align: center
+        h1
+            margin-top: 0
+            line-height: 1
+            font-size: 20px
+            img
+                height: 36px
+        .version
+            font-size: 16px
+            font-family: defen-font
+        .title
+            font-size: 20px
+            font-family: title-font
+            white-space: pre-line
+            margin: 1em 0
+        .score
+            font-size: 12px
+            font-family: menu-font
+            select
+                -webkit-appearance: none
+                font-size: 24px
+                border: none
+                background: inherit
+                font-family: text-font
+            .jicun
+                margin: 4px 0
+                text-align: center
+                img
+                    width: 60px
+                    height: 8px
+                input
+                    width: 2em
+                    border: none
+                    &:not(:focus)
+                        font-family: defen-font
+            .shan
+                display: flex
+                width: min-content
+                margin: auto
+                .flip
+                    display: table
+                    width: 25px
+                    height: 35px
+                    .pai
+                        display: table-cell
+                        box-sizing: border-box
+                        height: 35px
+                        width: 100%
+                        text-align: center
+                        vertical-align: middle
+                        overflow-wrap: anywhere
+                    input
+                        display: block
+                        box-sizing: border-box
+                        padding: 0
+                        height: 35px
+                        width: 100%
+                        text-align: center
+                    img
+                        height: 100%
+                        width: 100%
+                    &.error
+                        .pai:has(img)
+                            background: red
+                            border-radius: 4px
+                            img
+                                opacity: 0.7
+                        .pai
+                            font-size: 12px
+                            color: red
+                        input
+                            outline-color: red
+        ul.log
+            padding: 0
+            font-size: 12px
+            li
+                list-style: none
+                height: 18px
+                border: solid 1px #ccc
+                border-radius: 4px
+                cursor: pointer
+                &.selected
+                    background: #ccc
+                &:hover
+                    background: #999
+                    color: white
+                &:first-of-type a.minus
+                    visibility: hidden
+                a
+                    display: inline-block
+                    border-radius: 4px
+                    width: 18px
+                    height: 18px
+                    color: white
+                    background: #999
+                a.plus
+                    float: right
+                    border-left: solid 1px #ccc
+                    &:hover
+                        background: blue
+                        cursor: s-resize
+                a.minus
+                    border-right: solid 1px #ccc
+                    float: left
+                    &:hover
+                        background: red
+                        cursor: n-resize
+        .button
+            margin-top: 1em
+            a
+                font-size: 14px
+                display: inline-block
+                margin: 5px 0
+                padding: 6px 10px
+                background: #999
+                border-radius: 5px
+                white-space: nowrap
+                cursor: pointer
+                color: white
+                line-height: 1em
+                text-decoration: none
+                img
+                    height: 1em
+                    margin-right: 4px
+                    vertical-align: bottom
+                &:hover
+                    background: #ccc
+    .overview
+        margin-left: 220px
+        font-family: menu-font
+        table
+            margin-top: 1em
+            border-collapse: collapse
+            border-bottom: solid 2px
+            tr
+                border-bottom: solid 1px #999
+            th
+                border-bottom: solid 2px
+            td
+                padding: 5px
+            td.player
+                width: 280px
+            td.defen
+            td.point
+                width: 80px
+                text-align: center
+        input
+        textarea
+            border: none
+            resize: none
+        textarea[name="title"]
+            height: 2.5em
+            font-size: 20px
+            &:not(:focus)
+                font-family: title-font
+        textarea[name="player"]
+            height: 2.5em
+            &:not(:focus)
+                font-family: text-font
+        input[name="defen"]
+        input[name="point"]
+            text-align: right
+            &:not(:focus)
+                font-family: defen-font
+
+    .paipu
+        margin-left: 220px
+        padding: 2px 0
+        height: 180px
+        border-bottom: solid 1px #666
+        .player
+            font-family: text-font
+            box-sizing: border-box
+            float: left
+            width: 24px
+            height: 100%
+            writing-mode: vertical-rl
+            overflow: hidden
+            .jia
+                display: inline-block
+                padding: 2px 0
+                width: 100%
+                background: black
+                color: white
+                border-radius: 4px
+                margin-bottom: 5px
+        .defen
+            float: right
+            font-size: 14px
+            font-family: defen-font
+            text-align: right
+            input[name="defen"]
+                font-family: defen-font
+                text-align: right
+                border: none
+            .fenpei
+                padding: 2px
+                &.plus
+                    color: blue
+                &.minus
+                    color: red
+        .result
+            float: right
+            margin-right: 0.5em
+            .text
+                min-width: 5em
+                font-size: 14px
+                font-family: defen-font
+                color: white
+                padding: 2px 0.5em
+                background: blue
+                border-radius: 5px
+                white-space: nowrap
+                cursor: pointer
+            .button
+                font-size: 14px
+                font-family: menu-font
+                display: inline-block
+                margin: 5px 0
+                padding: 6px 10px
+                background: #999
+                border-radius: 5px
+                white-space: nowrap
+                cursor: pointer
+                color: white
+                line-height: 1em
+                text-decoration: none
+                img
+                    height: 1em
+                    margin-right: 4px
+                    vertical-align: bottom
+                &:hover
+                    background: #ccc
+        .qipai
+            display: table
+            height: 40px
+            margin-left: 40px
+            > .shoupai
+                shoupai-size: auto 35px 35px 28px
+            input
+                margin-top: 8px
+                width: 20em
+        .mo
+        .da
+            margin-left: 40px
+            height: min-content
+            display: flex
+            .moda
+                width: min-content
+                height: min-content
+                .text
+                    width: 25px
+                    height: 10px
+                    font-size: 9px
+                    text-align: center
+                    white-space: nowrap
+                .flip
+                    display: table
+                    height: 35px
+                    width: 25px
+                    .pai
+                        display: table-cell
+                        box-sizing: border-box
+                        height: 35px
+                        width: 100%
+                        font-size: 20px
+                        text-align: center
+                        vertical-align: middle
+                        overflow-wrap: anywhere
+                    input
+                        display: block
+                        box-sizing: border-box
+                        padding: 0
+                        height: 35px
+                        width: 100%
+                        font-size: 12px
+                        text-align: center
+                &.error
+                    .pai:has(img)
+                        background: red
+                        border-radius: 4px
+                        img
+                            opacity: 0.7
+                    .pai
+                        font-size: 12px
+                        color: red
+                    input
+                        outline-color: red
+        >.shoupai
+            margin-left: 40px
+            shoupai-size: auto 50px 35px 35px
+
+    dialog
+        min-width: 600px
+        padding: 24px
+        font-family: menu-font
+        font-size: 14px
+        border: none
+        border-radius: 10px
+        &::backdrop
+            background: rgba(0, 0, 0, 0.4);
+        .button
+            margin-top: 24px
+        .submit
+            margin: 0 120px
+            text-align: center
+        input.close
+            float: left
+        input.delete
+            float: right
+        input[name="fu"]
+        input[name="fanshu"]
+        input[name="defen"]
+        input[name="fenpei"]
+            text-align: right
+    dialog.hule
+        label
+            margin: 0.5em
+        select
+            width: 10em
+        .fubaopai
+            display: inline-block
+            vertical-align: middle
+            .shan
+                height: 35px
+                display: flex
+                width: min-content
+                .flip
+                    width: 25px
+                    height: 35px
+                    input
+                        display: block
+                        box-sizing: border-box
+                        padding: 0
+                        width: 100%
+                        height: 100%
+                        text-align: center
+                    img
+                        width: 100%
+                        height: 100%
+        .shoupai
+            shoupai-size: auto 60px 42px 42px
+        ul.hupai
+            list-style: none
+            li
+                margin: 2px 0
+        .defen
+            margin-left: 40px
+            width: 230px
+            text-align: right
+        .jicun
+            margin: 1em 40px
+            img
+                width: 60px
+                height:  8px
+            input
+                width: 2em
+                text-align: right
+        ul.fenpei
+            list-style: none
+            li
+                display: inline-block
+                margin-right: 1em
+    dialog.pingju
+        .hule
+            float: right
+        ul
+            list-style: none
+            padding-left: 32px
+            li
+                margin: 4px 0
+                > div
+                    margin: 4px 1em
+                    .shoupai
+                        shoupai-size: 480px 35px 35px 35px

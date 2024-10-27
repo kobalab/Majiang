@@ -65,6 +65,8 @@ body.board
         z-index: 1
         text-align: right
         white-space: nowrap
+        display: flex
+        justify-content: end
         .button
             cursor: pointer
             display: inline-block
@@ -284,6 +286,8 @@ body.board
                     transform: translate(140px, 0px)
                 &.shangjia
                     transform: translate(0px, 48px)
+    .suspend
+        background: rgba(0, 0, 0, 0.5);
 
 #board
     .controller
@@ -315,6 +319,7 @@ body.board
                 opacity: 0.2
     .download
         position: absolute
+        z-index: 1
         a
             opacity: 0.7
             display: inline-block
