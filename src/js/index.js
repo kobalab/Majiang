@@ -1,5 +1,5 @@
 /*!
- *  電脳麻将 v2.4.0
+ *  電脳麻将 v2.4.1
  *
  *  Copyright(C) 2017 Satoshi Kobayashi
  *  Released under the MIT license
@@ -70,7 +70,7 @@ $(function(){
     $(window).on('resize', ()=>scale($('#board'), $('#space')));
 
     $(window).on('load', function(){
-        if (! file.isEmpty) end();
+        if (! file.isEmpty) return end();
         hide($('#title .loading'));
         $('#title .start')
             .attr('tabindex', 0).attr('role','button')
