@@ -70,7 +70,7 @@ $(function(){
     $(window).on('resize', ()=>scale($('#board'), $('#space')));
 
     $(window).on('load', function(){
-        if (! file.isEmpty) end();
+        if (! file.isEmpty) return end();
         hide($('#title .loading'));
         $('#title .start')
             .attr('tabindex', 0).attr('role','button')
