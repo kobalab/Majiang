@@ -70,13 +70,13 @@ $(function(){
     $(window).on('resize', ()=>scale($('#board'), $('#space')));
 
     $(window).on('load', function(){
+        if (! file.isEmpty) end();
         hide($('#title .loading'));
         $('#title .start')
             .attr('tabindex', 0).attr('role','button')
             .on('click', ()=>{
                 clearSelector('title');
-                if (file.isEmpty) start();
-                else              end();
+                start();
             });
         show(setSelector($('#title .start'), 'title',
                         { focus: null, touch: false }));
