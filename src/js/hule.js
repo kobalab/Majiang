@@ -138,7 +138,7 @@ function submit() {
         player: ['','','',''],
         defen:  [0,0,0,0],
         changbang: param.jicun.changbang,
-        lizhibang: param.jicunlizhibang,
+        lizhibang: param.jicun.lizhibang,
         shan: {
             baopai:   param.baopai,
             fubaopai: param.fubaopai,
@@ -149,7 +149,7 @@ function submit() {
     const paipu = {
         l:          param.menfeng,
         shoupai:    paistr,
-        baojia:     rongpai ? (param.menfeng + 2) % 2 : null,
+        baojia:     rongpai ? (param.menfeng + 2) % 4 : null,
         fubaopai:   param.fubaopai,
         fu:         hule.fu,
         fanshu:     hule.fanshu,
