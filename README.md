@@ -44,6 +44,12 @@ AIは majiang-core のクラス Majiang.Player の具体的な実装になって
 
 手牌表示、盤面表示、牌譜再生 など画面表示やユーザとのインタラクションを実現するクラス群です。
 
+### tenhou-url-log
+ - GitHub: https://github.com/kobalab/tenhou-url-log
+ - npm: @kobalab/tenhou-url-log
+
+電脳麻将の牌譜をネット麻雀 [天鳳](https://tenhou.net) の[JSON形式の牌譜](https://tenhou.net/6/)(各種AI解析の事実上の共通フォーマット)に変換する機能を提供します。
+
 ## 関連パッケージ
 そのほかに以下の関連パッケージがあります。
 
