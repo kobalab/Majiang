@@ -337,6 +337,30 @@ body.board
                 vertical-align: middle
             &:hover
                 opacity: 1
+    .tenhou-dialog
+        position: absolute
+        z-index: 1
+        background: rgba(0, 0, 0, 0.5);
+        form
+            padding: 15px
+            background: white
+            border-radius: 4px
+            font-family: menu-font
+            font-size: 14px
+            color: black
+            li
+                display: inline-block
+                margin-right: 0.5em
+            textarea
+                box-sizing: border-box
+                width: 100%
+                resize: none
+                &.URL
+                    white-space: pre
+                &.JSON
+                    word-break: break-all
+            .button
+                text-align: right
 
 @media screen and (max-height: 680px)
     body.board

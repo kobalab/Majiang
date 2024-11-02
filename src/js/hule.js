@@ -1,5 +1,5 @@
 /*!
- *  電脳麻将: 和了点計算 v2.4.1
+ *  電脳麻将: 和了点計算 v2.4.2
  *
  *  Copyright(C) 2017 Satoshi Kobayashi
  *  Released under the MIT license
@@ -138,7 +138,7 @@ function submit() {
         player: ['','','',''],
         defen:  [0,0,0,0],
         changbang: param.jicun.changbang,
-        lizhibang: param.jicunlizhibang,
+        lizhibang: param.jicun.lizhibang,
         shan: {
             baopai:   param.baopai,
             fubaopai: param.fubaopai,
@@ -149,7 +149,7 @@ function submit() {
     const paipu = {
         l:          param.menfeng,
         shoupai:    paistr,
-        baojia:     rongpai ? (param.menfeng + 2) % 2 : null,
+        baojia:     rongpai ? (param.menfeng + 2) % 4 : null,
         fubaopai:   param.fubaopai,
         fu:         hule.fu,
         fanshu:     hule.fanshu,

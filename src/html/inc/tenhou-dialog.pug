@@ -1,0 +1,19 @@
+.tenhou-dialog.hide
+  form
+    ur
+      li
+        label
+          input(name="type" type="radio" value="URL" checked)
+          | URL形式
+      li
+        label
+          input(name="type" type="radio" value="JSON")
+          | JSON形式
+      li
+        label
+          input(name="limited" type="checkbox" value="1")
+          | この局のみ
+    textarea(rows="5" disabled)
+    .button
+      input(type="button" value="閉じる")
+      input(type="submit" value="コピー")
