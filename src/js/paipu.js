@@ -104,28 +104,42 @@ $(function(){
             }
             $('textarea', tenhou_dialog).attr('class','URL');
         }
-        $('textarea', tenhou_dialog).val(data).select();
+        $('textarea', tenhou_dialog).val(data);
+        if (! navigator.clipboard) {
+            $('textarea', tenhou_dialog).attr('disabled', false).select();
+            show($('[type="button"]', tenhou_dialog));
+            hide($('[type="submit"]', tenhou_dialog));
+        }
+        else {
+            show($('[type="button"]', tenhou_dialog));
+            show($('[type="submit"]', tenhou_dialog));
+        }
     }
 
-    let _autoplay;
     function open_tenhou_dialog() {
         if (_viewer._log_idx < 0) return;
-        _autoplay = _viewer._autoplay;
         _viewer.clear_handler();
         show(tenhou_dialog);
         set_data();
     }
+    function submit_tenhou_dialog() {
+        if (navigator.clipboard) {
+            let data = $('textarea', tenhou_dialog).val();
+            navigator.clipboard.writeText(data);
+        }
+        close_tenhou_dialog();
+        return false;
+    }
     function close_tenhou_dialog() {
         hide(tenhou_dialog);
         _viewer.set_handler();
-        if (_autoplay) _viewer.autoplay();
-        return false;
     }
 
     $(window).on('keyup', (ev)=>{
         if (! _viewer || ev.key != 't') return;
         open_tenhou_dialog();
     });
-    $('form', tenhou_dialog).on('submit', close_tenhou_dialog);
+    $('form', tenhou_dialog).on('submit', submit_tenhou_dialog);
+    $('form [type="button"]', tenhou_dialog).on('click', close_tenhou_dialog);
     $('input', tenhou_dialog).on('change', set_data);
 });
