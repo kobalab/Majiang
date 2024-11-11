@@ -108,11 +108,19 @@ body.file
                 input[name="room_no"]
                     width: 3em
         .error
-            transition: opacity 0.5s
+        .loading
+            transition: opacity 0.5s ease-out
             margin: 2px 0px
             border-radius: 5px
             border: solid 1px #f99
-            color: red
-            background: #fdd
             padding: 4px 1em
             font-family: menu-font
+        .error
+            color: red
+            background: #fdd
+        .loading
+            color: green
+            background: #cfc
+            border: solid 1px #090
+            .blink
+                animation: blink-text 2s infinite
