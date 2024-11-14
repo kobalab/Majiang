@@ -123,13 +123,6 @@ $(function(){
         $('form input[name="paistr"]').focus();
     });
 
-    $(window).on('keyup', (ev)=>{
-        if (ev.key == 'W') {
-            if ($('body').width() == 780) $('body').width('');
-            else                          $('body').width(780);
-        }
-    });
-
     let fragment = location.hash.replace(/^#/,'');
     init(fragment);
 });
