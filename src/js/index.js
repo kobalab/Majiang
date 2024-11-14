@@ -69,19 +69,21 @@ $(function(){
 
     $(window).on('resize', ()=>scale($('#board'), $('#space')));
 
-    $(window).on('load', function(){
-        if (! file.isEmpty) return end();
-        hide($('#title .loading'));
-        $('#title .start')
-            .attr('tabindex', 0).attr('role','button')
-            .on('click', ()=>{
-                clearSelector('title');
-                start();
-            });
-        show(setSelector($('#title .start'), 'title',
-                        { focus: null, touch: false }));
-    });
-    if (loaded) $(window).trigger('load');
+    setTimeout(()=>{
+        $(window).on('load', function(){
+            if (! file.isEmpty) return end();
+            hide($('#title .loading'));
+            $('#title .start')
+                .attr('tabindex', 0).attr('role','button')
+                .on('click', ()=>{
+                    clearSelector('title');
+                    start();
+                });
+            show(setSelector($('#title .start'), 'title',
+                            { focus: null, touch: false }));
+        });
+        if (loaded) $(window).trigger('load');
+    }, 1000);
 });
 
 $(window).on('load', ()=> loaded = true);
