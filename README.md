@@ -85,6 +85,22 @@ WebSocketによる麻雀サーバーの実装です。
 
 書籍ではサブパッケージの [majiang-core](#majiang-core) と [majiang-ai](#majiang-ai) を扱っています。
 
+## ブログ記事
+
+書籍出版以降(ver.2.0.0以降)の情報です。
+
+- 牌譜エディタ
+  - [牌譜エディタの使い方](https://blog.kobalab.net/entry/2024/10/28/000539)
+  - [電脳麻将でNAGA解析用のデータを作成する](https://blog.kobalab.net/entry/2024/11/02/223910)
+- 麻雀サーバー
+  - [麻雀サーバーの使い方](https://blog.kobalab.net/entry/2024/02/15/081605)
+  - [Passportで外部認証を実現する](https://blog.kobalab.net/entry/2024/02/19/211526)
+  - [ネット対戦の持ち時間設定方法](https://blog.kobalab.net/entry/2024/02/17/120315)
+- 点数計算ドリル
+  - [電脳麻将 ver.2.2.0 公開#健数計算ドリル](https://blog.kobalab.net/entry/2023/12/24/220847#%E7%82%B9%E6%95%B0%E8%A8%88%E7%AE%97%E3%83%89%E3%83%AA%E3%83%AB)
+- その他
+  - [天鳳鳳凰卓統計(2023年)](https://blog.kobalab.net/entry/2024/11/04/215201)
+
 ## (旧)ブログ記事
 
 過去のブログ記事。
