@@ -56,27 +56,28 @@ body.editor
                 width: min-content
                 margin: auto
                 .flip
-                    display: table
                     width: 25px
                     height: 35px
-                    .pai
+                    font-size: 12px
+                    overflow: hidden
+                    >.pai
                         display: table-cell
                         box-sizing: border-box
+                        width: 25px
                         height: 35px
-                        width: 100%
                         text-align: center
                         vertical-align: middle
                         overflow-wrap: anywhere
+                        img
+                            height: 100%
+                            width: 100%
                     input
                         display: block
                         box-sizing: border-box
                         padding: 0
-                        height: 35px
-                        width: 100%
-                        text-align: center
-                    img
                         height: 100%
                         width: 100%
+                        text-align: center
                     &.error
                         .pai:has(img)
                             background: red
@@ -84,7 +85,6 @@ body.editor
                             img
                                 opacity: 0.7
                         .pai
-                            font-size: 12px
                             color: red
                         input
                             outline-color: red
@@ -284,25 +284,28 @@ body.editor
                     text-align: center
                     white-space: nowrap
                 .flip
-                    display: table
                     height: 35px
                     width: 25px
-                    .pai
+                    font-size: 12px
+                    font-family: menu-font
+                    overflow: hidden
+                    >.pai
                         display: table-cell
                         box-sizing: border-box
                         height: 35px
-                        width: 100%
-                        font-size: 20px
+                        width: 25px
                         text-align: center
                         vertical-align: middle
                         overflow-wrap: anywhere
+                        img
+                            height: 100%
+                            width: 100%
                     input
                         display: block
                         box-sizing: border-box
                         padding: 0
-                        height: 35px
+                        height: 100%
                         width: 100%
-                        font-size: 12px
                         text-align: center
                 &.error
                     .pai:has(img)
@@ -311,7 +314,6 @@ body.editor
                         img
                             opacity: 0.7
                     .pai
-                        font-size: 12px
                         color: red
                     input
                         outline-color: red
