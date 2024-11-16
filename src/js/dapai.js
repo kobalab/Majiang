@@ -1,5 +1,5 @@
 /*!
- *  電脳麻将: 何切る解答機 v2.4.6
+ *  電脳麻将: 何切る解答機 v2.4.7
  *
  *  Copyright(C) 2017 Satoshi Kobayashi
  *  Released under the MIT license
@@ -121,13 +121,6 @@ $(function(){
     $('form').on('reset', function(){
         hide($('.shan, .shoupai, .analyzer'));
         $('form input[name="paistr"]').focus();
-    });
-
-    $(window).on('keyup', (ev)=>{
-        if (ev.key == 'W') {
-            if ($('body').width() == 780) $('body').width('');
-            else                          $('body').width(780);
-        }
     });
 
     let fragment = location.hash.replace(/^#/,'');
