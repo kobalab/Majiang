@@ -8,14 +8,15 @@
   .version ver. #{version}
   .loading Loading data...
   .start.hide(tabindex="0" role="button") START
-  .login.hide
-    form.local(method="POST" action="server/auth/")
-      input(name="name" placeholder="プレーヤー名")
-      input(name="passwd" value="*" type="hidden")
-      input(type="submit" value="登録")
-    form.hatena(method="POST" action="server/auth/hatena")
-      img(src="https://www.hatena.ne.jp/p/images/favicon.ico")
-      input(type="submit" value="Hatenaで登録")
-    form.google(method="POST" action="server/auth/google")
-      img(src="https://www.google.com/favicon.ico")
-      input(type="submit" value="Googleで登録")
+  if page == 'netplay'
+    .login.hide
+      form.local(method="POST" action="server/auth/")
+        input(name="name" placeholder="プレーヤー名")
+        input(name="passwd" value="*" type="hidden")
+        input(type="submit" value="登録")
+      form.hatena(method="POST" action="server/auth/hatena")
+        img(src="https://www.hatena.ne.jp/p/images/favicon.ico")
+        input(type="submit" value="Hatenaで登録")
+      form.google(method="POST" action="server/auth/google")
+        img(src="https://www.google.com/favicon.ico")
+        input(type="submit" value="Googleで登録")
