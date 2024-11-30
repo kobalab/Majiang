@@ -33,7 +33,7 @@ $(function(){
         scale($('#board'), $('#space'));
         _viewer = new Majiang.UI.Paipu(
                         $('#board'), paipu, pai, audio, 'Majiang.pref',
-                        ()=>{ fadeIn($('body').attr('class','file'))
+                        ()=>{ fadeIn($('body').attr('class','file'));
                               _viewer = null },
                         analyzer);
         $('input[name="limited"]', tenhou_dialog)
@@ -51,7 +51,8 @@ $(function(){
         scale($('#board'), $('#space'));
         _viewer = new Majiang.UI.Paipu(
                         $('#board'), paipu, pai, audio, 'Majiang.pref',
-                        ()=>fadeIn($('body').attr('class','editor')),
+                        ()=>{ fadeIn($('body').attr('class','editor'));
+                              _viewer = null },
                         analyzer);
         $('input[name="limited"]', tenhou_dialog)
                             .prop('disabled', true).val([1]);
