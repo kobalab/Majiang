@@ -71,7 +71,12 @@ function set_handler() {
                 dapai(p);
             });
     }
-    setSelector($('.shoupai .bingpai .pai[tabindex]'), 'dapai', {focus: -1});
+    setSelector($('.shoupai .bingpai .pai[tabindex]'), 'dapai', {focus: null});
+}
+
+function clear_handler() {
+    view.shoupai.redraw();
+    clearSelector('dapai');
 }
 
 function dapai(p) {
@@ -180,6 +185,8 @@ $(function(){
         $('input[name="paistr"]').trigger('focus');
         history.replaceState('', '', location.href.replace(/#.*$/,''));
     });
+    $('form [name="paistr"]').on('focus', clear_handler)
+                             .on('blur',  set_handler);
 
     let paistr = location.hash.replace(/^#/,'');
     qipai(paistr);
