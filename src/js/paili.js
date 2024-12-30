@@ -1,5 +1,5 @@
 /*!
- *  電脳麻将: 牌理 v2.4.11
+ *  電脳麻将: 牌理 v2.4.12
  *
  *  Copyright(C) 2017 Satoshi Kobayashi
  *  Released under the MIT license
@@ -58,7 +58,7 @@ function qipai(paistr) {
     paili(1);
 }
 
-function set_handler() {
+function set_handler(focus = -1) {
 
     for (let p of model.shoupai.get_dapai()) {
         let pai = $(p.slice(-1) == '_'
@@ -71,7 +71,12 @@ function set_handler() {
                 dapai(p);
             });
     }
-    setSelector($('.shoupai .bingpai .pai[tabindex]'), 'dapai', {focus: -1});
+    setSelector($('.shoupai .bingpai .pai[tabindex]'), 'dapai', {focus: focus});
+}
+
+function clear_handler() {
+    view.shoupai.redraw();
+    clearSelector('dapai');
 }
 
 function dapai(p) {
@@ -180,6 +185,8 @@ $(function(){
         $('input[name="paistr"]').trigger('focus');
         history.replaceState('', '', location.href.replace(/#.*$/,''));
     });
+    $('form [name="paistr"]').on('focus', clear_handler)
+                             .on('blur',  ()=> set_handler(null));
 
     let paistr = location.hash.replace(/^#/,'');
     qipai(paistr);
