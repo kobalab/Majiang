@@ -97,6 +97,7 @@ WebSocketによる麻雀サーバーの実装です。
   - [Passportで外部認証を実現する](https://blog.kobalab.net/entry/2024/02/19/211526) (v2.3)
   - [ネット対戦の持ち時間設定方法](https://blog.kobalab.net/entry/2024/02/17/120315) (v2.3)
   - [麻雀ボットの実装](https://blog.kobalab.net/entry/2025/01/20/205434) (v2.4)
+  - [偽ラグの実装](https://blog.kobalab.net/entry/2025/01/26/194556) (v2.4)
 - 点数計算ドリル
   - [電脳麻将 ver.2.2.0 公開#点数計算ドリル](https://blog.kobalab.net/entry/2023/12/24/220847#%E7%82%B9%E6%95%B0%E8%A8%88%E7%AE%97%E3%83%89%E3%83%AA%E3%83%AB) (v2.2)
   - [麻雀の点数計算方法(正式版・簡易版)](https://blog.kobalab.net/entry/2023/12/11/204103) (v2.2)
