@@ -104,6 +104,7 @@ WebSocketによる麻雀サーバーの実装です。
 - アルゴリズム・その他
   - [麻雀AIの作り方](https://blog.kobalab.net/entry/2025/02/20/010020) (v2.4)
   - [鳴かない麻雀の成績への影響をシミュレーションする](https://blog.kobalab.net/entry/2025/02/28/203123) (v2.4)
+  - [リーチ禁止の影響をシミュレーションする](https://blog.kobalab.net/entry/2025/03/06/214245) (v2.4)
   - [天鳳鳳凰卓統計(2023年)](https://blog.kobalab.net/entry/2024/11/04/215201) (v2.4)
   - [バックトラックで麻雀の和了形一覧を求める](https://blog.kobalab.net/entry/2024/09/16/111847) (v2.3)
   - [麻雀の「待ち」を出力するプログラム](https://blog.kobalab.net/entry/2022/05/01/181217) (v2.0)
