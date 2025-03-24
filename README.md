@@ -97,10 +97,14 @@ WebSocketによる麻雀サーバーの実装です。
   - [Passportで外部認証を実現する](https://blog.kobalab.net/entry/2024/02/19/211526) (v2.3)
   - [ネット対戦の持ち時間設定方法](https://blog.kobalab.net/entry/2024/02/17/120315) (v2.3)
   - [麻雀ボットの実装](https://blog.kobalab.net/entry/2025/01/20/205434) (v2.4)
+  - [偽ラグの実装](https://blog.kobalab.net/entry/2025/01/26/194556) (v2.4)
 - 点数計算ドリル
   - [電脳麻将 ver.2.2.0 公開#点数計算ドリル](https://blog.kobalab.net/entry/2023/12/24/220847#%E7%82%B9%E6%95%B0%E8%A8%88%E7%AE%97%E3%83%89%E3%83%AA%E3%83%AB) (v2.2)
   - [麻雀の点数計算方法(正式版・簡易版)](https://blog.kobalab.net/entry/2023/12/11/204103) (v2.2)
 - アルゴリズム・その他
+  - [麻雀AIの作り方](https://blog.kobalab.net/entry/2025/02/20/010020) (v2.4)
+  - [鳴かない麻雀の成績への影響をシミュレーションする](https://blog.kobalab.net/entry/2025/02/28/203123) (v2.4)
+  - [リーチ禁止の影響をシミュレーションする](https://blog.kobalab.net/entry/2025/03/06/214245) (v2.4)
   - [天鳳鳳凰卓統計(2023年)](https://blog.kobalab.net/entry/2024/11/04/215201) (v2.4)
   - [バックトラックで麻雀の和了形一覧を求める](https://blog.kobalab.net/entry/2024/09/16/111847) (v2.3)
   - [麻雀の「待ち」を出力するプログラム](https://blog.kobalab.net/entry/2022/05/01/181217) (v2.0)
