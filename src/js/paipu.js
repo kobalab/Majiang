@@ -54,6 +54,7 @@ $(function(){
                         ()=>{ fadeIn($('body').attr('class','editor'));
                               _viewer = null },
                         analyzer);
+        delete _viewer._view.dummy_name;
         $('input[name="limited"]', tenhou_dialog)
                             .prop('disabled', true).val([1]);
         return _viewer;
