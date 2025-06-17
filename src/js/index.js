@@ -1,5 +1,5 @@
 /*!
- *  電脳麻将 v2.4.16
+ *  電脳麻将 v2.4.17
  *
  *  Copyright(C) 2017 Satoshi Kobayashi
  *  Released under the MIT license
@@ -27,10 +27,13 @@ $(function(){
         $('#board .controller').addClass('paipu')
         $('body').attr('class','board');
         scale($('#board'), $('#space'));
-        return new Majiang.UI.Paipu(
+        const _viewer
+                = new Majiang.UI.Paipu(
                         $('#board'), paipu, pai, audio, 'Majiang.pref',
                         ()=>fadeIn($('body').attr('class','file')),
                         analyzer);
+        delete _viewer._view.dummy_name;
+        return _viewer;
     };
     const stat = (paipu_list)=>{
         fadeIn($('body').attr('class','stat'));

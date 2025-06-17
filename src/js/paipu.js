@@ -1,5 +1,5 @@
 /*!
- *  電脳麻将: 牌譜ビューア v2.4.16
+ *  電脳麻将: 牌譜ビューア v2.4.17
  *
  *  Copyright(C) 2017 Satoshi Kobayashi
  *  Released under the MIT license
@@ -54,6 +54,7 @@ $(function(){
                         ()=>{ fadeIn($('body').attr('class','editor'));
                               _viewer = null },
                         analyzer);
+        delete _viewer._view.dummy_name;
         $('input[name="limited"]', tenhou_dialog)
                             .prop('disabled', true).val([1]);
         return _viewer;
