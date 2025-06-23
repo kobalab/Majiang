@@ -101,7 +101,7 @@ WebSocketによる麻雀サーバーの実装です。
 - 点数計算ドリル
   - [電脳麻将 ver.2.2.0 公開#点数計算ドリル](https://blog.kobalab.net/entry/2023/12/24/220847#%E7%82%B9%E6%95%B0%E8%A8%88%E7%AE%97%E3%83%89%E3%83%AA%E3%83%AB) (v2.2)
   - [麻雀の点数計算方法(正式版・簡易版)](https://blog.kobalab.net/entry/2023/12/11/204103) (v2.2)
-- 統計
+- 牌譜解析・統計
   - [天鳳鳳凰卓統計(2023年)](https://blog.kobalab.net/entry/2024/11/04/215201) (v2.4)
   - [天鳳鳳凰卓の最高・最大・最長記録](https://blog.kobalab.net/entry/2024/11/27/034233) (v2.4)
   - [リーチ宣言牌のスジは危険？](https://blog.kobalab.net/entry/2021/11/19/201332) (v2.0)
