@@ -113,6 +113,9 @@ WebSocketによる麻雀サーバーの実装です。
   - [麻雀の「待ち」を出力するプログラム](https://blog.kobalab.net/entry/2022/05/01/181217) (v2.0)
   - [麻雀アプリのデバッグに使える牌姿](https://blog.kobalab.net/entry/2022/04/17/174206) (v2.0)
   - [天鳳鳳凰卓の最高・最大・最長記録](https://blog.kobalab.net/entry/2024/11/27/034233) (v2.4)
+  - [リーチ宣言牌のスジは危険？](https://blog.kobalab.net/entry/2021/11/19/201332) (v2.0)
+  - [ソバテン・裏スジは危険？](https://blog.kobalab.net/entry/2021/11/21/121835) (v2.0)
+  - [ダブルリーチの好形率・和了率・平均打点は？](https://blog.kobalab.net/entry/2022/03/19/124607) (v2.0)
 
 ## (旧)ブログ記事
 
