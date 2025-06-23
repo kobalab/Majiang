@@ -101,21 +101,23 @@ WebSocketによる麻雀サーバーの実装です。
 - 点数計算ドリル
   - [電脳麻将 ver.2.2.0 公開#点数計算ドリル](https://blog.kobalab.net/entry/2023/12/24/220847#%E7%82%B9%E6%95%B0%E8%A8%88%E7%AE%97%E3%83%89%E3%83%AA%E3%83%AB) (v2.2)
   - [麻雀の点数計算方法(正式版・簡易版)](https://blog.kobalab.net/entry/2023/12/11/204103) (v2.2)
-- アルゴリズム・その他
-  - [麻雀AIの作り方](https://blog.kobalab.net/entry/2025/02/20/010020) (v2.4)
-  - [鳴かない麻雀の成績への影響をシミュレーションする](https://blog.kobalab.net/entry/2025/02/28/203123) (v2.4)
-  - [リーチ禁止の影響をシミュレーションする](https://blog.kobalab.net/entry/2025/03/06/214245) (v2.4)
-  - [コンボ理論の有用性を検証する](https://blog.kobalab.net/entry/2025/05/30/224039) (v2.4)
-  - [牌の危険度決定アルゴリズムを評価する](https://blog.kobalab.net/entry/2025/06/15/101229) (v2.4)
-  - [ダマテンの効果をシミュレーションする](https://blog.kobalab.net/entry/2025/06/20/203242) (v2.4)
+- 統計
   - [天鳳鳳凰卓統計(2023年)](https://blog.kobalab.net/entry/2024/11/04/215201) (v2.4)
-  - [バックトラックで麻雀の和了形一覧を求める](https://blog.kobalab.net/entry/2024/09/16/111847) (v2.3)
-  - [麻雀の「待ち」を出力するプログラム](https://blog.kobalab.net/entry/2022/05/01/181217) (v2.0)
-  - [麻雀アプリのデバッグに使える牌姿](https://blog.kobalab.net/entry/2022/04/17/174206) (v2.0)
   - [天鳳鳳凰卓の最高・最大・最長記録](https://blog.kobalab.net/entry/2024/11/27/034233) (v2.4)
   - [リーチ宣言牌のスジは危険？](https://blog.kobalab.net/entry/2021/11/19/201332) (v2.0)
   - [ソバテン・裏スジは危険？](https://blog.kobalab.net/entry/2021/11/21/121835) (v2.0)
   - [ダブルリーチの好形率・和了率・平均打点は？](https://blog.kobalab.net/entry/2022/03/19/124607) (v2.0)
+  - [牌の危険度決定アルゴリズムを評価する](https://blog.kobalab.net/entry/2025/06/15/101229) (v2.4)
+- シミュレーション
+  - [麻雀AIの作り方](https://blog.kobalab.net/entry/2025/02/20/010020) (v2.4)
+  - [鳴かない麻雀の成績への影響をシミュレーションする](https://blog.kobalab.net/entry/2025/02/28/203123) (v2.4)
+  - [リーチ禁止の影響をシミュレーションする](https://blog.kobalab.net/entry/2025/03/06/214245) (v2.4)
+  - [コンボ理論の有用性を検証する](https://blog.kobalab.net/entry/2025/05/30/224039) (v2.4)
+  - [ダマテンの効果をシミュレーションする](https://blog.kobalab.net/entry/2025/06/20/203242) (v2.4)
+- アルゴリズム・その他
+  - [バックトラックで麻雀の和了形一覧を求める](https://blog.kobalab.net/entry/2024/09/16/111847) (v2.3)
+  - [麻雀の「待ち」を出力するプログラム](https://blog.kobalab.net/entry/2022/05/01/181217) (v2.0)
+  - [麻雀アプリのデバッグに使える牌姿](https://blog.kobalab.net/entry/2022/04/17/174206) (v2.0)
 
 ## (旧)ブログ記事
 
