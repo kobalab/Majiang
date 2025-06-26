@@ -108,6 +108,7 @@ WebSocketによる麻雀サーバーの実装です。
   - [ソバテン・裏スジは危険？](https://blog.kobalab.net/entry/2021/11/21/121835) (v2.0)
   - [ダブルリーチの好形率・和了率・平均打点は？](https://blog.kobalab.net/entry/2022/03/19/124607) (v2.0)
   - [牌の危険度決定アルゴリズムを評価する](https://blog.kobalab.net/entry/2025/06/15/101229) (v2.4)
+  - [「山読み」のアルゴリズムを評価する](https://blog.kobalab.net/entry/2025/06/26/224529) (v2.4)
 - シミュレーション
   - [麻雀AIの作り方](https://blog.kobalab.net/entry/2025/02/20/010020) (v2.4)
   - [鳴かない麻雀の成績への影響をシミュレーションする](https://blog.kobalab.net/entry/2025/02/28/203123) (v2.4)
