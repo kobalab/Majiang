@@ -37,6 +37,14 @@ html(lang="ja")
             option(value="1" selected) 南
             option(value="2") 西
             option(value="3") 北
+        span
+          select(name="xun")
+            - var n = 0
+            while n++ < 18
+              if n == 7
+                option(value=n selected) #{n} 巡目
+              else
+                option(value=n) #{n} 巡目
         span.
           ドラ表示牌:
           <input name="baopai" type="text"><input name="baopai" type="text"><input name="baopai" type="text"><input name="baopai" type="text"><input name="baopai" type="text">

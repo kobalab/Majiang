@@ -15,14 +15,16 @@ function init(fragment) {
 
     if (fragment) {
 
-        let [ paistr, zhuangfeng, menfeng, baopai, hongpai ]
-                = fragment.split(/\//);
+        let xun, param = fragment.split(/\//);
+        if (param.length && param[param.length-1][0] == '+') xun = param.pop();
+        let [ paistr, zhuangfeng, menfeng, baopai, hongpai ] = param;
         baopai  = (baopai   || '').split(/,/);
         hongpai = ! hongpai;
 
         $('input[name="paistr"]').val(paistr);
         $('select[name="zhuangfeng"]').val(zhuangfeng);
         $('select[name="menfeng"]').val(menfeng);
+        $('select[name="xun"]').val(+xun||7);
         for (let i = 0; i < baopai.length; i++) {
             $('input[name="baopai"]').eq(i).val(baopai[i]);
         }
@@ -36,7 +38,7 @@ function init(fragment) {
     }
 }
 
-function init_analyzer(paistr, zhuangfeng, menfeng, baopai, hongpai) {
+function init_analyzer(paistr, zhuangfeng, menfeng, xun, baopai, hongpai) {
 
     let kaiju = {
         id:     0,
@@ -63,6 +65,8 @@ function init_analyzer(paistr, zhuangfeng, menfeng, baopai, hongpai) {
         analyzer.next({ kaigang: { baopai: baopai[i] }});
     }
 
+    analyzer._suanpai._n_zimo = 69 - ((xun - 1) * 4) - menfeng;
+
     return analyzer;
 }
 
@@ -75,6 +79,7 @@ function submit() {
 
     let zhuangfeng = + $('select[name="zhuangfeng"]').val();
     let menfeng    = + $('select[name="menfeng"]').val();
+    let xun        = + $('select[name="xun"]').val();
     let baopai     = $.makeArray($('input[name="baopai"]'))
                                     .map(n => $(n).val()).filter(p => p);
     let hongpai    = $('input[name="hongpai"]').prop('checked');
@@ -83,9 +88,9 @@ function submit() {
     paistr = shoupai.toString();
     if (! hongpai) paistr = paistr.replace(/0/,'5');
 
-    const analyzer = init_analyzer(paistr, zhuangfeng, menfeng, baopai, hongpai
-                        ? { m: 1, p: 1, s: 1 }
-                        : { m: 0, p: 0, s: 0 });
+    const analyzer = init_analyzer(paistr, zhuangfeng, menfeng, xun, baopai,
+                        hongpai ? { m: 1, p: 1, s: 1 }
+                                : { m: 0, p: 0, s: 0 });
 
     if (shoupai._zimo) {
         if (shoupai._zimo.length == 2)
@@ -107,6 +112,7 @@ function submit() {
     let fragment = '#'
                  + [ paistr, zhuangfeng, menfeng, baopai.join(',')].join('/');
     if (! hongpai) fragment += '/1';
+    fragment += '/+' + xun;
     history.replaceState('', '', fragment)
 
     return false;
