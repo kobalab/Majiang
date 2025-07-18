@@ -7,28 +7,40 @@
  */
 "use strict";
 
-const { hide, show, fadeIn, fadeOut } = Majiang.UI.Util;
+const { hide, show, fadeIn, fadeOut, scale } = Majiang.UI.Util;
+const minipaipu = Majiang.AI.minipaipu;
 
-let pai;
+let pai, audio;
 
 function init(fragment) {
 
     if (fragment) {
 
-        let xun, param = fragment.split(/\//);
+        let [ baseinfo, heinfo ] = fragment.split(/&/);
+
+        let xun, param = baseinfo.split(/\//);
         if (param.length && param[param.length-1][0] == '+') xun = param.pop();
         let [ paistr, zhuangfeng, menfeng, baopai, hongpai ] = param;
         baopai  = (baopai   || '').split(/,/);
         hongpai = ! hongpai;
 
         $('input[name="paistr"]').val(paistr);
-        $('select[name="zhuangfeng"]').val(zhuangfeng);
-        $('select[name="menfeng"]').val(menfeng);
+        $('select[name="zhuangfeng"]').val(+zhuangfeng||0);
+        $('select[name="menfeng"]').val(+menfeng||0);
         $('select[name="xun"]').val(+xun||7);
         for (let i = 0; i < baopai.length; i++) {
             $('input[name="baopai"]').eq(i).val(baopai[i]);
         }
         $('input[name="hongpai"]').prop('checked', hongpai);
+
+        if (heinfo != null) {
+            $('form input[name="heinfo"]').prop('checked', true)
+                                          .trigger('change');
+            let hestr = heinfo.split(/\//);
+            for (let l = 0; l < 4; l++) {
+                $('input[name="hestr"]').eq(l).val(hestr[l]);
+            }
+        }
 
         submit();
     }
@@ -38,41 +50,9 @@ function init(fragment) {
     }
 }
 
-function init_analyzer(paistr, zhuangfeng, menfeng, xun, baopai, hongpai) {
+function submit(ev) {
 
-    let kaiju = {
-        id:     0,
-        rule:   Majiang.rule({'赤牌':hongpai}),
-        player: [],
-        qijia:  0
-    };
-    const analyzer = new Majiang.UI.Analyzer($('.analyzer'),
-                                                { kaiju: kaiju }, pai);
-    let qipai = {
-        zhuangfeng: zhuangfeng,
-        jushu:      (4 - menfeng) % 4,
-        changbang:  0,
-        lizhibang:  0,
-        defen:      [ 25000, 25000, 25000, 25000 ],
-        baopai:     baopai.length && Majiang.Shoupai.valid_pai(baopai[0])
-                                  || 'z2',
-        shoupai:    ['','','','']
-    };
-    qipai.shoupai[menfeng] = paistr;
-    analyzer.next({ qipai: qipai });
-
-    for (let i = 1; i < baopai.length; i++) {
-        analyzer.next({ kaigang: { baopai: baopai[i] }});
-    }
-
-    analyzer._suanpai._n_zimo = 69 - ((xun - 1) * 4) - menfeng;
-
-    return analyzer;
-}
-
-function submit() {
-
-    hide($('.shan, .shoupai, .analyzer'));
+    hide($('.shan, .shoupai, .analyzer', $('#demo')));
 
     let paistr = $('input[name="paistr"]').val();
     if (! paistr) return false;
@@ -80,54 +60,143 @@ function submit() {
     let zhuangfeng = + $('select[name="zhuangfeng"]').val();
     let menfeng    = + $('select[name="menfeng"]').val();
     let xun        = + $('select[name="xun"]').val();
-    let baopai     = $.makeArray($('input[name="baopai"]'))
-                                    .map(n => $(n).val()).filter(p => p);
+    let baopai     = $('input[name="baopai"]').map((i,n)=>$(n).val()).toArray()
+                                    .filter(p => Majiang.Shoupai.valid_pai(p));
     let hongpai    = $('input[name="hongpai"]').prop('checked');
 
-    let shoupai = Majiang.Shoupai.fromString(paistr);
-    paistr = shoupai.toString();
-    if (! hongpai) paistr = paistr.replace(/0/,'5');
+    if (! baopai.length) baopai = ['z2'];
 
-    const analyzer = init_analyzer(paistr, zhuangfeng, menfeng, xun, baopai,
-                        hongpai ? { m: 1, p: 1, s: 1 }
-                                : { m: 0, p: 0, s: 0 });
+    let heinfo = $('input[name="hestr"]').map((i,n)=>$(n).val()).toArray();
 
-    if (shoupai._zimo) {
-        if (shoupai._zimo.length == 2)
-                analyzer.action_zimo({ l: menfeng, p: shoupai._zimo });
-        else    analyzer.action_fulou({ l: menfeng, m: shoupai._zimo });
+    if (! hongpai) {
+        paistr = paistr.replace(/0/,'5');
+        baopai = baopai.map(p => p.replace(/0/,'5'));
+        heinfo = heinfo.map(hestr => hestr.replace(/0/,'5'));
     }
-    new Majiang.UI.Shan($('.shan'), pai, analyzer.shan).redraw();
-    new Majiang.UI.Shoupai($('.shoupai'), pai, analyzer.shoupai).redraw(true);
 
-    fadeIn($('.shan, .shoupai, .analyzer'));
+    let baseinfo = { paistr: paistr, zhuangfeng: zhuangfeng, menfeng: menfeng,
+                     baopai: baopai, hongpai: hongpai, xun: xun };
+
+    let analyzer;
+    let kaiju = { id: 0, rule: Majiang.rule(), qijia: 0 };
+
+    if ($('form input[name="heinfo"]').prop('checked')) {
+
+        analyzer = new Majiang.UI.Analyzer($('#board >.analyzer'), kaiju, pai);
+
+        heinfo = minipaipu(analyzer, baseinfo, heinfo, true);
+
+        let view = new Majiang.UI.Board($('#board .board'),
+                                        pai, audio, analyzer.model);
+        view.no_player_name = true;
+        view.open_he        = true;
+        view.redraw();
+
+        let zimo = analyzer.shoupai._zimo
+        if (zimo) {
+            if (zimo.length == 2)
+                    analyzer.action_zimo({ l: menfeng, p: zimo });
+            else    analyzer.action_fulou({ l: menfeng, m: zimo });
+        }
+        else {
+            let l = analyzer.model.lunban;
+            if (l != -1) {
+                let p = analyzer.model.he[l]._pai.slice(-1)[0];
+                analyzer.action_dapai({ l: l, p: p });
+            }
+            else {
+                analyzer.action_qipai();
+            }
+        }
+        $('body').attr('class','board analyzer');
+        scale($('#board'), $('#space'));
+    }
+    else {
+        analyzer = new Majiang.UI.Analyzer($('#demo >.analyzer'), kaiju, pai);
+
+        minipaipu(analyzer, baseinfo);
+
+        new Majiang.UI.Shan($('#demo .shan'), pai, analyzer.shan).redraw();
+        new Majiang.UI.Shoupai($('#demo .shoupai'), pai, analyzer.shoupai)
+                                                                .redraw(true);
+
+        let zimo = analyzer.shoupai._zimo
+        if (zimo) {
+            if (zimo.length == 2)
+                    analyzer.action_zimo({ l: menfeng, p: zimo });
+            else    analyzer.action_fulou({ l: menfeng, m: zimo });
+        }
+        fadeIn($('.shan, .shoupai, .analyzer', $('#demo')));
+
+        heinfo = null;
+    }
 
     paistr = analyzer.shoupai.toString();
-    baopai = analyzer.shan.baopai;
     $('input[name="paistr"]').val(paistr);
+
+    baopai = analyzer.shan.baopai;
     for (let i = 0; i < 5; i++) {
         $('input[name="baopai"]').eq(i).val(baopai[i] || '');
+    }
+
+    if (heinfo) {
+        for (let i = 0; i < 4; i++)  {
+            $('input[name="hestr"]').eq(i).val(heinfo[i]);
+        }
     }
 
     let fragment = '#'
                  + [ paistr, zhuangfeng, menfeng, baopai.join(',')].join('/');
     if (! hongpai) fragment += '/1';
-    fragment += '/+' + xun;
+
+    if (heinfo) fragment += '&' + heinfo.join('/');
+    else        fragment += '/+' + xun;
+
     history.replaceState('', '', fragment)
 
     return false;
 }
 
+function set_controller(root) {
+    root.addClass('paipu');
+    $(window).on('keyup', (ev)=>{
+        if (ev.key == 'q' || ev.key == 'Escape') {
+            if ($('body').attr('class') != 'demo')
+                                    $('body').attr('class','demo');
+        }
+    });
+    hide($('> img', root));
+    show($('> img.exit', root).on('click', ()=>$('body').attr('class','demo')));
+}
+
 $(function(){
 
     pai = Majiang.UI.pai('#loaddata');
+    audio = Majiang.UI.audio('#loaddata');
+
+    $('form input[name="heinfo"]').on('change', function(){
+        if ($(this).prop('checked')) {
+            show($('form .heinfo'));
+            hide($('form .xun'));
+        }
+        else {
+            hide($('form .heinfo'));
+            show($('form .xun'));
+        }
+    });
+    hide($('form .heinfo'));
 
     $('form').on('submit', submit);
 
     $('form').on('reset', function(){
-        hide($('.shan, .shoupai, .analyzer'));
+        hide($('.shan, .shoupai, .analyzer', $('#demo')));
+        hide($('form .heinfo'));
         $('form input[name="paistr"]').focus();
     });
+
+    $(window).on('resize', ()=>scale($('#board'), $('#space')));
+
+    set_controller($('#board .controller'));
 
     let fragment = location.hash.replace(/^#/,'');
     init(fragment);
