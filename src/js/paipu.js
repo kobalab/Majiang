@@ -36,8 +36,6 @@ $(function(){
                         ()=>{ fadeIn($('body').attr('class','file'));
                               _viewer = null },
                         analyzer);
-        $('input[name="limited"]', tenhou_dialog)
-                            .prop('disabled', false).val([0]);
         return _viewer;
     };
     const stat = (paipu_list)=>{
@@ -55,8 +53,6 @@ $(function(){
                               _viewer = null },
                         analyzer);
         delete _viewer._view.dummy_name;
-        $('input[name="limited"]', tenhou_dialog)
-                            .prop('disabled', true).val([1]);
         return _viewer;
     };
     const editor = (paipu, save)=>{
@@ -84,64 +80,4 @@ $(function(){
     file.redraw();
 
     $(window).on('resize', ()=>scale($('#board'), $('#space')));
-
-    const logconv = require('@kobalab/tenhou-url-log');
-    const tenhou_dialog = $('#board .tenhou-dialog');
-
-    function set_data() {
-        let type    = $('[name="type"]:checked', tenhou_dialog).val();
-        let log_idx = $('[name="limited"]', tenhou_dialog).prop('checked')
-                                        ? _viewer._log_idx : null;
-        let data = '';
-        if (type == 'JSON') {
-            data = JSON.stringify(logconv(_viewer._paipu, log_idx));
-            $('textarea', tenhou_dialog).attr('class','JSON');
-        }
-        else {
-            for (let i = 0; i < _viewer._paipu.log.length; i++) {
-                if (log_idx != null && i != log_idx) continue;
-                data += 'https://tenhou.net/6/#json='
-                        + encodeURI(JSON.stringify(logconv(_viewer._paipu, i)))
-                        + '\n';
-            }
-            $('textarea', tenhou_dialog).attr('class','URL');
-        }
-        $('textarea', tenhou_dialog).val(data);
-        if (! navigator.clipboard) {
-            $('textarea', tenhou_dialog).attr('disabled', false).select();
-            show($('[type="button"]', tenhou_dialog));
-            hide($('[type="submit"]', tenhou_dialog));
-        }
-        else {
-            show($('[type="button"]', tenhou_dialog));
-            show($('[type="submit"]', tenhou_dialog));
-        }
-    }
-
-    function open_tenhou_dialog() {
-        if (_viewer._log_idx < 0) return;
-        _viewer.clear_handler();
-        show(tenhou_dialog);
-        set_data();
-    }
-    function submit_tenhou_dialog() {
-        if (navigator.clipboard) {
-            let data = $('textarea', tenhou_dialog).val();
-            navigator.clipboard.writeText(data);
-        }
-        close_tenhou_dialog();
-        return false;
-    }
-    function close_tenhou_dialog() {
-        hide(tenhou_dialog);
-        _viewer.set_handler();
-    }
-
-    $(window).on('keyup', (ev)=>{
-        if (! _viewer || ev.key != 't') return;
-        open_tenhou_dialog();
-    });
-    $('form', tenhou_dialog).on('submit', submit_tenhou_dialog);
-    $('form [type="button"]', tenhou_dialog).on('click', close_tenhou_dialog);
-    $('input', tenhou_dialog).on('change', set_data);
 });
