@@ -16,46 +16,66 @@ html(lang="ja")
     include ../inc/navi
     include ../inc/loaddata
     include ../inc/resize
+
+    include ../inc/board
     .version ver. #{version}
     
-    form
-      div 牌姿:
-        input(name="paistr" type="text")
-        input(type="submit" value="決定")
-        input(type="reset" value="クリア")
-      div
-        span
-          |  場風: 
-          select(name="zhuangfeng")
-            option(value="0" selected) 東
-            option(value="1") 南
-            option(value="2") 西
-            option(value="3") 北
-          |  自風: 
-          select(name="menfeng")
-            option(value="0") 東
-            option(value="1" selected) 南
-            option(value="2") 西
-            option(value="3") 北
-        span.
-          ドラ表示牌:
-          <input name="baopai" type="text"><input name="baopai" type="text"><input name="baopai" type="text"><input name="baopai" type="text"><input name="baopai" type="text">
-        span
+    #demo
+      form
+        div 牌姿:
+          input(name="paistr" type="text")
+          input(type="submit" value="決定")
+          input(type="reset" value="クリア")
+        div
+          span
+            |  場風: 
+            select(name="zhuangfeng")
+              option(value="0" selected) 東
+              option(value="1") 南
+              option(value="2") 西
+              option(value="3") 北
+            |  自風: 
+            select(name="menfeng")
+              option(value="0") 東
+              option(value="1" selected) 南
+              option(value="2") 西
+              option(value="3") 北
+          span.xun
+            select(name="xun")
+              - var n = 0
+              while n++ < 18
+                if n == 7
+                  option(value=n selected) #{n} 巡目
+                else
+                  option(value=n) #{n} 巡目
+          span.
+            ドラ表示牌:
+            <input name="baopai" type="text"><input name="baopai" type="text"><input name="baopai" type="text"><input name="baopai" type="text"><input name="baopai" type="text">
+          span
+            label
+              input(name="hongpai" type="checkbox" checked)
+              |  赤牌あり
+        div
           label
-            input(name="hongpai" type="checkbox" checked)
-            |  赤牌あり
-    hr
+            input(name="heinfo"  type="checkbox")
+            |  捨て牌/副露面子
+        div.heinfo
+          each player in [ '私','下家','対面','上家' ]
+            div
+              span #{player}: 
+              input(name="hestr" type="text")
+      hr
 
-    .shan.baopai
-      span.baopai
-    .shoupai
-      .bingpai
-      .fulou
+      .shan.baopai
+        span.baopai
+      .shoupai
+        .bingpai
+        .fulou
 
-    .analyzer
-      table.dapai
-        tr.row
-          td.p
-          td.xiangting
-          td.eval
-          td.tingpai
+      .analyzer
+        table.dapai
+          tr.row
+            td.p
+            td.xiangting
+            td.eval
+            td.tingpai

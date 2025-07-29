@@ -89,6 +89,10 @@ WebSocketによる麻雀サーバーの実装です。
 
 書籍出版以降(ver.2.0.0以降)の情報です(カッコ内は執筆時のバージョン)。
 
+- 思考ルーチン
+  - [打牌選択アルゴリズム(10) 〜 残り牌数の正規化](https://blog.kobalab.net/entry/2025/07/26/204059)
+  - [押し引きアルゴリズムの改善(4) 〜 押し引き閾値の再調整](https://blog.kobalab.net/entry/2025/07/27/221043)
+  - [牌の危険度計算アルゴリズム(5) 〜 危険度閾値の再調整](https://blog.kobalab.net/entry/2025/07/29/074139)
 - 牌譜エディタ
   - [牌譜エディタの使い方](https://blog.kobalab.net/entry/2024/10/28/000539) (v2.4)
   - [電脳麻将でNAGA解析用のデータを作成する](https://blog.kobalab.net/entry/2024/11/02/223910) (v2.4)
@@ -101,17 +105,25 @@ WebSocketによる麻雀サーバーの実装です。
 - 点数計算ドリル
   - [電脳麻将 ver.2.2.0 公開#点数計算ドリル](https://blog.kobalab.net/entry/2023/12/24/220847#%E7%82%B9%E6%95%B0%E8%A8%88%E7%AE%97%E3%83%89%E3%83%AA%E3%83%AB) (v2.2)
   - [麻雀の点数計算方法(正式版・簡易版)](https://blog.kobalab.net/entry/2023/12/11/204103) (v2.2)
-- アルゴリズム・その他
+- 牌譜解析・統計
+  - [天鳳鳳凰卓統計(2023年)](https://blog.kobalab.net/entry/2024/11/04/215201) (v2.4)
+  - [天鳳鳳凰卓の最高・最大・最長記録](https://blog.kobalab.net/entry/2024/11/27/034233) (v2.4)
+  - [リーチ宣言牌のスジは危険？](https://blog.kobalab.net/entry/2021/11/19/201332) (v2.0)
+  - [ソバテン・裏スジは危険？](https://blog.kobalab.net/entry/2021/11/21/121835) (v2.0)
+  - [ダブルリーチの好形率・和了率・平均打点は？](https://blog.kobalab.net/entry/2022/03/19/124607) (v2.0)
+  - [牌の危険度決定アルゴリズムを評価する](https://blog.kobalab.net/entry/2025/06/15/101229) (v2.4)
+  - [牌の危険度決定アルゴリズムを評価する(2)](https://blog.kobalab.net/entry/2025/07/05/033429) (v2.4)
+  - [「山読み」のアルゴリズムを評価する](https://blog.kobalab.net/entry/2025/06/26/224529) (v2.4)
+- シミュレーション
   - [麻雀AIの作り方](https://blog.kobalab.net/entry/2025/02/20/010020) (v2.4)
   - [鳴かない麻雀の成績への影響をシミュレーションする](https://blog.kobalab.net/entry/2025/02/28/203123) (v2.4)
   - [リーチ禁止の影響をシミュレーションする](https://blog.kobalab.net/entry/2025/03/06/214245) (v2.4)
-  - [コンボ理論の有用性を検証する](https://blog.kobalab.net/entry/2025/05/30/224039) (v2.5)
-  - [牌の危険度決定アルゴリズムを評価する](https://blog.kobalab.net/entry/2025/06/15/101229) (v2.5)
-  - [天鳳鳳凰卓統計(2023年)](https://blog.kobalab.net/entry/2024/11/04/215201) (v2.4)
+  - [コンボ理論の有用性を検証する](https://blog.kobalab.net/entry/2025/05/30/224039) (v2.4)
+  - [ダマテンの効果をシミュレーションする](https://blog.kobalab.net/entry/2025/06/20/203242) (v2.4)
+- アルゴリズム・その他
   - [バックトラックで麻雀の和了形一覧を求める](https://blog.kobalab.net/entry/2024/09/16/111847) (v2.3)
   - [麻雀の「待ち」を出力するプログラム](https://blog.kobalab.net/entry/2022/05/01/181217) (v2.0)
   - [麻雀アプリのデバッグに使える牌姿](https://blog.kobalab.net/entry/2022/04/17/174206) (v2.0)
-  - [天鳳鳳凰卓の最高・最大・最長記録](https://blog.kobalab.net/entry/2024/11/27/034233) (v2.4)
 
 ## (旧)ブログ記事
 
@@ -187,6 +199,19 @@ ver.2.0.0 のプログラムの情報は [書籍](#書籍) をご覧ください
   - [天鳳の牌譜形式を解析する(2)](https://blog.kobalab.net/entry/20170228/1488294993) (v0.8)
   - [天鳳の牌譜形式を解析する(3)](https://blog.kobalab.net/entry/20170312/1489315432) (v0.8)
   - [天鳳の牌譜形式を解析する(4)](https://blog.kobalab.net/entry/20170720/1500479235) (v0.8)
+  - [天鳳統計(1) 〜 基礎情報と和了役・流局理由](https://blog.kobalab.net/entry/20180113/1515776231) (v0.9)
+  - [天鳳統計(2) 〜 巡目ごとの向聴数・立直率・和了率](https://blog.kobalab.net/entry/20180118/1516202840) (v0.9)
+  - [天鳳統計(3) 〜 局終了時の牌の分布](https://blog.kobalab.net/entry/20180119/1516290844) (v0.9)
+  - [天鳳統計(4) 〜 待ち牌の分布](https://blog.kobalab.net/entry/20180120/1516417938) (v0.9)
+  - [天鳳統計(5) 〜 巡目ごとの副露数・副露時向聴数](https://blog.kobalab.net/entry/20180203/1517667551) (v0.9)
+  - [何切る検討(0) 〜 打牌選択アルゴリズム](https://blog.kobalab.net/entry/2019/06/09/130640) (v1.1)
+  - [何切る検討(1) ～ 好牌先打？](https://blog.kobalab.net/entry/2019/09/24/211843) (v1.3)
+  - [何切る検討(2) ～ チートイとの天秤](https://blog.kobalab.net/entry/2019/10/03/120150) (v1.3)
+  - [何切る検討(3) ～ 手変わりの考慮](https://blog.kobalab.net/entry/2019/10/05/122646) (v1.3)
+  - [何切る検討(4) ～ 嵌八で待て！](https://blog.kobalab.net/entry/2019/10/06/082947) (v1.3)
+  - [何切る検討(5) ～ 鳴きの評価](https://blog.kobalab.net/entry/2019/10/07/001354) (v1.3)
+  - [何切る検討(6) ～ 良形聴牌？](https://blog.kobalab.net/entry/2019/10/08/001841) (v1.3)
+  - [何切る検討(7) ～ 片アガリはダメ？](https://blog.kobalab.net/entry/2019/10/10/232937) (v1.3)
   - [牌画入力ツール](https://blog.kobalab.net/entry/20161218/1482078427) (v0.7)
   - [電脳麻将で天鳳の牌譜を検討する](https://blog.kobalab.net/entry/2020/07/08/080228) (v1.4)
   - [デュプリケート麻雀の実装](https://blog.kobalab.net/entry/2020/12/19/075529) (v1.5)
