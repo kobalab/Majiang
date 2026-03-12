@@ -93,6 +93,8 @@ WebSocketによる麻雀サーバーの実装です。
   - [打牌選択アルゴリズム(10) 〜 残り牌数の正規化](https://blog.kobalab.net/entry/2025/07/26/204059) (v2.5)
   - [押し引きアルゴリズムの改善(4) 〜 押し引き閾値の再調整](https://blog.kobalab.net/entry/2025/07/27/221043) (v2.5)
   - [牌の危険度計算アルゴリズム(5) 〜 危険度閾値の再調整](https://blog.kobalab.net/entry/2025/07/29/074139) (v2.5)
+- 表示処理
+  - [電脳麻将UI 〜 fade-in/out](https://blog.kobalab.net/entry/2026/03/11/072330) (v2.5)
 - 牌譜エディタ
   - [牌譜エディタの使い方](https://blog.kobalab.net/entry/2024/10/28/000539) (v2.4)
   - [電脳麻将でNAGA解析用のデータを作成する](https://blog.kobalab.net/entry/2024/11/02/223910) (v2.4)
