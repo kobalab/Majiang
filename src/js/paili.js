@@ -171,7 +171,9 @@ $(function(){
     view.pai   = Majiang.UI.pai('#loaddata');
     view.audio = Majiang.UI.audio('#loaddata');
 
-    pref = JSON.parse(localStorage.getItem('Majiang.pref'));
+    pref = localStorage.getItem('Majiang.pref')
+                ? JSON.parse(localStorage.getItem('Majiang.pref'))
+                : { sound_on: true };
 
     $('form input[type="button"]').on('click', function(){
         qipai();
