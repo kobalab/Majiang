@@ -109,6 +109,7 @@ WebSocketによる麻雀サーバーの実装です。
   - [電脳麻将UI 〜 設計思想](https://blog.kobalab.net/entry/2026/04/09/081902) (v2.5)
   - [電脳麻将UI 〜 対局者(基盤)](https://blog.kobalab.net/entry/2026/04/13/001330) (v2.5)
   - [電脳麻将UI 〜 対局者(対AI戦)](https://blog.kobalab.net/entry/2026/04/18/122703) (v2.5)
+  - [電脳麻将UI 〜 対局者(ネット対戦)](https://blog.kobalab.net/entry/2026/04/23/074307) (v2.5)
 - 牌譜エディタ
   - [牌譜エディタの使い方](https://blog.kobalab.net/entry/2024/10/28/000539) (v2.4)
   - [電脳麻将でNAGA解析用のデータを作成する](https://blog.kobalab.net/entry/2024/11/02/223910) (v2.4)
