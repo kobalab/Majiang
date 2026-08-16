@@ -1,5 +1,5 @@
 /*!
- *  電脳麻将: ネット対戦 v2.5.1
+ *  電脳麻将: ネット対戦 v2.5.2
  *
  *  Copyright(C) 2017 Satoshi Kobayashi
  *  Released under the MIT license
@@ -47,6 +47,9 @@ $(function(){
     function init() {
 
         sock = io('/', { path: `${base}/server/socket.io/`});
+
+        $(window).on('pagehide', ()=>sock.disconnect());
+        $(window).on('pageshow', ()=>sock.connect());
 
         sock.on('HELLO', hello);
         sock.on('ROOM', room);

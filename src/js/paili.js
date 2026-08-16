@@ -1,5 +1,5 @@
 /*!
- *  電脳麻将: 牌理 v2.5.1
+ *  電脳麻将: 牌理 v2.5.2
  *
  *  Copyright(C) 2017 Satoshi Kobayashi
  *  Released under the MIT license
@@ -59,6 +59,8 @@ function qipai(paistr) {
 }
 
 function set_handler(focus = -1) {
+
+    if (Majiang.Util.xiangting(model.shoupai) == -1) return;
 
     for (let p of model.shoupai.get_dapai()) {
         let pai = $(p.slice(-1) == '_'
@@ -171,7 +173,9 @@ $(function(){
     view.pai   = Majiang.UI.pai('#loaddata');
     view.audio = Majiang.UI.audio('#loaddata');
 
-    pref = JSON.parse(localStorage.getItem('Majiang.pref'));
+    pref = localStorage.getItem('Majiang.pref')
+                ? JSON.parse(localStorage.getItem('Majiang.pref'))
+                : { sound_on: true };
 
     $('form input[type="button"]').on('click', function(){
         qipai();
