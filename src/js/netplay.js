@@ -48,6 +48,9 @@ $(function(){
 
         sock = io('/', { path: `${base}/server/socket.io/`});
 
+        $(window).on('pagehide', ()=>sock.disconnect());
+        $(window).on('pageshow', ()=>sock.connect());
+
         sock.on('HELLO', hello);
         sock.on('ROOM', room);
         sock.on('START', start);
