@@ -1,5 +1,5 @@
 /*!
- *  電脳麻将: ネット対戦 v2.5.2
+ *  電脳麻将: ネット対戦 v2.5.3
  *
  *  Copyright(C) 2017 Satoshi Kobayashi
  *  Released under the MIT license
@@ -145,6 +145,9 @@ $(function(){
                     sock.emit('GAME', reply);
                     seq = msg.seq + 1;
                 });
+                if (msg.jieju) {
+                    file.add(msg.jieju, 10);
+                }
             }
             else {
                 player.action(msg);
@@ -161,7 +164,6 @@ $(function(){
 
     function end(paipu) {
         sock.removeAllListeners('GAME');
-        if (paipu) file.add(paipu, 10);
         fadeIn($('body').attr('class','file'));
         file.redraw();
         $('#file input[name="room_no"]').val('');
