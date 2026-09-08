@@ -143,6 +143,7 @@ WebSocketによる麻雀サーバーの実装です。
   - [バックトラックで麻雀の和了形一覧を求める](https://blog.kobalab.net/entry/2024/09/16/111847) (v2.3)
   - [麻雀の「待ち」を出力するプログラム](https://blog.kobalab.net/entry/2022/05/01/181217) (v2.0)
   - [麻雀アプリのデバッグに使える牌姿](https://blog.kobalab.net/entry/2022/04/17/174206) (v2.0)
+  - [RiichiLabに参戦しました](https://blog.kobalab.net/entry/2026/09/04/204258) (v2.5)
 
 ## (旧)ブログ記事
 
