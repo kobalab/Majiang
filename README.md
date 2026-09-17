@@ -122,6 +122,7 @@ WebSocketによる麻雀サーバーの実装です。
   - [偽ラグの実装](https://blog.kobalab.net/entry/2025/01/26/194556) (v2.4)
   - [さくらVPSで天鳳レベルのサービスは実現できるのか？](https://blog.kobalab.net/entry/2026/08/17/070346) (v2.5)
   - [麻雀サーバーにMjaiボットを接続する](https://blog.kobalab.net/entry/2026/09/08/201530) (v2.5)
+  - [電脳麻将でMortalと対戦する](https://blog.kobalab.net/entry/2026/09/17/223000) (v2.5)
 - 点数計算ドリル
   - [電脳麻将 ver.2.2.0 公開#点数計算ドリル](https://blog.kobalab.net/entry/2023/12/24/220847#%E7%82%B9%E6%95%B0%E8%A8%88%E7%AE%97%E3%83%89%E3%83%AA%E3%83%AB) (v2.2)
   - [麻雀の点数計算方法(正式版・簡易版)](https://blog.kobalab.net/entry/2023/12/11/204103) (v2.2)
