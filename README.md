@@ -121,6 +121,8 @@ WebSocketによる麻雀サーバーの実装です。
   - [麻雀ボットの実装](https://blog.kobalab.net/entry/2025/01/20/205434) (v2.4)
   - [偽ラグの実装](https://blog.kobalab.net/entry/2025/01/26/194556) (v2.4)
   - [さくらVPSで天鳳レベルのサービスは実現できるのか？](https://blog.kobalab.net/entry/2026/08/17/070346) (v2.5)
+  - [麻雀サーバーにMjaiボットを接続する](https://blog.kobalab.net/entry/2026/09/08/201530) (v2.5)
+  - [電脳麻将でMortalと対戦する](https://blog.kobalab.net/entry/2026/09/17/223000) (v2.5)
 - 点数計算ドリル
   - [電脳麻将 ver.2.2.0 公開#点数計算ドリル](https://blog.kobalab.net/entry/2023/12/24/220847#%E7%82%B9%E6%95%B0%E8%A8%88%E7%AE%97%E3%83%89%E3%83%AA%E3%83%AB) (v2.2)
   - [麻雀の点数計算方法(正式版・簡易版)](https://blog.kobalab.net/entry/2023/12/11/204103) (v2.2)
@@ -143,6 +145,7 @@ WebSocketによる麻雀サーバーの実装です。
   - [バックトラックで麻雀の和了形一覧を求める](https://blog.kobalab.net/entry/2024/09/16/111847) (v2.3)
   - [麻雀の「待ち」を出力するプログラム](https://blog.kobalab.net/entry/2022/05/01/181217) (v2.0)
   - [麻雀アプリのデバッグに使える牌姿](https://blog.kobalab.net/entry/2022/04/17/174206) (v2.0)
+  - [RiichiLabに参戦しました](https://blog.kobalab.net/entry/2026/09/04/204258) (v2.5)
 
 ## (旧)ブログ記事
 
