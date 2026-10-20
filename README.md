@@ -146,6 +146,7 @@ WebSocketによる麻雀サーバーの実装です。
   - [麻雀の「待ち」を出力するプログラム](https://blog.kobalab.net/entry/2022/05/01/181217) (v2.0)
   - [麻雀アプリのデバッグに使える牌姿](https://blog.kobalab.net/entry/2022/04/17/174206) (v2.0)
   - [RiichiLabに参戦しました](https://blog.kobalab.net/entry/2026/09/04/204258) (v2.5)
+  - [Mjaiボットの強さを評価する](https://blog.kobalab.net/entry/2026/10/10/212047) (v2.5)
 
 ## (旧)ブログ記事
 
